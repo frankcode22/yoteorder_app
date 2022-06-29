@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Metatags -->
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name=description content="Favland - SaaS & Software HTML5 Template">
+    <meta name=keywords content="creative, modern, clean, bootstrap responsive, html5, css3, portfolio, blog, agency, templates, multipurpose, start-up, parallax, masonry">
+    <meta name=author content="uichamp.com">
+    <title>Documentation :: Favland - SaaS & Software HTML5 Template</title>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./../images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./../images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./../images/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" href="./../images/favicons/favicon.ico" type="image/x-icon" />
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./../images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="./../fonts/Favland.min.css">
+    <link href="./../css/theme.min.css" rel=stylesheet>
+</head>
+
+<body>
+  
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light py-2 border-bottom">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            
+            <a class="navbar-brand font-weight-semibold" href="./../index.html">
+                <img class="img-fluid" src="./../images/logos/logo-dark.png" alt="">
+                <span class="badge badge-primary">v1.0</span>
+            </a>
+            <button class="btn btn-sm btn-primary">Buy now</button>
+        </div>
+    </nav>
+
+    <!-- Docs -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Introduction -->
+                <div class="docs-group">
+                    <p class="lead text-muted my-5">Thank you so much to buy our template. This document is for the HTML version We are trying to explain about <span class="font-weight-medium text-dark">Favland - SaaS & Software HTML5 Template</span>, if you have any questions about it, please feel free to contact us.</p>
+
+                    <hr>
+
+                    <h2 class="display-4 font-weight-semibold mb-4">Introduction</h2>
+                    <p class="lead text-muted">This guide will help you get started with Favland - SaaS & Software HTML5 Template! All the important stuff – compiling the source file, folder structure, build tools is documented here.</p>
+    
+                    <hr class="my-5">
+                </div>
+                  
+                <!-- Folder structure -->
+                <div class="docs-group">
+                    <h2 class="display-4 font-weight-semibold mb-4">Folder structure</h2>
+
+                    <ul class="folder-tructure-list">
+            
+                        <li>
+                            <span class="font-weight-medium">📁 Favland</span> - Contains fonts, image, js, partials, plugins, scss, and other HTML files.
+                            <ul>
+                                <li>
+                                    <span class="font-weight-medium">📁 css</span> - Compiled CSS
+                                </li>
+                                <li>
+                                    <span class="font-weight-medium">📁 docs</span> - Documentation of template
+                                </li>
+                                <li>
+                                    <span class="font-weight-medium">📁 fonts</span> - Webfonts
+                                </li>
+                                <li>
+                                    <span class="font-weight-medium">📁 images</span> - Image assets
+                                </li>
+                                <li>
+                                    <span class="font-weight-medium">📁 js</span> - Javascript source & Vendors files
+                                </li>
+                              
+                                <li>
+                                    <span class="font-weight-medium">📁 scss</span> - Contains the source for all theme CSS. You will find the following contents in scss:
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <span class="font-weight-medium">📁 node_modules</span> - Directory where <code>npm</code> installs dependencies.
+                        </li>
+               
+                        <li>
+                            <span class="font-weight-medium">📄 gulpfile.js</span> - All the build commands
+                        </li>
+                        <li>
+                            <span class="font-weight-medium">📄 package.json</span> - List of dependencies and npm information
+                        </li>
+                        <li>
+                            <span class="font-weight-medium">📄 package-lock.json</span> - Describes a dependency tree
+                        </li>
+                    </ul>
+
+                    <hr class="my-5">
+                </div>
+
+                <!-- Setting up Dev Tools -->
+                <div class="docs-group">
+                    <h2 class="display-4 font-weight-semibold mb-4">Setting up Dev Tools</h2>
+
+                    <p>Favland uses Gulp for its build system. Our <code class="badge badge-soft-danger">package.json</code> includes convenient methods for working with the framework, including compiling code, minification js/css files and more.</p>
+                    
+                    <p>To use our build system and run our documentation locally, you'll need a copy of Favland's source files and NodeJS. Follow these steps and you should be ready to go:</p>
+                    
+                    <ol class="hs-docs-list-md">
+                        <li>
+                            Before installing gulp and sass first you must have NodeJs installed, NodeJS will have npm (node packaged modules)
+                        </li>
+
+                        <li>
+                            <a class="link text-primary" href="https://nodejs.org/en/download/" target="_blank">Download and install Node.js</a>. If Node.js is already installed in your machine, please make sure the installed latest version and jump to next step.
+                        </li>
+
+                        <li>
+                            Gulp is a toolkit for automating painful or time-consuming tasks in your development workflow, so you can stop messing around and build something.
+                        </li>
+
+                        <li>Run <code class="badge badge-soft-danger">npm install --global gulp-cli</code> command. If you already installed <code class="badge badge-soft-danger">Gulp CLI</code> previously, then run <code class="badge badge-soft-danger">npm rm --global gulp</code> to make sure your old version doesn't collide with gulp-cli. Verify that gulp in successfully installed, and version of installed gulp will appear. <code class="badge badge-soft-danger">gulp --version</code>. jump to next step</li>
+
+                        <li>Navigate to the root <code class="badge badge-soft-danger">/theme</code> directory and run <code class="badge badge-soft-danger">npm install</code> to install our local dependencies listed in <code class="badge badge-soft-danger">package.json</code>.</li>
+
+                        <li>Run <code class="badge badge-soft-danger">gulp</code> command.</li>
+                    </ol>
+                    
+                    <p>Now you're good to go in running the template and preview it in browser. This should automatically open up a browser window with the website running. Once the development server is up and running any changes you make to the HTML & JS & SASS files will be updated in your browser window.</p>
+
+                    <hr class="my-5">
+                </div>
+              
+                <!-- Edit Color Scheme -->
+                <div class="docs-group">
+                    <h2 class="display-4 font-weight-semibold mb-4">Edit Color Scheme</h2>
+
+                    <p>Editing the default color scheme variables will change the colors in Favland.min.css and result the theme colors will change.</p>
+
+                    <ol>
+                        <li>
+                            <h6>Open the variables.scss file</h6>
+                            <p>The <code class="badge badge-soft-danger">variables.scss</code> file is located in the <code class="badge badge-soft-danger">app/scss/abstracts/</code> directory of the theme package.</p>
+                        </li>
+                        <li>
+                            <h6>Change the variable values to your preferred colors</h6>
+                            <p>Inside <code class="badge badge-soft-danger">variables.scss</code>, Modify the HEX values to change the color scheme.</p>
+                        </li>
+                    </ol>
+
+<pre class="bg-dark text-white rounded p-4">
+<code>
+// Color system
+
+$white:    #fff !default;
+$gray-50:  #F9FAFC !default;
+$gray-100: #F1F4F9 !default;
+$gray-200: #E1E8F0 !default;
+$gray-300: #CBD5E1 !default;
+$gray-400: #94A3B8 !default;
+$gray-500: #64748B !default;
+$gray-600: #465568 !default;
+$gray-700: #344056 !default;
+$gray-800: #1E293B !default;
+$gray-900: #101729 !default;
+$black:    #000 !default;
+
+$blue:    #3B82F6 !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #ff4154 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #fdcc2b !default;
+$green:   #10B982 !default;
+$teal:    #20c997 !default;
+$cyan:    #07B6D5 !default;
+</code>
+</pre>
+
+                    <hr class="my-5">
+                </div>
+
+                <!-- Plugins -->
+                <div class="docs-group">
+                    <h2 class="display-4 font-weight-semibold mb-4">Plugins</h2>
+                 
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Library Name</th>
+                                    <th>Vendor URL</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>AOS - Animate on scroll library</td>
+                                    <td><a class="link text-primary" target="_blank" href="https://michalsnik.github.io/aos/">https://michalsnik.github.io/aos/</a></td>
+                                </tr>
+                                <tr>
+                                    <td>jQuery</td>
+                                    <td><a class="link text-primary" target="_blank" href="https://jquery.com/">https://jquery.com/</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Popper JS</td>
+                                    <td><a class="link text-primary" target="_blank" href="https://popper.js.org/">https://popper.js.org/</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Bootstrap</td>
+                                    <td><a class="link text-primary" target="_blank" href="https://getbootstrap.com/">https://getbootstrap.com/</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Parallax</td>
+                                    <td><a class="link text-primary" target="_blank" href="https://github.com/geosigno/simpleParallax.js/">https://github.com/geosigno/simpleParallax.js/</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Swiper</td>
+                                    <td><a class="link text-primary" target="_blank" href="https://swiperjs.com/">https://swiperjs.com/</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Counterup</td>
+                                    <td><a class="link text-primary" target="_blank" href="https://inorganik.github.io/countUp.js/">https://inorganik.github.io/countUp.js/</a></td>
+                                </tr>
+                               
+                                <tr>
+                                    <td>Shuffle</td>
+                                    <td><a class="link text-primary" target="_blank" href="https://vestride.github.io/Shuffle/">https://vestride.github.io/Shuffle/</a></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Wave Effect</td>
+                                    <td><a class="link text-primary" target="_blank" href="https://github.com/fians/Waves/tree/v0.7.6">https://github.com/fians/Waves/tree/v0.7.6</a></td>
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+             
+                    <hr class="my-5">
+                </div>
+
+                <!-- Credits -->
+                <div class="docs-group mb-5">
+                    <h2 class="display-4 font-weight-semibold mb-4">Credits</h2>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="w-50">File Name</th>
+                                    <th>Credits</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>eiffel-tower.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/surang" title="surang">surang</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>petronas-twin.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/surang" title="surang">surang</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>great-wall-of-china.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/surang" title="surang">surang</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>google.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>linkedln.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>apple.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>calender.svg</td>
+                                    <td>Icons made by <a href="https://icon54.com/" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>cancel.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>no-credit-card.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>check.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>quotation-marks.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>check-true.svg</td>
+                                    <td>Icons made by <a href="https://icon54.com/" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>check-false.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>vintage-eyeglasses.svg</td>
+                                    <td><div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></td>
+                                </tr>
+                                <tr>
+                                    <td>support.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>rating.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>star.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>fireworks.svg</td>
+                                    <td>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+                                <tr>
+                                    <td>warning.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>creativity.svg</td>
+                                    <td>Icons made by <a href="https://smashicons.com/" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>united.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>quality.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>augmented-reality.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/wichaiwi" title="Wichai.wi">Wichai.wi</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>limit.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/wichaiwi" title="Wichai.wi">Wichai.wi</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>data.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/payungkead" title="Payungkead">Payungkead</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>google-docs.svg</td>
+                                    <td><div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></td>
+                                </tr>
+
+                                <tr>
+                                    <td>book.svg</td>
+                                    <td>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>cube.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>flag.svg</td>
+                                    <td>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>seminar.svg</td>
+                                    <td><div>Icons made by <a href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></td>
+                                </tr>
+
+                                <tr>
+                                    <td>conferance.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/surang" title="surang">surang</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>trade.svg</td>
+                                    <td><div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></td>
+                                </tr>
+
+                                <tr>
+                                    <td>launch.svg</td>
+                                    <td><div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></td>
+                                </tr>
+
+                                <tr>
+                                    <td>meeting.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/photo3idea-studio" title="photo3idea_studio">photo3idea_studio</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>cherity.svg</td>
+                                    <td>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>travel.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/surang" title="surang">surang</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>webinar.svg</td>
+                                    <td>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>expo.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>ceremonies.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/photo3idea-studio" title="photo3idea_studio">photo3idea_studio</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>job-fair.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>dinner.svg</td>
+                                    <td>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>bg-cover-2.jpg</td>
+                                    <td><span>Photo by <a href="https://unsplash.com/@jsnbrsc?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jason Briscoe</a> on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>bg-cover-3.jpg</td>
+                                    <td><a href='https://www.freepik.com/photos/school'>School photo created by pch.vector - www.freepik.com</a></td>
+                                </tr>
+
+                                <tr>
+                                    <td>bg-cover-4.jpg</td>
+                                    <td><span>Photo by <a href="https://unsplash.com/@lucabravo?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Luca Bravo</a> on <a href="https://unsplash.com/photos/Jrl_UQcZqOc?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>logos/brand</td>
+                                    <td>https://worldvectorlogo.com/</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Images</td>
+                                    <td>https://www.pexels.com/ and https://unsplash.com/</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./../js/jquery/jquery-3.5.1.min.js"></script>
+    <script src="./../js/popper/popper.min.js"></script>
+    <script src="./../js/bootstrap/bootstrap.min.js"></script>
+    <script src="./../js/aos/aos.js"></script>
+    <script src="./../js/wave-effect/waves.min.js"></script>
+
+    <script src="./../js/parallax/simpleParallax.min.js"></script>
+    <script src="./../js/swiper/swiper.min.js"></script>
+    <script src="./../js/swiper/swiper.init.js"></script>
+    <script src="./../js/shuffle/shuffle.min.js"></script>
+    <script src="./../js/countup/countUp.js"></script>
+
+
+    <script src="./../js/theme.js"></script>
+</body>
+
+</html>
