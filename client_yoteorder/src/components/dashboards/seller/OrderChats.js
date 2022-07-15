@@ -24,14 +24,20 @@ import { Helmet } from "react-helmet";
 
 const socket = io.connect("http://localhost:3001");
 
+let customId = "zcqwe";
+socket.on("connect", () => {
+socket.emit('storeClientInfo', { customId: customId });
+});
+
+
+
 function OrderChats() {
 
      let {id} = useParams();
 
-    const [username, setUsername] = useState("mbatha");
-    const [room, setRoom] = useState("123");
+    const [username, setUsername] = useState('');
+    const [room, setRoom] = useState('9090');
     const [showChat, setShowChat] = useState(false);
-
 
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -54,10 +60,32 @@ function OrderChats() {
 
 
 
-
   useEffect(()=>{
 
     setIsDivLoading(true)
+
+   
+
+    axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+      
+      setUsername(response.data.username)
+     
+  
+     })
+
+
+
+
+
+     socket.emit("join_room", room);
+      setShowChat(true);
+
+
+     
+
+
+
     axios.get(`http://localhost:3001/order/orderById/${id}`).then((response) => {
 
       setItem_name(response.data.item_name)
@@ -82,7 +110,7 @@ function OrderChats() {
       });
         
    
-
+     
 
 },[])
 
@@ -93,6 +121,7 @@ function OrderChats() {
 
 
   const joinRoom = () => {
+
     if (username !== "" && room !== "") {
       socket.emit("join_room", room);
       setShowChat(true);

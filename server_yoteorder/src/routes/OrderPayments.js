@@ -12,25 +12,22 @@ const { sign } = require("jsonwebtoken");
 router.post("/",async (req,res)=>{
 
 
- 
 
-
-  const {OrderId, amount, status,UserId,SellerId}=req.body;
+  const {OrderId, amount, status,payment_method,mpesa_code,UserId}=req.body;
 
 
   try {
 const order_payments= await  OrderPayments.create({
   OrderId:OrderId,
+  payment_method:payment_method,
+  mpesa_code:mpesa_code,
   amount:amount,
   status:status,
-      UserId:1,
-      SellerId:1,
+  UserId:1,
       
-     
     })
 
    
-
 
 
     res.json(order_payments);
@@ -43,6 +40,18 @@ const order_payments= await  OrderPayments.create({
   
 
 });
+
+
+
+router.get("/getCustomerPayments", validateToken,async (req, res) => {
+
+  const payments = await OrderPayments.findAll({
+    where: { UserId:  req.user.id}
+  });
+  res.json(payments);
+  console.log(payments)
+});
+
 
 module.exports=router;
 

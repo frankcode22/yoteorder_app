@@ -37,7 +37,10 @@ export default function OrderedProductContent() {
       const [user_id, setUserId] = useState(1);
 
 
-      const [order_description, setOrder_description] = useState("");
+      const [order_description, setOrder_description] = useState("Need just the best");
+
+
+      const [quantity_ordered, setQuantity_Ordered] = useState('');
 
       const [order_status, setOrderStatus] = useState("available");
       
@@ -218,6 +221,7 @@ export default function OrderedProductContent() {
         const order_detils={
           item_name:item,
           order_description:order_description,
+          quantity_ordered:quantity_ordered,
           customer_lat:lat,
           customer_longitude:lng,
           status:order_status,
@@ -291,6 +295,8 @@ export default function OrderedProductContent() {
 
     <div class="py-6" style={{marginTop:'120px'}}>
     <div class="container">
+
+    
       
 
         <div class="row">
@@ -320,8 +326,10 @@ export default function OrderedProductContent() {
 
 
                         <div class="row mb-5">
-                        <div class="col mb-3">
-                          <label for="nameWithTitle" class="form-label" style={{color: '#fff',fontWeight: '300!important'}}>Ordered Product/Service</label>
+                        <div class="form-group col-md-4">
+                        <label for="inputState">Quantity</label>
+                        <label for="inputState">Ordered Item/Service</label>
+                          
             
                           <input type="hidden" id="price" class="form-control" 
             
@@ -338,9 +346,29 @@ export default function OrderedProductContent() {
                              
                           />
                         </div>
+
+                        <div class="form-group col-md-4">
+      <label for="inputState">Quantity</label>
+      <select id="inputState" class="form-control" 
+      
+      onChange={(event) => {
+        setQuantity_Ordered(event.target.value);
+      }}>
+        <option value="1" selected>Choose... quantity</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+      </select>
+    </div>
             
-                        <div class="col mb-0" style={{padding: '0 10px'}}>
-                            <label for="description" class="form-label">Detailed Description</label>
+                        <div class="form-group col-md-4">
+                        <label for="inputState">Detailed Description</label>
+                            
                             
                                <textarea name="address" class="form-control" 
                                
@@ -352,7 +380,7 @@ export default function OrderedProductContent() {
                           </div>
             
                         <div class="col mb-3">
-                        <label class="form-label" for="multicol-country">Type</label>
+                        
             
                         <button class="btn btn-primary form-control"  data-toggle="modal" data-target="#startTrialModal2"  style={{backgroundColor:"#ff7b59"}}>Make Order</button>
                   

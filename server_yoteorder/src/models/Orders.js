@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
           },
+
+          quantity_ordered: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+          },
          
           customer_phone_no: {
             type: DataTypes.STRING,
@@ -50,8 +55,6 @@ module.exports = (sequelize, DataTypes) => {
       Orders.hasOne(models.OrderPayments, { foreignKey: "OrderId" }) // If only one portfolio per user
 
       models.OrderPayments.belongsTo(Orders);
-
-      
 
     }
 

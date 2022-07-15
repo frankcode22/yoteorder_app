@@ -26,7 +26,7 @@ import io from "socket.io-client";
 
 import Chat from "../chat/Chat";
 
-const socket = io.connect("http://localhost:3001");
+//const socket = io.connect("http://localhost:3001");
 
 
 function NewRequests() {
@@ -35,7 +35,9 @@ function NewRequests() {
 
     const [errorMessage, setErrorMessage] = useState("");
 
-    const [amount, setAmount] = useState("");
+    const [amount, setAmount] = useState(0);
+
+    const [quantityOrdered, setQuantityOrdered] = useState(0);
 
     // const [customerId, setCustomerId] = useState('');
 
@@ -46,7 +48,7 @@ function NewRequests() {
 
     const [isLoading,setLoading]=useState(false);
 
-    const [username, setUsername] = useState("mbatha");
+    const [username, setUsername] = useState('');
     const [room, setRoom] = useState("123");
     const [showChat, setShowChat] = useState(false);
 
@@ -89,12 +91,15 @@ function NewRequests() {
 
   const placeBid = (orderId,customerId) => {
 
+    let total_amount=amount * quantityOrdered
+
+    console.log('THE TOTAL AMOUNT IS '+quantityOrdered)
 
     setLoading(true);
     axios
     .post(
       "http://localhost:3001/orderbids",
-      { CustomerId: customerId,OrderId: orderId,Amount:amount },
+      { CustomerId: customerId,OrderId: orderId,Amount:total_amount},
       { headers: { accessToken: localStorage.getItem("accessToken") } }
     ).then((response)=>{
 
@@ -119,12 +124,10 @@ function NewRequests() {
 
   const joinRoom = (id) => {
 
-    if (username !== "" && room !== "") {
-        socket.emit("join_room", room);
-        setShowChat(true);
+
+   
         history('/chat/'+id);
-      }
-  
+      
   
   
     }
@@ -224,10 +227,34 @@ function NewRequests() {
 
                                                        <p class="font-size-sm"> {value.order_description}</p>
 
+                                                       <p class="font-size-sm">Quantity Ordered: {value.quantity_ordered}</p>
+
                             
 
                            
                             <span class="js_bid_block_total_price"> 
+
+                            <input key={key}  type="number" class="form-control form-control-sm" id="quantity"
+
+                          
+                             
+                            value={value.quantity_ordered || ''}
+
+                        
+                            
+                             onChange={(event) => {
+                                setQuantityOrdered(event.target.value);
+                              }}
+
+
+                              
+
+                             
+
+                              
+                            
+            
+                            name="quantity" aria-describedby="name"/> 
 
                              <input type="number" class="form-control form-control-sm" id="bid_amount"
 

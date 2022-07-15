@@ -37,4 +37,14 @@ router.post("/", validateToken, async (req, res) => {
   });
 
 
+  router.get("/getbyId/:id", async (req, res) => {
+    const id = req.params.id;
+    const order_bid = await OrderBids.findByPk(id);
+  
+    //onst images = await Images.findOne({ where: { PropertyId: id }});
+    res.json(order_bid);
+    console.log(order_bid)
+  });
+
+
   module.exports=router;

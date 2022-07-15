@@ -21,7 +21,7 @@ import io from "socket.io-client";
 
 import Chat from "../chat/Chat";
 
-const socket = io.connect("http://localhost:3001");
+//const socket = io.connect("http://localhost:3001");
 
 
 function OrderView() {
@@ -41,8 +41,6 @@ function OrderView() {
 
     let history = useNavigate();
 
-
-
     useEffect(()=>{
 
         setIsDivLoading(true);
@@ -53,8 +51,7 @@ function OrderView() {
             console.log("THE BID LIST IS"+response.data)
             
             
- 
-          
+
              setTimeout(() => {
                 setBidList(response.data);
  
@@ -88,18 +85,9 @@ function OrderView() {
 
 const joinRoom = (orderId) => {
 
-    if (username !== "" && room !== "") {
-        socket.emit("join_room", room);
-        setShowChat(true);
         history('/chat_seller/'+orderId);
-      }
-  
-  
   
     }
-
-
-
 
 
 
@@ -181,17 +169,15 @@ const joinRoom = (orderId) => {
 
                                 <div class="bg-gray-50 border-top border-light p-3">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <div class="badge badge-soft-warning border border-warning py-2 px-3"
                                         
-                                        onClick={() => {
-                                            joinRoom(value.id);
-                                          }}
-                                        
-                                        
-                                        style={{color:'#000'}}>Chat</div>
+                                    <button class="badge badge-soft-warning border border-warning py-2 px-3"  onClick={() => {
+                                        joinRoom(value.id);
+                                      }}
+                                      style={{color:'#000'}}>Chat</button>
+
 
                                         <button    onClick={() => {
-                                            history('/order/pay/'+value.id);
+                                            history('/order/pay/'+value.id+'/'+value.UserId);
                                           }} class="badge badge-soft-warning border border-warning py-2 px-3" style={{color:'#000'}}>Hire</button>
 
                                        

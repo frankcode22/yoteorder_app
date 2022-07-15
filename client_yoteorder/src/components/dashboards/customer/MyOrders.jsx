@@ -5,7 +5,7 @@ import { useEffect,useState } from 'react';
 
 import axios from 'axios';
 
-import {useParams,useNavigate} from "react-router-dom"
+import {useParams,useNavigate,Link} from "react-router-dom"
 
 
 import { Helmet } from "react-helmet";
@@ -83,14 +83,15 @@ function MyOrders() {
     <div class="container">
         <div class="row justify-content-center text-center">
         <div class="card mb-5">
-            <div class="col-xl-10 col-lg-9">
+            
             <table class="table table-hover">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Order Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Quantity</th>
                 <th scope="col">Date</th>
-                <th scope="col">Price</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
@@ -102,15 +103,19 @@ function MyOrders() {
               <tr>
                 <th scope="row">{value.id}</th>
                 <td>{value.item_name}</td>
+
+                <td>{value.order_description}</td>
+                <td>{value.quantity_ordered}</td>
                 <td>{value.createdAt}</td>
-                <td>Kes:340</td>
+                
                 <td>{value.status}</td>
 
                 <td>
 
                 <button>Delete</button>
 
-                <button>Edit</button>
+              
+                <Link to={`/edit_order/${value.id}`} class="btn btn-primary btn-sm">Edit Order</Link>
                 
                 
                 </td>
@@ -122,7 +127,7 @@ function MyOrders() {
               
             </tbody>
           </table>
-            </div>
+           
         </div>
         </div>
 

@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
 
     const OrderPayments=sequelize.define("OrderPayments",{
 
-
         amount: {
             type:INTEGER,
             allowNull: true,
@@ -19,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
           },
-
 
           made_at: {
             type: DataTypes.DATE(6),

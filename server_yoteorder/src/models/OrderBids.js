@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
 
     
       Amount: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     });

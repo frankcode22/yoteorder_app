@@ -4,6 +4,7 @@ import MainNav from '../navbars/MainNav'
 import FrontIntro from './FrontIntro'
 import HighlyRated from './HighlyRated'
 import HowToGetStarted from './HowToGetStarted'
+import LogInModal from './LogInModal'
 
 function Home() {
   return (
@@ -16,6 +17,9 @@ function Home() {
     <HighlyRated/>
 
     <HowToGetStarted/>
+
+
+    <LogInModal></LogInModal>
     
     
     </div>

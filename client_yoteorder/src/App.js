@@ -26,6 +26,7 @@ import OrderChatsCustomer from "./components/dashboards/orders/OrderChatsCustome
 import AddFunds from "./components/dashboards/customer/AddFunds";
 import HelpAndSupport from "./components/support/HelpAndSupport";
 import MyOrders from "./components/dashboards/customer/MyOrders";
+import EditOrder from "./components/dashboards/customer/EditOrder";
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -80,10 +81,10 @@ function App() {
     
         <Route element={<OrderView/>} path="/order/:id"/>
 
-        <Route element={<OrderReview/>} path="/order/pay/:id"/>
+        <Route element={<OrderReview/>} path="/order/pay/:id/:sellerId"/>
 
 
-        <Route element={<AddFunds/>} path="/pay/order/:id"/>
+        <Route element={<AddFunds/>} path="/pay/order/:id/:sellerId"/>
 
 
         <Route path="/new_requests" element={ <NewRequests/>} />
@@ -99,10 +100,7 @@ function App() {
         <Route element={<MyOrders/>} path="/customer/orders"/>
 
 
-
-
-
-     
+        <Route element={<EditOrder/>} path="/edit_order/:id"/>
 
 
 

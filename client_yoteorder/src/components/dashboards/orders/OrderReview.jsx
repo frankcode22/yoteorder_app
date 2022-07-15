@@ -1,26 +1,84 @@
 import React from 'react'
+import {useEffect,useState } from 'react';
 import HeaderFloating from '../customer/HeaderFloating'
+import axios from 'axios';
 
 import {useNavigate,useParams} from 'react-router-dom'
 
 function OrderReview() {
     let {id} = useParams();
 
+    let {sellerId} = useParams();
+
+
+    const [seller_name, setSeller_name] = useState("");
+    const [seller_email, setSeller_email] = useState("");
+
+    const [seller_phone_no, setSeller_phone_no] = useState("");
+
+
+    const [amount, setAmount] = useState("");
+
+    const [orderId, setOrderId] = useState("");
+
+
+    
+
     const history = useNavigate();
+
+
+    useEffect(() => {
+        axios.get(`http://localhost:3001/users/getuser/${sellerId}`).then((response) => {
+
+            setSeller_name(response.data.first_name)
+            setSeller_email(response.data.email)
+            
+           
+            setSeller_phone_no(response.data.phone_no)
+          
+            
+        //   setFirst_name(response.data.first_name);
+        //   setLast_name(response.data.last_name)
+    
+        });
+
+
+
+
+        axios.get(`http://localhost:3001/orderbids/getbyId/${id}`).then((response) => {
+
+            setAmount(response.data.Amount)
+            setOrderId(response.data.OrderId)
+            
+        //   setFirst_name(response.data.first_name);
+        //   setLast_name(response.data.last_name)
+    
+        });
+
+
+
+
+
+
+
+    }, []);
+
+
+
+    localStorage.setItem('amount', JSON.stringify(amount));
 
 
     const addfunds = () => {
         // setLoading(true);
 
 
-      
-        
+    
          
          setTimeout(() => {
          //   setLoading(false);
            //setAddress(string_lng)
           // history.push('/search-location-avon-park-florida');
-          history(`/pay/order/${id}`);
+          history(`/pay/order/${orderId}/${sellerId}`);
          }, 500);
          
            };
@@ -49,7 +107,7 @@ function OrderReview() {
             </div>
 
             <div class="col mb-3">
-            <h1>Writer Infor</h1>
+            <h1>Writer Infor {seller_name}</h1>
             
             </div>
 
@@ -70,13 +128,13 @@ function OrderReview() {
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="fullTimeJob" checked/>
                                 <label class="custom-control-label" for="fullTimeJob">Price</label>
-                                <label  >Kes. 300</label>
+                                <label  >Kes. {amount}</label>
                             </div>
 
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="partTimeJob"/>
                                 <label class="custom-control-label" for="partTimeJob">Order Total</label>
-                                <label> Ksh.300</label>
+                                <label> Ksh.{amount}</label>
                             </div>
                         </div>
 

@@ -10,7 +10,7 @@ router.post("/",async (req,res)=>{
 
     
 
-    const {item_name, order_description, customer_lat,customer_longitude,status,UserId}=req.body;
+    const {item_name,order_description,quantity_ordered,customer_lat,customer_longitude,status,UserId}=req.body;
 
   
 
@@ -18,6 +18,7 @@ router.post("/",async (req,res)=>{
 const order= await  Orders.create({
     item_name:item_name,
     order_description:order_description,
+    quantity_ordered:quantity_ordered,
     customer_lat:customer_lat,
     customer_longitude:customer_longitude,
     status:status,
@@ -54,6 +55,30 @@ router.get("/orderById/:id", async (req, res) => {
   const order = await Orders.findByPk(id);
   res.json(order);
 });
+
+router.put("/updateorder/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const ordered_item = req.body.ordered_item;
+  const quantity_ordered=req.body.quantity_ordered;
+  const user_id=req.body.UserId;
+  const order_description=req.body.order_description;
+
+  const customer_lat = req.body.customer_lat;
+  const customer_longitude=req.body.customer_longitude;
+  const status=req.body.status;
+
+ 
+ 
+
+
+  const update_order = await Orders.update({ordered_item,order_description,quantity_ordered,customer_lat,customer_longitude,status},{ where: { id: id }});
+
+  res.json(update_order);
+  console.log(update_order);
+});
+
+
 
 
 router.get("/order/view/:id", async (req, res) => {

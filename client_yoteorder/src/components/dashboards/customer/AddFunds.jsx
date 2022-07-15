@@ -19,12 +19,19 @@ function AddFunds() {
 
     let {id} = useParams();
 
+    let {sellerId} = useParams();
+
     const {authState} = useContext(AuthContext);
 
 
     const [errorMessage, setErrorMessage] = useState("");
 
     const [amount, setAmount] = useState(40);
+
+
+    const [mpesa_code, setMpesa_code] = useState("");
+
+
 
     // const [customerId, setCustomerId] = useState('');
 
@@ -43,11 +50,29 @@ function AddFunds() {
         
       
         amount:amount,
-        status:'unavailable',
+        mpesa_code:mpesa_code,
+        status:'available',
         UserId:authState.id,
         SellerId:authState.id,
        
     }
+
+
+    let order_cost=localStorage.getItem('amount')
+    order_cost=JSON.parse(order_cost)
+
+
+    const payment_details={
+        OrderId:`${id}`,
+        
+        amount:order_cost,
+        payment_method:'Mpesa',
+        mpesa_code:mpesa_code,
+        status:'available',
+        UserId:authState.id,
+       
+    }
+   
    
 
 
@@ -100,6 +125,32 @@ function AddFunds() {
       }
 
 
+
+      const depositFunds = () => {
+
+
+        setLoading(true);
+        axios
+        .post(
+          "http://localhost:3001/order_payments",payment_details).then((response)=>{
+    
+            console.log("The response is"+response.data)
+    
+            
+                setTimeout(() => {
+                    setLoading(false);
+                    toast.info('Funds Deposited Successfully ');
+                }, 2000);
+             
+               //  history("/dashboard");
+              
+               
+            })
+
+    
+      }
+
+
     
 
   return (
@@ -109,7 +160,7 @@ function AddFunds() {
 
     <link rel="stylesheet" href="/fonts/favland.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"/>
-    <link href="/css/theme.min.css" rel="stylesheet"/>
+    <link href="css/theme.min.css" rel="stylesheet"/>
 
 
 
@@ -153,7 +204,7 @@ function AddFunds() {
                             <div class="col-md px-2">
                                 <div class="form-group">
                                     <label for="phoneNumber">Phone number</label>
-                                    <input class="form-control" type="text" id="phoneNumber" placeholder="0714639774" aria-describedby="phoneNumber"/>
+                                    <input class="form-control" type="text" value={authState.id} id="phoneNumber" placeholder="0714639774" aria-describedby="phoneNumber"/>
                                 </div>
                             </div>
                         </div>
@@ -176,7 +227,7 @@ function AddFunds() {
                     <h2 class="font-weight-bold">Pay Via Mpesa</h2>
                        
                     <hr class="pb-4"/>
-                    <form>
+                  
 
                    
                         <div class="form-row">
@@ -188,8 +239,13 @@ function AddFunds() {
                             </div>
                             <div class="col-md px-2">
                                 <div class="form-group">
-                                    <label for="phoneNumber">Till No Is</label>
-                                    <input class="form-control" type="text" id="phoneNumber" placeholder="550065" aria-describedby="phoneNumber"/>
+                                    <label for="phoneNumber">Mpesa Code</label>
+                                    <input class="form-control" type="text" 
+                                    onChange={(event) => {
+                                        setMpesa_code(event.target.value);
+                                      }}
+                                    
+                                    id="code" placeholder="Enter Mpesa code"/>
                                 </div>
                             </div>
                         </div>
@@ -198,17 +254,33 @@ function AddFunds() {
                        
                         <div class="form-row mt-5">
                             <div class="col-md px-2">
-                                <button type="submit" onClick={confirmOrder} class="btn btn-primary font-size-sm">Pay By MPesa (ksh. 220)</button>
+
+
+                            
+                            {!isLoading && <button type="submit" onClick={() => {
+                                depositFunds();
+                              }}  class="btn btn-primary font-size-sm"  style={{color:'#000'}}>Pay By MPesa (ksh. 220)</button>
+
+                        } 
+                        {isLoading &&
+                            <button type="submit" class="btn btn-primary font-size-sm"  style={{color:'#000'}} disabled> <i class="fas fa-sync fa-spin"></i>Savind Data...</button>
+                        }
+
+
+
+
                             </div>
                         </div>
                      
-                    </form>
+                   
                 </div>
                
 
                
             </div>
         </div>
+
+        <ToastContainer />
 
 
 

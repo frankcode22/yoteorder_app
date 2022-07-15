@@ -1,18 +1,46 @@
 import React from 'react'
 
 import io from "socket.io-client";
-import { useState } from "react";
+import { useEffect,useState } from 'react';
 
 import HeaderFloating from '../../navbars/HeaderFloating';
 import './ChatStyles.css'
+
+import axios from 'axios';
+
 import Chat from '../chat/Chat';
 
 const socket = io.connect("http://localhost:3001");
 
+let customId = "kx234";
+socket.on("connect", () => {
+socket.emit('storeClientInfo', { customId: customId });
+});
+
 function OrderChatsCustomer() {
-    const [username, setUsername] = useState("Fide");
-  const [room, setRoom] = useState("123");
+  const [username, setUsername] = useState('');
+  const [room, setRoom] = useState('9090');
   const [showChat, setShowChat] = useState(false);
+
+
+  useEffect(()=>{
+
+   // setIsDivLoading(true)
+
+   
+    axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+      
+      setUsername(response.data.username)
+     
+  
+     })
+
+     socket.emit("join_room", room);
+     setShowChat(true);
+
+    },[])
+
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
@@ -21,6 +49,8 @@ function OrderChatsCustomer() {
     }
   };
   return (
+
+
     <div>
 
     <HeaderFloating></HeaderFloating>
