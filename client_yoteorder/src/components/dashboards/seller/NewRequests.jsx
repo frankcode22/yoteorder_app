@@ -37,7 +37,7 @@ function NewRequests() {
 
     const [amount, setAmount] = useState(0);
 
-    const [quantityOrdered, setQuantityOrdered] = useState(0);
+    const [quantityOrdered, setQuantityOrdered] = useState('');
 
     // const [customerId, setCustomerId] = useState('');
 
@@ -52,6 +52,9 @@ function NewRequests() {
     const [room, setRoom] = useState("123");
     const [showChat, setShowChat] = useState(false);
 
+
+    const [books, updateBooks] = React.useState([]);
+
     // const [itemId, setitemId] = useState("");
 
     let history = useNavigate();
@@ -61,6 +64,11 @@ function NewRequests() {
     useEffect(()=>{
 
         setIsDivLoading(true);
+
+        
+
+
+   
   
         axios.get("http://localhost:3001/order/getallorders").then((response) => {
             // axios.get(`https://ngeritbackend.herokuapp.com/product/search/${item}`).then((response) => {
@@ -87,6 +95,11 @@ function NewRequests() {
   
   
   },[]);
+
+
+ const handleFormchange = (e, quantity) => {
+    setQuantityOrdered({[quantity] : e.target.value})
+  }
 
 
   const placeBid = (orderId,customerId) => {
@@ -132,6 +145,16 @@ function NewRequests() {
   
     }
 
+
+
+   const onChange = (index, food) => {
+    setOrdersList(prevState => {
+          const ordersList = [...prevState.ordersList];
+          ordersList[index] = food;
+          return { ordersList };
+        });
+      };
+    
 
 
   const chatClient = (orderId,customerId) => {
@@ -182,8 +205,8 @@ function NewRequests() {
                  
                    
                  
-                {ordersList.map((value, key) => {
-                    return (
+                {ordersList.map((value, index) => 
+                     (
                     
                     <div class="col mb-3">
                     <div class="swiper-slide">
@@ -234,27 +257,22 @@ function NewRequests() {
                            
                             <span class="js_bid_block_total_price"> 
 
-                            <input key={key}  type="number" class="form-control form-control-sm" id="quantity"
+                            <input type="number" class="form-control form-control-sm" 
 
+                            key={value.id}
                           
-                             
-                            value={value.quantity_ordered || ''}
-
-                        
-                            
-                             onChange={(event) => {
+                            onChange={(event) => {
                                 setQuantityOrdered(event.target.value);
                               }}
 
 
-                              
+                            value={value.quantity_ordered} name="quantity_ordered"
 
-                             
-
-                              
+                        
                             
-            
-                            name="quantity" aria-describedby="name"/> 
+
+                            
+                           /> 
 
                              <input type="number" class="form-control form-control-sm" id="bid_amount"
 
@@ -312,10 +330,13 @@ function NewRequests() {
                         
                     </div>
 
-                    );
-                })}
+                    ))}
 
-   
+                    <ul>
+                    {books.map(book => (
+                     <li key={book.id}>{book.name}</li>  
+                    ))};
+                </ul>
                 <ToastContainer />
                    
        

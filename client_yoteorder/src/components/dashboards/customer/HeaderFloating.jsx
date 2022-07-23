@@ -307,6 +307,12 @@ axios
         <li><a class="nav-link scrollto" href="/tunep-services">Services</a></li>
 
          }
+
+
+         {isAuthenticated && 
+          <li><a class="nav-link scrollto" href="/current_bids">Active Bids</a></li>
+  
+           }
       
    
         <li><a class="nav-link scrollto" href="/help_and_support">Help & Support</a></li>

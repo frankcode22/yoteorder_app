@@ -27,6 +27,7 @@ import AddFunds from "./components/dashboards/customer/AddFunds";
 import HelpAndSupport from "./components/support/HelpAndSupport";
 import MyOrders from "./components/dashboards/customer/MyOrders";
 import EditOrder from "./components/dashboards/customer/EditOrder";
+import MyOrderBids from "./components/dashboards/customer/MyOrderBids";
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -80,6 +81,9 @@ function App() {
 
     
         <Route element={<OrderView/>} path="/order/:id"/>
+
+
+        <Route element={<MyOrderBids/>} path="/current_bids"/>
 
         <Route element={<OrderReview/>} path="/order/pay/:id/:sellerId"/>
 
