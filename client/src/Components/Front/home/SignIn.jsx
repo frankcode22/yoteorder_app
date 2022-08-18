@@ -20,8 +20,8 @@ function SignIn() {
         const data = { username: username, password: password };
     
         setLoading(true);
-         axios.post("https://tunepapi.herokuapp.com/users/login", data).then((response) => {
-         // axios.post("http://localhost:3001/users/login", data).then((response) => {
+         //axios.post("https://tunepapi.herokuapp.com/users/login", data).then((response) => {
+          axios.post("http://localhost:3001/users/login", data).then((response) => {
           if (response.data.error) {
             alert(response.data.error);
             setLoading(false);
@@ -43,14 +43,15 @@ function SignIn() {
               setTimeout(() => {
                 setLoading(false);
                 history("/dashboard");
+                window.location.reload(false);
             }, 1000);
     
             }
-          else if(response.data.role=="Buss_Owner"){
+          else if(response.data.role=="Seller"){
     
             setTimeout(() => {
               setLoading(false);
-              history("/dashboard");
+              history('/dashboard-vendor');
               window.location.reload(false);
           }, 1000);
     

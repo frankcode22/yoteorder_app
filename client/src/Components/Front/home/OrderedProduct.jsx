@@ -1,41 +1,71 @@
-import React, { useCallback,useState,useEffect,useContext } from 'react';
+import React from 'react'
 
-import {useNavigate} from 'react-router-dom'
+import {useEffect,useState,useContext} from 'react';
 
-import {Link} from 'react-router-dom'
-import HowToGetStarted from './HowToGetStarted'
-
-function Homepage() {
-
-    const [item, setItem] = useState("");
-
-    const history = useNavigate();
-
-    const isAuthenticated = localStorage.getItem("isAuthenticated")
+import {useParams} from "react-router-dom"
 
 
-    console.log("THE AUTHENTICATION STATUS",isAuthenticated)
+import axios from 'axios';
 
 
 
 
-    const searchItem = () => {
-       // setLoading(true);
-       
-        
-        setTimeout(() => {
-        //   setLoading(false);
-          //setAddress(string_lng)
-         // history.push('/search-location-avon-park-florida');
-         history('/ordered-product');
-        }, 500);
-        
-          };
+import { useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../../../helpers/AuthContext";
 
 
+function OrderedProduct() {
 
-          localStorage.setItem('ordered_item', JSON.stringify(item));
+    let { item } = useParams();
+
+    const [loginData, setLoginData] = useState(
+        localStorage.getItem('loginData')
+          ? JSON.parse(localStorage.getItem('loginData'))
+          : null
+      );
+
+      const [first_name, setFirst_name] = useState("");
+      const [username, setUsername] = useState("");
+      const [email, setEmail] = useState("");
+      const [phone_no, setPhone_no] = useState("");
+
+      const [user_id, setUserId] = useState(1);
+
+
+      const [order_description, setOrder_description] = useState("");
+
+      const [order_status, setOrderStatus] = useState("available");
+      
+      const [account_type, setAccount_type] = useState(1);
+
+
+      const [orderId, setorderId] = useState('');
+  
+      // const [password, setPassword] = useState("");
+
+
+      const [role, setRole] = useState("");
+      const [password, setPassword] = useState("");
+      const {setAuthState } = useContext(AuthContext);
+
+      
+    
+      const [lat, setLat] = useState("-1.2865605");
+      const [lng, setLng] = useState("36.9463368");
+    
+      let history = useNavigate();
+
+
+      const [isLoading,setLoading]=useState(false);
+
+
+      let ordered_item=localStorage.getItem('ordered_item')
+      ordered_item=JSON.parse(ordered_item)
+    
   return (
+
+
     <div className='app ltr landing-page horizontal'>
 
     <div class="switcher-wrapper">
@@ -223,70 +253,92 @@ function Homepage() {
 </div>
 {/* <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal" id="home">*/}
 <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden" id="home" style={{ width: '100%',
-    height: '90vh',
+    height: '200vh',
     background: 'url("assets/images/hero-bg.jpg") top center',
     backgroundSize: 'cover',
     marginBottom: '-200px'}}>
     <div class="container px-sm-0">
-        <div class="row">
+    <div class="row">
+    <div class="col-lg-12">
 
 
-        <div class="container">
-        <div class="row mb-5 justify-content-center text-center">
-            <div class="col">
-                <h1 class="font-weight-bold mb-0">Get and Order anything?</h1>
-                <p>All your needs are catered by Yote order</p>
-            </div>
+
+        <div class="card">
+        <div class="card-header">
+           
+        <h3 class="card-title">Sales Analytics</h3>
+            
         </div>
+
+
+        <div class="card-body">
+           
+        <div class="card-body border-top p-0">
+        <div class="accordion accordion-arrow-toggler" id="categoryGroup">
+
+
+    
+        <div class="card-body p-lg-6">
+            <h2 class="font-weight-bold">The product is available!</h2>
+            <p class="text-muted mb-5">Enter specific details, for sellers to bid</p>    
+            <hr class="pb-4"/>
 
 
         <div class="row mb-5">
-
-
-
-
-
-
-
-
         <div class="col mb-3">
-        <label for="description" class="form-label">What do you need??</label>
+          <label for="nameWithTitle" class="form-label" style={{color: '#fff',fontWeight: '300!important'}}>Ordered Product/Service</label>
+
+          <input type="hidden" id="price" class="form-control" 
 
 
+          
+          />
 
-        <select name="select_type" class="form-control">
-            <option value="pr">Product</option>
-            <option value="svc">Service</option>
-            <option value="other">Other</option>
-           
-        </select>
+          
+          <input type="text" id="nameWithTitle" class="form-control" placeholder="Enter Name"
 
-         
-
+          value={ordered_item}
+          
         
+             
+          />
         </div>
 
-        <div class="col mb-3">
-        <label for="description" class="form-label">Make Search</label>
-        <input type="search" class="form-control" onChange={(event) => {
-            setItem(event.target.value);
-          }} placeholder="Search here..."/>
-        
-    </div>
-
-
-    <div class="col mb-3">
-    <label for="description" class="form-label"></label>
-    
+        <div class="col mb-0" style={{padding: '0 10px'}}>
+            <label for="description" class="form-label">Detailed Description</label>
             
-       
+               <textarea name="address" class="form-control" 
+               
+               onChange={(event) => {
+                setOrder_description(event.target.value);
+              }}
+               
+               id="order_description" rows="5" placeholder="Your Product desciption"></textarea>
+          </div>
 
-       <button  onClick={searchItem}  class="btn btn-primary form-control mt-4 mb-0"><i class="fe fe-search"></i>Search</button>
-                  
-                      </div>
+        <div class="col mb-3">
+        <label class="form-label" for="multicol-country">Type</label>
 
-       
+        <button class="btn btn-primary form-control"  data-toggle="modal" data-target="#startTrialModal2"  style={{backgroundColor:"#ff7b59"}}>Make Order</button>
+  
       </div>
+      </div>
+
+      </div>
+   
+            
+        </div>
+    </div>
+            
+        </div>
+
+
+
+      
+    </div>
+       
+
+
 
 
    
@@ -299,12 +351,159 @@ function Homepage() {
     </div>
 
 
-        
-           
+
+
+    
+   
+<div class="col-md-12 col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Custom content Thumbnails</h3>
+        </div>
+        <div class="card-body">
+            <div class="">
+                <div class="row">
+                    <div class="col-md-12 col-xl-4">
+                        <div class="thumbnail">
+                            <a href="javascript:void(0)">
+                                <img src="assets/images/media/19.jpg" alt="thumb1" class="thumbimg"/>
+                            </a>
+                            <div class="caption">
+                                <h4><strong>Thumbnail label</strong></h4>
+                                <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <p>
+                                    <a href="javascript:void(0)" class="btn btn-primary" role="button">Button</a>
+                                    <a href="javascript:void(0)" class="btn btn-secondary" role="button">Button</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <div class="col-md-12 col-xl-4">
+                        <div class="thumbnail">
+                            <a href="javascript:void(0)">
+                                <img src="assets/images/media/20.jpg" alt="thumb1" class="thumbimg"/>
+                            </a>
+                            <div class="caption">
+                                <h4><strong>Thumbnail label</strong></h4>
+                                <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <p>
+                                    <a href="javascript:void(0)" class="btn btn-primary" role="button">Button</a>
+                                    <a href="javascript:void(0)" class="btn btn-secondary" role="button">Button</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-12 col-xl-4">
+                        <div class="thumbnail">
+                            <a href="javascript:void(0)">
+                                <img src="/assets/images/media/21.jpg" alt="thumb1" class="thumbimg"/>
+                            </a>
+                            <div class="caption">
+                                <h4><strong>Thumbnail label</strong></h4>
+                                <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <p>
+                                    <a href="javascript:void(0)" class="btn btn-primary" role="button">Button</a>
+                                    <a href="javascript:void(0)" class="btn btn-secondary" role="button">Button</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
+
+
+
+        
+           
+        </div>
+
+        <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+            <div class="card bg-primary img-card box-primary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">7,865</h2>
+                            <p class="text-white mb-0">Total Followers </p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+            <div class="card bg-secondary img-card box-secondary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">86,964</h2>
+                            <p class="text-white mb-0">Total Likes</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-heart-o text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+            <div class="card  bg-success img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">98</h2>
+                            <p class="text-white mb-0">Total Comments</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-comment-o text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+            <div class="card bg-info img-card box-info-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">893</h2>
+                            <p class="text-white mb-0">Total Posts</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-envelope-o text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+
+    </div>
+
+
+  
+
+
 </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
 
 
 
@@ -315,244 +514,23 @@ function Homepage() {
 
 
     <div class="main-container">
+
+
+
+
+
+
         <div class="">
 
 
-        <div class="section pb-0">
-        <div class="container">
-            <div class="row">
-                <h4 class="text-center fw-semibold">Sellers</h4>
-                <span class="landing-title"></span>
-                <h2 class="text-center fw-semibold mb-7">Highly rated by clients.</h2>
-            </div>
+     
 
 
-        <div class="row row-cols-4">
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="/assets/images/users/15.jpg"  style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Mike Rowe-Soft</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-  
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg"  style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Laura Norda</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="/assets/images/users/15.jpg" style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Willie Makit</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg"  style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Don Messwidme</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+
+
       
-    </div>
-
-    </div>
-    </div>
-
-
-
-    <HowToGetStarted/>
-
-
-
-
-        <div class="section pb-0">
-        <div class="container">
-            <div class="row">
-                <h4 class="text-center fw-semibold">Statistics</h4>
-                <span class="landing-title"></span>
-                <h2 class="text-center fw-semibold mb-7">Sash Template Statistics.</h2>
-            </div>
-            <div class="row text-center services-statistics landing-statistics">
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="card">
-                        <div class="card-body bg-primary-transparent">
-                            <div class="counter-status">
-                                <div
-                                    class="counter-icon bg-primary-transparent box-shadow-primary">
-                                    <i class="fe fe-layers text-primary fs-23"></i>
-                                </div>
-                                <div class="test-body text-center">
-                                    <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">100</span>+
-                                    </h1>
-                                    <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">HTML Pages</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="card">
-                        <div class="card-body bg-secondary-transparent">
-                            <div class="counter-status">
-                                <div
-                                    class="counter-icon bg-secondary-transparent box-shadow-secondary">
-                                    <i class="fe fe-wind text-secondary fs-23"></i>
-                                </div>
-                                <div class="text-body text-center">
-                                    <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">60</span>+
-                                    </h1>
-                                    <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">Integrated Plugins
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="card">
-                        <div class="card-body bg-success-transparent">
-                            <div class="counter-status">
-                                <div
-                                    class="counter-icon bg-success-transparent box-shadow-success">
-                                    <i class="fe fe-file-text text-success fs-23"></i>
-                                </div>
-                                <div class="text-body text-center">
-                                    <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">10</span>+
-                                    </h1>
-                                    <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">Form Elements</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="card">
-                        <div class="card-body bg-danger-transparent">
-                            <div class="counter-status">
-                                <div
-                                    class="counter-icon bg-danger-transparent box-shadow-danger">
-                                    <i class="fe fe-grid text-danger fs-23"></i>
-                                </div>
-                                <div class="text-body text-center">
-                                    <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">30</span>+
-                                    </h1>
-                                    <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">Customize Widgets
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 
 
@@ -1063,4 +1041,4 @@ function Homepage() {
   )
 }
 
-export default Homepage
+export default OrderedProduct

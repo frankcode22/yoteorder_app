@@ -13,6 +13,9 @@ import axios from "axios";
 import Homepage from "./Components/Front/home/Homepage";
 import SignIn from "./Components/Front/home/SignIn";
 import AdminDashboard from "./Components/Dashboards/admin/AdminDashboard";
+import OrderedProduct from "./Components/Front/home/OrderedProduct";
+import Dashboard from "./Components/Dashboards/seller/Dashboard";
+import ProductSetting from "./Components/Dashboards/seller/ProductSetting";
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -55,6 +58,12 @@ function App() {
     <Routes>
      
         <Route path="/dashboard" element={ <AdminDashboard/>}/>
+
+
+        <Route path="/dashboard-vendor" element={ <Dashboard/>}/>
+
+
+        <Route path="/setting-products" element={ <ProductSetting/>}/>
     </Routes>
 
     <div>
@@ -65,6 +74,9 @@ function App() {
         <Route path="/" element={ <Homepage/>} />
 
         <Route path="/signin" element={ <SignIn/>} />
+
+
+        <Route path="/ordered-product" element={ <OrderedProduct/>} />
 
 
         </Routes>
