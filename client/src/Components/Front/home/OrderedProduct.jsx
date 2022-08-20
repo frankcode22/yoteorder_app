@@ -8,11 +8,24 @@ import {useParams} from "react-router-dom"
 import axios from 'axios';
 
 
+import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link} from "react-router-dom";
 
 import { AuthContext } from "../../../helpers/AuthContext";
+
+
+
+
+import LoadingSpinner from '../../../utils/LoadingSpinner'
+
+
+function randomNumberInRange(min, max) {
+    // 👇️ get number between min (inclusive) and max (inclusive)
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
 
 function OrderedProduct() {
@@ -32,9 +45,10 @@ function OrderedProduct() {
 
       const [user_id, setUserId] = useState(1);
 
+      const [name, setName] = useState("");
 
-      const [order_description, setOrder_description] = useState("");
 
+      
       const [order_status, setOrderStatus] = useState("available");
       
       const [account_type, setAccount_type] = useState(1);
@@ -53,6 +67,83 @@ function OrderedProduct() {
     
       const [lat, setLat] = useState("-1.2865605");
       const [lng, setLng] = useState("36.9463368");
+
+
+
+      let { string_lng } = useParams();
+
+    
+
+    
+
+      const [productsList, setProductsList] = useState([]);
+  
+      const [seller_name, setSeller_name] = useState("");
+  
+      const [errorMessage, setErrorMessage] = useState("");
+  
+      const [isDivLoading, setIsDivLoading] = useState(false);
+
+
+
+
+      const [showSearchInforContent,setShowSearchInforContent]=useState(true);
+
+      const [showAllServicesDiv,setShowAllServicesDiv]=useState(false);
+    
+      const [showBookingDiv,setShowBookingDiv]=useState(false);
+
+      const [showBussInforCard,setShowBussInforCard]=useState(false);
+
+      const [showProductCardInfor,setShowProductCardInfor]=useState(false);
+    
+      const [showCustomerDetailsForm,setShowCustomerDetailsForm]=useState(false);
+    
+      const [showSuccessAlert,setShowSuccessAlert]=useState(false);
+    
+      const [businessId, setbusinessId] = useState('');
+
+      const [business_name, setbusiness_name] = useState('');
+
+      
+    
+      const [customerId, setCustomerId] = useState('');
+    
+      const [bookingId, setBookingId] = useState('');
+
+      const [productId, setproductId] = useState('');
+
+
+      
+
+      const [quantity_ordered, setquantity_ordered] = useState('');
+
+      const [item_name, setitem_name] = useState('');
+
+      const [order_description, setorder_description] = useState('');
+
+
+      const [randomNo, setRandomNo] = useState(0);
+
+
+      
+
+      
+
+
+    
+    
+      const [serviceId, setServiceId] = useState('');
+  
+  
+  
+  
+      localStorage.setItem('itemsearched', JSON.stringify(item));
+
+
+
+
+
     
       let history = useNavigate();
 
@@ -62,6 +153,610 @@ function OrderedProduct() {
 
       let ordered_item=localStorage.getItem('ordered_item')
       ordered_item=JSON.parse(ordered_item)
+
+
+
+      useEffect(()=>{
+
+        setIsDivLoading(true);
+  
+    //   axios.get("https://tunepbackend.herokuapp.com/customer/mycustomers").then((response) => {
+
+   axios.get("http://localhost:3001/product/getproducts").then((response) => {
+   //axios.get("http://localhost:3001/product/search/"+item+"/"+string_lng).then((response) => {
+           // axios.get(`https://ngeritbackend.herokuapp.com/product/search/${item}`).then((response) => {
+
+           
+
+         
+            setTimeout(() => {
+                setProductsList(response.data);
+
+               // setSeller_name(response.data.Users);
+                setIsDivLoading(false)   // Hide loading screen 
+               // toast.info('Product saved successfully');
+            }, 500);
+
+            //setSeller_name(response.data.Users.first_name)
+            
+        }).catch(() => {
+            setErrorMessage("Unable to fetch your products list");
+            setIsDivLoading(false);
+         });
+  
+  
+  },[]);
+
+
+
+
+  
+  const cancelSelectedService=()=>{
+
+    setShowBookingDiv(false)
+  
+    setShowCustomerDetailsForm(false)
+
+    setShowBussInforCard(false)
+
+    setShowProductCardInfor(false)
+  
+    setShowAllServicesDiv(true)
+
+    setShowSearchInforContent(true)
+  
+    setServiceId('')
+  
+  }
+  
+  
+  const checkOutAndBook=()=>{
+  
+    setShowBookingDiv(false)
+  
+    setShowCustomerDetailsForm(true)
+
+    setRandomNo(randomNumberInRange(1, 10000));
+
+    setShowAllServicesDiv(false)
+  
+  }
+  
+  
+  
+  
+
+  const user_details={
+   first_name:name,
+   last_name:name,
+   email:email,
+   phone_no:phone_no,
+   account_type:"",
+  
+    state:"",
+        city:null,
+        role:'Customer',
+  }
+  
+  
+  
+  
+  
+  
+  
+  const bookAppointment = ()  => {
+  setLoading(true);
+  
+   //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
+  
+  
+    axios.post('http://localhost:3001/users',user_details).then((response)=>{
+  
+      console.log("THE CUSTOMER DATA IS"+response.data)
+  
+      setCustomerId(response.data.id)
+  
+  
+      console.log("THE CUSTOMER ID IS"+response.data.id)
+
+
+
+
+      const customer_details={
+        name:name,
+       email:email,
+       phone_no:phone_no,
+       BusinessId:businessId,
+       UserId:response.data.id,
+       
+      }
+    
+
+
+
+
+      axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
+  
+      console.log("The response is"+res.data)
+  
+      setBookingId(res.data.id)
+
+
+
+//       const appointment={
+//         title:name,
+//         start:start,
+//         end:end,
+//         desc:desc,
+//         UserId:1,
+//         CustomerId:res.data.id,
+      
+//       }
+
+
+      
+//       axios.post('http://localhost:3001/booking',appointment).then((res_b)=>{
+  
+//       console.log("The response is"+res_b.data)
+  
+//       setBookingId(res_b.data.id)
+  
+      
+  
+  
+//      // console.log("THE NEW CUSTOMER ID IS"+customerId)
+   
+     
+//   })
+  
+    
+  
+     // console.log("THE NEW CUSTOMER ID IS"+customerId)
+   
+     
+  })
+
+  const data = { username:email, password: phone_no };
+
+  axios.post("http://localhost:3001/users/login", data).then((rense) => {
+    if (rense.data.error) {
+      alert(rense.data.error);
+      setLoading(false);
+    } else {
+      localStorage.setItem("accessToken", rense.data.token);
+      setAuthState({
+        username: rense.data.username,
+        role: rense.data.role,
+        first_name: rense.data.first_name,
+        phone_no: rense.data.phone_no,
+        id: rense.data.id,
+        status: true,
+      });
+
+      console.log("Response is",rense.data)
+
+      if(rense.data.role=="Customer"){
+
+        setTimeout(() => {
+
+
+          
+
+
+            axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((res_auth) => {
+
+                setUserId(res_auth.data.id)
+
+
+
+                const order_details={
+                            item_name:item_name,
+                            quantity_ordered:quantity_ordered,
+                            customer_phone_no:rense.data.phone_no,
+                            order_description:order_description,
+                            orderId:randomNo,
+                            
+                            UserId:res_auth.data.id,
+                            BusinessId:businessId,
+                          
+                          }
+
+
+                          axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
+  
+     // console.log("The response is"+res_b.data)
+  
+      setorderId(res_b.data.id)
+  
+      
+  
+  
+     console.log("THE  ORDER ID IS "+res_b.data.id)
+
+     console.log("THE  ORDER ID TWO IS "+randomNo)
+   
+        })
+  
+          
+          
+               })
+
+
+
+
+
+          setLoading(false);
+          history("/dashboard-customer");
+          window.location.reload(false);
+      }, 1000);
+
+      }
+    else if(rense.data.role=="Vendor"){
+
+      setTimeout(() => {
+        setLoading(false);
+        history('/dashboard-vendor');
+        window.location.reload(false);
+    }, 1000);
+
+    }
+    else{
+      setTimeout(() => {
+        setLoading(false);
+        history("/dashboard");
+    }, 1000);
+
+
+    }
+    
+    }
+  });
+  
+  
+  
+   
+  
+  
+  
+      
+    
+  
+    
+      setTimeout(() => {
+       // createAppointment()
+  
+          setLoading(false);
+          toast.info('Appointment saved!');
+          setShowSuccessAlert(true)
+  
+          setShowCustomerDetailsForm(false)
+
+          setShowAllServicesDiv(true)
+  
+      }, 500);
+   
+     
+  });
+  
+  
+  
+  }
+
+
+  const proceedToBooking=(pId,bId)=>{
+
+    
+    setproductId(pId)
+
+    setbusinessId(bId)
+
+    setShowAllServicesDiv(true)
+
+    setShowBussInforCard(true)
+
+    setShowProductCardInfor(true)
+
+    setShowSearchInforContent(false)
+
+
+      //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+        axios.get('http://localhost:3001/business/byId/'+bId).then((response) => {
+
+        console.log("THE BUSS NAME IS "+response.data.business_name)
+
+        setbusiness_name(response.data.business_name)
+            
+
+            })
+
+
+
+            //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+        axios.get('http://localhost:3001/product/byId/'+pId).then((response) => {
+
+            console.log("THE PRODUCT NAME IS "+response.data.name)
+
+            setitem_name(response.data.name)
+                
+    
+                })
+      
+
+
+   
+}
+
+
+  const vendorSearchDiv=(
+
+
+    <div class="card-body">
+    <div class="">
+
+    {showSearchInforContent &&
+
+        <div class="row">
+            
+
+        {productsList.map((value, key) => {
+            return (
+      
+        <div class="col-md-12 col-xl-4">
+            <div class="thumbnail">
+                <a href="javascript:void(0)">
+                    <img src="assets/images/media/20.jpg" alt="thumb1" class="thumbimg"/>
+                </a>
+                <div class="caption">
+                    <h4><strong>{value.name}</strong></h4>
+                    <span class="tag tag-radius tag-round tag-primary">Price {value.price}</span>
+
+                    <span class="tag tag-radius tag-round tag-orange">Quantity Available {value.quantity}</span>
+
+                    <span class="tag tag-radius tag-round tag-teal">Status {value.status}</span>
+                    <p>{value.product_description}</p>
+                    <p>
+                        <a href="javascript:void(0)" class="btn btn-primary" role="button">Cancel</a>
+                        <button  type="submit" class="btn btn-secondary" 
+                        
+                       onClick={() => {
+                        proceedToBooking(value.id,value.Business.id);
+                          }}
+                        >Order Now</button>
+                    </p>
+                  
+                </div>
+            </div>
+        </div>
+            )
+            })}
+     
+       
+    </div>
+    
+    
+    }
+      
+
+        <div class="row">
+
+        
+        <div class="col-md-6  col-xl-6">
+{showBussInforCard &&   <div class="card">
+<div class="card-header">
+    <div class="card-title">About</div>
+</div>
+<div class="card-body">
+    <div>
+
+    <div class="profile-img-1">
+                                                                    <img src="assets/images/users/21.jpg" alt="img"/>
+
+
+  
+                                                                </div>
+  
+    </div>
+    <hr/>
+    <div class="d-flex align-items-center mb-3 mt-3">
+        <div class="me-4 text-center text-primary">
+            <span><i class="fe fe-briefcase fs-20"></i></span>
+        </div>
+        <div>
+            <strong>{business_name} </strong>
+        </div>
+    </div>
+    <div class="d-flex align-items-center mb-3 mt-3">
+        <div class="me-4 text-center text-primary">
+            <span><i class="fe fe-map-pin fs-20"></i></span>
+        </div>
+        <div>
+            <strong>Francisco, USA</strong>
+        </div>
+    </div>
+    <div class="d-flex align-items-center mb-3 mt-3">
+        <div class="me-4 text-center text-primary">
+            <span><i class="fe fe-phone fs-20"></i></span>
+        </div>
+        <div>
+            <strong>+125 254 3562 </strong>
+        </div>
+    </div>
+    <div class="d-flex align-items-center mb-3 mt-3">
+        <div class="me-4 text-center text-primary">
+            <span><i class="fe fe-mail fs-20"></i></span>
+        </div>
+        <div>
+            <strong>georgeme@abc.com </strong>
+        </div>
+    </div>
+</div>
+</div>}
+      
+        
+    </div>
+
+
+    <div class="col-md-6 col-xl-6">
+
+    <div class="card">
+    {showProductCardInfor && <div class="card-header">
+    <h3 class="card-title">Product Infor</h3>
+    <div class="card-options">
+
+   
+        <form>
+            <div class="input-group">
+                <input type="text" class="form-control form-control-sm" placeholder="Search something..." name="s"/>
+                <span class="input-group-btn ms-0">
+                        <button class="btn btn-sm btn-primary" type="submit">
+                            <span class="fe fe-search text-white"></span>
+                </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div> }
+        
+
+        {showAllServicesDiv &&
+        <div class="card-body">
+        <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+
+       {/* <p>Product Id {productId} Seller Id {businessId}  </p>*/} 
+            <div class="form-group">
+            <label class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="name1" value={item_name}
+                
+              
+                
+                placeholder="Item name"/>
+            </div>
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            <div class="form-group">
+            <label class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="name2"
+                
+                onChange={(event) => {
+                    setquantity_ordered(event.target.value);
+                  }} 
+                
+                placeholder="Quantity"/>
+            </div>
+        </div>
+
+        
+       
+        <div class="form-group col-md-12 mb-0">
+        <label class="form-label">Additional Infor</label>
+           
+
+            <textarea class="form-control"   onChange={(event) => {
+                setorder_description(event.target.value);
+              }}  placeholder="Comments" id="floatingTextarea2" style={{height: '100px'}}></textarea>
+        </div>
+       
+    </div>
+
+    <div class="form-footer mt-2">
+    <button type="submit" onClick={() => {
+        checkOutAndBook();
+      }} class="btn btn-primary">Confirm</button>
+
+      <button type="reset" onClick={() => {
+        cancelSelectedService();
+      }} class="btn btn-label-secondary">Cancel</button>
+</div>
+        </div>
+    }
+
+        {showCustomerDetailsForm &&
+        <div class="card-body">
+  <form>
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Your Name</label>
+      <div class="col-sm-10">
+        <div class="input-group input-group-merge">
+          <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
+          <input type="text" class="form-control" id="basic-icon-default-fullname"  
+          
+          onChange={(event) => {
+            setName(event.target.value);
+          }} 
+          
+          aria-describedby="basic-icon-default-fullname2"/>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="basic-icon-default-email">Email</label>
+      <div class="col-sm-10">
+        <div class="input-group input-group-merge">
+          <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+          <input type="text" id="basic-icon-default-email" class="form-control"
+          onChange={(event) => {
+            setEmail(event.target.value);
+          }}
+          
+          aria-describedby="basic-icon-default-email2"/>
+          <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+        </div>
+        <div class="form-text"> You can use letters, numbers &amp; periods </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-2 form-label" for="basic-icon-default-phone">Phone No</label>
+      <div class="col-sm-10">
+        <div class="input-group input-group-merge">
+          <span id="basic-icon-default-phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
+          <input type="text" id="basic-icon-default-phone" class="form-control phone-mask"
+          onChange={(event) => {
+            setPhone_no(event.target.value);
+          }}
+          
+          placeholder="0713876543" aria-label="658 799 8941" aria-describedby="basic-icon-default-phone2"/>
+        </div>
+      </div>
+    </div>
+   
+    <div class="row justify-content-end">
+      <div class="col-sm-10">
+
+      {!isLoading && <button type="submit" onClick={bookAppointment} class="btn btn-primary">Order</button>
+
+    } 
+    {isLoading &&
+        <button type="submit" class="btn btn-primary" disabled> <i class="fas fa-sync fa-spin"></i>Making Order....</button>
+    }
+       
+
+        <button type="reset" onClick={() => {
+          cancelSelectedService();
+        }} class="btn btn-label-secondary">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+    }
+
+
+<ToastContainer></ToastContainer>
+
+    </div>
+</div>
+        
+        
+        </div>
+    </div>
+</div>
+
+
+
+  )
+
+
     
   return (
 
@@ -143,9 +838,7 @@ function OrderedProduct() {
     
 
 
-<div id="global-loader">
-<img src="assets/images/loader.svg" class="loader-img" alt="Loader"/>
-</div>
+
 
 
 <div class="page">
@@ -253,13 +946,14 @@ function OrderedProduct() {
 </div>
 {/* <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal" id="home">*/}
 <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden" id="home" style={{ width: '100%',
-    height: '200vh',
+    height: '250vh',
     background: 'url("assets/images/hero-bg.jpg") top center',
     backgroundSize: 'cover',
     marginBottom: '-200px'}}>
     <div class="container px-sm-0">
     <div class="row">
-    <div class="col-lg-12">
+
+    {/*  <div class="col-lg-12">
 
 
 
@@ -340,15 +1034,9 @@ function OrderedProduct() {
 
 
 
-
-   
-
-
-                                      
-
-
        
-    </div>
+    </div>*/}
+   
 
 
 
@@ -360,60 +1048,13 @@ function OrderedProduct() {
         <div class="card-header">
             <h3 class="card-title">Custom content Thumbnails</h3>
         </div>
-        <div class="card-body">
-            <div class="">
-                <div class="row">
-                    <div class="col-md-12 col-xl-4">
-                        <div class="thumbnail">
-                            <a href="javascript:void(0)">
-                                <img src="assets/images/media/19.jpg" alt="thumb1" class="thumbimg"/>
-                            </a>
-                            <div class="caption">
-                                <h4><strong>Thumbnail label</strong></h4>
-                                <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <p>
-                                    <a href="javascript:void(0)" class="btn btn-primary" role="button">Button</a>
-                                    <a href="javascript:void(0)" class="btn btn-secondary" role="button">Button</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                  
-                    <div class="col-md-12 col-xl-4">
-                        <div class="thumbnail">
-                            <a href="javascript:void(0)">
-                                <img src="assets/images/media/20.jpg" alt="thumb1" class="thumbimg"/>
-                            </a>
-                            <div class="caption">
-                                <h4><strong>Thumbnail label</strong></h4>
-                                <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <p>
-                                    <a href="javascript:void(0)" class="btn btn-primary" role="button">Button</a>
-                                    <a href="javascript:void(0)" class="btn btn-secondary" role="button">Button</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                   
-                    <div class="col-md-12 col-xl-4">
-                        <div class="thumbnail">
-                            <a href="javascript:void(0)">
-                                <img src="/assets/images/media/21.jpg" alt="thumb1" class="thumbimg"/>
-                            </a>
-                            <div class="caption">
-                                <h4><strong>Thumbnail label</strong></h4>
-                                <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                                <p>
-                                    <a href="javascript:void(0)" class="btn btn-primary" role="button">Button</a>
-                                    <a href="javascript:void(0)" class="btn btn-secondary" role="button">Button</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                   
-                </div>
-            </div>
-        </div>
+       
+
+        {isDivLoading ? <LoadingSpinner/>: vendorSearchDiv}
+
+        {errorMessage && <div className="error">{errorMessage}</div>}
+
+
     </div>
 </div>
 

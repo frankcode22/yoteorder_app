@@ -16,6 +16,10 @@ import AdminDashboard from "./Components/Dashboards/admin/AdminDashboard";
 import OrderedProduct from "./Components/Front/home/OrderedProduct";
 import Dashboard from "./Components/Dashboards/seller/Dashboard";
 import ProductSetting from "./Components/Dashboards/seller/ProductSetting";
+import SignUp from "./Components/Front/home/SignUp";
+import BookingPage from "./Components/Front/booking/BookingPage";
+import AccountSetting from "./Components/Dashboards/seller/AccountSetting";
+import CustomerDashboard from "./Components/Dashboards/customer/CustomerDashboard";
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -62,8 +66,16 @@ function App() {
 
         <Route path="/dashboard-vendor" element={ <Dashboard/>}/>
 
+        <Route path="/dashboard-customer" element={ <CustomerDashboard/>}/>
+
+
 
         <Route path="/setting-products" element={ <ProductSetting/>}/>
+
+        <Route path="/account-setting" element={ <AccountSetting/>}/>
+
+
+       
     </Routes>
 
     <div>
@@ -76,7 +88,13 @@ function App() {
         <Route path="/signin" element={ <SignIn/>} />
 
 
+        <Route path="/signup" element={ <SignUp/>} />
+
+
+
         <Route path="/ordered-product" element={ <OrderedProduct/>} />
+
+        <Route path="/order-now" element={ <BookingPage/>}/>
 
 
         </Routes>

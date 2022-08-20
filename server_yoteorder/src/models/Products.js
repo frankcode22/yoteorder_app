@@ -53,7 +53,6 @@ module.exports = (sequelize, DataTypes) => {
   
         models.ProductRequests.belongsTo(Products);
   
-        
   
       }
 

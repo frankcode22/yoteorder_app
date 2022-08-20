@@ -259,9 +259,9 @@ function SidebarS() {
                                 </ul>
                             </li>
                             <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)">
+                                <a class="side-menu__item" data-bs-toggle="slide" href="/account-setting">
                                     <i class="side-menu__icon fe fe-cpu"></i>
-                                    <span class="side-menu__label">Submenu items</span><i
+                                    <span class="side-menu__label">Setting</span><i
                                         class="angle fe fe-chevron-right"></i></a>
                                 <ul class="slide-menu">
                                     <li class="side-menu-label1"><a href="javascript:void(0)">Submenu items</a></li>

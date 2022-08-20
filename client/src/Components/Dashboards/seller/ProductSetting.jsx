@@ -64,7 +64,9 @@ function ProductSetting() {
     const [address, setAddress] = React.useState("");
 
 
-   
+    const [businessId, setbusinessId] = useState('');
+
+    const [business_name, setbusiness_name] = useState("");
 
   
     const [productsList, setProductsList] = useState([]);
@@ -72,6 +74,8 @@ function ProductSetting() {
     const [errorMessage, setErrorMessage] = useState("");
 
     const [isDivLoading, setIsDivLoading] = useState(false);
+
+    const [bussSetup,setBussSetup]=useState(false);
 
     const [isLoading,setLoading]=useState(false);
 
@@ -99,6 +103,34 @@ function ProductSetting() {
   
        })
 
+
+       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+        if(response.data!=null){
+    
+          setbusinessId(response.data.id);
+
+         
+
+          setbusiness_name(response.data.business_name);
+
+          setBussSetup(true);
+      
+        
+      
+        }
+        else{
+      
+      
+          setbusinessId(0)
+          setBussSetup(false);
+          setbusiness_name('nobuzz')
+        }
+    
+        
+         })
+    
+
        
 
 
@@ -120,6 +152,7 @@ function ProductSetting() {
     latitude:lat,
     longitude:lng,
     UserId:userId,
+    BusinessId:businessId,
       
   }
 
@@ -365,6 +398,17 @@ function ProductSetting() {
                 <div class="form-group ">
                   
                     <label for="nameWithTitle" class="form-label">Product Name</label>
+
+
+                    <input type="text" id="nameWithTitle" class="form-control" placeholder="Enter Name"
+            
+                        value={businessId}
+                        
+                        onChange={(event) => {
+                            setbusinessId(event.target.value);
+                          }}
+                           
+                        />
 
                     <input type="hidden" id="price" class="form-control" value={userId}
           

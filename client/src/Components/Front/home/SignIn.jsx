@@ -47,7 +47,20 @@ function SignIn() {
             }, 1000);
     
             }
-          else if(response.data.role=="Seller"){
+
+            else if(response.data.role=="Customer"){
+    
+                setTimeout(() => {
+                  setLoading(false);
+                  history('/dashboard-customer');
+                  window.location.reload(false);
+              }, 1000);
+        
+              }
+
+
+
+          else if(response.data.role=="Vendor"){
     
             setTimeout(() => {
               setLoading(false);
@@ -85,7 +98,7 @@ function SignIn() {
        
             <div class="col col-login mx-auto mt-7">
                 <div class="text-center">
-                    <img src="assets/images/brand/logo-white.png" class="header-brand-img" alt=""/>
+                <a href='/'><img src="assets/images/brand/logo-white.png" class="header-brand-img" alt=""/></a>
                 </div>
             </div>
 
@@ -156,7 +169,7 @@ function SignIn() {
                                                 
                                               </div>
                                         <div class="text-center pt-3">
-                                            <p class="text-dark mb-0">Not a member?<a href="register.html" class="text-primary ms-1">Sign UP</a></p>
+                                            <p class="text-dark mb-0">Not a member?<a href="/signup" class="text-primary ms-1">Sign UP</a></p>
                                         </div>
                                         <label class="login-social-icon"><span>Login with Social</span></label>
                                         <div class="d-flex justify-content-center">

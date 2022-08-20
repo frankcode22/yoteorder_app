@@ -1,41 +1,593 @@
-import React, { useCallback,useState,useEffect,useContext } from 'react';
+import React from 'react'
 
-import {useNavigate} from 'react-router-dom'
+import {useEffect,useState,useContext} from 'react';
 
-import {Link} from 'react-router-dom'
-import HowToGetStarted from './HowToGetStarted'
-
-function Homepage() {
-
-    const [item, setItem] = useState("");
-
-    const history = useNavigate();
-
-    const isAuthenticated = localStorage.getItem("isAuthenticated")
+import {useParams} from "react-router-dom"
 
 
-    console.log("THE AUTHENTICATION STATUS",isAuthenticated)
+import axios from 'axios';
+
+
+import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 
-    const searchItem = () => {
-       // setLoading(true);
-       
-        
+import { useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../../../helpers/AuthContext";
+
+
+
+
+import LoadingSpinner from '../../../utils/LoadingSpinner'
+
+
+
+function BookingPage() {
+
+    let { item } = useParams();
+
+    const [loginData, setLoginData] = useState(
+        localStorage.getItem('loginData')
+          ? JSON.parse(localStorage.getItem('loginData'))
+          : null
+      );
+
+      const [first_name, setFirst_name] = useState("");
+      const [username, setUsername] = useState("");
+      const [email, setEmail] = useState("");
+      const [phone_no, setPhone_no] = useState("");
+
+      const [user_id, setUserId] = useState(1);
+
+
+      const [order_description, setOrder_description] = useState("");
+
+      const [order_status, setOrderStatus] = useState("available");
+      
+      const [account_type, setAccount_type] = useState(1);
+
+
+      const [orderId, setorderId] = useState('');
+  
+      // const [password, setPassword] = useState("");
+
+
+      const [role, setRole] = useState("");
+      const [password, setPassword] = useState("");
+      const {setAuthState } = useContext(AuthContext);
+
+      
+    
+      const [lat, setLat] = useState("-1.2865605");
+      const [lng, setLng] = useState("36.9463368");
+
+
+
+      let { string_lng } = useParams();
+
+
+
+      const [business_name, setbusiness_name] = useState("");
+      const [servicesList, setServicesList] = useState([]);
+    
+    
+    
+      const [name, setName] = useState("");
+     
+    
+    
+      const [title, setTitle] = useState('');
+    
+      const [start, setStart] = useState(new Date());
+    
+    
+      const [end, setEnd] = useState(new Date());
+    
+      const [desc, setDesc] = useState("Appointment test");
+    
+    
+    
+      const [bussSetup,setBussSetup]=useState(false);
+    
+    
+      const [showAllServicesDiv,setShowAllServicesDiv]=useState(true);
+    
+      const [showBookingDiv,setShowBookingDiv]=useState(false);
+    
+      const [showCustomerDetailsForm,setShowCustomerDetailsForm]=useState(false);
+    
+      const [showSuccessAlert,setShowSuccessAlert]=useState(false);
+    
+      const [businessId, setbusinessId] = useState('');
+    
+      const [customerId, setCustomerId] = useState('');
+    
+      const [bookingId, setBookingId] = useState('');
+    
+    
+      const [serviceId, setServiceId] = useState('');
+
+    
+
+    
+
+      const [productsList, setProductsList] = useState([]);
+  
+      const [seller_name, setSeller_name] = useState("");
+  
+      const [errorMessage, setErrorMessage] = useState("");
+  
+      const [isDivLoading, setIsDivLoading] = useState(false);
+  
+  
+  
+  
+      localStorage.setItem('itemsearched', JSON.stringify(item));
+
+
+
+    
+      let history = useNavigate();
+
+
+      const [isLoading,setLoading]=useState(false);
+
+
+      let ordered_item=localStorage.getItem('ordered_item')
+      ordered_item=JSON.parse(ordered_item)
+
+
+
+      useEffect(()=>{
+
+        setIsDivLoading(true);
+  
+    //   axios.get("https://tunepbackend.herokuapp.com/customer/mycustomers").then((response) => {
+
+   axios.get("http://localhost:3001/product/getproducts").then((response) => {
+   //axios.get("http://localhost:3001/product/search/"+item+"/"+string_lng).then((response) => {
+           // axios.get(`https://ngeritbackend.herokuapp.com/product/search/${item}`).then((response) => {
+
+           
+
+         
+            setTimeout(() => {
+                setProductsList(response.data);
+
+               // setSeller_name(response.data.Users);
+                setIsDivLoading(false)   // Hide loading screen 
+               // toast.info('Product saved successfully');
+            }, 500);
+
+            //setSeller_name(response.data.Users.first_name)
+            
+        }).catch(() => {
+            setErrorMessage("Unable to fetch your products list");
+            setIsDivLoading(false);
+         });
+  
+  
+  },[]);
+
+
+  const cancelSelectedService=()=>{
+
+    setShowBookingDiv(false)
+  
+    setShowCustomerDetailsForm(false)
+  
+    setShowAllServicesDiv(true)
+  
+    setServiceId('')
+  
+  }
+  
+  
+  const checkOutAndBook=()=>{
+  
+    setShowBookingDiv(false)
+  
+    setShowCustomerDetailsForm(true)
+
+    setShowAllServicesDiv(false)
+  
+  }
+  
+  
+  
+  const customer_details={
+    name:name,
+   email:email,
+   phone_no:phone_no,
+   BusinessId:1,
+   
+  }
+
+
+  const user_details={
+   first_name:name,
+   last_name:name,
+   email:email,
+   phone_no:phone_no,
+   account_type:"",
+  
+    state:"",
+        city:null,
+        role:'Customer',
+  }
+  
+  
+  
+  
+  
+  
+  
+  const bookAppointment = ()  => {
+  setLoading(true);
+  
+   //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
+  
+  
+    axios.post('http://localhost:3001/users',user_details).then((response)=>{
+  
+      console.log("THE CUSTOMER DATA IS"+response.data)
+  
+      setCustomerId(response.data.id)
+  
+  
+      console.log("THE CUSTOMER ID IS"+response.data.id)
+
+
+
+
+
+      axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
+  
+      console.log("The response is"+res.data)
+  
+      setBookingId(res.data.id)
+
+
+
+//       const appointment={
+//         title:name,
+//         start:start,
+//         end:end,
+//         desc:desc,
+//         UserId:1,
+//         CustomerId:res.data.id,
+      
+//       }
+
+
+      
+//       axios.post('http://localhost:3001/booking',appointment).then((res_b)=>{
+  
+//       console.log("The response is"+res_b.data)
+  
+//       setBookingId(res_b.data.id)
+  
+      
+  
+  
+//      // console.log("THE NEW CUSTOMER ID IS"+customerId)
+   
+     
+//   })
+  
+    
+  
+     // console.log("THE NEW CUSTOMER ID IS"+customerId)
+   
+     
+  })
+
+  const data = { username:email, password: phone_no };
+
+  axios.post("http://localhost:3001/users/login", data).then((rense) => {
+    if (rense.data.error) {
+      alert(rense.data.error);
+      setLoading(false);
+    } else {
+      localStorage.setItem("accessToken", rense.data.token);
+      setAuthState({
+        username: rense.data.username,
+        role: rense.data.role,
+        first_name: rense.data.first_name,
+        phone_no: rense.data.phone_no,
+        id: rense.data.id,
+        status: true,
+      });
+
+      console.log("Response is",rense.data)
+
+      if(rense.data.role=="Admin"){
+
         setTimeout(() => {
-        //   setLoading(false);
-          //setAddress(string_lng)
-         // history.push('/search-location-avon-park-florida');
-         history('/ordered-product');
-        }, 500);
+          setLoading(false);
+          history("/dashboard");
+          window.location.reload(false);
+      }, 1000);
+
+      }
+    else if(rense.data.role=="Vendor"){
+
+      setTimeout(() => {
+        setLoading(false);
+        history('/dashboard-vendor');
+        window.location.reload(false);
+    }, 1000);
+
+    }
+    else{
+      setTimeout(() => {
+        setLoading(false);
+        history("/dashboard");
+    }, 1000);
+
+
+    }
+    
+    }
+  });
+  
+  
+  
+   
+  
+  
+  
+      
+    
+  
+    
+      setTimeout(() => {
+       // createAppointment()
+  
+          setLoading(false);
+          toast.info('Appointment saved!');
+          setShowSuccessAlert(true)
+  
+          setShowCustomerDetailsForm(false)
+
+          setShowAllServicesDiv(true)
+  
+      }, 500);
+   
+     
+  });
+  
+  
+  
+  }
+  
+  
+
+  
+
+
+
+  const vendorSearchDiv=(
+
+
+    <div class="card-body">
+    <div class="">
+        <div class="row">
+
+
+        <div class="col-md-6  col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Vendor Details</h3>
+                <div class="card-options">
+                    <a href="javascript:void(0)" class="btn btn-primary btn-sm">Action 1</a>
+                    <a href="javascript:void(0)" class="btn btn-secondary btn-sm ms-2">Action 2</a>
+                </div>
+            </div>
+            <div class="card-body">
+                No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful actual teachings of the great explorer
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6  col-xl-6">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Product Infor</h3>
+            <div class="card-options">
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" placeholder="Search something..." name="s"/>
+                        <span class="input-group-btn ms-0">
+                                <button class="btn btn-sm btn-primary" type="submit">
+                                    <span class="fe fe-search text-white"></span>
+                        </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {showAllServicesDiv &&
+        <div class="card-body">
+        <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+
+       
+            <div class="form-group">
+            <label class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="name1" value={ordered_item} placeholder="Product Name"/>
+            </div>
+        </div>
+        <div class="form-group col-md-6 mb-0">
+            <div class="form-group">
+            <label class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="name2" placeholder="Quantity"/>
+            </div>
+        </div>
+
         
-          };
+       
+        <div class="form-group col-md-12 mb-0">
+        <label class="form-label">Additional Infor</label>
+           
+
+            <textarea class="form-control" placeholder="Comments" id="floatingTextarea2" style={{height: '100px'}}></textarea>
+        </div>
+       
+    </div>
+
+    <div class="form-footer mt-2">
+    <button type="submit" onClick={() => {
+        checkOutAndBook();
+      }} class="btn btn-primary">Confirm</button>
+
+      <button type="reset" onClick={() => {
+        cancelSelectedService();
+      }} class="btn btn-label-secondary">Cancel</button>
+</div>
+        </div>
+    }
+
+        {showCustomerDetailsForm &&
+        <div class="card-body">
+  <form>
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Your Name</label>
+      <div class="col-sm-10">
+        <div class="input-group input-group-merge">
+          <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
+          <input type="text" class="form-control" id="basic-icon-default-fullname"  
+          
+          onChange={(event) => {
+            setName(event.target.value);
+          }} 
+          
+          aria-describedby="basic-icon-default-fullname2"/>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label" for="basic-icon-default-email">Email</label>
+      <div class="col-sm-10">
+        <div class="input-group input-group-merge">
+          <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+          <input type="text" id="basic-icon-default-email" class="form-control"
+          onChange={(event) => {
+            setEmail(event.target.value);
+          }}
+          
+          aria-describedby="basic-icon-default-email2"/>
+          <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+        </div>
+        <div class="form-text"> You can use letters, numbers &amp; periods </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-sm-2 form-label" for="basic-icon-default-phone">Phone No</label>
+      <div class="col-sm-10">
+        <div class="input-group input-group-merge">
+          <span id="basic-icon-default-phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
+          <input type="text" id="basic-icon-default-phone" class="form-control phone-mask"
+          onChange={(event) => {
+            setPhone_no(event.target.value);
+          }}
+          
+          placeholder="0713876543" aria-label="658 799 8941" aria-describedby="basic-icon-default-phone2"/>
+        </div>
+      </div>
+    </div>
+   
+    <div class="row justify-content-end">
+      <div class="col-sm-10">
+
+      {!isLoading && <button type="submit" onClick={bookAppointment} class="btn btn-primary">Book</button>
+
+    } 
+    {isLoading &&
+        <button type="submit" class="btn btn-primary" disabled> <i class="fas fa-sync fa-spin"></i>Booking....</button>
+    }
+       
+
+        <button type="reset" onClick={() => {
+          cancelSelectedService();
+        }} class="btn btn-label-secondary">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+    }
+
+
+<ToastContainer></ToastContainer>
+
+    </div>
+</div>
+            
+
+            {productsList.map((value, key) => {
+                return (
+          
+            <div class="col-md-6 col-xl-4">
+                <div class="thumbnail">
+                    <a href="javascript:void(0)">
+                        <img src="assets/images/media/20.jpg" alt="thumb1" class="thumbimg"/>
+                    </a>
+                    <div class="caption">
+                        <h4><strong>{value.name}</strong></h4>
+                        <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <p>
+                            <a href="javascript:void(0)" class="btn btn-primary" role="button">Cancel</a>
+                            <a href="javascript:void(0)" class="btn btn-secondary" role="button">Order Now</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+                )
+                })}
 
 
 
-          localStorage.setItem('ordered_item', JSON.stringify(item));
+                <div class="col-md-6 col-xl-4">
+                <div class="thumbnail">
+                    <a href="javascript:void(0)">
+                        <img src="assets/images/media/20.jpg" alt="thumb1" class="thumbimg"/>
+                    </a>
+                    <div class="caption">
+                        <h4><strong>Product Details</strong></h4>
+                        <p>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        <p>
+                            <a href="javascript:void(0)" class="btn btn-primary" role="button">Cancel</a>
+                            <a href="javascript:void(0)" class="btn btn-secondary" role="button">Order Now</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+         
+           
+        </div>
+    </div>
+</div>
+
+
+
+  )
+
+
+  
+
+
+
+    
   return (
+
+
     <div className='app ltr landing-page horizontal'>
 
     <div class="switcher-wrapper">
@@ -145,7 +697,7 @@ function Homepage() {
                 <div class="collapse navbar-collapse bg-white px-0" id="navbarSupportedContent-4">
                     
                     <div class="header-nav-right p-5">
-                        <a href="/signup" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
+                        <a href="register.html" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
                             >New User
                         </a>
                         {/*   <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto"> */}
@@ -207,9 +759,9 @@ function Homepage() {
                         </li>
                     </ul>
                     <div class="header-nav-right d-none d-lg-flex">
-                        <a href="/signup"
+                        <a href="register.html"
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
-                           >New User
+                            target="_blank">New User
                         </a>
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Login
@@ -223,89 +775,205 @@ function Homepage() {
 </div>
 {/* <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal" id="home">*/}
 <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden" id="home" style={{ width: '100%',
-    height: '90vh',
+    height: '150vh',
     background: 'url("assets/images/hero-bg.jpg") top center',
     backgroundSize: 'cover',
     marginBottom: '-200px'}}>
     <div class="container px-sm-0">
-        <div class="row">
+    <div class="row">
+
+    {/*  <div class="col-lg-12">
 
 
-        <div class="container">
-        <div class="row mb-5 justify-content-center text-center">
-            <div class="col">
-                <h1 class="font-weight-bold mb-0">Get and Order anything?</h1>
-                <p>All your needs are catered by Yote order</p>
-            </div>
+
+        <div class="card">
+        <div class="card-header">
+           
+        <h3 class="card-title">Sales Analytics</h3>
+            
         </div>
 
 
-        <div class="row mb-5 justify-content-center">
+        <div class="card-body">
+           
+        <div class="card-body border-top p-0">
+        <div class="accordion accordion-arrow-toggler" id="categoryGroup">
 
 
-        <div class="row p-0 m-0">
-        <div class="form-label mt-4 p-xl-0">What do you need?</div>
+    
+        <div class="card-body p-lg-6">
+            <h2 class="font-weight-bold">The product is available!</h2>
+            <p class="text-muted mb-5">Enter specific details, for sellers to bid</p>    
+            <hr class="pb-4"/>
 
-        <div class="col-xl-4">
-            <div class="form-group">
-                <select class="form-select form-select select2" id="inputGroupSelect01">
-                        <option value="Product">Product</option>
-                        <option value="Service">Service</option>
-                       
-                    </select>
-            </div>
+
+        <div class="row mb-5">
+        <div class="col mb-3">
+          <label for="nameWithTitle" class="form-label" style={{color: '#fff',fontWeight: '300!important'}}>Ordered Product/Service</label>
+
+          <input type="hidden" id="price" class="form-control" 
+
+
+          
+          />
+
+          
+          <input type="text" id="nameWithTitle" class="form-control" placeholder="Enter Name"
+
+          value={ordered_item}
+          
+        
+             
+          />
         </div>
-       
-        <div class="col-xl-4">
-            <div class="form-group">
-                <input class="form-control" nChange={(event) => {
-                    setItem(event.target.value);
-                  }} placeholder="Search here..." type="text"/>
-            </div>
-        </div>
-        
-        {/* <div class="col-xl-2 px-3 px-xl-1">
-            <div class="form-group">
-                <label class="custom-switch form-switch mb-0">
-                        <input type="checkbox" name="custom-switch-radio" class="custom-switch-input"/>
-                        <span class="custom-switch-indicator custom-switch-indicator-md"></span>
-                        <span class="custom-switch-description">Toggle example</span>
-                    </label>
-            </div>
-        </div>*/}
-        
-        
 
-        <div class="col-xl-2 px-3 px-xl-0">
-        <div class="">
-            <button type="button"  onClick={searchItem} class="btn btn-secondary mb-3 btn-block"><i class="fe fe-search"></i>Search</button>
+        <div class="col mb-0" style={{padding: '0 10px'}}>
+            <label for="description" class="form-label">Detailed Description</label>
+            
+               <textarea name="address" class="form-control" 
+               
+               onChange={(event) => {
+                setOrder_description(event.target.value);
+              }}
+               
+               id="order_description" rows="5" placeholder="Your Product desciption"></textarea>
+          </div>
+
+        <div class="col mb-3">
+        <label class="form-label" for="multicol-country">Type</label>
+
+        <button class="btn btn-primary form-control"  data-toggle="modal" data-target="#startTrialModal2"  style={{backgroundColor:"#ff7b59"}}>Make Order</button>
+  
+      </div>
+      </div>
+
+      </div>
+   
+            
         </div>
     </div>
-    </div>
-
-       
-        
+            
         </div>
 
 
-        
 
+      
+    </div>
+       
+
+
+
+       
+    </div>*/}
    
 
 
-                                      
 
 
+    
+   
+<div class="col-md-12 col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Custom content Thumbnails</h3>
+        </div>
        
+
+        {isDivLoading ? <LoadingSpinner/>: vendorSearchDiv}
+
+        {errorMessage && <div className="error">{errorMessage}</div>}
+
+
     </div>
+</div>
+
+
+
 
 
         
            
         </div>
+
+        <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+            <div class="card bg-primary img-card box-primary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">7,865</h2>
+                            <p class="text-white mb-0">Total Followers </p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+            <div class="card bg-secondary img-card box-secondary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">86,964</h2>
+                            <p class="text-white mb-0">Total Likes</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-heart-o text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+            <div class="card  bg-success img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">98</h2>
+                            <p class="text-white mb-0">Total Comments</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-comment-o text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+            <div class="card bg-info img-card box-info-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">893</h2>
+                            <p class="text-white mb-0">Total Posts</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-envelope-o text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
     </div>
+
+
+    </div>
+
+
+  
+
+
 </div>
+
+
+
+
+
+
+
 </div>
+
+
+
+
 
 
 
@@ -316,244 +984,23 @@ function Homepage() {
 
 
     <div class="main-container">
+
+
+
+
+
+
         <div class="">
 
 
-        <div class="section pb-0">
-        <div class="container">
-            <div class="row">
-                <h4 class="text-center fw-semibold">Sellers</h4>
-                <span class="landing-title"></span>
-                <h2 class="text-center fw-semibold mb-7">Highly rated by clients.</h2>
-            </div>
+     
 
 
-        <div class="row row-cols-4">
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="/assets/images/users/15.jpg"  style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Mike Rowe-Soft</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-  
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg"  style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Laura Norda</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="/assets/images/users/15.jpg" style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Willie Makit</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg"  style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Don Messwidme</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+
+
       
-    </div>
-
-    </div>
-    </div>
-
-
-
-    <HowToGetStarted/>
-
-
-
-
-        <div class="section pb-0">
-        <div class="container">
-            <div class="row">
-                <h4 class="text-center fw-semibold">Statistics</h4>
-                <span class="landing-title"></span>
-                <h2 class="text-center fw-semibold mb-7">Sash Template Statistics.</h2>
-            </div>
-            <div class="row text-center services-statistics landing-statistics">
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="card">
-                        <div class="card-body bg-primary-transparent">
-                            <div class="counter-status">
-                                <div
-                                    class="counter-icon bg-primary-transparent box-shadow-primary">
-                                    <i class="fe fe-layers text-primary fs-23"></i>
-                                </div>
-                                <div class="test-body text-center">
-                                    <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">100</span>+
-                                    </h1>
-                                    <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">HTML Pages</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="card">
-                        <div class="card-body bg-secondary-transparent">
-                            <div class="counter-status">
-                                <div
-                                    class="counter-icon bg-secondary-transparent box-shadow-secondary">
-                                    <i class="fe fe-wind text-secondary fs-23"></i>
-                                </div>
-                                <div class="text-body text-center">
-                                    <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">60</span>+
-                                    </h1>
-                                    <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">Integrated Plugins
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="card">
-                        <div class="card-body bg-success-transparent">
-                            <div class="counter-status">
-                                <div
-                                    class="counter-icon bg-success-transparent box-shadow-success">
-                                    <i class="fe fe-file-text text-success fs-23"></i>
-                                </div>
-                                <div class="text-body text-center">
-                                    <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">10</span>+
-                                    </h1>
-                                    <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">Form Elements</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-6">
-                    <div class="card">
-                        <div class="card-body bg-danger-transparent">
-                            <div class="counter-status">
-                                <div
-                                    class="counter-icon bg-danger-transparent box-shadow-danger">
-                                    <i class="fe fe-grid text-danger fs-23"></i>
-                                </div>
-                                <div class="text-body text-center">
-                                    <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">30</span>+
-                                    </h1>
-                                    <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">Customize Widgets
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 
 
@@ -1064,4 +1511,4 @@ function Homepage() {
   )
 }
 
-export default Homepage
+export default BookingPage
