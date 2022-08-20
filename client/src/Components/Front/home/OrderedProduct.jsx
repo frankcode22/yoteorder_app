@@ -260,6 +260,23 @@ function OrderedProduct() {
       console.log("THE CUSTOMER ID IS"+response.data.id)
 
 
+      if(response.data.error) {
+
+        setTimeout(() => {
+           
+            toast.error(response.data.error);
+            setLoading(false);
+        }, 500);
+
+        //alert();
+        //setLoading(false);
+      }
+
+      else{
+
+     
+
+
 
 
       const customer_details={
@@ -435,12 +452,230 @@ function OrderedProduct() {
   
       }, 500);
    
-     
+    }  
   });
   
   
   
   }
+
+
+
+  const bookAppointmentExisting = ()  => {
+    setLoading(true);
+    
+     //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
+    
+    
+      axios.post('http://localhost:3001/users',user_details).then((response)=>{
+    
+        console.log("THE CUSTOMER DATA IS"+response.data)
+    
+        setCustomerId(response.data.id)
+    
+    
+        console.log("THE CUSTOMER ID IS"+response.data.id)
+  
+  
+        if(response.data.error) {
+  
+          setTimeout(() => {
+             
+              toast.error(response.data.error);
+              setLoading(false);
+          }, 500);
+  
+          //alert();
+          //setLoading(false);
+        }
+  
+        else{
+  
+       
+  
+  
+  
+  
+        const customer_details={
+          name:name,
+         email:email,
+         phone_no:phone_no,
+         BusinessId:businessId,
+         UserId:response.data.id,
+         
+        }
+      
+  
+  
+  
+  
+        axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
+    
+        console.log("The response is"+res.data)
+    
+        setBookingId(res.data.id)
+  
+  
+  
+  //       const appointment={
+  //         title:name,
+  //         start:start,
+  //         end:end,
+  //         desc:desc,
+  //         UserId:1,
+  //         CustomerId:res.data.id,
+        
+  //       }
+  
+  
+        
+  //       axios.post('http://localhost:3001/booking',appointment).then((res_b)=>{
+    
+  //       console.log("The response is"+res_b.data)
+    
+  //       setBookingId(res_b.data.id)
+    
+        
+    
+    
+  //      // console.log("THE NEW CUSTOMER ID IS"+customerId)
+     
+       
+  //   })
+    
+      
+    
+       // console.log("THE NEW CUSTOMER ID IS"+customerId)
+     
+       
+    })
+  
+    const data = { username:email, password: phone_no };
+  
+    axios.post("http://localhost:3001/users/login", data).then((rense) => {
+      if (rense.data.error) {
+        alert(rense.data.error);
+        setLoading(false);
+      } else {
+        localStorage.setItem("accessToken", rense.data.token);
+        setAuthState({
+          username: rense.data.username,
+          role: rense.data.role,
+          first_name: rense.data.first_name,
+          phone_no: rense.data.phone_no,
+          id: rense.data.id,
+          status: true,
+        });
+  
+        console.log("Response is",rense.data)
+  
+        if(rense.data.role=="Customer"){
+  
+          setTimeout(() => {
+  
+  
+            
+  
+  
+              axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((res_auth) => {
+  
+                  setUserId(res_auth.data.id)
+  
+  
+  
+                  const order_details={
+                              item_name:item_name,
+                              quantity_ordered:quantity_ordered,
+                              customer_phone_no:rense.data.phone_no,
+                              order_description:order_description,
+                              orderId:randomNo,
+                              
+                              UserId:res_auth.data.id,
+                              BusinessId:businessId,
+                            
+                            }
+  
+  
+                            axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
+    
+       // console.log("The response is"+res_b.data)
+    
+        setorderId(res_b.data.id)
+    
+        
+    
+    
+       console.log("THE  ORDER ID IS "+res_b.data.id)
+  
+       console.log("THE  ORDER ID TWO IS "+randomNo)
+     
+          })
+    
+            
+            
+                 })
+  
+  
+  
+  
+  
+            setLoading(false);
+            history("/dashboard-customer");
+            window.location.reload(false);
+        }, 1000);
+  
+        }
+      else if(rense.data.role=="Vendor"){
+  
+        setTimeout(() => {
+          setLoading(false);
+          history('/dashboard-vendor');
+          window.location.reload(false);
+      }, 1000);
+  
+      }
+      else{
+        setTimeout(() => {
+          setLoading(false);
+          history("/dashboard");
+      }, 1000);
+  
+  
+      }
+      
+      }
+    });
+    
+    
+    
+     
+    
+    
+    
+        
+      
+    
+      
+        setTimeout(() => {
+         // createAppointment()
+    
+            setLoading(false);
+            toast.info('Appointment saved!');
+            setShowSuccessAlert(true)
+    
+            setShowCustomerDetailsForm(false)
+  
+            setShowAllServicesDiv(true)
+    
+        }, 500);
+     
+      }  
+    });
+    
+    
+    
+    }
+  
 
 
   const proceedToBooking=(pId,bId)=>{
