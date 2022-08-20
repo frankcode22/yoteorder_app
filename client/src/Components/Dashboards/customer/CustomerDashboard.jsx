@@ -226,7 +226,7 @@ function CustomerDashboard() {
 
                                                           
 
-                                                        <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
+                                                        
 
                                                         <span class="tag tag-radius tag-round tag-primary">Price {value.price}</span>
 
@@ -242,6 +242,32 @@ function CustomerDashboard() {
                                                             <strong>{value.order_description} </strong>
                                                         </div>
                                                     </div>
+
+
+                                                    <ul class="list-group border br-7 mt-5">
+                                                    
+                                            
+                                                    <li class="list-group-item border-0">
+                                                    <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
+                                                </li>
+                                            
+                                                    <li class="list-group-item border-0">
+                                                Sub Total
+                                                <span class="h6 fw-bold mb-0 float-end">$4,360</span>
+                                            </li>
+                                            <li class="list-group-item border-0">
+                                                Discount
+                                                <span class="h6 fw-bold mb-0 float-end">5%</span>
+                                            </li>
+                                            <li class="list-group-item border-0">
+                                                Shipping
+                                                <span class="h6 fw-bold mb-0 float-end">Free</span>
+                                            </li>
+                                            <li class="list-group-item border-0">
+                                                Total
+                                                <span class="h4 fw-bold mb-0 float-end">$3,976</span>
+                                            </li>
+                                        </ul>
                                                            
 
                                                             <p>

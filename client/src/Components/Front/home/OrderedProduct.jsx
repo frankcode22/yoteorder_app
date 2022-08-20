@@ -175,7 +175,7 @@ function OrderedProduct() {
                // setSeller_name(response.data.Users);
                 setIsDivLoading(false)   // Hide loading screen 
                // toast.info('Product saved successfully');
-            }, 500);
+            }, 4000);
 
             //setSeller_name(response.data.Users.first_name)
             
