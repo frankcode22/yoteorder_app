@@ -16,6 +16,9 @@ import SidebarS from './SidebarS'
 import TopbarS from './TopbarS'
 
 
+import { SingleUploader, MultiUploader, Dropzone } from './Uploaders/Uploaders';
+
+
 
 
 function ProductSetting() {
@@ -88,6 +91,12 @@ function ProductSetting() {
 
 
 
+  let product_image=localStorage.getItem('product_photo')
+  product_image=JSON.parse(product_image)
+
+
+
+
   useEffect(()=>{
 
    
@@ -95,8 +104,8 @@ function ProductSetting() {
 
 
 
-     //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
   
@@ -104,7 +113,7 @@ function ProductSetting() {
        })
 
 
-       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
     
@@ -151,6 +160,7 @@ function ProductSetting() {
     unit_of_measure:unit_of_measure,
     latitude:lat,
     longitude:lng,
+    product_image:product_image,
     UserId:userId,
     BusinessId:businessId,
       
@@ -163,10 +173,18 @@ function ProductSetting() {
 
  //axios.post("https://kilimomazaoapi-dmi-cyber.herokuapp.com/product",data).then((response)=>{
     
-  axios.post("http://localhost:3001/product",data).then((response)=>{
+  axios.post("https://yoteorder-server.herokuapp.com/product",data).then((response)=>{
      
 
     console.log("The response is"+response.data)
+
+
+
+    console.log("THE IMAGE NAME IS "+product_image)
+
+
+
+    
 
        
         setTimeout(() => {
@@ -232,15 +250,20 @@ function ProductSetting() {
                         <a class="modal-effect btn btn-info-light d-grid mb-3" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo8">Flip Horizontal</a>
 
 
-                        <button class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+                      
                     </div>
                             <a href="email-inbox.html" class="btn btn-primary btn-lg d-grid">Inbox</a>
                         </div>
+                        
                         <a href="email-inbox.html" class="list-group-item d-flex align-items-center active mx-4">
                             <span class="icons"><i class="ri-mail-line"></i></span> Inbox <span class="ms-auto badge bg-secondary bradius">14</span>
                         </a>
                         <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
                             <span class="icons"><i class="ri-mail-open-line"></i></span> Drafts
+                        </a>
+                        <a class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <span class="icons"><i class="ri-star-line"></i></span> Products <span class="ms-auto badge bg-success bradius">03</span>
+                        
                         </a>
                         <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
                             <span class="icons"><i class="ri-star-line"></i></span> Starred <span class="ms-auto badge bg-success bradius">03</span>
@@ -434,7 +457,20 @@ function ProductSetting() {
         }}
         
         data-allow-clear="true">
-          <option value="">Select Type</option>
+          <option value="">Select Category</option>
+          <option value="Eateries">Eateries</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Automotive">Automotive</option>
+
+          <option value="Drinks">Drinks</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Computing">Computing</option>
+
+
+          <option value="Domestic">Domestic Use</option>
+          <option value="Home-Based">Home-Based</option>
+          <option value="Beauty">Beauty</option>
+
           <option value="Agricultural">Agricultural</option>
           <option value="Livestock">Livestock</option>
           <option value="Aquatic">Aquatic</option>
@@ -456,6 +492,15 @@ function ProductSetting() {
                }} id="address" rows="2" placeholder="Your Product desciption"></textarea>
                 
                 </div>
+
+
+                <div className="col-12">
+                <SingleUploader
+                  uploadUrl="images/single-upload"
+                  label="Single File Upload"
+                  id="single-uploder"
+                />
+              </div>
 
 
 

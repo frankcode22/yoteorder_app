@@ -23,25 +23,36 @@ function CustomerDashboard() {
   
     const [ordersList, setOrdersList] = useState([]);
 
+    const [item_name, setitem_name] = useState('');
+
+    const [orderId, setorderId] = useState('');
+
+
+    const [quantity_ordered, setquantity_ordered] = useState('');
+
+  
+
+    const [order_description, setorder_description] = useState('');
+
 
     useEffect(()=>{
 
        
-         //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             setUserId(response.data.id)
       
       
            })
     
-        //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-        //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
+        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
 
 
-          axios.get("http://localhost:3001/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+          axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
             setOrdersList(response.data);
             })
     
@@ -52,6 +63,28 @@ function CustomerDashboard() {
     
     
     },[]);
+
+    const openSelectedOrder=(oId)=>{
+
+   //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+    axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+
+        console.log("THE PRODUCT NAME IS "+response.data.name)
+
+        setorderId(response.data.orderId)
+
+        setitem_name(response.data.item_name)
+
+        setquantity_ordered(response.data.quantity_ordered)
+
+        setorder_description(response.data.order_description)
+            
+
+            })
+
+
+
+    }
   return (
     <div>
 
@@ -232,7 +265,9 @@ function CustomerDashboard() {
 
                                                         <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
                                     
-                                                      
+                                                        
+                                                        <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
+                                                  
 
                                                     <div class="d-flex align-items-center mb-3 mt-3">
                                                         <div class="me-4 text-center text-primary">
@@ -247,13 +282,11 @@ function CustomerDashboard() {
                                                     <ul class="list-group border br-7 mt-5">
                                                     
                                             
-                                                    <li class="list-group-item border-0">
-                                                    <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
-                                                </li>
+                                                   
                                             
                                                     <li class="list-group-item border-0">
                                                 Sub Total
-                                                <span class="h6 fw-bold mb-0 float-end">$4,360</span>
+                                                <span class="h6 fw-bold mb-0 float-end">Ksh. 360</span>
                                             </li>
                                             <li class="list-group-item border-0">
                                                 Discount
@@ -265,19 +298,25 @@ function CustomerDashboard() {
                                             </li>
                                             <li class="list-group-item border-0">
                                                 Total
-                                                <span class="h4 fw-bold mb-0 float-end">$3,976</span>
+                                                <span class="h4 fw-bold mb-0 float-end">Ksh.370</span>
                                             </li>
                                         </ul>
                                                            
 
                                                             <p>
                                                             <a href="javascript:void(0)" class="btn btn-primary" role="button">Cancel</a>
-                                                            <button  type="submit" class="btn btn-secondary" 
+                                                            <button  type="submit" class="btn btn-secondary"
                                                             
-                                                           onClick={() => {
-                                                         
-                                                              }}
-                                                            >Edit</button>
+                                                            
+                                                            onClick={() => {
+                                                                openSelectedOrder(value.id);
+                                                                  }}
+                                                            
+                                                        
+                                                                  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">Edit</button>
+
+
+                                                          
                                                         </p>
                                                         </div>
                                                     </div>
@@ -304,6 +343,100 @@ function CustomerDashboard() {
                                 </div>
                             </div>
                         </div>
+
+
+
+
+                        
+            <div class="modal fade" id="modaldemo8">
+            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                <div class="modal-content modal-content-demo">
+                    <div class="modal-header">
+                        <h6 class="modal-title">Message Preview</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                    <h6>{orderId}</h6>
+                   
+                    <div class="form-row">
+
+
+
+                    <div class="form-group col-md-12 mb-0">
+                    <label class="form-label">Order ID</label>
+                       
+            
+                    <input type="text" class="form-control" id="order_id"
+                    
+                    onChange={(event) => {
+                        setorderId(event.target.value);
+                      }} 
+                    
+                    value={orderId}/>
+                    </div>
+
+
+
+                    <div class="form-group col-md-6 mb-0">
+            
+                   {/* <p>Product Id {productId} Seller Id {businessId}  </p>*/} 
+                        <div class="form-group">
+                        <label class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="item_name" value={item_name}
+                            
+                            onChange={(event) => {
+                                setitem_name(event.target.value);
+                              }} 
+                            
+                            placeholder="Item name"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 mb-0">
+                        <div class="form-group">
+                        <label class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="name2" value={quantity_ordered}
+                            
+                            onChange={(event) => {
+                                setquantity_ordered(event.target.value);
+                              }} 
+                            
+                            placeholder="Quantity"/>
+                        </div>
+                    </div>
+            
+                    
+                   
+                    <div class="form-group col-md-12 mb-0">
+                    <label class="form-label">Additional Infor</label>
+                       
+            
+                        <textarea class="form-control" value={order_description}  onChange={(event) => {
+                            setorder_description(event.target.value);
+                          }}  placeholder="Comments" id="floatingTextarea2" style={{height: '100px'}}></textarea>
+                    </div>
+                   
+                </div>
+            
+                <div class="form-footer mt-2">
+               
+            </div>
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button  onClick={() => {
+                   
+                        }} class="btn btn-primary">Save changes</button>
+                        
+                        
+                        <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
                       
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
                             <div class="card overflow-hidden">

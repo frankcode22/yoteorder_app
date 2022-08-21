@@ -1,10 +1,111 @@
 import React from 'react'
 
+import {useEffect,useState,useContext} from 'react';
+
+import {useParams} from "react-router-dom"
+
+
+import axios from 'axios';
+
+
+import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
+import { useNavigate,Link} from "react-router-dom";
+
 import { Helmet } from "react-helmet";
 import SidebarS from './SidebarS';
 import TopbarS from './TopbarS';
 
 function Dashboard() {
+
+    const [userId, setUserId] = useState('');
+  
+    const [ordersList, setOrdersList] = useState([]);
+
+    const [businessId, setbusinessId] = useState('');
+
+    const [business_name, setbusiness_name] = useState("");
+    const [business_type, setbusiness_type] = useState("");
+    
+    const [servicesList, setServicesList] = useState([]);
+
+    const [staffList, setStaffList] = useState([]);
+
+    const [bussSetup,setBussSetup]=useState(false);
+
+
+
+    useEffect(()=>{
+
+       
+         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+            setUserId(response.data.id)
+      
+      
+           })
+    
+        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+        //   setOrdersList(response.data);
+        //   })
+
+
+        //   axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        //     setOrdersList(response.data);
+        //     })
+
+
+
+            // axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+            //     setOrdersList(response.data);
+            //     })
+
+
+
+
+                axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+        if(response.data!=null){
+    
+          setbusinessId(response.data.id);
+
+          setServicesList(response.data.Services);
+
+          setStaffList(response.data.Staffs);
+
+          setbusiness_name(response.data.business_name);
+
+          setBussSetup(true);
+
+          setOrdersList(response.data.Orders)
+      
+        
+      
+        }
+        else{
+      
+      
+          setbusinessId(0)
+          setBussSetup(false);
+          setbusiness_name('nobuzz')
+          setOrdersList([])
+        }
+    
+        
+         })
+        
+    
+    
+    
+         
+    
+    
+    
+    },[]);
   return (
     <div>
 
@@ -162,15 +263,99 @@ function Dashboard() {
                                     <h3 class="card-title">Sales Analytics</h3>
                                 </div>
                                 <div class="card-body">
-                                    <div class="d-flex mx-auto text-center justify-content-center mb-4">
-                                        <div class="d-flex text-center justify-content-center me-3"><span
-                                                class="dot-label bg-primary my-auto"></span>Total Sales</div>
-                                        <div class="d-flex text-center justify-content-center"><span
-                                                class="dot-label bg-secondary my-auto"></span>Total Orders</div>
-                                    </div>
-                                    <div class="chartjs-wrapper-demo">
-                                        <canvas id="transactions" class="chart-dropshadow"></canvas>
-                                    </div>
+
+                                <div class="row">
+
+                                {ordersList.map((value, key) => {
+                                    return (
+
+
+
+                                    <div class="col-md-12 col-lg-6 col-xl-3">
+                                                    <div class="thumbnail">
+                                                        <a href="javascript:void(0)">
+                                                            <img src="../assets/images/media/22.jpg" alt="thumb1" class="thumbimg"/>
+                                                        </a>
+                                                        <div class="caption">
+                                                            <h4><strong>{value.item_name}</strong></h4>
+
+                                                          
+
+                                                        
+
+                                                        <span class="tag tag-radius tag-round tag-primary">Price {value.price}</span>
+
+
+                                                        
+
+                                                        <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
+
+
+                                                      
+                                                    <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
+                                             
+                                    
+                                                      
+
+                                                    <div class="d-flex align-items-center mb-3 mt-3">
+                                                        <div class="me-4 text-center text-primary">
+                                                            <span><i class="fe fe-briefcase fs-20"></i></span>
+                                                        </div>
+                                                        <div>
+                                                            <strong>{value.order_description} </strong>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <ul class="list-group border br-7 mt-5">
+                                                    
+                                            
+                                                    
+                                            
+                                                    <li class="list-group-item border-0">
+                                                Sub Total
+                                                <span class="h6 fw-bold mb-0 float-end">$4,360</span>
+                                            </li>
+                                            <li class="list-group-item border-0">
+                                                Discount
+                                                <span class="h6 fw-bold mb-0 float-end">5%</span>
+                                            </li>
+                                            <li class="list-group-item border-0">
+                                                Shipping
+                                                <span class="h6 fw-bold mb-0 float-end">Free</span>
+                                            </li>
+                                            <li class="list-group-item border-0">
+                                                Total
+                                                <span class="h4 fw-bold mb-0 float-end">$3,976</span>
+                                            </li>
+                                        </ul>
+                                                           
+
+                                                            <p>
+                                                            <a href="javascript:void(0)" class="btn btn-primary" role="button">Cancel</a>
+                                                            <button  type="submit" class="btn btn-secondary" 
+                                                            
+                                                           onClick={() => {
+                                                         
+                                                              }}
+                                                            >Edit</button>
+                                                        </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                    )
+
+                                    }   
+                                 ) }
+
+                                
+                                   
+
+                                </div>
+
+
+                                
                                 </div>
                             </div>
                         </div>
@@ -581,6 +766,10 @@ function Dashboard() {
                                                                             <th
                                                                                 class="bg-transparent border-bottom-0">
                                                                                 Product</th>
+
+                                                                                <th
+                                                                                class="bg-transparent border-bottom-0">
+                                                                                Quantity</th>
                                                                             <th
                                                                                 class="bg-transparent border-bottom-0">
                                                                                 Customer</th>
@@ -600,12 +789,14 @@ function Dashboard() {
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
+                                                                    {ordersList.map((value, key) => {
+                                                                        return (
                                                                         <tr class="border-bottom">
                                                                             <td class="text-center">
                                                                                 <div class="mt-0 mt-sm-2 d-block">
                                                                                     <h6
                                                                                         class="mb-0 fs-14 fw-semibold">
-                                                                                        #98765490</h6>
+                                                                                        #{value.orderId}</h6>
                                                                                 </div>
                                                                             </td>
                                                                             <td>
@@ -616,24 +807,27 @@ function Dashboard() {
                                                                                         class="ms-3 mt-0 mt-sm-2 d-block">
                                                                                         <h6
                                                                                             class="mb-0 fs-14 fw-semibold">
-                                                                                            Headsets</h6>
+                                                                                            {value.item_name}</h6>
                                                                                     </div>
                                                                                 </div>
                                                                             </td>
+
+                                                                            <td><span class="mt-sm-2 d-block">{value.quantity_ordered}
+                                                                            </span></td>
                                                                             <td>
                                                                                 <div class="d-flex">
                                                                                     <div
                                                                                         class="mt-0 mt-sm-3 d-block">
                                                                                         <h6
                                                                                             class="mb-0 fs-14 fw-semibold">
-                                                                                            Cherry Blossom</h6>
+                                                                                            {value.UserId}</h6>
                                                                                     </div>
                                                                                 </div>
                                                                             </td>
-                                                                            <td><span class="mt-sm-2 d-block">30 Aug
-                                                                                    2021</span></td>
+                                                                            <td><span class="mt-sm-2 d-block">{value.createdAt}
+                                                                                    </span></td>
                                                                             <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$6.721.5</span>
+                                                                                    class="fw-semibold mt-sm-2 d-block">Ksh.660</span>
                                                                             </td>
                                                                             <td>
                                                                                 <div class="d-flex">
@@ -664,1482 +858,10 @@ function Dashboard() {
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #76348798</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(../assets/images/orders/12.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Flower Pot</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Simon Sais</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">15 Nov
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$35,7863</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-danger-transparent rounded-pill text-danger p-2 px-3">Cancelled</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #23986456</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/4.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Pen Drive</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Manny Jah</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">27 Jan
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$5,89,6437</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #87456325</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/8.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            New Bowl</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Florinda Carasco</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">19 Sep
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$17.98</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #65783926</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/6.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Leather Watch</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Ivan Notheridiya</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">06 Oct
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$8.654.4</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-danger-transparent rounded-pill text-danger p-2 px-3">Cancelled</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #34654895</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/1.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Digital Camera</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Willie Findit</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">10 Jul
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$8.654.4</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #98765345</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/11.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Earphones</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Addie Minstra</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">25 Jun
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$7,34,9768</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #67546577</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/2.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Shoes</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Laura Biding</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">22 Feb
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$7.76.654</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                        <div class="tab-pane" id="tab6">
-                                                            <div class="table-responsive">
-                                                                <table
-                                                                    class="table table-bordered text-nowrap mb-0">
-                                                                    <thead class="border-top">
-                                                                        <tr>
-                                                                            <th class="bg-transparent border-bottom-0"
-                                                                                style={{width:'5%'}}>Tracking Id</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Product</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Customer</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Date</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Amount</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Payment Mode</th>
-                                                                            <th class="bg-transparent border-bottom-0"
-                                                                                style={{width: '10%'}}>Status</th>
-                                                                            <th class="bg-transparent border-bottom-0"
-                                                                                style={{width:'5%'}}>Action</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #98765490</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/10.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Headsets</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cherry Blossom</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">30 Aug
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$6.721.5</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #76348798</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/12.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Flower Pot</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Simon Sais</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">15 Nov
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$35,7863</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #23986456</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/4.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Pen Drive</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Manny Jah</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">27 Jan
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$5,89,6437</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #87456325</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/8.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            New Bowl</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Florinda Carasco</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">19 Sep
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$17.98</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #65783926</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/6.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Leather Watch</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Ivan Notheridiya</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">06 Oct
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$8.654.4</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #34654895</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/1.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Digital Camera</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Willie Findit</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">10 Jul
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$8.654.4</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #98765345</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/11.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Earphones</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Addie Minstra</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">25 Jun
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$7,34,9768</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #67546577</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/2.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Shoes</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Laura Biding</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">22 Feb
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$7.76.654</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                        <div class="tab-pane" id="tab7">
-                                                            <div class="table-responsive">
-                                                                <table
-                                                                    class="table table-bordered text-nowrap mb-0">
-                                                                    <thead class="border-top">
-                                                                        <tr>
-                                                                            <th class="bg-transparent border-bottom-0"
-                                                                                style={{width:'5%'}}>Tracking Id</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Product</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Customer</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Date</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Amount</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Payment Mode</th>
-                                                                            <th class="bg-transparent border-bottom-0"
-                                                                                style={{width: '10%'}}>Status</th>
-                                                                            <th class="bg-transparent border-bottom-0"
-                                                                                style={{width:'5%'}}>Action</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #98765490</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/10.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Headsets</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cherry Blossom</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">30 Aug
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$6.721.5</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #23986456</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/4.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Pen Drive</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Manny Jah</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">27 Jan
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$5,89,6437</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #87456325</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/8.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            New Bowl</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Florinda Carasco</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">19 Sep
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$17.98</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #65783926</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/6.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Leather Watch</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Ivan Notheridiya</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">06 Oct
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$8.654.4</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #34654895</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/1.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Digital Camera</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Willie Findit</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">10 Jul
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$8.654.4</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #98765345</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/11.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Earphones</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Addie Minstra</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">25 Jun
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$7,34,9768</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Online Payment</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-bottom">
-                                                                            <td class="text-center">
-                                                                                <div class="mt-0 mt-sm-2 d-block">
-                                                                                    <h6
-                                                                                        class="mb-0 fs-14 fw-semibold">
-                                                                                        #67546577</h6>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <span class="avatar bradius"
-                                                                                        style={{backgroundImage: 'url(assets/images/orders/2.jpg)'}}></span>
-                                                                                    <div
-                                                                                        class="ms-3 mt-0 mt-sm-2 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Shoes</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Laura Biding</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td><span class="mt-sm-2 d-block">22 Feb
-                                                                                    2021</span></td>
-                                                                            <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">$7.76.654</span>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="d-flex">
-                                                                                    <div
-                                                                                        class="mt-0 mt-sm-3 d-block">
-                                                                                        <h6
-                                                                                            class="mb-0 fs-14 fw-semibold">
-                                                                                            Cash on Delivery</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Pending</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
-                                                                                    <a class="btn text-primary btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
-                                                                                    <a class="btn text-danger btn-sm"
-                                                                                        data-bs-toggle="tooltip"
-                                                                                        data-bs-original-title="Delete"><span
-                                                                                            class="fe fe-trash-2 fs-14"></span></a>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
+                                                                        )
+
+                                                                        })}
+                                                                       
                                                                     </tbody>
                                                                 </table>
                                                             </div>

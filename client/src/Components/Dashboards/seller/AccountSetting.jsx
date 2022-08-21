@@ -135,8 +135,8 @@ function AccountSetting() {
 
 
 
-     //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
   
@@ -144,7 +144,7 @@ function AccountSetting() {
        })
 
 
-       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
     
@@ -174,8 +174,8 @@ function AccountSetting() {
     
     
     
-           //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-          axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+           //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+          axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
           setCustomersList(response.data);
           })
     
@@ -213,9 +213,9 @@ const buss_data={
     const saveBusinessInfor = ()  => {
         setLoading(true);
     
-         //axios.post("http://localhost:3001/business",buss_data).then((response)=>{
+         //axios.post("https://yoteorder-server.herokuapp.com/business",buss_data).then((response)=>{
         
-        axios.post("http://localhost:3001/business/bussinfor",buss_data).then((response)=>{
+        axios.post("https://yoteorder-server.herokuapp.com/business/bussinfor",buss_data).then((response)=>{
     
         console.log("The response is"+response.data)
 
@@ -267,7 +267,7 @@ const buss_data={
 
  //axios.post("https://kilimomazaoapi-dmi-cyber.herokuapp.com/product",data).then((response)=>{
     
-  axios.post("http://localhost:3001/product",data).then((response)=>{
+  axios.post("https://yoteorder-server.herokuapp.com/product",data).then((response)=>{
      
 
     console.log("The response is"+response.data)
@@ -312,11 +312,11 @@ const service_data={
     }
     else{
 
-    // axios.post("http://localhost:3001/service",service_data).then((response)=>{
+    // axios.post("https://yoteorder-server.herokuapp.com/service",service_data).then((response)=>{
 
      
     
-    axios.post("http://localhost:3001/service",service_data).then((response)=>{
+    axios.post("https://yoteorder-server.herokuapp.com/service",service_data).then((response)=>{
 
       console.log("The response is"+response.data)
 
