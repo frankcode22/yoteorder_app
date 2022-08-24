@@ -7,11 +7,13 @@ import HowToGetStarted from './HowToGetStarted'
 
 function Homepage() {
 
-    const [item, setItem] = useState("");
+    const [pname, setpname] = useState("");
 
     const history = useNavigate();
 
     const isAuthenticated = localStorage.getItem("isAuthenticated")
+
+    const [isLoading,setLoading]=useState(false);
 
 
     console.log("THE AUTHENTICATION STATUS",isAuthenticated)
@@ -19,22 +21,37 @@ function Homepage() {
 
 
 
-    const searchItem = () => {
-       // setLoading(true);
+    // const searchItem = () => {
+    //    // setLoading(true);
        
         
-        setTimeout(() => {
-        //   setLoading(false);
-          //setAddress(string_lng)
-         // history.push('/search-location-avon-park-florida');
-         history('/ordered-product');
-        }, 500);
+    //     setTimeout(() => {
+    //     setLoading(false);
+    //       //setAddress(string_lng)
+    //      // history.push('/search-location-avon-park-florida');
+    //      history('/ordered-product/'+pname);
+    //     }, 2000);
         
-          };
+    //       };
+
+
+         const searchItem = () => {
+    setLoading(true);
+   
+    
+    setTimeout(() => {
+      setLoading(false);
+      //setAddress(string_lng)
+     // history.push('/search-location-avon-park-florida');
+     history('/ordered-product/'+pname);
+    }, 3000);
+    
+      };
 
 
 
-          localStorage.setItem('ordered_item', JSON.stringify(item));
+
+          localStorage.setItem('ordered_item', JSON.stringify(pname));
   return (
     <div className='app ltr landing-page horizontal'>
 
@@ -129,8 +146,8 @@ function Homepage() {
             href="javascript:void(0)"></a>
        
         <a class="logo-horizontal " href="index.html">
-            <img src="assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo"/>
-            <img src="assets/images/brand/logo-3.png" class="header-brand-img light-logo1"
+            <img src="/assets/images/brand/logo_m.png" class="header-brand-img desktop-logo" alt="logo"/>
+            <img src="/assets/images/brand/logo_m.png" class="header-brand-img light-logo1"
                 alt="logo"/>
         </a>
         
@@ -173,8 +190,8 @@ function Homepage() {
             <div class="row">
                 <div class="main-sidemenu navbar px-0">
                     <a class="navbar-brand ps-0 d-none d-lg-block" href="/">
-                        <img alt="" class="logo-2" src="assets/images/brand/logo-3.png"/>
-                        <img src="assets/images/brand/logo.png" class="logo-3" alt="logo"/>
+                    <img alt="" class="logo-2" src="/assets/images/brand/logo_blue.png"/>
+                    <img src="/assets/images/brand/logo_blue.png" class="logo-3" alt="logo"/>
                     </a>
                     <ul class="side-menu">
                         <li class="slide">
@@ -223,15 +240,20 @@ function Homepage() {
 </div>
 {/* <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal" id="home">*/}
 <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden" id="home" style={{ width: '100%',
-    height: '90vh',
+    height: 'auto',
     background: 'url("assets/images/hero-bg.jpg") top center',
-    backgroundSize: 'cover',
-    marginBottom: '-200px'}}>
+    backgroundSize: 'cover'
+   }}>
     <div class="container px-sm-0">
         <div class="row">
 
 
-        <div class="container">
+        <div class="container" style={{ 
+        height: 'auto',
+        paddingTop:'30px',
+        minHeight:'400px'
+      
+       }}>
         <div class="row mb-5 justify-content-center text-center">
             <div class="col">
                 <h1 class="font-weight-bold mb-0">Get and Order anything?</h1>
@@ -258,8 +280,8 @@ function Homepage() {
        
         <div class="col-xl-4">
             <div class="form-group">
-                <input class="form-control" nChange={(event) => {
-                    setItem(event.target.value);
+                <input class="form-control" onChange={(event) => {
+                    setpname(event.target.value);
                   }} placeholder="Search here..." type="text"/>
             </div>
         </div>
@@ -278,7 +300,20 @@ function Homepage() {
 
         <div class="col-xl-2 px-3 px-xl-0">
         <div class="">
-            <button type="button"  onClick={searchItem} class="btn btn-secondary mb-3 btn-block"><i class="fe fe-search"></i>Search</button>
+
+
+        {!isLoading && <button type="submit" onClick={searchItem} class="btn btn-secondary mb-3 btn-block" value="Search"><i class="fe fe-search"></i>Search</button>
+
+    }
+    {isLoading &&
+        <button class="btn btn-primary my-1" type="button" disabled="">
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        Searching...
+    </button>}
+
+
+
+       
         </div>
     </div>
     </div>

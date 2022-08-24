@@ -1,6 +1,12 @@
 import React from 'react'
 
+import {useEffect,useState,useContext } from 'react';
+import { AuthContext } from '../../../helpers/AuthContext'
+
 function TopbarS() {
+
+    const {authState} = useContext(AuthContext);
+
   return (
     <div>
     <div class="app-header header sticky">
@@ -361,12 +367,12 @@ function TopbarS() {
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                 <div class="drop-heading">
                                     <div class="text-center">
-                                        <h5 class="text-dark mb-0 fs-14 fw-semibold">Percy Kewshun</h5>
-                                        <small class="text-muted">Senior Admin</small>
+                                        <h5 class="text-dark mb-0 fs-14 fw-semibold">{authState.first_name}</h5>
+                                        <small class="text-muted">{authState.role}</small>
                                     </div>
                                 </div>
                                 <div class="dropdown-divider m-0"></div>
-                                <a class="dropdown-item" href="profile.html">
+                                <a class="dropdown-item" href="/profile-vendor">
                                     <i class="dropdown-icon fe fe-user"></i> Profile
                                 </a>
                                 <a class="dropdown-item" href="email-inbox.html">

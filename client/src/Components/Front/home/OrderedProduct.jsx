@@ -20,6 +20,7 @@ import { AuthContext } from "../../../helpers/AuthContext";
 
 
 import LoadingSpinner from '../../../utils/LoadingSpinner'
+import { Helmet } from 'react-helmet';
 
 
 function randomNumberInRange(min, max) {
@@ -30,7 +31,7 @@ function randomNumberInRange(min, max) {
 
 function OrderedProduct() {
 
-    let { item } = useParams();
+    let { pname } = useParams();
 
     const [loginData, setLoginData] = useState(
         localStorage.getItem('loginData')
@@ -116,7 +117,7 @@ function OrderedProduct() {
 
       
 
-      const [quantity_ordered, setquantity_ordered] = useState('');
+      const [quantity_ordered, setquantity_ordered] = useState(1);
 
       const [item_name, setitem_name] = useState('');
 
@@ -138,9 +139,7 @@ function OrderedProduct() {
   
   
   
-      localStorage.setItem('itemsearched', JSON.stringify(item));
-
-
+      localStorage.setItem('itemsearched', JSON.stringify(pname));
 
 
 
@@ -155,14 +154,33 @@ function OrderedProduct() {
       ordered_item=JSON.parse(ordered_item)
 
 
+      
+
+
+
+
+
+
+    
+
+
 
       useEffect(()=>{
 
         setIsDivLoading(true);
+
+
+        console.log("YOUR ITEM IS"+ordered_item)
+
+     
+
+
+     
+
   
     //   axios.get("https://tunepbackend.herokuapp.com/customer/mycustomers").then((response) => {
 
-   axios.get("https://yoteorder-server.herokuapp.com/product/getproducts").then((response) => {
+   axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
    //axios.get("https://yoteorder-server.herokuapp.com/product/search/"+item+"/"+string_lng).then((response) => {
            // axios.get(`https://ngeritbackend.herokuapp.com/product/search/${item}`).then((response) => {
 
@@ -234,8 +252,8 @@ function OrderedProduct() {
    account_type:"",
   
     state:"",
-        city:null,
-        role:'Customer',
+    city:null,
+    role:'Customer',
   }
   
   
@@ -244,7 +262,7 @@ function OrderedProduct() {
   
   
   
-  const bookAppointment = ()  => {
+  const makeOrder = ()  => {
   setLoading(true);
   
    //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
@@ -257,7 +275,7 @@ function OrderedProduct() {
       setCustomerId(response.data.id)
   
   
-      console.log("THE CUSTOMER ID IS"+response.data.id)
+     
 
 
       if(response.data.error) {
@@ -279,59 +297,7 @@ function OrderedProduct() {
 
 
 
-      const customer_details={
-        name:name,
-       email:email,
-       phone_no:phone_no,
-       BusinessId:businessId,
-       UserId:response.data.id,
-       
-      }
     
-
-
-
-
-      axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
-  
-      console.log("The response is"+res.data)
-  
-      setBookingId(res.data.id)
-
-
-
-//       const appointment={
-//         title:name,
-//         start:start,
-//         end:end,
-//         desc:desc,
-//         UserId:1,
-//         CustomerId:res.data.id,
-      
-//       }
-
-
-      
-//       axios.post('https://yoteorder-server.herokuapp.com/booking',appointment).then((res_b)=>{
-  
-//       console.log("The response is"+res_b.data)
-  
-//       setBookingId(res_b.data.id)
-  
-      
-  
-  
-//      // console.log("THE NEW CUSTOMER ID IS"+customerId)
-   
-     
-//   })
-  
-    
-  
-     // console.log("THE NEW CUSTOMER ID IS"+customerId)
-   
-     
-  })
 
   const data = { username:email, password: phone_no };
 
@@ -352,66 +318,130 @@ function OrderedProduct() {
 
       console.log("Response is",rense.data)
 
+      console.log("THE RETURNED USER ID IS ",rense.data.id)
+
+
+      const customer_details={
+        name:name,
+       email:email,
+       phone_no:phone_no,
+       BusinessId:businessId,
+       UserId:rense.data.id,
+       
+      }
+
+    axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+    
+        console.log("THE CUSTOMER DATA IS->"+res.data)
+    
+        setBookingId(res.data.id)
+    })
+
+
+
+    const order_details={
+        item_name:item_name,
+        quantity_ordered:quantity_ordered,
+        customer_phone_no:rense.data.phone_no,
+        order_description:order_description,
+        orderId:randomNo,
+        UserId:rense.data.id,
+        BusinessId:businessId,
+      }
+axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+
+// console.log("The response is"+res_b.data)
+
+setorderId(res_b.data.id)
+
+
+
+console.log("THE  ORDER ID IS "+res_b.data.id)
+
+console.log("THE  ORDER ID TWO IS "+randomNo)
+
+})
+
+
+
       if(rense.data.role=="Customer"){
 
-        setTimeout(() => {
+
+        axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") }}).then((res_auth) => {
+
+        setUserId(res_auth.data.id)
 
 
-          
-
-
-            axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((res_auth) => {
-
-                setUserId(res_auth.data.id)
-
-
-                console.log("THE  USER ID IS "+res_auth.data.id)
+    console.log("THE  USER ID IS "+res_auth.data.id)
 
 
 
+    // const customer_details={
+    //     name:name,
+    //    email:email,
+    //    phone_no:phone_no,
+    //    BusinessId:businessId,
+    //    UserId:res_auth.data.id,
+       
+    //   }
 
-                const order_details={
-                            item_name:item_name,
-                            quantity_ordered:quantity_ordered,
-                            customer_phone_no:rense.data.phone_no,
-                            order_description:order_description,
-                            orderId:randomNo,
-                            
-                            UserId:res_auth.data.id,
-                            BusinessId:businessId,
-                          
-                          }
+    // axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+    
+    //     console.log("The response is"+res.data)
+    
+    //     setBookingId(res.data.id)
+    // })
 
 
-                axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+
+
+//             const order_details={
+//                         item_name:item_name,
+//                         quantity_ordered:quantity_ordered,
+//                         customer_phone_no:rense.data.phone_no,
+//                         order_description:order_description,
+//                         orderId:randomNo,
+//                         UserId:res_auth.data.id,
+//                         BusinessId:businessId,
+//                       }
+//             axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+
+//  // console.log("The response is"+res_b.data)
+
+//   setorderId(res_b.data.id)
+
   
-     // console.log("The response is"+res_b.data)
-  
-      setorderId(res_b.data.id)
-  
+
+//  console.log("THE  ORDER ID IS "+res_b.data.id)
+
+//  console.log("THE  ORDER ID TWO IS "+randomNo)
+
+//     })
+
       
-  
-  
-     console.log("THE  ORDER ID IS "+res_b.data.id)
+      
+           })
 
-     console.log("THE  ORDER ID TWO IS "+randomNo)
-   
-        })
-  
-          
-          
-               })
-
-
-
-
-
+        setTimeout(() => {
           setLoading(false);
+
+
+          
+          //setLoading(false);
+          toast.info('Appointment saved!');
+          setShowSuccessAlert(true)
+  
+          setShowCustomerDetailsForm(false)
+
+          setShowAllServicesDiv(true)
+
+
           history("/dashboard-customer");
           window.location.reload(false);
-      }, 2000);
+      }, 5000);
 
       }
+
     else if(rense.data.role=="Vendor"){
 
       setTimeout(() => {
@@ -438,23 +468,6 @@ function OrderedProduct() {
    
   
   
-  
-      
-    
-  
-    
-      setTimeout(() => {
-       // createAppointment()
-  
-          setLoading(false);
-          toast.info('Appointment saved!');
-          setShowSuccessAlert(true)
-  
-          setShowCustomerDetailsForm(false)
-
-          setShowAllServicesDiv(true)
-  
-      }, 500);
    
     }  
   });
@@ -493,8 +506,7 @@ function OrderedProduct() {
           //setLoading(false);
         }
   
-        else{
-  
+     
        
   
   
@@ -505,7 +517,7 @@ function OrderedProduct() {
          email:email,
          phone_no:phone_no,
          BusinessId:businessId,
-         UserId:response.data.id,
+         UserId:27,
          
         }
       
@@ -575,7 +587,7 @@ function OrderedProduct() {
   
         if(rense.data.role=="Customer"){
   
-          setTimeout(() => {
+     
   
   
             
@@ -621,13 +633,6 @@ function OrderedProduct() {
   
   
   
-  
-  
-            setLoading(false);
-            history("/dashboard-customer");
-            window.location.reload(false);
-        }, 1000);
-  
         }
       else if(rense.data.role=="Vendor"){
   
@@ -654,8 +659,6 @@ function OrderedProduct() {
     
      
     
-    
-    
         
       
     
@@ -664,16 +667,21 @@ function OrderedProduct() {
          // createAppointment()
     
             setLoading(false);
+
             toast.info('Appointment saved!');
             setShowSuccessAlert(true)
     
             setShowCustomerDetailsForm(false)
   
             setShowAllServicesDiv(true)
+
+            // setLoading(false);
+            history("/dashboard-customer");
+            window.location.reload(false);
     
-        }, 500);
+        }, 1000);
      
-      }  
+      
     });
     
     
@@ -739,36 +747,61 @@ function OrderedProduct() {
 
         {productsList.map((value, key) => {
             return (
-      
-        <div class="col-md-12 col-xl-4">
-            <div class="thumbnail">
-                <a href="javascript:void(0)">
-                    <img src="assets/images/media/20.jpg" alt="thumb1" class="thumbimg"/>
-                </a>
-                <div class="caption">
-                    <h4><strong>{value.name}</strong></h4>
-                    <span class="tag tag-radius tag-round tag-primary">Price {value.price}</span>
 
-                    <span class="tag tag-radius tag-round tag-orange">Quantity Available {value.quantity}</span>
 
-                    <span class="tag tag-radius tag-round tag-teal">Status {value.status}</span>
-                    <p>{value.product_description}</p>
-                    <p>
-                        <a href="javascript:void(0)" class="btn btn-primary" role="button">Cancel</a>
-                        <button  type="submit" class="btn btn-secondary" 
-                        
-                       onClick={() => {
-                        proceedToBooking(value.id,value.Business.id);
-                          }}
-                        >Order Now</button>
-                    </p>
-                  
+
+
+                <div class="col-md-6 col-xl-4 col-sm-6">
+                <div class="card">
+                    <div class="product-grid6 thumbnail">
+                        <div class="product-image6 p-5">
+                            <ul class="icons">
+                                <li>
+                                    <a href="#" class="btn btn-primary"> <i class="fe fe-eye">  </i> </a>
+                                </li>
+                                <li><a href="#" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
+                                <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
+                            </ul>
+                            <a href="#" >
+                                <img class="img-fluid br-7 w-100" src="/assets/images/pngs/9.jpg" alt="img"/>
+                            </a>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="product-content text-center">
+                                <h1 class="title fw-bold fs-20"><a   onClick={() => {
+                                    proceedToBooking(value.id,value.Business.id);
+                                      }}>{value.name}</a></h1>
+                                <div class="mb-2 text-warning">
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star-half-o text-warning"></i>
+                                    <i class="fa fa-star-o text-warning"></i>
+                                </div>
+                                <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
+                              
+                                </div>
+                                <span class="tag tag-radius tag-round tag-teal">{value.status}</span>
+                               
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a  onClick={() => {
+                                proceedToBooking(value.id,value.Business.id);
+                                  }} class="btn btn-primary mb-1"><i class="fe fe-shopping-cart mx-2"></i>Order Now</a>
+                            <a href="#" class="btn btn-outline-primary mb-1"><i class="fe fe-x"></i>Remove</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+      
+       
             )
             })}
-     
+
+
+
+       
        
     </div>
     
@@ -788,7 +821,7 @@ function OrderedProduct() {
     <div>
 
     <div class="profile-img-1">
-                                                                    <img src="assets/images/users/21.jpg" alt="img"/>
+                                                                    <img src="/assets/images/users/21.jpg" alt="img"/>
 
 
   
@@ -955,7 +988,7 @@ function OrderedProduct() {
             setPhone_no(event.target.value);
           }}
           
-          placeholder="0713876543" aria-label="658 799 8941" aria-describedby="basic-icon-default-phone2"/>
+          placeholder="eg. 0713876543" aria-label="658 799 8941" aria-describedby="basic-icon-default-phone2"/>
         </div>
       </div>
     </div>
@@ -963,7 +996,7 @@ function OrderedProduct() {
     <div class="row justify-content-end">
       <div class="col-sm-10">
 
-      {!isLoading && <button type="submit" onClick={bookAppointment} class="btn btn-primary">Order</button>
+      {!isLoading && <button type="submit" onClick={makeOrder} class="btn btn-primary">Order</button>
 
     } 
     {isLoading &&
@@ -1000,7 +1033,40 @@ function OrderedProduct() {
   return (
 
 
+    
+
     <div className='app ltr landing-page horizontal'>
+
+
+    <Helmet>
+
+
+   
+    <link id="style" href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    
+    <link href="/assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/dark-style.css" rel="stylesheet" />
+
+   
+    <link href="/assets/css/icons.css" rel="stylesheet" />
+
+   
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="/assets/colors/color1.css" />
+
+   
+    <link href="/assets/switcher/css/switcher.css" rel="stylesheet" />
+    <link href="/assets/switcher/demo.css" rel="stylesheet" />
+
+
+
+   
+
+    <link href="/assets/css/skin-modes.css" rel="stylesheet" />
+
+    
+    </Helmet>
+
 
     <div class="switcher-wrapper">
     <div class="demo_changer">
@@ -1090,9 +1156,9 @@ function OrderedProduct() {
         <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar"
             href="javascript:void(0)"></a>
        
-        <a class="logo-horizontal " href="index.html">
-            <img src="assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo"/>
-            <img src="assets/images/brand/logo-3.png" class="header-brand-img light-logo1"
+        <a class="logo-horizontal " href="#">
+            <img src="/assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo"/>
+            <img src="/assets/images/brand/logo-3.png" class="header-brand-img light-logo1"
                 alt="logo"/>
         </a>
         
@@ -1107,7 +1173,7 @@ function OrderedProduct() {
                 <div class="collapse navbar-collapse bg-white px-0" id="navbarSupportedContent-4">
                     
                     <div class="header-nav-right p-5">
-                        <a href="register.html" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
+                        <a href="/signup" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
                             >New User
                         </a>
                         {/*   <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto"> */}
@@ -1185,10 +1251,10 @@ function OrderedProduct() {
 </div>
 {/* <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal" id="home">*/}
 <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden" id="home" style={{ width: '100%',
-    height: '250vh',
+    height: 'auto',
     background: 'url("assets/images/hero-bg.jpg") top center',
     backgroundSize: 'cover',
-    marginBottom: '-200px'}}>
+   }}>
     <div class="container px-sm-0">
     <div class="row">
 
@@ -1285,7 +1351,7 @@ function OrderedProduct() {
 <div class="col-md-12 col-lg-12">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Custom content Thumbnails</h3>
+            <h3 class="card-title">Best Sellers Around You!!</h3>
         </div>
        
 
@@ -1916,6 +1982,87 @@ function OrderedProduct() {
 </div>
 </div>
 <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+
+<Helmet>
+
+
+
+<script src="/assets/js/jquery.min.js"></script>
+
+
+<script src="/assets/plugins/bootstrap/js/popper.min.js"></script>
+<script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+
+<script src="/assets/js/jquery.sparkline.min.js"></script>
+
+
+<script src="/assets/js/sticky.js"></script>
+
+
+<script src="/assets/js/circle-progress.min.js"></script>
+
+
+<script src="/assets/plugins/peitychart/jquery.peity.min.js"></script>
+<script src="/assets/plugins/peitychart/peitychart.init.js"></script>
+
+
+<script src="/assets/plugins/sidebar/sidebar.js"></script>
+
+
+<script src="/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
+<script src="/assets/plugins/p-scroll/pscroll.js"></script>
+<script src="/assets/plugins/p-scroll/pscroll-1.js"></script>
+
+
+<script src="/assets/plugins/chart/Chart.bundle.js"></script>
+<script src="/assets/plugins/chart/rounded-barchart.js"></script>
+<script src="/assets/plugins/chart/utils.js"></script>
+
+
+<script src="/assets/plugins/select2/select2.full.min.js"></script>
+
+
+<script src="/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<script src="/assets/plugins/datatable/js/dataTables.bootstrap5.js"></script>
+<script src="/assets/plugins/datatable/dataTables.responsive.min.js"></script>
+
+
+<script src="/assets/js/apexcharts.js"></script>
+<script src="/assets/plugins/apexchart/irregular-data-series.js"></script>
+
+
+<script src="/assets/plugins/flot/jquery.flot.js"></script>
+<script src="/assets/plugins/flot/jquery.flot.fillbetween.js"></script>
+<script src="/assets/plugins/flot/chart.flot.sampledata.js"></script>
+<script src="/assets/plugins/flot/dashboard.sampledata.js"></script>
+
+<script src="/assets/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="/assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+
+<script src="/assets/plugins/sidemenu/sidemenu.js"></script>
+
+
+
+
+
+
+<script src="/assets/plugins/bootstrap5-typehead/autocomplete.js"></script>
+<script src="/assets/js/typehead.js"></script>
+
+
+<script src="/assets/js/index1.js"></script>
+
+
+<script src="/assets/js/themeColors.js"></script>
+
+<script src="/assets/js/custom.js"></script>
+
+
+
+
+</Helmet>
 
     </div>
   )

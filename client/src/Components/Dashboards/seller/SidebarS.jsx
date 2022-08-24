@@ -33,6 +33,17 @@ function SidebarS() {
                                         class="side-menu__icon fe fe-home"></i><span
                                         class="side-menu__label">Dashboard</span></a>
                             </li>
+
+
+                            <li class="slide">
+                            <a class="side-menu__item has-link" data-bs-toggle="slide" href="/profile-vendor">
+                            
+                            <i class="side-menu__icon fe fe-user"></i> Profile<span
+                                    class="side-menu__label"></span></a>
+
+
+                                   
+                        </li>
                             <li class="sub-category">
                                 <h3>UI Kit</h3>
                             </li>
@@ -135,87 +146,8 @@ function SidebarS() {
                             <li class="sub-category">
                                 <h3>Pre-build Pages</h3>
                             </li>
-                            <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                        class="side-menu__icon fe fe-layers"></i><span
-                                        class="side-menu__label">Pages</span><i
-                                        class="angle fe fe-chevron-right"></i></a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">Pages</a></li>
-                                    <li><a href="profile.html" class="slide-item"> Profile</a></li>
-                                    <li><a href="editprofile.html" class="slide-item"> Edit Profile</a></li>
-                                    <li><a href="notify-list.html" class="slide-item"> Notifications List</a></li>
-                                    <li><a href="email-compose.html" class="slide-item"> Mail-Compose</a></li>
-                                    <li><a href="email-inbox.html" class="slide-item"> Mail-Inbox</a></li>
-                                    <li><a href="email-read.html" class="slide-item"> Mail-Read</a></li>
-                                    <li><a href="gallery.html" class="slide-item"> Gallery</a></li>
-                                    <li class="sub-slide">
-                                        <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)"><span
-                                                class="sub-side-menu__label">Forms</span><i
-                                                class="sub-angle fe fe-chevron-right"></i></a>
-                                        <ul class="sub-slide-menu">
-                                            <li><a href="form-elements.html" class="sub-slide-item"> Form Elements</a>
-                                            </li>
-                                            <li><a href="form-layouts.html" class="sub-slide-item"> Form Layouts</a>
-                                            </li>
-                                            <li><a href="form-advanced.html" class="sub-slide-item"> Form Advanced</a>
-                                            </li>
-                                            <li><a href="form-editor.html" class="sub-slide-item"> Form Editor</a></li>
-                                            <li><a href="form-wizard.html" class="sub-slide-item"> Form Wizard</a></li>
-                                            <li><a href="form-validation.html" class="sub-slide-item"> Form Validation</a></li>
-                                            <li><a href="form-input-spinners.html" class="sub-slide-item"> Form Input Spinners</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="sub-slide">
-                                        <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)"><span
-                                                class="sub-side-menu__label">Tables</span><i
-                                                class="sub-angle fe fe-chevron-right"></i></a>
-                                        <ul class="sub-slide-menu">
-                                            <li><a href="tables.html" class="sub-slide-item">Default table</a></li>
-                                            <li><a href="datatable.html" class="sub-slide-item"> Data Tables</a></li>
-                                            <li><a href="edit-table.html" class="sub-slide-item"> Edit Tables</a></li>
-                                            <li><a href="extension-tables.html" class="sub-slide-item"> Extension Tables</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="sub-slide">
-                                        <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)"><span
-                                                class="sub-side-menu__label">Extension</span><i
-                                                class="sub-angle fe fe-chevron-right"></i></a>
-                                        <ul class="sub-slide-menu">
-                                            <li><a href="about.html" class="sub-slide-item"> About Company</a></li>
-                                            <li><a href="services.html" class="sub-slide-item"> Services</a></li>
-                                            <li><a href="faq.html" class="sub-slide-item"> FAQS</a></li>
-                                            <li><a href="terms.html" class="sub-slide-item"> Terms</a></li>
-                                            <li><a href="invoice.html" class="sub-slide-item"> Invoice</a></li>
-                                            <li><a href="pricing.html" class="sub-slide-item"> Pricing Tables</a></li>
-                                            <li><a href="settings.html" class="sub-slide-item"> Settings</a></li>
-                                            <li><a href="blog.html" class="sub-slide-item"> Blog</a></li>
-                                            <li><a href="blog-details.html" class="sub-slide-item"> Blog Details</a>
-                                            </li>
-                                            <li><a href="blog-post.html" class="sub-slide-item"> Blog Post</a></li>
-                                            <li><a href="empty.html" class="sub-slide-item"> Empty Page</a></li>
-                                            <li><a href="construction.html" class="sub-slide-item"> Under
-                                                    Construction</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="switcher-1.html" class="slide-item"> Switcher</a></li>
-                                </ul>
-                            </li>
-                            <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                        class="side-menu__icon fe fe-shopping-bag"></i><span
-                                        class="side-menu__label">E-Commerce</span><i
-                                        class="angle fe fe-chevron-right"></i></a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">E-Commerce</a></li>
-                                    <li><a href="shop.html" class="slide-item"> Shop</a></li>
-                                    <li><a href="shop-description.html" class="slide-item"> Product Details</a></li>
-                                    <li><a href="cart.html" class="slide-item"> Shopping Cart</a></li>
-                                    <li><a href="add-product.html" class="slide-item"> Add Product</a></li>
-                                    <li><a href="wishlist.html" class="slide-item"> Wishlist</a></li>
-                                    <li><a href="checkout.html" class="slide-item"> Checkout</a></li>
-                                </ul>
-                            </li>
+                            
+                           
                             <li class="slide">
                                 <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
                                         class="side-menu__icon fe fe-folder"></i><span class="side-menu__label">File
@@ -232,32 +164,7 @@ function SidebarS() {
                             <li class="sub-category">
                                 <h3>Misc Pages</h3>
                             </li>
-                            <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                        class="side-menu__icon fe fe-users"></i><span
-                                        class="side-menu__label">Authentication</span><i
-                                        class="angle fe fe-chevron-right"></i></a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">Authentication</a></li>
-                                    <li><a href="login.html" class="slide-item"> Login</a></li>
-                                    <li><a href="register.html" class="slide-item"> Register</a></li>
-                                    <li><a href="forgot-password.html" class="slide-item"> Forgot Password</a></li>
-                                    <li><a href="lockscreen.html" class="slide-item"> Lock screen</a></li>
-                                    <li class="sub-slide">
-                                        <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)"><span
-                                                class="sub-side-menu__label">Error Pages</span><i
-                                                class="sub-angle fe fe-chevron-right"></i></a>
-                                        <ul class="sub-slide-menu">
-                                            <li><a href="400.html" class="sub-slide-item"> 400</a></li>
-                                            <li><a href="401.html" class="sub-slide-item"> 401</a></li>
-                                            <li><a href="403.html" class="sub-slide-item"> 403</a></li>
-                                            <li><a href="404.html" class="sub-slide-item"> 404</a></li>
-                                            <li><a href="500.html" class="sub-slide-item"> 500</a></li>
-                                            <li><a href="503.html" class="sub-slide-item"> 503</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                          
                             <li class="slide">
                                 <a class="side-menu__item" data-bs-toggle="slide" href="/account-setting">
                                     <i class="side-menu__icon fe fe-cpu"></i>

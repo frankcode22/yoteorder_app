@@ -20,17 +20,23 @@ import SignUp from "./Components/Front/home/SignUp";
 import BookingPage from "./Components/Front/booking/BookingPage";
 import AccountSetting from "./Components/Dashboards/seller/AccountSetting";
 import CustomerDashboard from "./Components/Dashboards/customer/CustomerDashboard";
+import ProfileC from "./Components/Dashboards/customer/ProfileC";
+import ProfileS from "./Components/Dashboards/seller/ProfileS";
 
 function App() {
   const [authState, setAuthState] = useState({
-    username: "",
-    id: 0,
-    status: false,
+    username:"",
+    first_name:"",
+    phone_no:"",
+    role:"",
+    id:0,
+    status:false,
   });
 
   useEffect(() => {
     axios
-      .get("https://yoteorder-server.herokuapp.com/users/auth", {
+    .get("https://yoteorder-server.herokuapp.com/users/auth", {
+      // .get('https://yoteorder-server.herokuapp.com/users/auth',{headers:{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -40,9 +46,12 @@ function App() {
           setAuthState({ ...authState, status: false });
         } else {
           setAuthState({
-            username: response.data.username,
-            id: response.data.id,
-            status: true,
+            username:response.data.username,
+            role:response.data.role,
+            first_name:response.data.first_name,
+            phone_no:response.data.phone_no,
+            id:response.data.id,
+            status:true,
           });
         }
       });
@@ -68,6 +77,10 @@ function App() {
 
         <Route path="/dashboard-customer" element={ <CustomerDashboard/>}/>
 
+        <Route path="/profile-customer" element={ <ProfileC/>}/>
+
+        <Route path="/profile-vendor" element={ <ProfileS/>}/>
+
 
 
         <Route path="/setting-products" element={ <ProductSetting/>}/>
@@ -92,7 +105,7 @@ function App() {
 
 
 
-        <Route path="/ordered-product" element={ <OrderedProduct/>} />
+        <Route path="/ordered-product/:pname" element={ <OrderedProduct/>} />
 
         <Route path="/order-now" element={ <BookingPage/>}/>
 

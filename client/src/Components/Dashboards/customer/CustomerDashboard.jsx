@@ -14,11 +14,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate,Link} from "react-router-dom";
 
 import { AuthContext } from "../../../helpers/AuthContext";
+
 import SidebarC from './SidebarC'
 import TopbarC from './TopbarC'
 
 function CustomerDashboard() {
 
+
+    const {authState} = useContext(AuthContext);
     const [userId, setUserId] = useState('');
   
     const [ordersList, setOrdersList] = useState([]);
@@ -54,6 +57,7 @@ function CustomerDashboard() {
 
           axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
             setOrdersList(response.data);
+            console.log("THE PRODUCT NAME IS "+response.data)
             })
     
     
@@ -132,105 +136,17 @@ function CustomerDashboard() {
 
                   
                     <div class="page-header">
-                        <h1 class="page-title">Dashboard 01</h1>
+                        <h1 class="page-title">Customer Home</h1>
                         <div>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Dashboard 01</li>
+                                <li class="breadcrumb-item active" aria-current="page">Welcome: {authState.first_name}</li>
+
                             </ol>
                         </div>
                     </div>
                     
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                                    <div class="card overflow-hidden">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="mt-2">
-                                                    <h6 class="">Total Users</h6>
-                                                    <h2 class="mb-0 number-font">44,278</h2>
-                                                </div>
-                                                <div class="ms-auto">
-                                                    <div class="chart-wrapper mt-1">
-                                                        <canvas id="saleschart"
-                                                            class="h-8 w-9 chart-dropshadow"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="text-muted fs-12"><span class="text-secondary"><i
-                                                        class="fe fe-arrow-up-circle  text-secondary"></i> 5%</span>
-                                                Last week</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                                    <div class="card overflow-hidden">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="mt-2">
-                                                    <h6 class="">Total Profit</h6>
-                                                    <h2 class="mb-0 number-font">67,987</h2>
-                                                </div>
-                                                <div class="ms-auto">
-                                                    <div class="chart-wrapper mt-1">
-                                                        <canvas id="leadschart"
-                                                            class="h-8 w-9 chart-dropshadow"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="text-muted fs-12"><span class="text-pink"><i
-                                                        class="fe fe-arrow-down-circle text-pink"></i> 0.75%</span>
-                                                Last 6 days</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                                    <div class="card overflow-hidden">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="mt-2">
-                                                    <h6 class="">Total Expenses</h6>
-                                                    <h2 class="mb-0 number-font">$76,965</h2>
-                                                </div>
-                                                <div class="ms-auto">
-                                                    <div class="chart-wrapper mt-1">
-                                                        <canvas id="profitchart"
-                                                            class="h-8 w-9 chart-dropshadow"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="text-muted fs-12"><span class="text-green"><i
-                                                        class="fe fe-arrow-up-circle text-green"></i> 0.9%</span>
-                                                Last 9 days</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                                    <div class="card overflow-hidden">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="mt-2">
-                                                    <h6 class="">Total Cost</h6>
-                                                    <h2 class="mb-0 number-font">$59,765</h2>
-                                                </div>
-                                                <div class="ms-auto">
-                                                    <div class="chart-wrapper mt-1">
-                                                        <canvas id="costchart"
-                                                            class="h-8 w-9 chart-dropshadow"></canvas>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="text-muted fs-12"><span class="text-warning"><i
-                                                        class="fe fe-arrow-up-circle text-warning"></i> 0.6%</span>
-                                                Last year</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                  
                     
                     <div class="row">
 
@@ -238,53 +154,64 @@ function CustomerDashboard() {
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Your Order</h3>
+                                    <h3 class="card-title">Your Order Welcome: {authState.first_name}</h3>
                                 </div>
                                 <div class="card-body">
 
                                 <div class="row">
 
+
+
                                 {ordersList.map((value, key) => {
                                     return (
-
-
-
-                                    <div class="col-md-12 col-lg-6 col-xl-3">
-                                                    <div class="thumbnail">
-                                                        <a href="javascript:void(0)">
-                                                            <img src="../assets/images/media/22.jpg" alt="thumb1" class="thumbimg"/>
-                                                        </a>
-                                                        <div class="caption">
-                                                            <h4><strong>{value.item_name}</strong></h4>
-
-                                                          
-
+                                    <div class="col-md-6 col-xl-4 col-sm-6">
+                                        <div class="card">
+                                            <div class="product-grid6">
+                                                <div class="product-image6 p-5">
+                                                    <ul class="icons">
+                                                        <li>
+                                                            <a href="shop-description.html" class="btn btn-primary"> <i class="fe fe-eye">  </i> </a>
+                                                        </li>
+                                                        <li><a href="#"  onClick={() => {
+                                                            openSelectedOrder(value.id);
+                                                              }}
                                                         
-
+                                                    
+                                                              data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
+                                                        <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
+                                                    </ul>
+                                                    <a href="#" >
+                                                        <img class="img-fluid br-7 w-100" src="assets/images/pngs/9.jpg" alt="img"/>
+                                                    </a>
+                                                </div>
+                                                <div class="card-body pt-0">
+                                                    <div class="product-content text-center">
+                                                        <h1 class="title fw-bold fs-20"><a href="#">{value.item_name}</a></h1>
                                                         <span class="tag tag-radius tag-round tag-primary">Price {value.price}</span>
-
+                                                        <div class="mb-2 text-warning">
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star text-warning"></i>
+                                                            <i class="fa fa-star-half-o text-warning"></i>
+                                                            <i class="fa fa-star-o text-warning"></i>
+                                                        </div>
                                                         <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
                                     
                                                         
                                                         <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
-                                                  
+                                                        <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
 
-                                                    <div class="d-flex align-items-center mb-3 mt-3">
-                                                        <div class="me-4 text-center text-primary">
-                                                            <span><i class="fe fe-briefcase fs-20"></i></span>
+                                                        
                                                         </div>
-                                                        <div>
-                                                            <strong>{value.order_description} </strong>
-                                                        </div>
+                                                        <strong>{value.order_description} </strong>
                                                     </div>
 
-
-                                                    <ul class="list-group border br-7 mt-5">
+                                                    <ul class="list-group border br-7">
                                                     
                                             
                                                    
                                             
-                                                    <li class="list-group-item border-0">
+                                             <li class="list-group-item border-0">
                                                 Sub Total
                                                 <span class="h6 fw-bold mb-0 float-end">Ksh. 360</span>
                                             </li>
@@ -301,31 +228,40 @@ function CustomerDashboard() {
                                                 <span class="h4 fw-bold mb-0 float-end">Ksh.370</span>
                                             </li>
                                         </ul>
-                                                           
-
-                                                            <p>
-                                                            <a href="javascript:void(0)" class="btn btn-primary" role="button">Cancel</a>
-                                                            <button  type="submit" class="btn btn-secondary"
-                                                            
-                                                            
-                                                            onClick={() => {
-                                                                openSelectedOrder(value.id);
-                                                                  }}
-                                                            
-                                                        
-                                                                  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">Edit</button>
-
-
-                                                          
-                                                        </p>
-                                                        </div>
-                                                    </div>
                                                 </div>
+                                                <div class="card-footer text-center">
+
+                                                <p>
+                                                <a href="javascript:void(0)" class="btn btn-primary mb-1" role="button">Cancel</a>
+
+                                                <button  type="submit" class="btn btn-primary mb-1"
+                                                
+                                                
+                                                onClick={() => {
+                                                    openSelectedOrder(value.id);
+                                                      }}
+                                                
+                                            
+                                                      data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">Edit</button>
+
+
+                                              
+                                            </p>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     )
+                                })}
 
-                                    }   
-                                 ) }
+
+
+
+
+
+                            
 
                                 
 
