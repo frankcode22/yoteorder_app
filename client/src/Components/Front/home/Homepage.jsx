@@ -146,8 +146,8 @@ function Homepage() {
             href="javascript:void(0)"></a>
        
         <a class="logo-horizontal " href="index.html">
-            <img src="/assets/images/brand/logo_m.png" class="header-brand-img desktop-logo" alt="logo"/>
-            <img src="/assets/images/brand/logo_m.png" class="header-brand-img light-logo1"
+            <img src="/assets/images/brand/logo_pink.png" class="header-brand-img desktop-logo" alt="logo"/>
+            <img src="/assets/images/brand/logo_pink.png" class="header-brand-img light-logo1"
                 alt="logo"/>
         </a>
         
@@ -190,8 +190,8 @@ function Homepage() {
             <div class="row">
                 <div class="main-sidemenu navbar px-0">
                     <a class="navbar-brand ps-0 d-none d-lg-block" href="/">
-                    <img alt="" class="logo-2" src="/assets/images/brand/logo_blue.png"/>
-                    <img src="/assets/images/brand/logo_blue.png" class="logo-3" alt="logo"/>
+                    <img alt="" class="logo-2" src="/assets/images/brand/logo_pink.png"/>
+                    <img src="/assets/images/brand/logo_pink.png" class="logo-3" alt="logo"/>
                     </a>
                     <ul class="side-menu">
                         <li class="slide">

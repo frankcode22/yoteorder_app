@@ -1156,11 +1156,17 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
         <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar"
             href="javascript:void(0)"></a>
        
-        <a class="logo-horizontal " href="#">
+       {/* <a class="logo-horizontal " href="#">
             <img src="/assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo"/>
             <img src="/assets/images/brand/logo-3.png" class="header-brand-img light-logo1"
                 alt="logo"/>
-        </a>
+        </a> */}
+
+        <a class="logo-horizontal " href="#">
+        <img src="/assets/images/brand/logo_pink.png" class="header-brand-img desktop-logo" alt="logo"/>
+        <img src="/assets/images/brand/logo_pink.png" class="header-brand-img light-logo1"
+            alt="logo"/>
+    </a>
         
         <div class="d-flex order-lg-2 ms-auto header-right-icons">
             <button class="navbar-toggler navresponsive-toggler d-lg-none ms-auto" type="button"
@@ -1200,10 +1206,15 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
         <div class="container">
             <div class="row">
                 <div class="main-sidemenu navbar px-0">
-                    <a class="navbar-brand ps-0 d-none d-lg-block" href="/">
+                   {/* <a class="navbar-brand ps-0 d-none d-lg-block" href="/">
                         <img alt="" class="logo-2" src="assets/images/brand/logo-3.png"/>
                         <img src="assets/images/brand/logo.png" class="logo-3" alt="logo"/>
-                    </a>
+                    </a> */}
+
+                    <a class="navbar-brand ps-0 d-none d-lg-block" href="/">
+                    <img alt="" class="logo-2" src="/assets/images/brand/logo_pink.png"/>
+                    <img src="/assets/images/brand/logo_pink.png" class="logo-3" alt="logo"/>
+                </a>
                     <ul class="side-menu">
                         <li class="slide">
                             <a class="side-menu__item active" data-bs-toggle="slide" href="/"><span
