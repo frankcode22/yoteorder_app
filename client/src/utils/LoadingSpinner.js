@@ -4,6 +4,8 @@ import React from 'react'
 export default function LoadingSpinner() {
   return (
     <div className="spinner-container">
+    <h4 class="text-center fw-semibold">Scanning your location get available sellers...</h4>
+   
       <div className="loading-spinner">
       <div class="spinner1">
                                                 <div class="double-bounce1"></div>

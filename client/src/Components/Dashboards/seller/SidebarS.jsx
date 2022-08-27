@@ -9,14 +9,21 @@ function SidebarS() {
                 <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
                 <div class="app-sidebar">
                     <div class="side-header">
-                        <a class="header-brand1" href="index.html">
+                    {/* <a class="header-brand1" href="index.html">
                             <img src="assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo"/>
                             <img src="assets/images/brand/logo-1.png" class="header-brand-img toggle-logo"
                                 alt="logo"/>
                             <img src="assets/images/brand/logo-2.png" class="header-brand-img light-logo" alt="logo"/>
                             <img src="assets/images/brand/logo-3.png" class="header-brand-img light-logo1"
                                 alt="logo"/>
+                        </a>*/}
+
+                        <a class="header-brand1" href="/dashboard-vendor">
+                        <img src="assets/images/brand/logo_pink.png" class="header-brand-img desktop-logo" alt="logo"/>
+                        <img src="assets/images/brand/logo_pink.png" class="header-brand-img light-logo1"
+                            alt="logo"/>
                         </a>
+                        
                      
                     </div>
                     <div class="main-sidemenu">
@@ -47,92 +54,8 @@ function SidebarS() {
                             <li class="sub-category">
                                 <h3>UI Kit</h3>
                             </li>
-                            <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                        class="side-menu__icon fe fe-slack"></i><span
-                                        class="side-menu__label">Apps</span><i
-                                        class="angle fe fe-chevron-right"></i></a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">Apps</a></li>
-                                    <li><a href="cards.html" class="slide-item"> Cards design</a></li>
-                                    <li><a href="calendar.html" class="slide-item"> Default calendar</a></li>
-                                    <li><a href="calendar2.html" class="slide-item"> Full calendar</a></li>
-                                    <li><a href="chat.html" class="slide-item"> Chat</a></li>
-                                    <li><a href="notify.html" class="slide-item"> Notifications</a></li>
-                                    <li><a href="sweetalert.html" class="slide-item"> Sweet alerts</a></li>
-                                    <li><a href="rangeslider.html" class="slide-item"> Range slider</a></li>
-                                    <li><a href="scroll.html" class="slide-item"> Content Scroll bar</a></li>
-                                    <li><a href="loaders.html" class="slide-item"> Loaders</a></li>
-                                    <li><a href="counters.html" class="slide-item"> Counters</a></li>
-                                    <li><a href="rating.html" class="slide-item"> Rating</a></li>
-                                    <li><a href="timeline.html" class="slide-item"> Timeline</a></li>
-                                    <li><a href="treeview.html" class="slide-item"> Treeview</a></li>
-                                    <li><a href="chart.html" class="slide-item"> Charts</a></li>
-                                    <li><a href="footers.html" class="slide-item"> Footers</a></li>
-                                    <li><a href="users-list.html" class="slide-item"> User List</a></li>
-                                    <li><a href="search.html" class="slide-item">Search</a></li>
-                                    <li><a href="crypto-currencies.html" class="slide-item"> Crypto-currencies</a></li>
-                                    <li><a href="widgets.html" class="slide-item"> Widgets</a></li>
-                                </ul>
-                            </li>
-                            <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                        class="side-menu__icon fe fe-package"></i><span
-                                        class="side-menu__label">Bootstrap</span><i
-                                        class="angle fe fe-chevron-right"></i></a>
-                                <ul class="slide-menu mega-slide-menu"> 
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">Bootstrap</a></li>
-                                    <div class="mega-menu">
-                                        <div class=""> 
-                                            <ul> 
-                                                <li><a href="alerts.html" class="slide-item"> Alerts</a></li>
-                                                <li><a href="buttons.html" class="slide-item"> Buttons</a></li>
-                                                <li><a href="colors.html" class="slide-item"> Colors</a></li>
-                                                <li><a href="avatarsquare.html" class="slide-item"> Avatar Square</a></li>
-                                                <li><a href="avatar-radius.html" class="slide-item"> Avatar Radius</a></li>
-                                                <li><a href="avatar-round.html" class="slide-item"> Avatar Rounded</a></li>
-                                                <li><a href="dropdown.html" class="slide-item"> Dropdowns</a></li>
-                                            </ul>
-                                        </div> 
-                                        <div class=""> 
-                                            <ul> 
-                                                <li><a href="listgroup.html" class="slide-item"> List Group</a></li>
-                                                <li><a href="tags.html" class="slide-item"> Tags</a></li>
-                                                <li><a href="pagination.html" class="slide-item"> Pagination</a></li>
-                                                <li><a href="navigation.html" class="slide-item"> Navigation</a></li>
-                                                <li><a href="typography.html" class="slide-item"> Typography</a></li>
-                                                <li><a href="breadcrumbs.html" class="slide-item"> Breadcrumbs</a></li>
-                                                <li><a href="badge.html" class="slide-item"> Badges / Pills</a></li>
-                                            </ul> 
-                                        </div> 
-                                        <div class=""> 
-                                            <ul> 
-                                                <li><a href="panels.html" class="slide-item"> Panels</a></li>
-                                                <li><a href="thumbnails.html" class="slide-item"> Thumbnails</a></li>
-                                                <li><a href="offcanvas.html" class="slide-item"> Offcanvas</a></li>
-                                                <li><a href="toast.html" class="slide-item"> toast</a></li>
-                                                <li><a href="scrollspy.html" class="slide-item"> Scrollspy</a></li>
-                                                <li><a href="mediaobject.html" class="slide-item"> Media Object</a></li>
-                                            </ul> 
-                                        </div> 
-                                        <div class=""> 
-                                            <ul> 
-                                                <li><a href="accordion.html" class="slide-item"> Accordions </a></li>
-                                                <li><a href="tabs.html" class="slide-item"> Tabs</a></li>
-                                                <li><a href="modal.html" class="slide-item"> Modal</a></li>
-                                                <li><a href="tooltipandpopover.html" class="slide-item"> Tooltip and popover</a></li>
-                                                <li><a href="progress.html" class="slide-item"> Progress</a></li>
-                                                <li><a href="carousel.html" class="slide-item"> Carousels</a></li>
-                                            </ul> 
-                                        </div> 
-                                    </div>
-                                </ul>
-                            </li>
-                            <li>
-                                <a class="side-menu__item has-link" href="landing-page.html" target="_blank"><i
-                                        class="side-menu__icon fe fe-zap"></i><span
-                                        class="side-menu__label">Landing Page</span><span class="badge bg-green br-5 side-badge blink-text pb-1">New</span></a>
-                            </li>
+                           
+                          
 
 
                             <li>
@@ -200,57 +123,9 @@ function SidebarS() {
                             <li class="sub-category">
                                 <h3>General</h3>
                             </li>
-                            <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                        class="side-menu__icon fe fe-map-pin"></i><span
-                                        class="side-menu__label">Maps</span><i
-                                        class="angle fe fe-chevron-right"></i></a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">Maps</a></li>
-                                    <li><a href="maps1.html" class="slide-item">Leaflet Maps</a></li>
-                                    <li><a href="maps2.html" class="slide-item">Mapel Maps</a></li>
-                                    <li><a href="maps.html" class="slide-item">Vector Maps</a></li>
-                                </ul>
-                            </li>
-                            <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                        class="side-menu__icon fe fe-bar-chart-2"></i><span
-                                        class="side-menu__label">Charts</span><span
-                                        class="badge bg-secondary side-badge">6</span><i
-                                        class="angle fe fe-chevron-right hor-angle"></i></a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">Charts</a></li>
-                                    <li><a href="chart-chartist.html" class="slide-item">Chart Js</a></li>
-                                    <li><a href="chart-flot.html" class="slide-item"> Flot Charts</a></li>
-                                    <li><a href="chart-echart.html" class="slide-item"> ECharts</a></li>
-                                    <li><a href="chart-morris.html" class="slide-item"> Morris Charts</a></li>
-                                    <li><a href="chart-nvd3.html" class="slide-item"> Nvd3 Charts</a></li>
-                                    <li><a href="charts.html" class="slide-item"> C3 Bar Charts</a></li>
-                                    <li><a href="chart-line.html" class="slide-item"> C3 Line Charts</a></li>
-                                    <li><a href="chart-donut.html" class="slide-item"> C3 Donut Charts</a></li>
-                                    <li><a href="chart-pie.html" class="slide-item"> C3 Pie charts</a></li>
-                                </ul>
-                            </li>
-                            <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                        class="side-menu__icon fe fe-wind"></i><span
-                                        class="side-menu__label">Icons</span><i
-                                        class="angle fe fe-chevron-right"></i></a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">Icons</a></li>
-                                    <li><a href="icons.html" class="slide-item"> Font Awesome</a></li>
-                                    <li><a href="icons2.html" class="slide-item"> Material Design Icons</a></li>
-                                    <li><a href="icons3.html" class="slide-item"> Simple Line Icons</a></li>
-                                    <li><a href="icons4.html" class="slide-item"> Feather Icons</a></li>
-                                    <li><a href="icons5.html" class="slide-item"> Ionic Icons</a></li>
-                                    <li><a href="icons6.html" class="slide-item"> Flag Icons</a></li>
-                                    <li><a href="icons7.html" class="slide-item"> pe7 Icons</a></li>
-                                    <li><a href="icons8.html" class="slide-item"> Themify Icons</a></li>
-                                    <li><a href="icons9.html" class="slide-item">Typicons Icons</a></li>
-                                    <li><a href="icons10.html" class="slide-item">Weather Icons</a></li>
-                                    <li><a href="icons11.html" class="slide-item">Bootstrap Icons</a></li>
-                                </ul>
-                            </li>
+                           
+                           
+                           
                         </ul>
                         <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                                 width="24" height="24" viewBox="0 0 24 24">

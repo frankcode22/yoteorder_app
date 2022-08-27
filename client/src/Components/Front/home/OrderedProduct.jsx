@@ -20,6 +20,10 @@ import { AuthContext } from "../../../helpers/AuthContext";
 
 
 import LoadingSpinner from '../../../utils/LoadingSpinner'
+
+import ProcessingAlert from '../../../utils/ProcessingAlert';
+
+import { Modal, Button } from "react-bootstrap";
 import { Helmet } from 'react-helmet';
 
 
@@ -127,6 +131,32 @@ function OrderedProduct() {
       const [randomNo, setRandomNo] = useState(0);
 
 
+      const [show, setShow] = useState(false);
+
+      const handleClose = () => setShow(false);
+
+      const handleShow = () =>{
+
+        setLoading(true)
+
+        setShow(true);
+      
+        setTimeout(() => {
+
+        setLoading(false)
+
+        history("/dashboard-customer");
+        window.location.reload(false);
+
+      
+
+        
+    }, 5000);
+
+
+      }
+
+
       
 
       
@@ -140,6 +170,8 @@ function OrderedProduct() {
   
   
       localStorage.setItem('itemsearched', JSON.stringify(pname));
+
+      const [initiateOrderProcessing,setInitiateOrderProcessing]=useState(false);
 
 
 
@@ -161,10 +193,6 @@ function OrderedProduct() {
 
 
 
-    
-
-
-
       useEffect(()=>{
 
         setIsDivLoading(true);
@@ -178,11 +206,11 @@ function OrderedProduct() {
      
 
   
-    //   axios.get("https://tunepbackend.herokuapp.com/customer/mycustomers").then((response) => {
+   
 
-   axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
-   //axios.get("https://yoteorder-server.herokuapp.com/product/search/"+item+"/"+string_lng).then((response) => {
-           // axios.get(`https://ngeritbackend.herokuapp.com/product/search/${item}`).then((response) => {
+  // axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
+  
+            axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
 
            
 
@@ -229,14 +257,23 @@ function OrderedProduct() {
   
   
   const checkOutAndBook=()=>{
-  
-    setShowBookingDiv(false)
-  
-    setShowCustomerDetailsForm(true)
 
-    setRandomNo(randomNumberInRange(1, 10000));
+    setLoading(true);
+  
+   
 
-    setShowAllServicesDiv(false)
+    setTimeout(() => {
+        setLoading(false);
+        setShowBookingDiv(false)
+  
+        setShowCustomerDetailsForm(true)
+    
+        setRandomNo(randomNumberInRange(1, 10000));
+    
+        setShowAllServicesDiv(false)
+        setInitiateOrderProcessing(true)
+      
+    }, 3000);
   
   }
   
@@ -428,16 +465,17 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
           
           //setLoading(false);
-          toast.info('Appointment saved!');
+          //toast.info('Appointment saved!');
           setShowSuccessAlert(true)
   
           setShowCustomerDetailsForm(false)
 
           setShowAllServicesDiv(true)
 
+          handleShow()
 
-          history("/dashboard-customer");
-          window.location.reload(false);
+
+        
       }, 5000);
 
       }
@@ -767,6 +805,12 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                             </a>
                         </div>
                         <div class="card-body pt-0">
+
+
+                     
+
+
+                         
                             <div class="product-content text-center">
                                 <h1 class="title fw-bold fs-20"><a   onClick={() => {
                                     proceedToBooking(value.id,value.Business.id);
@@ -788,7 +832,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                         <div class="card-footer text-center">
                             <a  onClick={() => {
                                 proceedToBooking(value.id,value.Business.id);
-                                  }} class="btn btn-primary mb-1"><i class="fe fe-shopping-cart mx-2"></i>Order Now</a>
+                                  }} class="btn btn-primary"><i class="fe fe-shopping-cart mx-2"></i>Order Now</a>
                             <a href="#" class="btn btn-outline-primary mb-1"><i class="fe fe-x"></i>Remove</a>
                         </div>
                     </div>
@@ -811,68 +855,15 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
         <div class="row">
 
+
+
         
-        <div class="col-md-6  col-xl-6">
-{showBussInforCard &&   <div class="card">
-<div class="card-header">
-    <div class="card-title">About</div>
-</div>
-<div class="card-body">
-    <div>
+    <div class="col-md-8 col-xl-8">
 
-    <div class="profile-img-1">
-                                                                    <img src="/assets/images/users/21.jpg" alt="img"/>
-
-
-  
-                                                                </div>
-  
-    </div>
-    <hr/>
-    <div class="d-flex align-items-center mb-3 mt-3">
-        <div class="me-4 text-center text-primary">
-            <span><i class="fe fe-briefcase fs-20"></i></span>
-        </div>
-        <div>
-            <strong>{business_name} </strong>
-        </div>
-    </div>
-    <div class="d-flex align-items-center mb-3 mt-3">
-        <div class="me-4 text-center text-primary">
-            <span><i class="fe fe-map-pin fs-20"></i></span>
-        </div>
-        <div>
-            <strong>Francisco, USA</strong>
-        </div>
-    </div>
-    <div class="d-flex align-items-center mb-3 mt-3">
-        <div class="me-4 text-center text-primary">
-            <span><i class="fe fe-phone fs-20"></i></span>
-        </div>
-        <div>
-            <strong>+125 254 3562 </strong>
-        </div>
-    </div>
-    <div class="d-flex align-items-center mb-3 mt-3">
-        <div class="me-4 text-center text-primary">
-            <span><i class="fe fe-mail fs-20"></i></span>
-        </div>
-        <div>
-            <strong>georgeme@abc.com </strong>
-        </div>
-    </div>
-</div>
-</div>}
-      
-        
-    </div>
-
-
-    <div class="col-md-6 col-xl-6">
-
-    <div class="card">
+    <div class="card border">
     {showProductCardInfor && <div class="card-header">
-    <h3 class="card-title">Product Infor</h3>
+    <h2 class="card-title">Product Infor</h2>
+    
     <div class="card-options">
 
    
@@ -898,7 +889,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
        {/* <p>Product Id {productId} Seller Id {businessId}  </p>*/} 
             <div class="form-group">
             <label class="form-label">Product Name</label>
-                <input type="text" class="form-control" id="name1" value={item_name}
+                <input type="text" class="form-control" id="name1" value={item_name} disabled
                 
               
                 
@@ -907,21 +898,21 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
         </div>
         <div class="form-group col-md-6 mb-0">
             <div class="form-group">
-            <label class="form-label">Quantity</label>
+            <label class="form-label">Quantity(Amount you need)</label>
                 <input type="number" class="form-control" id="name2"
                 
                 onChange={(event) => {
                     setquantity_ordered(event.target.value);
                   }} 
                 
-                placeholder="Quantity"/>
+                placeholder="Quantity" required/>
             </div>
         </div>
 
         
        
         <div class="form-group col-md-12 mb-0">
-        <label class="form-label">Additional Infor</label>
+        <label class="form-label">Describe Your Order</label>
            
 
             <textarea class="form-control"   onChange={(event) => {
@@ -932,9 +923,19 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     </div>
 
     <div class="form-footer mt-2">
-    <button type="submit" onClick={() => {
+   
+
+
+      
+      {!isLoading &&  <button type="submit" onClick={() => {
         checkOutAndBook();
       }} class="btn btn-primary">Confirm</button>
+
+    } 
+    {isLoading &&
+        <button type="submit" class="btn btn-primary" disabled> <i class="fas fa-sync fa-spin"></i>Initiating order....</button>
+    }
+       
 
       <button type="reset" onClick={() => {
         cancelSelectedService();
@@ -994,9 +995,9 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     </div>
    
     <div class="row justify-content-end">
-      <div class="col-sm-10">
+      <div class="col-sm-12">
 
-      {!isLoading && <button type="submit" onClick={makeOrder} class="btn btn-primary">Order</button>
+      {!isLoading && <button type="submit" onClick={makeOrder} class="btn btn-primary">Place Order</button>
 
     } 
     {isLoading &&
@@ -1018,6 +1019,110 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
     </div>
 </div>
+
+        
+        <div class="col-md-4  col-xl-4">
+
+{showBussInforCard &&  
+
+    
+
+
+    
+    
+    
+    
+    
+    <div class="card border">
+
+    
+    <div class="card-header text-center">
+    <h2 class="card-title">Business Details</h2>
+</div>
+
+<div class="card-body">
+<div class="mx-auto chart-circle chart-circle-md mt-3 mb-4 text-center" data-value="0.75" data-thickness="8" data-bs-color="#6c5ffc">
+<div class="profile-img-1">
+<img src="/assets/images/users/21.jpg" alt="img"/>
+
+
+
+</div>
+
+
+
+
+
+
+</div>
+<div class="text-center mt-3">
+    <h3>{business_name}</h3>
+    <p class="mb-4">The best around</p>
+
+    <hr/>
+    <div class="col p-1 mt-2 border align-items-center br-10">
+
+    
+    <div class="d-flex align-items-center mb-3 mt-3">
+    <div class="me-4 text-center text-primary">
+        <span><i class="fe fe-briefcase fs-20"></i></span>
+    </div>
+    <div>
+        <strong>{business_name} </strong>
+    </div>
+</div>
+<div class="d-flex align-items-center mb-3 mt-3">
+    <div class="me-4 text-center text-primary">
+        <span><i class="fe fe-map-pin fs-20"></i></span>
+    </div>
+    <div>
+        <strong>Francisco, USA</strong>
+    </div>
+</div>
+<div class="d-flex align-items-center mb-3 mt-3">
+    <div class="me-4 text-center text-primary">
+        <span><i class="fe fe-phone fs-20"></i></span>
+    </div>
+    <div>
+        <strong>+125 254 3562 </strong>
+    </div>
+</div>
+<div class="d-flex align-items-center mb-3 mt-3">
+    <div class="me-4 text-center text-primary">
+        <span><i class="fe fe-mail fs-20"></i></span>
+    </div>
+    <div>
+        <strong>georgeme@abc.com </strong>
+    </div>
+</div>
+
+
+        
+    </div>
+</div>
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+}
+      
+        
+    </div>
+
+
         
         
         </div>
@@ -1075,10 +1180,10 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                 <div class="predefined_styles">
                     <div class="swichermainleft text-center">
                         <div class="p-3 d-grid gap-2">
-                            <a href="../../index.html" class="btn ripple btn-primary mt-0">View Demo</a>
+                            <a href="/" class="btn ripple btn-primary mt-0">View Demo</a>
                             <a href="https://themeforest.net/item/sash-bootstrap-5-admin-dashboard-template/35183671"
                                 class="btn ripple btn-secondary">Buy Now</a>
-                            <a href="https://themeforest.net/user/spruko/portfolio" class="btn ripple btn-pink">Our
+                            <a href="/" class="btn ripple btn-pink">Our
                                 Portfolio</a>
                         </div>
                     </div>
@@ -1162,7 +1267,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                 alt="logo"/>
         </a> */}
 
-        <a class="logo-horizontal " href="#">
+        <a class="logo-horizontal " href="/">
         <img src="/assets/images/brand/logo_pink.png" class="header-brand-img desktop-logo" alt="logo"/>
         <img src="/assets/images/brand/logo_pink.png" class="header-brand-img light-logo1"
             alt="logo"/>
@@ -1364,6 +1469,21 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
         <div class="card-header">
             <h3 class="card-title">Best Sellers Around You!!</h3>
         </div>
+
+        
+
+    
+
+
+   
+
+
+
+ 
+       
+
+
+        
        
 
         {isDivLoading ? <LoadingSpinner/>: vendorSearchDiv}
@@ -1378,7 +1498,38 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
 
-        
+<Modal class="modal fade" id="modaldemo8" show={show}>
+
+<Modal.Header>
+  <Modal.Title>Initiating Order</Modal.Title>
+</Modal.Header>
+<Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+
+<i class="icon icon-check fs-70 text-success lh-1 my-5 d-inline-block"></i>
+<h4 class="text-success tx-semibold">Congratulations!</h4>
+<p class="mg-b-20 mg-x-20">Your order has been initiated</p>
+
+<div class="progress progress-md mb-3">
+                                                <div class="progress-bar progress-bar-indeterminate bg-blue-1"></div>
+                                            </div>
+
+  
+
+</Modal.Body>
+<Modal.Footer>
+
+{/* <Button variant="secondary" onClick={handleClose}>
+    Close
+  </Button>
+  <Button variant="primary" onClick={handleClose}>
+    Save Changes
+  </Button> */}
+ 
+</Modal.Footer>
+</Modal>
            
         </div>
 
@@ -1978,14 +2129,14 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                     </div>
                 </div>
                 <footer class="main-footer px-0 pb-0 text-center">
-                    <div class="row ">
-                        <div class="col-md-12 col-sm-12">
-                            Copyright © <span id="year"></span> <a href="javascript:void(0)">Sash</a>.
-                            Designed with <span class="fa fa-heart text-danger"></span> by <a
-                                href="javascript:void(0)"> Spruko </a> All rights reserved.
-                        </div>
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12">
+                        Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>.
+                        Designed with <span class="fa fa-heart text-danger"></span> by <a
+                            href="javascript:void(0)"> PataMtaani </a> All rights reserved.
                     </div>
-                </footer>
+                </div>
+            </footer>
             </div>
         </div>
     </div>

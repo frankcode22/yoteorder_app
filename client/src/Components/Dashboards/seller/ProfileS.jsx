@@ -118,7 +118,7 @@ useEffect(()=>{
 
        axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
        
-      //axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+      //axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
   
         if(response.data!=null){
     

@@ -34,6 +34,10 @@ function ProductSetting() {
 
     const [userId, setUserId] = useState("");
 
+
+    const [productId, setProductId] = useState("");
+
+
     const [unit_of_measure, setunit_of_measure] = useState("");
 
 
@@ -42,6 +46,8 @@ function ProductSetting() {
   
     const [country, setCountry] = useState("");
 
+    const [category, setcategory] = useState("");
+    
 
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
@@ -216,7 +222,7 @@ function ProductSetting() {
        
         setTimeout(() => {
             setLoading(false);
-            toast.info('Product saved successfully');
+            toast.success('Product saved successfully');
         }, 3000);
      
        //  history("/dashboard");
@@ -225,6 +231,82 @@ function ProductSetting() {
     })
 
 }
+
+
+const openSelectedProduct=(pId)=>{
+
+    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
+ 
+         console.log("THE PRODUCT NAME IS "+response.data.name)
+ 
+         setProductId(pId)
+         setPrice(response.data.price)
+         setQuantity(response.data.quantity)
+
+         setName(response.data.name)
+         setunit_of_measure(response.data.unit_of_measure)
+
+         setcategory(response.data.category)
+ 
+        
+
+       
+ 
+         setProduct_description(response.data.order_description)
+             
+ 
+             })
+ 
+ 
+ 
+     }
+
+
+    const updateProduct=()=>{
+
+        setLoading(true)
+
+        const data={
+            pId:productId,
+            name:name,
+            type:type,
+            category:category,
+            product_description:product_description,
+            price: price,
+            quantity:quantity,
+            geo_location:address_line_2,
+            unit_of_measure:unit_of_measure,
+            latitude:lat,
+            longitude:lng,
+            product_image:product_image,
+            UserId:userId,
+            BusinessId:businessId,
+              
+          }
+
+        axios.put('https://yoteorder-server.herokuapp.com/product/updateproduct/'+productId,data).then((res_b)=>{
+    
+            //console.log("THE ACTUAL ID IS "+actualId)
+            
+           // setorderId(res_b.data.id)
+            
+            
+            
+            console.log("THE  ORDER ID IS "+res_b.data.id)
+            
+           // console.log("THE  ORDER ID TWO IS "+randomNo)
+        
+        
+            setTimeout(() => {
+                setLoading(false);
+                toast.success("Product Updated")
+            }, 3000);
+            
+            })
+
+    }
+ 
 
 
   return (
@@ -292,114 +374,8 @@ function ProductSetting() {
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <div class="card-title">Price Range</div>
-                                            </div>
-                                            <div class="card-body">
-                                                <label class="custom-control custom-radio mb-0 mt-1">
-                                                    <input type="radio" class="custom-control-input" name="example-radios"
-                                                        value="option1" checked/>
-                                                    <span class="custom-control-label">Upto $500</span>
-                                                </label>
-                                                <label class="custom-control custom-radio mb-0 mt-1">
-                                                    <input type="radio" class="custom-control-input" name="example-radios"
-                                                        value="option1"/>
-                                                    <span class="custom-control-label">$500 - $1000</span>
-                                                </label>
-                                                <label class="custom-control custom-radio mb-0 mt-1">
-                                                    <input type="radio" class="custom-control-input" name="example-radios"
-                                                        value="option1"/>
-                                                    <span class="custom-control-label">$1000 - $1500</span>
-                                                </label>
-                                                <label class="custom-control custom-radio mb-0 mt-1">
-                                                    <input type="radio" class="custom-control-input" name="example-radios"
-                                                        value="option1"/>
-                                                    <span class="custom-control-label">Over $2000</span>
-                                                </label>
-                                                <div class="d-flex">
-                                                    <div class="card-body px-0">
-                                                        <div id="mySlider"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title">
-                                                    Colors
-                                                </h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <form class="shop__filter">
-                                                    <div class="row gutters-xs">
-                                                        <div class="col-auto">
-                                                            <label class="colorinput">
-                                                                <input name="color" type="radio" value="azure"
-                                                                    class="colorinput-input" checked=""/>
-                                                                <span class="colorinput-color bg-azure"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <label class="colorinput">
-                                                                <input name="color" type="radio" value="indigo"
-                                                                    class="colorinput-input"/>
-                                                                <span class="colorinput-color bg-indigo"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <label class="colorinput">
-                                                                <input name="color" type="radio" value="purple"
-                                                                    class="colorinput-input"/>
-                                                                <span class="colorinput-color bg-purple"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <label class="colorinput">
-                                                                <input name="color" type="radio" value="pink"
-                                                                    class="colorinput-input"/>
-                                                                <span class="colorinput-color bg-pink"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <label class="colorinput">
-                                                                <input name="color" type="radio" value="red"
-                                                                    class="colorinput-input"/>
-                                                                <span class="colorinput-color bg-red"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <label class="colorinput">
-                                                                <input name="color" type="radio" value="orange"
-                                                                    class="colorinput-input"/>
-                                                                <span class="colorinput-color bg-orange"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <label class="colorinput">
-                                                                <input name="color" type="radio" value="yellow"
-                                                                    class="colorinput-input"/>
-                                                                <span class="colorinput-color bg-yellow"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <label class="colorinput">
-                                                                <input name="color" type="radio" value="lime"
-                                                                    class="colorinput-input"/>
-                                                                <span class="colorinput-color bg-lime"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <label class="colorinput">
-                                                                <input name="color" type="radio" value="green"
-                                                                    class="colorinput-input"/>
-                                                                <span class="colorinput-color bg-green"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                       
+                                      
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="form-group">
@@ -509,9 +485,25 @@ function ProductSetting() {
                                                         <div class="product-image6 p-5">
                                                             <ul class="icons">
                                                                 <li>
-                                                                    <a href="shop-description.html" class="btn btn-primary"> <i class="fe fe-eye">  </i> </a>
+                                                                    <a  class="btn btn-primary mb-1"
+                                                
+                                                
+                                                                    onClick={() => {
+                                                                        openSelectedProduct(value.id);
+                                                                          }}
+                                                                    
+                                                                
+                                                                          data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9"> <i class="fe fe-eye">  </i> </a>
                                                                 </li>
-                                                                <li><a href="#" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
+                                                                <li><a class="btn btn-success"
+                                                
+                                                
+                                                                onClick={() => {
+                                                                    openSelectedProduct(value.id);
+                                                                      }}
+                                                                
+                                                            
+                                                                      data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9"><i  class="fe fe-edit"></i></a></li>
                                                                 <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
                                                             </ul>
                                                             <a href="shop-description.html" >
@@ -533,8 +525,18 @@ function ProductSetting() {
                                                             </div>
                                                         </div>
                                                         <div class="card-footer text-center">
-                                                            <a href="#" class="btn btn-primary mb-1"><i class="fe fe-shopping-cart mx-2"></i>Add to cart</a>
-                                                            <a href="#" class="btn btn-outline-primary mb-1"><i class="fe fe-heart mx-2 wishlist-icon"></i>Add to wishlist</a>
+                                                        
+                                                <button  type="submit" class="btn btn-primary mb-1"
+                                                
+                                                
+                                                onClick={() => {
+                                                    openSelectedProduct(value.id);
+                                                      }}
+                                                
+                                            
+                                                      data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9">Edit</button>
+                                                    
+                                                            <a href="#"  class="btn btn-success"><i  class="fe fe-edit"></i>Availability</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1108,6 +1110,242 @@ function ProductSetting() {
                                 </div>
                             </div>
                         </div>
+
+
+
+                        
+                        <div class="modal fade" id="modaldemo9">
+                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                            <div class="modal-content modal-content-demo">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">Product Details</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                <div class="card">
+                              
+                                <div class="card-body">
+                                {/*  <div class="form-row">
+                                        <div class="form-group col-md-6 mb-0">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="name1" placeholder="First Name"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="name2" placeholder="Last Name"/>
+                                            </div>
+                                        </div>
+                                    </div>*/}
+
+                                    <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0">
+                                    <div class="form-group ">
+                                      
+                                    <label for="nameWithTitle" class="form-label">Product Name</label>
+                
+                
+                                    <input type="hidden" id="nameWithTitle" class="form-control" placeholder="Enter Name"
+                            
+                                        value={businessId}
+                                        
+                                        onChange={(event) => {
+                                            setbusinessId(event.target.value);
+                                          }}
+                                           
+                                        />
+                
+                                    <input type="hidden" id="price" class="form-control" value={userId}
+                          
+                                    onChange={(event) => {
+                                        setUserId(event.target.value);
+                                      }}
+                                    />
+                
+                                    <input type="text" id="product_name" class="form-control" placeholder="Enter Name"
+
+                                    value={name}
+                          
+                                    onChange={(event) => {
+                                        setName(event.target.value);
+                                      }}
+                                       
+                                    />
+                                </div>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0">
+                                    <div class="form-group ">
+                    
+                                    <label class="form-label" for="multicol-country">Type</label>
+                            <select id="multicol-country" class="form-control select2 form-select"   
+                            onChange={(event) => {
+                              setcategory(event.target.value);
+                            }}
+
+                            value={category}
+                            
+                            data-allow-clear="true">
+                              <option value="">Select Category</option>
+                              <option value="Eateries">Eateries</option>
+                              <option value="Electronics">Electronics</option>
+                              <option value="Automotive">Automotive</option>
+
+                              <option value="Contruction">Contruction</option>
+                    
+                              <option value="Drinks">Drinks</option>
+                              <option value="Clothing">Clothing</option>
+                              <option value="Computing">Computing</option>
+                    
+                    
+                              <option value="Domestic">Domestic Use</option>
+                              <option value="Home-Based">Home-Based</option>
+                              <option value="Beauty">Beauty</option>
+                    
+                              <option value="Agricultural">Agricultural</option>
+                              <option value="Livestock">Livestock</option>
+                              <option value="Aquatic">Aquatic</option>
+                             
+                              
+                            </select>
+                                        
+                                        
+                                    </div>
+                    
+                                    </div>
+                                </div>
+                                   
+                                    
+                                 
+                    
+                                    <div class="form-row">
+                                    
+                                    <label for="description" class="form-label">Description</label>
+                                    
+                    
+                                    <textarea name="address" class="form-control" value={product_description}   onChange={(event) => {
+                                     setProduct_description(event.target.value);
+                                   }} id="address" rows="2" placeholder="Your Product desciption"></textarea>
+                                    
+                                    </div>
+                    
+                    
+                                    <div className="col-12">
+                                    <SingleUploader
+                                      uploadUrl="images/single-upload"
+                                      label="Single File Upload"
+                                      id="single-uploder"
+                                    />
+                                  </div>
+                    
+                    
+                    
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 mb-0">
+                                            <div class="form-group">
+                                            <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
+                                            <input type="number" id="price" class="form-control"
+                    
+                                              onChange={(event) => {
+                                                setPrice(event.target.value);
+                                              }}
+
+
+                                              value={price}
+                    
+                    
+                                            />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            <div class="form-group">
+                                            <label for="dobWithTitle" class="form-label">Quantity</label>
+                                                <input type="number" class="form-control"
+
+                                                value={quantity}
+                                                
+                                                onChange={(event) => {
+                                                    setQuantity(event.target.value);
+                                                  }}
+                                                id="quantity" placeholder="eg.7"/>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0">
+                                    <div class="form-group ">
+                    
+                                    <label class="form-label" for="multicol-country">Unit Of Measure</label>
+                            <select id="multicol-country" class="form-control select2 form-select"  
+                            value={unit_of_measure} 
+                            onChange={(event) => {
+                              setunit_of_measure(event.target.value);
+                            }}
+
+                          
+                            
+                            data-allow-clear="true">
+                              <option value="">Select Unit Of Measure</option>
+                              <option value="Kgs">Kgs</option>
+                              <option value="Litre">Litres</option>
+                              <option value="Plate">Plates</option>
+
+                              <option value="Item">Item</option>
+                    
+                              <option value="Piece">Piece</option>
+                              <option value="Package">Package</option>
+                              <option value="Order">Order</option>
+                    
+                    
+                            
+                             
+                              
+                            </select>
+                                        
+                                        
+                                    </div>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0">
+                                        <div class="form-group">
+                                        <label for="dobWithTitle" class="form-label">Availability</label>
+                                        <div class="col-xl-2 px-3 px-xl-1">
+                                        <div class="form-group">
+                                            <label class="custom-switch form-switch mb-0">
+                                                    <input type="checkbox" name="custom-switch-radio" class="custom-switch-input"/>
+                                                    <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                                    <span class="custom-switch-description">Set Availability</span>
+                                                </label>
+                                        </div>
+                                    </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                  
+                                  
+                                </div>
+                            </div>
+                                </div>
+                                <div class="modal-footer">
+                                {!isLoading && <button type="submit" onClick={updateProduct} class="btn btn-primary">Save changes</button>
+                              
+                            } 
+                            {isLoading &&
+                                <button type="submit" class="btn btn-primary btn-md btn-block mt-3 waves-effect" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Changes...</button>
+                            }
+            
+                                     <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ToastContainer/>
+
 
 
 

@@ -260,99 +260,139 @@ function Dashboard() {
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Sales Analytics</h3>
+                                    <h3 class="card-title">Latest Orders</h3>
                                 </div>
                                 <div class="card-body">
 
+
+
+                                   
+                            
                                 <div class="row">
-
                                 {ordersList.map((value, key) => {
-                                    return (
-
-
-
-                                    <div class="col-md-12 col-lg-6 col-xl-3">
-                                                    <div class="thumbnail">
-                                                        <a href="javascript:void(0)">
-                                                            <img src="../assets/images/media/22.jpg" alt="thumb1" class="thumbimg"/>
-                                                        </a>
-                                                        <div class="caption">
-                                                            <h4><strong>{value.item_name}</strong></h4>
-
-                                                          
-
-                                                        
-
-                                                        <span class="tag tag-radius tag-round tag-primary">Price {value.price}</span>
-
-
-                                                        
-
-                                                        <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
-
-
-                                                      
-                                                    <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
-                                             
-                                    
-                                                      
-
-                                                    <div class="d-flex align-items-center mb-3 mt-3">
-                                                        <div class="me-4 text-center text-primary">
-                                                            <span><i class="fe fe-briefcase fs-20"></i></span>
-                                                        </div>
-                                                        <div>
-                                                            <strong>{value.order_description} </strong>
+                                  return (
+                                    <div class="col-xl-12 col-lg-12 col-md-12">
+                                        <div class="card overflow-hidden border p-0 shadow-none">
+                                            <div class="card-body">
+                                                <div class="row g-0">
+                                                    <div class="col-xl-3 col-lg-12 col-md-12">
+                                                        <div class="product-list">
+                                                            <div class="product-image">
+                                                                <ul class="icons">
+                                                                    <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
+                                                                    <li><a href="#" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
+                                                                    <li><a href="#" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="br-be-0 br-te-0">
+                                                                <a href="#" class="">
+                                                                    <img src="assets/images/pngs/9.jpg" alt="img" class="cover-image br-7 w-100"/>
+                                                                </a>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
+                                                        <div class="card-body">
+                                                            <div class="mb-3">
+                                                                <a href="#" class="">
+                                                                    <h3 class="fw-bold fs-30 mb-3">{value.item_name}</h3>
+                                                                    <div class="mb-2 text-warning">
+                                                                        <i class="fa fa-star fs-18 text-warning"></i>
+                                                                        <i class="fa fa-star fs-18 text-warning"></i>
+                                                                        <i class="fa fa-star fs-18 text-warning"></i>
+                                                                        <i class="fa fa-star-half-o fs-18 text-warning"></i>
+                                                                        <i class="fa fa-star-o fs-18 text-warning"></i>
+                                                                    </div>
+                                                                </a>
+                                                                <div class="d-flex align-items-center mb-3 mt-3">
+                                                                <span class="tag tag-radius tag-round tag-primary">Price {value.price}</span>
 
 
-                                                    <ul class="list-group border br-7 mt-5">
-                                                    
-                                            
-                                                    
-                                            
-                                                    <li class="list-group-item border-0">
-                                                Sub Total
-                                                <span class="h6 fw-bold mb-0 float-end">$4,360</span>
-                                            </li>
-                                            <li class="list-group-item border-0">
-                                                Discount
-                                                <span class="h6 fw-bold mb-0 float-end">5%</span>
-                                            </li>
-                                            <li class="list-group-item border-0">
-                                                Shipping
-                                                <span class="h6 fw-bold mb-0 float-end">Free</span>
-                                            </li>
-                                            <li class="list-group-item border-0">
-                                                Total
-                                                <span class="h4 fw-bold mb-0 float-end">$3,976</span>
-                                            </li>
-                                        </ul>
-                                                           
+                                                        
 
-                                                            <p>
-                                                            <a href="javascript:void(0)" class="btn btn-primary" role="button">Cancel</a>
-                                                            <button  type="submit" class="btn btn-secondary" 
+                                                                <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
+        
+        
+                                                              
+                                                            <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
+                                                            </div>
+                                                            <div class="d-flex align-items-center mb-3 mt-3">
+                                                                <div class="me-4 text-center text-primary">
+                                                                    <span><i class="fe fe-mail fs-20"></i></span>
+                                                                </div>
+                                                                <div>
+                                                                    <strong>{value.email}</strong>
+                                                                </div>
+                                                            </div>
+                                                                <p class="fs-16">{value.order_description} </p>
+
+
+                                                                
                                                             
-                                                           onClick={() => {
-                                                         
-                                                              }}
-                                                            >Edit</button>
-                                                        </p>
+                                                                
+                                                                <form class="shop__filter">
+                                                                    <div class="row gutters-xs">
+                                                                        <div class="col-auto">
+                                                                            <label class="colorinput">
+                                                                                <input type="checkbox" name="color" value="azure" class="colorinput-input" checked/>
+                                                                                <span class="colorinput-color bg-azure"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-auto">
+                                                                            <label class="colorinput">
+                                                                                <input type="checkbox" name="color" value="indigo" class="colorinput-input"/>
+                                                                                <span class="colorinput-color bg-indigo"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-auto">
+                                                                            <label class="colorinput">
+                                                                                <input type="checkbox" name="color" value="purple" class="colorinput-input"/>
+                                                                                <span class="colorinput-color bg-purple"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
+                                                        <div class="card-body p-0">
+                                                            <div class="price h3 text-center mb-5 fw-bold">Total:Kes 650 </div>
+                                                            <a href="#" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Complete Order</a>
+                                                            <a href="#" class="btn btn-danger btn-block mt-2"><i class="fe fe-x text-white"></i>Cancel Order</a>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                    )
-
-                                    }   
-                                 ) }
+                                            </div>
+                                        </div>
+                                    </div>
+                        )})}
+                                    
+                                    
+                                  
+                                   
+                                    <div class="mb-5">
+                                        <div class="float-end">
+                                            <ul class="pagination ">
+                                                <li class="page-item page-prev disabled">
+                                                    <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
+                                                </li>
+                                                <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                                                <li class="page-item page-next">
+                                                    <a class="page-link" href="javascript:void(0)">Next</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            
 
                                 
-                                   
 
-                                </div>
 
 
                                 

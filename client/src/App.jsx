@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
     axios
     .get("https://yoteorder-server.herokuapp.com/users/auth", {
-      // .get('https://yoteorder-server.herokuapp.com/users/auth',{headers:{
+      // .get('http://localhost:3001/users/auth',{headers:{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },

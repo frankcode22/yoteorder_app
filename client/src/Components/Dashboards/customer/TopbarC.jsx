@@ -13,11 +13,17 @@ function TopbarC() {
     <div class="d-flex">
         <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="javascript:void(0)"></a>
  
-        <a class="logo-horizontal " href="index.html">
+
+        {/* <a class="logo-horizontal " href="index.html">
             <img src="assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo"/>
             <img src="assets/images/brand/logo-3.png" class="header-brand-img light-logo1"
                 alt="logo"/>
-        </a>
+        </a> */}
+       
+
+        <img src="/assets/images/brand/logo_pink.png" class="header-brand-img desktop-logo" alt="logo"/>
+        <img src="/assets/images/brand/logo_pink.png" class="header-brand-img light-logo1"
+            alt="logo"/>
        
         <div class="main-header-center ms-3 d-none d-lg-block">
             <input type="text" class="form-control" id="typehead" placeholder="Search for results..." autocomplete="off"/>
@@ -211,7 +217,7 @@ function TopbarC() {
                                     </div>
                                 </div>
                                 <div class="notifications-menu">
-                                    <a class="dropdown-item d-flex" href="notify-list.html">
+                                    <a class="dropdown-item d-flex" href="#">
                                         <div class="me-3 notifyimg  bg-primary brround box-shadow-primary">
                                             <i class="fe fe-mail"></i>
                                         </div>
@@ -221,7 +227,7 @@ function TopbarC() {
                                             <span class="notification-subtext">3 days ago</span>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex" href="notify-list.html">
+                                    <a class="dropdown-item d-flex" href="#">
                                         <div class="me-3 notifyimg  bg-secondary brround box-shadow-secondary">
                                             <i class="fe fe-check-circle"></i>
                                         </div>
@@ -231,7 +237,7 @@ function TopbarC() {
                                             <span class="notification-subtext">2 hours ago</span>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex" href="notify-list.html">
+                                    <a class="dropdown-item d-flex" href="#">
                                         <div class="me-3 notifyimg  bg-success brround box-shadow-success">
                                             <i class="fe fe-shopping-cart"></i>
                                         </div>
@@ -241,7 +247,7 @@ function TopbarC() {
                                             <span class="notification-subtext">30 min ago</span>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex" href="notify-list.html">
+                                    <a class="dropdown-item d-flex" href="#">
                                         <div class="me-3 notifyimg bg-pink brround box-shadow-pink">
                                             <i class="fe fe-user-plus"></i>
                                         </div>
@@ -252,7 +258,7 @@ function TopbarC() {
                                     </a>
                                 </div>
                                 <div class="dropdown-divider m-0"></div>
-                                <a href="notify-list.html"
+                                <a href="#"
                                     class="dropdown-item text-center p-3 text-muted">View all
                                     Notification</a>
                             </div>

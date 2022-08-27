@@ -23,6 +23,8 @@ function CustomerDashboard() {
 
     const {authState} = useContext(AuthContext);
     const [userId, setUserId] = useState('');
+
+    const [actualId, setactualId] = useState('');
   
     const [ordersList, setOrdersList] = useState([]);
 
@@ -33,9 +35,22 @@ function CustomerDashboard() {
 
     const [quantity_ordered, setquantity_ordered] = useState('');
 
+    const [businessId, setbusinessId] = useState('');
+
+    const [business_name, setbusiness_name] = useState('');
+
+    const [email, setEmail] = useState("");
+    const [phone_no, setPhone_no] = useState("");
+
+    const [randomNo, setRandomNo] = useState(0);
+
+    
+
   
 
     const [order_description, setorder_description] = useState('');
+
+    const [isLoading,setLoading]=useState(false);
 
 
     useEffect(()=>{
@@ -75,6 +90,8 @@ function CustomerDashboard() {
 
         console.log("THE PRODUCT NAME IS "+response.data.name)
 
+        setactualId(oId)
+
         setorderId(response.data.orderId)
 
         setitem_name(response.data.item_name)
@@ -89,6 +106,74 @@ function CustomerDashboard() {
 
 
     }
+
+
+    const editOrder=()=>{
+
+
+        const order_details={
+            oId:actualId,
+            orderId:orderId,
+            item_name:item_name,
+            quantity_ordered:quantity_ordered,
+            customer_phone_no:phone_no,
+            order_description:order_description,
+          
+          }
+    axios.put('https://yoteorder-server.herokuapp.com/order/updateorder/'+actualId,order_details).then((res_b)=>{
+    
+    console.log("THE ACTUAL ID IS "+actualId)
+    
+    setorderId(res_b.data.id)
+    
+    
+    
+    console.log("THE  ORDER ID IS "+res_b.data.id)
+    
+    console.log("THE  ORDER ID TWO IS "+randomNo)
+
+
+    setTimeout(() => {
+        setLoading(false);
+        toast.warning("Order Updated")
+    }, 3000);
+    
+    })
+    }
+
+    const cancelOrder=()=>{
+
+        const order_details={
+            oId:actualId,
+            order_status:'cancelled',
+          
+          }
+
+      
+
+
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+actualId,order_details).then((res_b)=>{
+    
+            console.log("THE ACTUAL ID IS "+actualId)
+            
+            setorderId(res_b.data.id)
+            
+            
+            console.log("THE  ORDER ID IS "+res_b.data.id)
+            
+            console.log("THE  ORDER ID TWO IS "+randomNo)
+
+            setTimeout(() => {
+                setLoading(false);
+                toast.warning("Order Cancelled")
+            }, 3000);
+            
+            })
+
+
+        
+    }
+
   return (
     <div>
 
@@ -170,9 +255,13 @@ function CustomerDashboard() {
                                                 <div class="product-image6 p-5">
                                                     <ul class="icons">
                                                         <li>
-                                                            <a href="shop-description.html" class="btn btn-primary"> <i class="fe fe-eye">  </i> </a>
+                                                            <a onClick={() => {
+                                                                openSelectedOrder(value.id);
+                                                                  }} class="btn btn-primary" data-bs-toggle="modal" href="#modaldemo8" class="btn btn-success"> <i class="fe fe-eye">  </i> </a>
                                                         </li>
-                                                        <li><a href="#"  onClick={() => {
+                                                        <li>
+                                                        
+                                                        <a href="#"  onClick={() => {
                                                             openSelectedOrder(value.id);
                                                               }}
                                                         
@@ -232,7 +321,7 @@ function CustomerDashboard() {
                                                 <div class="card-footer text-center">
 
                                                 <p>
-                                                <a href="javascript:void(0)" class="btn btn-primary mb-1" role="button">Cancel</a>
+                                               
 
                                                 <button  type="submit" class="btn btn-primary mb-1"
                                                 
@@ -243,6 +332,12 @@ function CustomerDashboard() {
                                                 
                                             
                                                       data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">Edit</button>
+
+
+
+                                                      <button  onClick={() => {
+                                                        cancelOrder();
+                                                          }} class="btn btn-danger mb-1" role="button"><i class="fe fe-x"></i>Cancel</button>
 
 
                                               
@@ -358,9 +453,18 @@ function CustomerDashboard() {
                     
                     </div>
                     <div class="modal-footer">
-                        <button  onClick={() => {
-                   
-                        }} class="btn btn-primary">Save changes</button>
+
+                    {!isLoading &&  <button  onClick={() => {
+
+                        editOrder()
+               
+                    }} class="btn btn-primary">Save changes</button>
+
+                } 
+                {isLoading &&
+                    <button type="submit" class="btn btn-primary" disabled> <i class="fas fa-sync fa-spin"></i>Saving Changes....</button>
+                }
+                       
                         
                         
                         <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -370,7 +474,7 @@ function CustomerDashboard() {
         </div>
 
 
-
+<ToastContainer/>
 
 
                       

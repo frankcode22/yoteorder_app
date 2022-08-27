@@ -66,6 +66,8 @@ function AccountSetting() {
 
     const[closeTime,setCloseTime]=useState('')
 
+    const[serviceId,setServiceId]=useState('')
+
 
     const [servicesList, setServicesList] = useState([]);
 
@@ -104,6 +106,9 @@ function AccountSetting() {
 
     
     const [showErrorAlert,setShowErrorAlert] = useState(false);
+
+
+    const [isBusinessSet,setIsBusinessSet] = useState(false);
 
 
 
@@ -155,8 +160,12 @@ function AccountSetting() {
        axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
+
+          setIsBusinessSet(true)
     
           setbusinessId(response.data.id);
+
+          setlocation(response.data.location)
 
           setServicesList(response.data.Services);
 
@@ -171,7 +180,7 @@ function AccountSetting() {
         }
         else{
       
-      
+          setIsBusinessSet(false)
           setbusinessId(0)
           setBussSetup(false);
           setbusiness_name('nobuzz')
@@ -242,7 +251,8 @@ const buss_data={
            
             setTimeout(() => {
                 setLoading(false);
-                toast.info('Saved');
+                toast.success('Saved');
+                setIsBusinessSet(true)
             }, 500);
          
            //  history("/dashboard");
@@ -404,7 +414,7 @@ const addStaff = ()  => {
   setLoading(true);
 
  
-  //  axios.post("http://localhost:3001/staff",staff_data).then((response)=>{
+  //  axios.post("https://yoteorder-server.herokuapp.com/staff",staff_data).then((response)=>{
 
       axios.post("https://yoteorder-server.herokuapp.com/staff",staff_data).then((response)=>{
 
@@ -435,6 +445,96 @@ const addStaff = ()  => {
   })
 
 }
+
+
+const openSelectedService=(sId)=>{
+
+  //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+   axios.get('https://yoteorder-server.herokuapp.com/service/getbyId/'+sId).then((response) => {
+
+      // console.log("THE SERVICE NAME IS "+response.data.service_name)
+
+       setServiceId(sId)
+       set_service_name(response.data.service_name)
+       set_service_type(response.data.service_type)
+
+       set_service_cost(response.data.service_cost)
+       set_description(response.data.description)
+
+       
+           
+
+           })
+
+
+
+   }
+
+
+   const updateService=()=>{
+
+    setLoading(true)
+
+    const data={
+      sId:serviceId,
+      service_name:service_name,
+      service_type:service_type,
+      description:description,
+      service_cost:service_cost,
+      BusinessId:businessId,
+          
+      }
+
+     
+    axios.put('https://yoteorder-server.herokuapp.com/service/update_service/'+serviceId,data).then((res_b)=>{
+
+        //console.log("THE ACTUAL ID IS "+actualId)
+        
+       // setorderId(res_b.data.id)
+        
+        
+        
+        console.log("THE  SERVICE ID IS "+res_b.data.id)
+        
+       // console.log("THE  ORDER ID TWO IS "+randomNo)
+
+   
+
+    
+    
+        setTimeout(() => {
+            setLoading(false);
+            toast.success("Service Updated")
+        }, 3000);
+        
+        })
+
+}
+
+
+const openSelectedStaff=(sId)=>{
+
+  //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+   axios.get('https://yoteorder-server.herokuapp.com/service/getbyId/'+sId).then((response) => {
+
+       console.log("THE SERVICE NAME IS "+response.data.service_name)
+
+       setServiceId(sId)
+       set_service_name(response.data.service_name)
+       set_service_type(response.data.service_type)
+
+       set_service_cost(response.data.service_cost)
+       set_description(response.data.description)
+
+       
+           
+
+           })
+
+
+
+   }
+
 
 
 
@@ -537,28 +637,7 @@ const addStaff = ()  => {
                             <span class="icons"><i class="ri-delete-bin-line"></i></span> Trash
                         </a>
                     </div>
-                    <div class="card-body border-top p-0 py-3">
-                        <div class="list-group list-group-transparent mb-0 mail-inbox mx-4">
-                            <a href="javascript:void(0)" class="list-group-item list-group-item-action d-flex align-items-center py-2">
-                                <span class="w-3 h-3 brround bg-primary me-2"></span> Friends
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item list-group-item-action d-flex align-items-center py-2">
-                                <span class="w-3 h-3 brround bg-secondary me-2"></span> Family
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item list-group-item-action d-flex align-items-center py-2">
-                                <span class="w-3 h-3 brround bg-success me-2"></span> Social
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item list-group-item-action d-flex align-items-center py-2">
-                                <span class="w-3 h-3 brround bg-info me-2"></span> Office
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item list-group-item-action d-flex align-items-center py-2">
-                                <span class="w-3 h-3 brround bg-warning me-2"></span> Work
-                            </a>
-                            <a href="javascript:void(0)" class="list-group-item list-group-item-action d-flex align-items-center py-2">
-                                <span class="w-3 h-3 brround bg-danger me-2"></span> Settings
-                            </a>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
             {showBusinessSetupDiv && <div class="col-xl-9">
@@ -585,135 +664,331 @@ const addStaff = ()  => {
                 <div class="panel-body tabs-menu-body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab21">
-                        <form>
-                        <div class="row g-3">
-                          <div class="col-md-6">
-                            <div class="row">
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
-                              <div class="col-sm-9">
-                                <input type="text" id="formtabs-first-name" class="form-control" 
-                                
-                                onChange={(event) => {
-                                    setbusiness_name(event.target.value);
-                                  }}
-                                
-                                
-                                placeholder="Eg. Edith Salon" />
+
+
+                        
+                         {isBusinessSet &&
+                          <div class="card border p-0 shadow-none">
+                          <div class="card-body">
+                              <div class="d-flex">
+                                  <div class="media mt-0">
+                                      <div class="media-user me-2">
+                                          <div class=""><img alt="" class="rounded-circle avatar avatar-md" src="assets/images/users/16.jpg"/></div>
+                                      </div>
+                                      <div class="media-body">
+                                          <h6 class="mb-0 mt-1">{business_name}</h6>
+                                          <small class="text-muted">just now</small>
+                                      </div>
+                                  </div>
+                                  <div class="ms-auto">
+                                      <div class="dropdown show">
+                                          <a class="new option-dots" href="JavaScript:void(0);" data-bs-toggle="dropdown">
+                                              <span class=""><i class="fe fe-more-vertical"></i></span>
+                                          </a>
+                                          <div class="dropdown-menu dropdown-menu-end">
+                                              <a class="dropdown-item" href="javascript:void(0)">Edit Post</a>
+                                              <a class="dropdown-item" href="javascript:void(0)">Delete Post</a>
+                                              <a class="dropdown-item" href="javascript:void(0)">Personal Settings</a>
+                                          </div>
+                                      </div>
+                                  </div>
                               </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="row">
-                            
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
-                              <div class="col-sm-9">
-                              <textarea id="basic-icon-default-message" class="form-control" placeholder="My business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
-                              
-                              onChange={(event) => {
-                                setbusiness_description(event.target.value);
-                              }}
-                
-                              aria-describedby="basic-icon-default-message2"></textarea>
+                              <div class="mt-4">
+                                  <h4 class="fw-semibold mt-3">There is nothing more beautiful.</h4>
+                                  <p class="mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.
+                                  </p>
                               </div>
-                            </div>
                           </div>
-                          <div class="col-md-6">
-                            <div class="row">
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
-                              <div class="col-sm-9">
-                                <select id="formtabs-country" class="select2 form-select"
-                                
-                                onChange={(event) => {
-                                    setCity(event.target.value);
-                                  }}
-                
-                                
-                                data-allow-clear="true">
-                                  <option value="">Select</option>
-                                  <option value="Nairobi">Nairobi</option>
-                                  <option value="Kiambu">Kiambu</option>
-                                  <option value="Machakos">Machakos</option>
-                                  <option value="Kakuru">Kakuru</option>
-                                  <option value="Makueni">Makueni</option>
-                                  <option value="Nyeri">Nyeri</option>
-                                  
-                                </select>
+                          <div class="card-footer user-pro-2">
+                              <div class="media mt-0">
+                                  <div class="media-user me-2">
+                                      <div class="avatar-list avatar-list-stacked">
+                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/12.jpg)'}}></span>
+                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
+                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/9.jpg)'}}></span>
+                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
+                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users//4.jpg)'}}></span>
+                                          <span class="avatar brround text-primary">+28</span>
+                                      </div>
+                                  </div>
+                                  <div class="media-body">
+                                      <h6 class="mb-0 mt-2 ms-2">10 buyers like your business</h6>
+                                  </div>
+                                  <div class="ms-auto">
+                                      <div class="d-flex mt-1">
+                                          <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-heart"></i></span></a>
+                                          <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-message-square"></i></span></a>
+                                          <a class="new text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-share-2"></i></span></a>
+                                      </div>
+                                  </div>
                               </div>
-                            </div>
                           </div>
-                          <div class="col-md-6 select2-primary">
-                            <div class="row">
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-language">Industry</label>
-                              <div class="col-sm-9">
-                                <select id="formtabs-language" class="select2 form-select"
-                
-                
-                                onChange={(event) => {
-                                    setindustry(event.target.value);
-                                  }}
-                                
-                                
-                                multiple>
-                                  <option value="Beauty" selected>Beauty</option>
-                                  <option value="Education" selected>Education</option>
-                                  <option value="Automotive">Wellbeing</option>
-                                  <option value="pt">Automotive</option>
-                                  <option value="home care">Home Care</option>
-                                  <option value="Maintenance">Maintenance</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="row">
-                            <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
-                            <div class="col-sm-9">
-                              <input type="text" id="formtabs-first-name" class="form-control"
-                              
-                              
-                              onChange={(event) => {
-                                setlocation(event.target.value);
-                              }}
-                              
-                              placeholder="Eg. Ruai By Pass" />
-                            </div>
-                
+                      </div>
+                        
+                        
+                        
+                        }
                        
+
+                        {isBusinessSet &&
+                    <div class="row">
+
+
+                    <div class="col-xl-6 col-md-12">
+                    <div class="card m-b-20 border p-0 shadow-none">
+                        <div class="card-header">
+                            <h3 class="card-title">Business Contacts</h3>
+                            <div class="card-options">
+                                <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                                <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
                             </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="row">
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
-                              <div class="col-sm-9">
-                                <input type="text" id="formtabs-phone" class="form-control phone-mask"
-                                
-                                onChange={(event) => {
-                                    setPhone_no(event.target.value);
-                                  }}
-                                placeholder="0714639773" aria-label="0714639773" />
-                              </div>
-                            </div>
-                          </div>
                         </div>
-                        <div class="row mt-4">
-                          <div class="col-md-6">
-                            <div class="row justify-content-end">
-                              <div class="col-sm-9">
-                                
-                
-                                {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary me-sm-3 me-1">Submit</button>
-                
-                            } 
-                            {isLoading &&
-                                <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
-                            }
-                                <button type="reset" class="btn btn-label-secondary">Cancel</button>
-                
-                              </div>
-                            </div>
-                          </div>
+                        <div class="card-body">
+                        <div class="d-flex align-items-center mb-3 mt-3">
+                        <div class="me-4 text-center text-primary">
+                            <span><i class="fe fe-briefcase fs-20"></i></span>
                         </div>
-                      </form>
+                        <div>
+                            <strong>{business_name} </strong>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 mt-3">
+                        <div class="me-4 text-center text-primary">
+                            <span><i class="fe fe-map-pin fs-20"></i></span>
+                        </div>
+                        <div>
+                            <strong>{location}</strong>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 mt-3">
+                        <div class="me-4 text-center text-primary">
+                            <span><i class="fe fe-phone fs-20"></i></span>
+                        </div>
+                        <div>
+                            <strong>{phone_no} </strong>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3 mt-3">
+                        <div class="me-4 text-center text-primary">
+                            <span><i class="fe fe-mail fs-20"></i></span>
+                        </div>
+                        <div>
+                            <strong>{email}</strong>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                
+
+
+                
+                <div class="col-xl-6 col-md-12">
+                <div class="card d-flex m-b-20 border p-0 shadow-none">
+                    <div class="card-header">
+                        <h3 class="card-title">Customers</h3>
+                        <div class="card-options">
+                            <a class="text-gray" href="javascript:void(0)">
+                                <i class="mdi mdi-refresh"></i>
+                            </a>
+                            <a class="text-gray" href="javascript:void(0)">
+                                <i class="mdi mdi-bookmark-outline"></i>
+                            </a>
+                            <a class="text-gray" href="javascript:void(0)">
+                                <i class="mdi mdi-dots-vertical"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    <div class="">
+                    <div class="media overflow-visible">
+                        <img class="avatar brround avatar-md me-3" src="../assets/images/users/18.jpg" alt="avatar-img"/>
+                        <div class="media-body valign-middle mt-2">
+                            <a href="javascript:void(0)" class=" fw-semibold text-dark">John Paige</a>
+                            <p class="text-muted mb-0">johan@gmail.com</p>
+                        </div>
+                        <div class="media-body valign-middle text-end overflow-visible mt-2">
+                            <button class="btn btn-sm btn-primary" type="button">Follow</button>
+                        </div>
+                    </div>
+                    <div class="media overflow-visible mt-sm-5">
+                        <span class="avatar cover-image avatar-md brround bg-pink me-3">LQ</span>
+                        <div class="media-body valign-middle mt-2">
+                            <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Quinn</a>
+                            <p class="text-muted mb-0">lilliangore</p>
+                        </div>
+                        <div class="media-body valign-middle text-end overflow-visible mt-1">
+                            <button class="btn btn-sm btn-secondary" type="button">Follow</button>
+                        </div>
+                    </div>
+                    <div class="media overflow-visible mt-sm-5">
+                        <img class="avatar brround avatar-md me-3" src="../assets/images/users/2.jpg" alt="avatar-img"/>
+                        <div class="media-body valign-middle mt-2">
+                            <a href="javascript:void(0)" class="text-dark fw-semibold">Harry Fisher</a>
+                            <p class="text-muted mb-0">harryuqt</p>
+                        </div>
+                        <div class="media-body valign-middle text-end overflow-visible mt-1">
+                            <button class="btn btn-sm btn-danger" type="button">Follow</button>
+                        </div>
+                    </div>
+                 
+                </div>
+                    </div>
+                </div>
+            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    </div>}
+
+                   
+
+
+
+
+
+
+
+
+
+                 {!isBusinessSet && 
+                  <form>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" id="formtabs-first-name" class="form-control" 
+                          
+                          onChange={(event) => {
+                              setbusiness_name(event.target.value);
+                            }}
+                          
+                          
+                          placeholder="Eg. Edith Salon" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                      
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
+                        <div class="col-sm-9">
+                        <textarea id="basic-icon-default-message" class="form-control" placeholder="My business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
+                        
+                        onChange={(event) => {
+                          setbusiness_description(event.target.value);
+                        }}
+          
+                        aria-describedby="basic-icon-default-message2"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
+                        <div class="col-sm-9">
+                          <select id="formtabs-country" class="select2 form-select"
+                          
+                          onChange={(event) => {
+                              setCity(event.target.value);
+                            }}
+          
+                          
+                          data-allow-clear="true">
+                            <option value="">Select</option>
+                            <option value="Nairobi">Nairobi</option>
+                            <option value="Kiambu">Kiambu</option>
+                            <option value="Machakos">Machakos</option>
+                            <option value="Kakuru">Kakuru</option>
+                            <option value="Makueni">Makueni</option>
+                            <option value="Nyeri">Nyeri</option>
+                            
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 select2-primary">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-language">Industry</label>
+                        <div class="col-sm-9">
+                          <select id="formtabs-language" class="select2 form-select"
+          
+          
+                          onChange={(event) => {
+                              setindustry(event.target.value);
+                            }}
+                          
+                          
+                          multiple>
+                            <option value="Beauty" selected>Beauty</option>
+                            <option value="Education" selected>Education</option>
+                            <option value="Automotive">Wellbeing</option>
+                            <option value="pt">Automotive</option>
+                            <option value="home care">Home Care</option>
+                            <option value="Maintenance">Maintenance</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
+                      <div class="col-sm-9">
+                        <input type="text" id="formtabs-first-name" class="form-control"
+                        
+                        
+                        onChange={(event) => {
+                          setlocation(event.target.value);
+                        }}
+                        
+                        placeholder="Eg. Ruai By Pass" />
+                      </div>
+          
+                 
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
+                        <div class="col-sm-9">
+                          <input type="text" id="formtabs-phone" class="form-control phone-mask"
+                          
+                          onChange={(event) => {
+                              setPhone_no(event.target.value);
+                            }}
+                          placeholder="0714639773" aria-label="0714639773" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-4">
+                    <div class="col-md-6">
+                      <div class="row justify-content-end">
+                        <div class="col-sm-9">
+                          
+          
+                          {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary me-sm-3 me-1">Submit</button>
+          
+                      } 
+                      {isLoading &&
+                          <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+                      }
+                          <button type="reset" class="btn btn-label-secondary">Cancel</button>
+          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form> }
+
                         </div>
                         <div class="tab-pane" id="tab22">
 
@@ -1069,7 +1344,7 @@ const addStaff = ()  => {
                                                           <i class="fa fa-star-o fs-18 text-warning"></i>
                                                       </div>
                                                   </a>
-                                                  <p class="fs-16">{value.service_description} </p>
+                                                  <p class="fs-16">{value.description} </p>
                                                   
                                                   
                                                   
@@ -1101,7 +1376,13 @@ const addStaff = ()  => {
                                       <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
                                           <div class="card-body p-0">
                                               <div class="price h3 text-center mb-5 fw-bold">{value.service_cost}</div>
-                                              <a href="#" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Edit Details</a>
+                                              
+                                              <a onClick={() => {
+                                                openSelectedService(value.id);
+                                                  }}
+                                            
+                                        
+                                                  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo80" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Edit Details</a>
                                               <a href="#" class="btn btn-outline-primary btn-block mt-2"><i class="fe fe-add"></i>Assign Staff</a>
                                           </div>
                                       </div>
@@ -1483,6 +1764,121 @@ const addStaff = ()  => {
         </div>
 
 
+        
+        <div class="modal fade" id="modaldemo80">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Message Preview</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                <div class="row">
+                  <div class="col mb-3">
+                    <label for="nameWithTitle" class="form-label">Service Name</label>
+                    <input type="text" id="service_name" class="form-control" placeholder="Eg. Automotive"
+
+                    value={service_name}
+                    
+                    onChange={(event) => {
+                        set_service_name(event.target.value);
+                      }}
+                       
+                    />
+                  </div>
+                </div>
+        
+                <div class="row">
+                <div class="col mb-3">
+                  <label for="nameWithTitle" class="form-label">Service Description</label>
+        
+        
+                  <textarea id="basic-icon-default-message" class="form-control"   value={description} placeholder="Eg. For Best automotive services!" aria-label="Hi, My business deals with beauty services?" 
+                                            
+                  onChange={(event) => {
+                    set_description(event.target.value);
+                  }}
+        
+                  aria-describedby="basic-icon-default-message2"></textarea> 
+                  
+                </div>
+              </div>
+                <div class="row g-2">
+        
+        
+                
+                  <div class="col mb-0">
+                    <label for="emailWithTitle" class="form-label">Service Type</label>
+                    <select id="formtabs-country" class="select2 form-select"
+                  
+                    onChange={(event) => {
+                        set_service_type(event.target.value);
+                      }}
+        
+                      value={service_type}
+                    data-allow-clear="true">
+                      <option value="">Select</option>
+                      <option value="Beauty">Beauty</option>
+                      <option value="Barbershop">Barbershop</option>
+                      <option value=">Health & Fitness">Health & Fitness</option>
+                      <option value="Education">Education</option>
+                      <option value="Automotive">Automotive</option>
+                      <option value="Home Care">Home Care</option>
+
+                      <option value="Laundry">Laundry</option>
+                      <option value="Construction">Construction</option>
+
+                      <option value="Entertainment">Entertainment</option>
+                      <option value="Events">Events</option>
+                      
+                    
+                      
+                    </select>
+                  </div>
+                  <div class="col mb-0">
+                    <label for="dobWithTitle" class="form-label">Service Cost</label>
+                    <input type="number" id="cost" class="form-control"
+
+                    value={service_cost}
+        
+                    onChange={(event) => {
+                        set_service_cost(event.target.value);
+                      }}
+                       
+                    
+                    />
+                    <input type="hidden" id="nameWithTitle" class="form-control" placeholder="Enter Name"
+        
+                    value={businessId}
+                    
+                    onChange={(event) => {
+                        setbusinessId(event.target.value);
+                      }}
+                       
+                    />
+                  </div>
+                </div>
+              </div>
+                <div class="modal-footer">
+                  
+
+
+                    {!isLoading && <button type="submit" onClick={updateService} class="btn btn-primary">Save changes</button>
+
+                } 
+                {isLoading &&
+                    <button type="submit" class="btn btn-primary" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor...</button>
+                }
+            
+                    
+                    
+                    <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+        <ToastContainer></ToastContainer>
+    </div>
+
+
 
 
 
@@ -1497,7 +1893,7 @@ const addStaff = ()  => {
               <div class="row">
                 <div class="col mb-3">
                   <label for="nameWithTitle" class="form-label">Name</label>
-                  <input type="text" id="nameWithTitle" class="form-control" placeholder="Enter Name"
+                  <input type="text" id="staff_name" class="form-control" placeholder="Enter Name"
                   
                   onChange={(event) => {
                       SetStaff_name(event.target.value);
@@ -1549,6 +1945,72 @@ const addStaff = ()  => {
           </div>
         </div>
       </div>
+
+
+
+      <div class="modal fade" id="modaldemo90">
+      <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalCenterTitle">Add Staff</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col mb-3">
+                <label for="nameWithTitle" class="form-label">Name</label>
+                <input type="text" id="staff_name" class="form-control" placeholder="Enter Name"
+                
+                onChange={(event) => {
+                    SetStaff_name(event.target.value);
+                  }}
+                   
+                />
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col mb-0">
+                <label for="emailWithTitle" class="form-label">Email</label>
+                <input type="text" id="emailWithTitle" class="form-control" placeholder="xxxx@xxx.xx"
+                
+                
+                onChange={(event) => {
+                    setEmail(event.target.value);
+                  }}
+                   />
+              </div>
+              <div class="col mb-0">
+                <label for="dobWithTitle" class="form-label">Phone No.</label>
+                <input type="text" id="phoneno" class="form-control"
+    
+                onChange={(event) => {
+                    setPhone_no(event.target.value);
+                  }}
+                   
+                
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+    
+    
+            
+            {!isLoading && <button type="submit" onClick={addStaff} class="btn btn-primary"  style={{backgroundColor:"#085781"}}>Save</button>
+    
+        } 
+        {isLoading &&
+            <button type="submit" class="btn btn-primary btn-md btn-block mt-3 waves-effect" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+        }
+    
+    
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
 
 
 

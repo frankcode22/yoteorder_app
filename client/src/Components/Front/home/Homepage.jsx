@@ -145,7 +145,7 @@ function Homepage() {
         <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar"
             href="javascript:void(0)"></a>
        
-        <a class="logo-horizontal " href="index.html">
+        <a class="logo-horizontal " href="/">
             <img src="/assets/images/brand/logo_pink.png" class="header-brand-img desktop-logo" alt="logo"/>
             <img src="/assets/images/brand/logo_pink.png" class="header-brand-img light-logo1"
                 alt="logo"/>
@@ -256,8 +256,8 @@ function Homepage() {
        }}>
         <div class="row mb-5 justify-content-center text-center">
             <div class="col">
-                <h1 class="font-weight-bold mb-0">Get and Order anything?</h1>
-                <p>All your needs are catered by Yote order</p>
+                <h1 class="font-weight-bold mb-0">Sell, Buy and Order anything mtaani!</h1>
+                <p>All your needs are catered by PataMtaani</p>
             </div>
         </div>
 
@@ -271,8 +271,8 @@ function Homepage() {
         <div class="col-xl-4">
             <div class="form-group">
                 <select class="form-select form-select select2" id="inputGroupSelect01">
-                        <option value="Product">Product</option>
-                        <option value="Service">Service</option>
+                        <option value="Product">product</option>
+                        <option value="Service">service</option>
                        
                     </select>
             </div>
@@ -1026,7 +1026,7 @@ function Homepage() {
                         <div class="col-lg-2 col-sm-6 col-md-4 revealleft">
                             <h6>Pages</h6>
                             <ul class="list-unstyled mb-5 mb-lg-0">
-                                <li><a href="index.html">Dashboard</a></li>
+                                <li><a href="#">Dashboard</a></li>
                                 <li><a href="alerts.html">Elements</a></li>
                                 <li><a href="form-elements.html">Forms</a></li>
                                 <li><a href="charts.html">Charts</a></li>
@@ -1047,9 +1047,9 @@ function Homepage() {
                         </div>
                         <div class="col-lg-4 col-sm-12 col-md-4 revealleft">
                             <div class="">
-                                <a href="index.html"><img loading="lazy" alt="" class="logo-2 mb-3"
+                                <a href="#"><img loading="lazy" alt="" class="logo-2 mb-3"
                                         src="assets/images/brand/logo-3.png"/></a>
-                                <a href="index.html"><img src="assets/images/brand/logo.png"
+                                <a href="/"><img src="assets/images/brand/logo_new.png"
                                         class="logo-3" alt="logo"/></a>
                                 <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
                                     dolore eu fugiat nulla pariatur Excepteur sint occaecat.</p>
@@ -1081,9 +1081,9 @@ function Homepage() {
                 <footer class="main-footer px-0 pb-0 text-center">
                     <div class="row ">
                         <div class="col-md-12 col-sm-12">
-                            Copyright © <span id="year"></span> <a href="javascript:void(0)">Sash</a>.
+                            Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>.
                             Designed with <span class="fa fa-heart text-danger"></span> by <a
-                                href="javascript:void(0)"> Spruko </a> All rights reserved.
+                                href="javascript:void(0)"> PataMtaani </a> All rights reserved.
                         </div>
                     </div>
                 </footer>

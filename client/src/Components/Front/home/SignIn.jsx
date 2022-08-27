@@ -20,8 +20,8 @@ function SignIn() {
         const data = { username: username, password: password };
     
         setLoading(true);
+         //axios.post("http://localhost:3001/users/login", data).then((response) => {
          axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((response) => {
-         //axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((response) => {
           if (response.data.error) {
             alert(response.data.error);
             setLoading(false);
@@ -98,7 +98,8 @@ function SignIn() {
        
             <div class="col col-login mx-auto mt-7">
                 <div class="text-center">
-                <a href='/'><img src="assets/images/brand/logo-white.png" class="header-brand-img" alt=""/></a>
+                
+                <a href='/'><img src="assets/images/brand/logo_pink.png" class="header-brand-img" alt=""/></a>
                 </div>
             </div>
 
