@@ -215,6 +215,28 @@ function ProductSetting() {
 
     console.log("THE IMAGE NAME IS "+product_image)
 
+   
+
+
+
+    setProductsList([
+        ...productsList,
+        {
+            name:name,
+            type:type,
+            product_description:product_description,
+            price: price,
+            quantity:quantity,
+            geo_location:address_line_2,
+            unit_of_measure:unit_of_measure,
+            latitude:lat,
+            longitude:lng,
+            product_image:product_image,
+            UserId:userId,
+            BusinessId:businessId,
+        },
+      ]);
+
 
 
     
@@ -222,6 +244,7 @@ function ProductSetting() {
        
         setTimeout(() => {
             setLoading(false);
+            
             toast.success('Product saved successfully');
         }, 3000);
      
@@ -1082,34 +1105,38 @@ const openSelectedProduct=(pId)=>{
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-footer mt-2">
+                                      
                                            
                         
                                            
                           
                           
                                     
-                                            {!isLoading && <button type="submit" onClick={addDetails} class="btn btn-primary"  style={{backgroundColor:"#085781"}}>Save</button>
+                                            
                                   
-                                        } 
-                                        {isLoading &&
-                                            <button type="submit" class="btn btn-primary btn-md btn-block mt-3 waves-effect" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
-                                        }
-                        
-                        
-                                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Close</button>
-                                  
-                                        <ToastContainer />
-                                        </div>
+                                       
                                     </div>
                                 </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-primary">Save changes</button> <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+
+
+                                    {!isLoading && <button type="submit" onClick={addDetails} class="btn btn-primary">Save</button>
+                                  
+                                        } 
+                                        {isLoading &&
+                                            <button type="submit" class="btn btn-primary" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+                                        }
+                        
+                        
+                                         <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        
+                        <ToastContainer />
 
 
 

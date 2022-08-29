@@ -18,6 +18,8 @@ import { Helmet } from "react-helmet";
 import SidebarS from './SidebarS';
 import TopbarS from './TopbarS';
 
+import { Modal, Button } from "react-bootstrap";
+
 function Dashboard() {
 
     const [userId, setUserId] = useState('');
@@ -28,12 +30,64 @@ function Dashboard() {
 
     const [business_name, setbusiness_name] = useState("");
     const [business_type, setbusiness_type] = useState("");
+
+    const [actualId, setactualId] = useState('');
+
+
+    
+    const [item_name, setitem_name] = useState('');
+
+    const [orderId, setorderId] = useState('');
+
+
+    const [quantity_ordered, setquantity_ordered] = useState('');
     
     const [servicesList, setServicesList] = useState([]);
 
     const [staffList, setStaffList] = useState([]);
 
     const [bussSetup,setBussSetup]=useState(false);
+
+    const [isBusinessSet,setIsBusinessSet] = useState(false);
+
+    const [randomNo, setRandomNo] = useState(0);
+
+    const [customersCount, setCustomersCount] = useState(0);
+
+
+    const [customer_contacts, setcustomer_contacts] = useState('');
+
+    
+
+  
+
+    const [order_description, setorder_description] = useState('');
+
+    const [isLoading,setLoading]=useState(false);
+
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+
+    const handleShow = () =>{
+
+      setLoading(true)
+
+      setShow(true);
+    
+      setTimeout(() => {
+
+      setLoading(false)
+      setShow(false)
+
+     
+      
+  }, 2000);
+
+
+    }
+
 
 
 
@@ -70,6 +124,8 @@ function Dashboard() {
                 axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
+
+          setIsBusinessSet(true)
     
           setbusinessId(response.data.id);
 
@@ -82,13 +138,17 @@ function Dashboard() {
           setBussSetup(true);
 
           setOrdersList(response.data.Orders)
+
+          setCustomersCount(response.data.Customers.length)
+
+          //setcustomer_contacts(response.data.Customers.)
       
         
       
         }
         else{
       
-      
+          setIsBusinessSet(false)
           setbusinessId(0)
           setBussSetup(false);
           setbusiness_name('nobuzz')
@@ -106,6 +166,119 @@ function Dashboard() {
     
     
     },[]);
+
+
+
+    const openSelectedOrder=(oId)=>{
+
+        //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+     
+             console.log("THE PRODUCT NAME IS "+response.data.name)
+     
+             setactualId(oId)
+     
+             setorderId(response.data.orderId)
+     
+             setitem_name(response.data.item_name)
+     
+             setquantity_ordered(response.data.quantity_ordered)
+     
+             setorder_description(response.data.order_description)
+                 
+     
+                 })
+     
+     
+     
+         }
+
+
+
+         const custDetailsOrder=(userId)=>{
+
+
+            axios.get('https://yoteorder-server.herokuapp.com/customer/getById/'+userId).then((response) => {
+     
+                //console.log("THE PRODUCT NAME IS "+response.data.name)
+        
+              
+                setcustomer_contacts(response.data.phone_no)
+        
+              
+        
+                    })
+        
+
+
+
+           
+            }
+
+
+    const completeOrder=(oId)=>{
+
+        setLoading(true);
+
+        const order_details={
+            order_status:'completed',
+          
+          }
+
+      
+
+
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+    
+           // console.log("THE ACTUAL ID IS "+actualId)
+            
+            setorderId(res_b.data.id)
+            
+           
+            setTimeout(() => {
+                setLoading(false);
+                handleShow()
+               // toast.warning("Cancel Cancelled")
+            }, 1000);
+            
+            })
+    }
+
+
+    const cancelOrder=(oId)=>{
+
+        setLoading(true);
+
+        const order_details={
+            order_status:'cancelled',
+          
+          }
+
+      
+
+
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+    
+           // console.log("THE ACTUAL ID IS "+actualId)
+            
+            setorderId(res_b.data.id)
+            
+           
+            setTimeout(() => {
+                setLoading(false);
+                // handleShow()
+                toast.warning("Order Cancelled")
+            }, 1000);
+            
+            })
+
+
+        
+    }
+
+
+
+
   return (
     <div>
 
@@ -164,6 +337,16 @@ function Dashboard() {
                             </ol>
                         </div>
                     </div>
+
+
+                    {!isBusinessSet &&
+                    
+                        <div class="alert alert-danger" role="alert">
+                        You need to set up your business profile and location.Kindly do so!
+                    </div>
+                    }
+
+                                 
                     
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
@@ -173,7 +356,7 @@ function Dashboard() {
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="mt-2">
-                                                    <h6 class="">Total Users</h6>
+                                                    <h6 class="">Total Customers</h6>
                                                     <h2 class="mb-0 number-font">44,278</h2>
                                                 </div>
                                                 <div class="ms-auto">
@@ -324,6 +507,17 @@ function Dashboard() {
                                                                     <strong>{value.email}</strong>
                                                                 </div>
                                                             </div>
+
+                                                            <div class="d-flex align-items-center mb-3 mt-3">
+                                                                <div class="me-4 text-center text-primary">
+
+                                                                    <span><i class="fe fe-phone fs-20"></i></span>
+                                                                </div>
+                                                                <div>
+                                                                    <strong>{value.UserId} </strong>
+                                                                </div>
+                                                            </div>
+
                                                                 <p class="fs-16">{value.order_description} </p>
 
 
@@ -358,8 +552,28 @@ function Dashboard() {
                                                     <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
                                                         <div class="card-body p-0">
                                                             <div class="price h3 text-center mb-5 fw-bold">Total:Kes 650 </div>
-                                                            <a href="#" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Complete Order</a>
-                                                            <a href="#" class="btn btn-danger btn-block mt-2"><i class="fe fe-x text-white"></i>Cancel Order</a>
+
+                                                            {!isLoading && <button type="submit" onClick={() => {
+                                                                completeOrder(value.id);
+                                                                  }} class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Complete Order</button>
+                                  
+                                                        } 
+                                                        {isLoading &&
+                                                            <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Completing Order...</button>
+                                                        }
+
+
+
+                                                        {!isLoading && <button type="submit" onClick={() => {
+                                                            cancelOrder(value.id);
+                                                              }} class="btn btn-danger btn-block mt-2"><i class="fe fe-x text-white"></i>Cancel Order</button>
+                              
+                                                    } 
+                                                    {isLoading &&
+                                                        <button type="submit" class="btn btn-danger btn-block mt-2" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Processing...</button>
+                                                    }
+                                                           
+                                                        
                                                         </div>
                                                     </div>
                                                 </div>
@@ -367,7 +581,38 @@ function Dashboard() {
                                         </div>
                                     </div>
                         )})}
-                                    
+
+                        <ToastContainer></ToastContainer>
+
+                                    <Modal class="modal fade" id="modaldemo8" show={show}>
+
+<Modal.Header>
+  <Modal.Title>Completing Order</Modal.Title>
+</Modal.Header>
+<Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+
+<i class="icon icon-check fs-70 text-success lh-1 my-5 d-inline-block"></i>
+<h4 class="text-success tx-semibold">Order Completed!</h4>
+
+
+
+  
+
+</Modal.Body>
+<Modal.Footer>
+
+{/* <Button variant="secondary" onClick={handleClose}>
+    Close
+  </Button>
+  <Button variant="primary" onClick={handleClose}>
+    Save Changes
+  </Button> */}
+ 
+</Modal.Footer>
+</Modal>
                                     
                                   
                                    

@@ -22,6 +22,8 @@ import AccountSetting from "./Components/Dashboards/seller/AccountSetting";
 import CustomerDashboard from "./Components/Dashboards/customer/CustomerDashboard";
 import ProfileC from "./Components/Dashboards/customer/ProfileC";
 import ProfileS from "./Components/Dashboards/seller/ProfileS";
+import Users from "./Components/Dashboards/admin/Users";
+import Products from "./Components/Dashboards/admin/Products";
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -36,7 +38,7 @@ function App() {
   useEffect(() => {
     axios
     .get("https://yoteorder-server.herokuapp.com/users/auth", {
-      // .get('http://localhost:3001/users/auth',{headers:{
+      // .get('https://yoteorder-server.herokuapp.com/users/auth',{headers:{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -86,6 +88,11 @@ function App() {
         <Route path="/setting-products" element={ <ProductSetting/>}/>
 
         <Route path="/account-setting" element={ <AccountSetting/>}/>
+
+
+        <Route path="/users" element={ <Users/>}/>
+
+        <Route path="/products" element={ <Products/>}/>
 
 
        

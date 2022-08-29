@@ -2,8 +2,11 @@ import React, { useCallback,useState,useEffect,useContext } from 'react';
 
 import {useNavigate} from 'react-router-dom'
 
+import axios from 'axios';
+
 import {Link} from 'react-router-dom'
 import HowToGetStarted from './HowToGetStarted'
+import CampaignBadge from './CampaignBadge';
 
 function Homepage() {
 
@@ -13,26 +16,52 @@ function Homepage() {
 
     const isAuthenticated = localStorage.getItem("isAuthenticated")
 
+    const [bestList, setBestList] = useState([]);
+    const [isDivLoading, setIsDivLoading] = useState(false);
+
+    
+    const [errorMessage, setErrorMessage] = useState("");
+
     const [isLoading,setLoading]=useState(false);
 
 
-    console.log("THE AUTHENTICATION STATUS",isAuthenticated)
+   // console.log("THE AUTHENTICATION STATUS",isAuthenticated)
+
+
+    useEffect(()=>{
+
+       // setIsDivLoading(true);
 
 
 
+            axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
 
-    // const searchItem = () => {
-    //    // setLoading(true);
-       
-        
-    //     setTimeout(() => {
-    //     setLoading(false);
-    //       //setAddress(string_lng)
-    //      // history.push('/search-location-avon-park-florida');
-    //      history('/ordered-product/'+pname);
-    //     }, 2000);
-        
-    //       };
+            setBestList(response.data)
+
+            console.log("BUSSINESS LIST IS"+response.data)
+
+           
+
+         
+            setTimeout(() => {
+                
+
+               // setSeller_name(response.data.Users);
+               // setIsDivLoading(false)   // Hide loading screen 
+               // toast.info('Product saved successfully');
+            }, 3000);
+
+            //setSeller_name(response.data.Users.first_name)
+            
+        }).catch(() => {
+            setErrorMessage("Unable to fetch your vendors list");
+            //setIsDivLoading(false);
+         });
+  
+  
+  },[]);
+
+   
 
 
          const searchItem = () => {
@@ -354,6 +383,10 @@ function Homepage() {
         <div class="">
 
 
+        <HowToGetStarted/>
+
+
+
         <div class="section pb-0">
         <div class="container">
             <div class="row">
@@ -363,135 +396,98 @@ function Homepage() {
             </div>
 
 
-        <div class="row row-cols-4">
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="/assets/images/users/15.jpg"  style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Mike Rowe-Soft</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
+        <div class="row row-cols-4 bg-transparent">
+
+        {bestList.map((value, key) => {
+            return (
+
+
+                <div class="col-xl-3 col-sm-6 col-md-6">
+
+             
+                
+                <div class="card border p-0">
+                    <div class="card-header">
+                        <h3 class="card-title">{value.business_name}</h3>
+                        <div class="card-options">
+                            <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                            <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
                         </div>
                     </div>
+                        <a href='#'>
+                            <div class="card-body text-center">
+                                <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg" style={{ background: 'url(assets/images/users/15.jpg)', center: 'center' }}></span>
+                                <h4 class="h4 mb-0 mt-3">{value.User.first_name}</h4>
+                                <p class="card-text">Vendor</p>
+
+
+                                <div class="mb-2 text-warning">
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                </div>
+
+                              
+                                <hr/>   
+                              
+                                <div>
+                                <span><i class="fe fe-map-pin fs-20"></i></span><strong>{value.location}</strong>
+                                </div>
+                           
+
+                               
+                                    <div>
+                                    <span><i class="fe fe-phone fs-20"></i></span><strong>{value.contacts} </strong>
+                                    </div>
+                                
+                            </div>
+                        </a>
+                    
+                    <div class="card-footer text-center">
+                        <div class="row user-social-detail">
+                            <div class="social-profile me-4 rounded text-center">
+                                <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
+                            </div>
+                            <div class="social-profile me-4 rounded text-center">
+                                <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
+                            </div>
+                            <div class="social-profile me-4 rounded text-center">
+                                <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
+                
+                
+                
+               
+                
             </div>
-        </div>
+
+
+            )
+        }
+        )
+
+        }
+      
   
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg"  style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Laura Norda</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="/assets/images/users/15.jpg" style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Willie Makit</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-md-6">
-            <div class="card border p-0">
-                <div class="card-header">
-                    <h3 class="card-title">Contact card</h3>
-                    <div class="card-options">
-                        <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                        <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg"  style={{background: 'url(&quot;../assets/images/users/15.jpg&quot;)', center:'center'}}></span>
-                    <h4 class="h4 mb-0 mt-3">Don Messwidme</h4>
-                    <p class="card-text">Web designer</p>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row user-social-detail">
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                        </div>
-                        <div class="social-profile me-4 rounded text-center">
-                            <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
+      
       
     </div>
 
+    <CampaignBadge></CampaignBadge>
+
     </div>
     </div>
 
 
 
-    <HowToGetStarted/>
-
+   
 
 
 
@@ -500,7 +496,7 @@ function Homepage() {
             <div class="row">
                 <h4 class="text-center fw-semibold">Statistics</h4>
                 <span class="landing-title"></span>
-                <h2 class="text-center fw-semibold mb-7">Sash Template Statistics.</h2>
+                <h2 class="text-center fw-semibold mb-7">PataMtaani Statistics.</h2>
             </div>
             <div class="row text-center services-statistics landing-statistics">
                 <div class="col-xl-3 col-md-6 col-lg-6">
@@ -516,7 +512,7 @@ function Homepage() {
                                         <span class="counter fw-semibold counter ">100</span>+
                                     </h1>
                                     <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">HTML Pages</h5>
+                                        <h5 class="font-weight-normal mb-0 ">Vendors</h5>
                                     </div>
                                 </div>
                             </div>
@@ -536,7 +532,7 @@ function Homepage() {
                                         <span class="counter fw-semibold counter ">60</span>+
                                     </h1>
                                     <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">Integrated Plugins
+                                        <h5 class="font-weight-normal mb-0 ">Services
                                         </h5>
                                     </div>
                                 </div>
@@ -554,10 +550,10 @@ function Homepage() {
                                 </div>
                                 <div class="text-body text-center">
                                     <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">10</span>+
+                                        <span class="counter fw-semibold counter ">10000+</span>+
                                     </h1>
                                     <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">Form Elements</h5>
+                                        <h5 class="font-weight-normal mb-0 ">Customers</h5>
                                     </div>
                                 </div>
                             </div>
@@ -574,10 +570,10 @@ function Homepage() {
                                 </div>
                                 <div class="text-body text-center">
                                     <h1 class=" mb-0">
-                                        <span class="counter fw-semibold counter ">30</span>+
+                                        <span class="counter fw-semibold counter ">500 +</span>+
                                     </h1>
                                     <div class="counter-text">
-                                        <h5 class="font-weight-normal mb-0 ">Customize Widgets
+                                        <h5 class="font-weight-normal mb-0 ">Products
                                         </h5>
                                     </div>
                                 </div>
@@ -598,9 +594,9 @@ function Homepage() {
                                           <div class="row">
                                               <h4 class="text-center fw-semibold">Features</h4>
                                               <span class="landing-title"></span>
-                                              <h2 class="fw-semibold text-center">Sash Main Features</h2>
-                                              <p class="text-default mb-5 text-center">The Sash admin template comes with
-                                                  ready-to-use features that are completely easy-to-use for any user, even for
+                                              <h2 class="fw-semibold text-center">PataMtaani Main Services</h2>
+                                              <p class="text-default mb-5 text-center">The PataMtaani app comes with
+                                                  ready-to-use services that are completely easy-to-use for any user, even for
                                                   a beginner.</p>
                                               <div class="row mt-7">
                                                   <div class="col-lg-6 col-md-12">
@@ -1054,14 +1050,7 @@ function Homepage() {
                                 <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
                                     dolore eu fugiat nulla pariatur Excepteur sint occaecat.</p>
                                 <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control"
-                                            placeholder="Enter your email"
-                                            aria-label="Example text with button addon"
-                                            aria-describedby="button-addon1"/>
-                                        <button class="btn btn-primary" type="button"
-                                            id="button-addon2">Submit</button>
-                                    </div>
+                                    
                                 </div>
                             </div>
                             <div class="btn-list mt-6">

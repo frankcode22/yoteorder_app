@@ -382,6 +382,7 @@ function OrderedProduct() {
         customer_phone_no:rense.data.phone_no,
         order_description:order_description,
         orderId:randomNo,
+        ProductId:productId,
         UserId:rense.data.id,
         BusinessId:businessId,
       }
@@ -905,7 +906,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                     setquantity_ordered(event.target.value);
                   }} 
                 
-                placeholder="Quantity" required/>
+                placeholder="eg.1" required/>
             </div>
         </div>
 
@@ -917,7 +918,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
             <textarea class="form-control"   onChange={(event) => {
                 setorder_description(event.target.value);
-              }}  placeholder="Comments" id="floatingTextarea2" style={{height: '100px'}}></textarea>
+              }}  placeholder="Privide any order details or preferences you may need." id="floatingTextarea2" style={{height: '100px'}}></textarea>
         </div>
        
     </div>
@@ -957,6 +958,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
           onChange={(event) => {
             setName(event.target.value);
           }} 
+
+          placeholder='eg. Jane Masinde'
           
           aria-describedby="basic-icon-default-fullname2"/>
         </div>
@@ -967,14 +970,16 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
       <label class="col-sm-2 col-form-label" for="basic-icon-default-email">Email</label>
       <div class="col-sm-10">
         <div class="input-group input-group-merge">
-          <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+       
           <input type="text" id="basic-icon-default-email" class="form-control"
           onChange={(event) => {
             setEmail(event.target.value);
           }}
+
+          placeholder='eg. jane@gmail.com'
           
-          aria-describedby="basic-icon-default-email2"/>
-          <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+          aria-describedby="Eg.mike20@gmail.com"/>
+         
         </div>
         <div class="form-text"> You can use letters, numbers &amp; periods </div>
       </div>

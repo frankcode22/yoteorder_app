@@ -59,8 +59,11 @@ function SidebarS() {
 
 
                             <li>
-                                <a class="side-menu__item has-link" href="/setting-products"><i
-                                        class="side-menu__icon fe fe-zap"></i><span
+                                <a class="side-menu__item has-link" href="/setting-products">
+
+                              
+                                
+                                <i class="side-menu__icon fa fa-product-hunt" data-bs-toggle="tooltip" title="fa fa-product-hunt"></i><span
                                         class="side-menu__label">Products</span><span class="badge bg-green br-5 side-badge blink-text pb-1">New</span></a>
                             </li>
 

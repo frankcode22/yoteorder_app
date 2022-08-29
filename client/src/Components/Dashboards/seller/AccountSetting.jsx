@@ -27,6 +27,9 @@ function AccountSetting() {
     const [email, setEmail] = useState("");
     const [phone_no, setPhone_no] = useState("");
 
+    const [buss_contacts, setbuss_contacts] = useState("");
+
+
 
 
     const [business_name, setbusiness_name] = useState("");
@@ -74,7 +77,7 @@ function AccountSetting() {
     const [staffList, setStaffList] = useState([]);
 
 
-
+    const[staffId,setStaffId]=useState('')
     const [staff_name, SetStaff_name] = useState("");
 
 
@@ -173,6 +176,8 @@ function AccountSetting() {
 
           setbusiness_name(response.data.business_name);
 
+          setbuss_contacts(response.data.contacts)
+
           setBussSetup(true);
       
         
@@ -212,6 +217,7 @@ const buss_data={
     business_type:industry,
     industry:industry,
     location:location,
+    contacts:buss_contacts,
 
     address_line_1:address_line_1,
     latitude:latitude,
@@ -498,6 +504,20 @@ const openSelectedService=(sId)=>{
         
        // console.log("THE  ORDER ID TWO IS "+randomNo)
 
+
+
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+        if(response.data!=null){
+
+        
+          setServicesList(response.data.Services);
+    
+      
+        }
+       
+         })
+
    
 
     
@@ -515,16 +535,16 @@ const openSelectedService=(sId)=>{
 const openSelectedStaff=(sId)=>{
 
   //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-   axios.get('https://yoteorder-server.herokuapp.com/service/getbyId/'+sId).then((response) => {
+   axios.get('https://yoteorder-server.herokuapp.com/staff/getbyId/'+sId).then((response) => {
 
-       console.log("THE SERVICE NAME IS "+response.data.service_name)
+       console.log("THE Staff NAME IS "+response.data.service_name)
 
-       setServiceId(sId)
-       set_service_name(response.data.service_name)
-       set_service_type(response.data.service_type)
+       setStaffId(sId)
+       SetStaff_name(response.data.staff_name)
+       setEmail(response.data.email)
 
-       set_service_cost(response.data.service_cost)
-       set_description(response.data.description)
+       setPhone_no(response.data.phone_no)
+      // set_description(response.data.description)
 
        
            
@@ -534,6 +554,61 @@ const openSelectedStaff=(sId)=>{
 
 
    }
+
+
+   const updateStaff=()=>{
+
+    setLoading(true)
+
+   
+
+      const staff_data={
+        staffId:staffId,
+        staff_name:staff_name,
+        email:email,
+        phone_no:phone_no,
+        BusinessId:businessId,
+      
+      }
+
+     
+    axios.put('https://yoteorder-server.herokuapp.com/staff/updatestaff/'+staffId,staff_data).then((res_b)=>{
+
+        //console.log("THE ACTUAL ID IS "+actualId)
+        
+       // setorderId(res_b.data.id)
+        
+        
+        
+        console.log("THE  Staff ID IS "+res_b.data.id)
+        
+       // console.log("THE  ORDER ID TWO IS "+randomNo)
+
+
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+        if(response.data!=null){
+
+        
+          setStaffList(response.data.Staffs);
+    
+      
+        }
+       
+         })
+
+   
+
+    
+    
+        setTimeout(() => {
+            setLoading(false);
+            toast.success("Staff Updated")
+        }, 3000);
+        
+        })
+
+}
 
 
 
@@ -578,6 +653,14 @@ const openSelectedStaff=(sId)=>{
                 </ol>
             </div>
         </div>
+
+        
+        {!isBusinessSet &&
+                    
+          <div class="alert alert-danger" role="alert">
+          You need to set up your business profile and location.Kindly do so!
+      </div>
+      }
        
         <div class="row">
             <div class="col-xl-3">
@@ -649,7 +732,350 @@ const openSelectedStaff=(sId)=>{
 
 
 
-                <div class="panel panel-primary">
+                
+                {isBusinessSet &&
+                  <div class="card border p-0 shadow-none">
+                  <div class="card-body">
+                      <div class="d-flex">
+                          <div class="media mt-0">
+                              <div class="media-user me-2">
+                                  <div class=""><img alt="" class="rounded-circle avatar avatar-md" src="assets/images/users/16.jpg"/></div>
+                              </div>
+                              <div class="media-body">
+                                  <h6 class="mb-0 mt-1">{business_name}</h6>
+                                  <small class="text-muted">just now</small>
+                              </div>
+                          </div>
+                          <div class="ms-auto">
+                              <div class="dropdown show">
+                                  <a class="new option-dots" href="JavaScript:void(0);" data-bs-toggle="dropdown">
+                                      <span class=""><i class="fe fe-more-vertical"></i></span>
+                                  </a>
+                                  <div class="dropdown-menu dropdown-menu-end">
+                                      <a class="dropdown-item" href="javascript:void(0)">Edit Post</a>
+                                      <a class="dropdown-item" href="javascript:void(0)">Delete Post</a>
+                                      <a class="dropdown-item" href="javascript:void(0)">Personal Settings</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="mt-4">
+                          <h4 class="fw-semibold mt-3">There is nothing more beautiful.</h4>
+                          <p class="mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.
+                          </p>
+                      </div>
+                  </div>
+                  <div class="card-footer user-pro-2">
+                      <div class="media mt-0">
+                          <div class="media-user me-2">
+                              <div class="avatar-list avatar-list-stacked">
+                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/12.jpg)'}}></span>
+                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
+                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/9.jpg)'}}></span>
+                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
+                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users//4.jpg)'}}></span>
+                                  <span class="avatar brround text-primary">+28</span>
+                              </div>
+                          </div>
+                          <div class="media-body">
+                              <h6 class="mb-0 mt-2 ms-2">10 buyers like your business</h6>
+                          </div>
+                          <div class="ms-auto">
+                              <div class="d-flex mt-1">
+                                  <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-heart"></i></span></a>
+                                  <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-message-square"></i></span></a>
+                                  <a class="new text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-share-2"></i></span></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                
+                
+                
+                }
+
+                {isBusinessSet &&
+                  <div class="row">
+
+
+                  <div class="col-xl-6 col-md-12">
+                  <div class="card m-b-20 border p-0 shadow-none">
+                      <div class="card-header">
+                          <h3 class="card-title">Business Contacts</h3>
+                          <div class="card-options">
+                              <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                              <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                      <div class="d-flex align-items-center mb-3 mt-3">
+                      <div class="me-4 text-center text-primary">
+                          <span><i class="fe fe-briefcase fs-20"></i></span>
+                      </div>
+                      <div>
+                          <strong>{business_name} </strong>
+                      </div>
+                  </div>
+                  <div class="d-flex align-items-center mb-3 mt-3">
+                      <div class="me-4 text-center text-primary">
+                          <span><i class="fe fe-map-pin fs-20"></i></span>
+                      </div>
+                      <div>
+                          <strong>{location}</strong>
+                      </div>
+                  </div>
+                  <div class="d-flex align-items-center mb-3 mt-3">
+                      <div class="me-4 text-center text-primary">
+                          <span><i class="fe fe-phone fs-20"></i></span>
+                      </div>
+                      <div>
+                          <strong>{buss_contacts} </strong>
+                      </div>
+                  </div>
+                  <div class="d-flex align-items-center mb-3 mt-3">
+                      <div class="me-4 text-center text-primary">
+                          <span><i class="fe fe-mail fs-20"></i></span>
+                      </div>
+                      <div>
+                          <strong>{email}</strong>
+                      </div>
+                  </div>
+                      </div>
+                  </div>
+              </div>
+
+
+
+              
+
+
+              
+              <div class="col-xl-6 col-md-12">
+              <div class="card d-flex m-b-20 border p-0 shadow-none">
+                  <div class="card-header">
+                      <h3 class="card-title">Customers</h3>
+                      <div class="card-options">
+                          <a class="text-gray" href="javascript:void(0)">
+                              <i class="mdi mdi-refresh"></i>
+                          </a>
+                          <a class="text-gray" href="javascript:void(0)">
+                              <i class="mdi mdi-bookmark-outline"></i>
+                          </a>
+                          <a class="text-gray" href="javascript:void(0)">
+                              <i class="mdi mdi-dots-vertical"></i>
+                          </a>
+                      </div>
+                  </div>
+                  <div class="card-body">
+                  <div class="">
+                  <div class="media overflow-visible">
+                      <img class="avatar brround avatar-md me-3" src="../assets/images/users/18.jpg" alt="avatar-img"/>
+                      <div class="media-body valign-middle mt-2">
+                          <a href="javascript:void(0)" class=" fw-semibold text-dark">John Paige</a>
+                          <p class="text-muted mb-0">johan@gmail.com</p>
+                      </div>
+                      <div class="media-body valign-middle text-end overflow-visible mt-2">
+                          <button class="btn btn-sm btn-primary" type="button">Follow</button>
+                      </div>
+                  </div>
+                  <div class="media overflow-visible mt-sm-5">
+                      <span class="avatar cover-image avatar-md brround bg-pink me-3">LQ</span>
+                      <div class="media-body valign-middle mt-2">
+                          <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Quinn</a>
+                          <p class="text-muted mb-0">lilliangore</p>
+                      </div>
+                      <div class="media-body valign-middle text-end overflow-visible mt-1">
+                          <button class="btn btn-sm btn-secondary" type="button">Follow</button>
+                      </div>
+                  </div>
+                  <div class="media overflow-visible mt-sm-5">
+                      <img class="avatar brround avatar-md me-3" src="../assets/images/users/2.jpg" alt="avatar-img"/>
+                      <div class="media-body valign-middle mt-2">
+                          <a href="javascript:void(0)" class="text-dark fw-semibold">Harry Fisher</a>
+                          <p class="text-muted mb-0">harryuqt</p>
+                      </div>
+                      <div class="media-body valign-middle text-end overflow-visible mt-1">
+                          <button class="btn btn-sm btn-danger" type="button">Follow</button>
+                      </div>
+                  </div>
+               
+              </div>
+                  </div>
+              </div>
+          </div>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  </div>}
+
+
+
+                  
+                 {!isBusinessSet && 
+                  <form>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" id="formtabs-first-name" class="form-control" 
+                          
+                          onChange={(event) => {
+                              setbusiness_name(event.target.value);
+                            }}
+                          
+                          
+                          placeholder="Eg. Edith Salon" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                      
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
+                        <div class="col-sm-9">
+                        <textarea id="basic-icon-default-message" class="form-control" placeholder="My business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
+                        
+                        onChange={(event) => {
+                          setbusiness_description(event.target.value);
+                        }}
+          
+                        aria-describedby="basic-icon-default-message2"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
+                        <div class="col-sm-9">
+                          <select id="formtabs-country" class="select2 form-select"
+                          
+                          onChange={(event) => {
+                              setCity(event.target.value);
+                            }}
+          
+                          
+                          data-allow-clear="true">
+                            <option value="">Select</option>
+                            <option value="Nairobi">Nairobi</option>
+                            <option value="Kiambu">Kiambu</option>
+                            <option value="Machakos">Machakos</option>
+                            <option value="Kakuru">Kakuru</option>
+                            <option value="Makueni">Makueni</option>
+                            <option value="Nyeri">Nyeri</option>
+                            
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 select2-primary">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-language">Industry</label>
+                        <div class="col-sm-9">
+                          <select id="formtabs-language" class="select2 form-select"
+          
+          
+                          onChange={(event) => {
+                              setindustry(event.target.value);
+                            }}
+                          
+                          
+                          multiple>
+                            <option value="Eateries" selected>Eateries</option>
+
+                            <option value="Domestic-Products" selected>Domestic Products</option>
+
+                            <option value="Wines-Spirits">Drinks/Wines/Spirts/Alcohol</option>
+
+                            <option value="Drinks">Drinks</option>
+                         
+                            <option value="Beauty">Beauty</option>
+                            <option value="Education">Education</option>
+                            <option value="Automotive">Wellbeing</option>
+                            <option value="pt">Automotive</option>
+                            <option value="home care">Home Care</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Electronics">Electronics</option>
+                         
+                            <option value="Automotive">Automotive</option>
+
+                            <option value="Contruction">Contruction</option>
+                  
+                            
+                            <option value="Clothing">Clothing</option>
+                            <option value="Computing">Computing</option>
+                  
+                  
+                            <option value="Domestic">Domestic Use</option>
+                            <option value="Home-Based">Home-Based</option>
+                            <option value="Beauty">Beauty</option>
+                  
+                            <option value="Agricultural">Agricultural</option>
+                            <option value="Livestock">Livestock</option>
+                            <option value="Poultry">Poultry</option>
+                            <option value="Aquatic">Aquatic</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
+                      <div class="col-sm-9">
+                        <input type="text" id="location" class="form-control"
+                        
+                        
+                        onChange={(event) => {
+                          setlocation(event.target.value);
+                        }}
+                        
+                        placeholder="Eg.Njogoo Road" />
+                      </div>
+          
+                 
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
+                        <div class="col-sm-9">
+                          <input type="text" id="buss-contacts" class="form-control phone-mask"
+                          
+                          onChange={(event) => {
+                              setbuss_contacts(event.target.value);
+                            }}
+                          placeholder="0714639773" aria-label="0714639773" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-4">
+                    <div class="col-md-6">
+                      <div class="row justify-content-end">
+                        <div class="col-sm-9">
+                          
+          
+                          {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary me-sm-3 me-1">Submit</button>
+          
+                      } 
+                      {isLoading &&
+                          <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+                      }
+                          <button type="reset" class="btn btn-label-secondary">Cancel</button>
+          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form> }
+
+               
+{/*  <div class="panel panel-primary">
                 <div class="tab-menu-heading">
                     <div class="tabs-menu">
                         
@@ -765,7 +1191,7 @@ const openSelectedStaff=(sId)=>{
                             <span><i class="fe fe-phone fs-20"></i></span>
                         </div>
                         <div>
-                            <strong>{phone_no} </strong>
+                            <strong>{buss_contacts} </strong>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3 mt-3">
@@ -928,12 +1354,39 @@ const openSelectedStaff=(sId)=>{
                           
                           
                           multiple>
-                            <option value="Beauty" selected>Beauty</option>
-                            <option value="Education" selected>Education</option>
+                            <option value="Eateries" selected>Eateries</option>
+
+                            <option value="Domestic-Products" selected>Domestic Products</option>
+
+                            <option value="Wines-Spirits">Drinks/Wines/Spirts/Alcohol</option>
+
+                            <option value="Drinks">Drinks</option>
+                         
+                            <option value="Beauty">Beauty</option>
+                            <option value="Education">Education</option>
                             <option value="Automotive">Wellbeing</option>
                             <option value="pt">Automotive</option>
                             <option value="home care">Home Care</option>
                             <option value="Maintenance">Maintenance</option>
+                            <option value="Electronics">Electronics</option>
+                         
+                            <option value="Automotive">Automotive</option>
+
+                            <option value="Contruction">Contruction</option>
+                  
+                            
+                            <option value="Clothing">Clothing</option>
+                            <option value="Computing">Computing</option>
+                  
+                  
+                            <option value="Domestic">Domestic Use</option>
+                            <option value="Home-Based">Home-Based</option>
+                            <option value="Beauty">Beauty</option>
+                  
+                            <option value="Agricultural">Agricultural</option>
+                            <option value="Livestock">Livestock</option>
+                            <option value="Poultry">Poultry</option>
+                            <option value="Aquatic">Aquatic</option>
                           </select>
                         </div>
                       </div>
@@ -942,14 +1395,14 @@ const openSelectedStaff=(sId)=>{
                       <div class="row">
                       <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
                       <div class="col-sm-9">
-                        <input type="text" id="formtabs-first-name" class="form-control"
+                        <input type="text" id="location" class="form-control"
                         
                         
                         onChange={(event) => {
                           setlocation(event.target.value);
                         }}
                         
-                        placeholder="Eg. Ruai By Pass" />
+                        placeholder="Eg.Njogoo Road" />
                       </div>
           
                  
@@ -959,10 +1412,10 @@ const openSelectedStaff=(sId)=>{
                       <div class="row">
                         <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
                         <div class="col-sm-9">
-                          <input type="text" id="formtabs-phone" class="form-control phone-mask"
+                          <input type="text" id="buss-contacts" class="form-control phone-mask"
                           
                           onChange={(event) => {
-                              setPhone_no(event.target.value);
+                              setbuss_contacts(event.target.value);
                             }}
                           placeholder="0714639773" aria-label="0714639773" />
                         </div>
@@ -1106,12 +1559,13 @@ const openSelectedStaff=(sId)=>{
                                 
                                 
                                 multiple>
-                                  <option value="Beauty" selected>Beauty</option>
-                                  <option value="Education" selected>Education</option>
-                                  <option value="Automotive">Wellbeing</option>
-                                  <option value="pt">Automotive</option>
-                                  <option value="home care">Home Care</option>
-                                  <option value="Maintenance">Maintenance</option>
+
+                                <option value="Eateries" selected>Eateries</option>
+
+                                  
+
+
+                                 
                                 </select>
                               </div>
                             </div>
@@ -1127,7 +1581,7 @@ const openSelectedStaff=(sId)=>{
                                 setlocation(event.target.value);
                               }}
                               
-                              placeholder="Eg. Ruai By Pass" />
+                              placeholder="Eg.Ruai By Pass" />
                             </div>
                 
                        
@@ -1175,7 +1629,10 @@ const openSelectedStaff=(sId)=>{
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*/}
+
+
+               
 
 
             <ToastContainer></ToastContainer>
@@ -1192,8 +1649,20 @@ const openSelectedStaff=(sId)=>{
                         <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"><span class="ri-delete-bin-line"></span></a>
                     </div>
                     <div class="btn-list ms-auto my-auto">
-                        <button class="btn btn-danger btn-space mb-0">Cancel</button>
-                        <button class="btn btn-primary btn-space mb-0">Send message</button>
+
+                    <button class="btn btn-danger btn-space mb-0">Cancel</button>
+
+                    
+                    {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary btn-space mb-0">Save</button>
+          
+                  } 
+                  {isLoading &&
+                      <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow text-success me-2" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>Saving Infor</button>
+                  }
+                       
+                    
                     </div>
                 </div>
             </div>
@@ -1579,7 +2048,7 @@ const openSelectedStaff=(sId)=>{
                                               <strong>{value.email}</strong>
                                           </div>
                                       </div>
-                                          <p class="fs-16">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip commodo consequat,quis nostrud exercitation ullamco laboris nisi ut aliquip commodo consequat </p>
+                                          <p class="fs-16">Staff Information</p>
                                           
                                           
                                           
@@ -1611,7 +2080,9 @@ const openSelectedStaff=(sId)=>{
                               <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
                                   <div class="card-body p-0">
                                       <div class="price h3 text-center mb-5 fw-bold">Completed Tasks: 5</div>
-                                      <a href="#" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Edit Details</a>
+                                       <a onClick={() => {
+                                        openSelectedStaff(value.id);
+                                          }}  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo90" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Edit Details</a>
                                       <a href="#" class="btn btn-outline-primary btn-block mt-2"><i class="fe fe-new"></i>Assign Service</a>
                                   </div>
                               </div>
@@ -1945,6 +2416,75 @@ const openSelectedStaff=(sId)=>{
           </div>
         </div>
       </div>
+
+
+      <div class="modal fade" id="modaldemo90">
+      <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalCenterTitle">Add Staff</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col mb-3">
+                <label for="nameWithTitle" class="form-label">Name</label>
+                <input type="text" id="staff_name" class="form-control" placeholder="Enter Name"
+
+                value={staff_name}
+                
+                onChange={(event) => {
+                    SetStaff_name(event.target.value);
+                  }}
+                   
+                />
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col mb-0">
+                <label for="emailWithTitle" class="form-label">Email</label>
+                <input type="text" id="emailWithTitle" class="form-control" placeholder="xxxx@xxx.xx"
+
+                value={email}
+                
+                
+                onChange={(event) => {
+                    setEmail(event.target.value);
+                  }}
+                   />
+              </div>
+              <div class="col mb-0">
+                <label for="dobWithTitle" class="form-label">Phone No.</label>
+                <input type="text" id="phoneno" class="form-control"
+    
+                onChange={(event) => {
+                    setPhone_no(event.target.value);
+                  }}
+                   
+                value={phone_no}
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+    
+    
+            
+            {!isLoading && <button type="submit" onClick={updateStaff} class="btn btn-primary"  style={{backgroundColor:"#085781"}}>Save</button>
+    
+        } 
+        {isLoading &&
+            <button type="submit" class="btn btn-primary btn-md btn-block mt-3 waves-effect" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+        }
+    
+    
+            
+          </div>
+          
+        </div>
+      </div>
+    </div>
 
 
 

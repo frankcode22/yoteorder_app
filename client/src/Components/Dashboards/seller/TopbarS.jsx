@@ -66,8 +66,7 @@ function TopbarS() {
                             </div>
                         </div>
                         <div class="d-flex country">
-                            <a class="nav-link icon text-center" data-bs-target="#country-selector"
-                                data-bs-toggle="modal">
+                            <a class="nav-link icon text-center">
                                 <i class="fe fe-globe"></i><span
                                     class="fs-16 ms-2 d-none d-xl-block">English</span>
                             </a>
@@ -95,7 +94,7 @@ function TopbarS() {
                                 </div>
                                 <div class="header-dropdown-list message-menu">
                                     <div class="dropdown-item d-flex p-4">
-                                        <a href="cart.html" class="open-file"></a>
+                                        <a href="#" class="open-file"></a>
                                         <span
                                             class="avatar avatar-xl br-5 me-3 align-self-center cover-image"
                                             data-bs-image-src="../assets/images/pngs/4.jpg"></span>
@@ -114,7 +113,7 @@ function TopbarS() {
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex p-4">
-                                        <a href="cart.html" class="open-file"></a>
+                                        <a href="#" class="open-file"></a>
                                         <span
                                             class="avatar avatar-xl br-5 me-3 align-self-center cover-image"
                                             data-bs-image-src="assets/images/pngs/6.jpg"></span>
@@ -133,7 +132,7 @@ function TopbarS() {
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex p-4">
-                                        <a href="cart.html" class="open-file"></a>
+                                        <a href="#" class="open-file"></a>
                                         <span
                                             class="avatar avatar-xl br-5 me-3 align-self-center cover-image"
                                             data-bs-image-src="../assets/images/pngs/8.jpg"></span>
@@ -152,7 +151,7 @@ function TopbarS() {
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex p-4">
-                                        <a href="cart.html" class="open-file"></a>
+                                        <a href="#" class="open-file"></a>
                                         <span
                                             class="avatar avatar-xl br-5 me-3 align-self-center cover-image"
                                             data-bs-image-src="../assets/images/pngs/1.jpg"></span>
@@ -171,7 +170,7 @@ function TopbarS() {
                                         </div>
                                     </div>
                                     <div class="dropdown-item d-flex p-4">
-                                        <a href="cart.html" class="open-file"></a>
+                                        <a href="#" class="open-file"></a>
                                         <span
                                             class="avatar avatar-xl br-5 me-3 align-self-center cover-image"
                                             data-bs-image-src="../assets/images/pngs/3.jpg"></span>
@@ -278,7 +277,7 @@ function TopbarS() {
                                     </div>
                                 </div>
                                 <div class="message-menu message-menu-scroll">
-                                    <a class="dropdown-item d-flex" href="chat.html">
+                                    <a class="dropdown-item d-flex" href="#">
                                         <span
                                             class="avatar avatar-md brround me-3 align-self-center cover-image"
                                             data-bs-image-src="../assets/images/users/1.jpg"></span>
@@ -292,7 +291,7 @@ function TopbarS() {
                                             <span>Commented on file Guest list....</span>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex" href="chat.html">
+                                    <a class="dropdown-item d-flex" href="#">
                                         <span
                                             class="avatar avatar-md brround me-3 align-self-center cover-image"
                                             data-bs-image-src="../assets/images/users/15.jpg"></span>
@@ -306,7 +305,7 @@ function TopbarS() {
                                             <span>New Meetup Started......</span>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex" href="chat.html">
+                                    <a class="dropdown-item d-flex" href="#">
                                         <span
                                             class="avatar avatar-md brround me-3 align-self-center cover-image"
                                             data-bs-image-src="assets/images/users/12.jpg"></span>
@@ -320,7 +319,7 @@ function TopbarS() {
                                             <span>Brizid is in the Warehouse...</span>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex" href="chat.html">
+                                    <a class="dropdown-item d-flex" href="#">
                                         <span
                                             class="avatar avatar-md brround me-3 align-self-center cover-image"
                                             data-bs-image-src="assets/images/users/4.jpg"></span>
@@ -334,7 +333,7 @@ function TopbarS() {
                                             <span>New Product Realease......</span>
                                         </div>
                                     </a>
-                                    <a class="dropdown-item d-flex" href="chat.html">
+                                    <a class="dropdown-item d-flex" href="#">
                                         <span
                                             class="avatar avatar-md brround me-3 align-self-center cover-image"
                                             data-bs-image-src="assets/images/users/3.jpg"></span>
@@ -379,11 +378,11 @@ function TopbarS() {
                                 <a class="dropdown-item" href="/profile-vendor">
                                     <i class="dropdown-icon fe fe-user"></i> Profile
                                 </a>
-                                <a class="dropdown-item" href="email-inbox.html">
+                                <a class="dropdown-item" href="#">
                                     <i class="dropdown-icon fe fe-mail"></i> Inbox
                                     <span class="badge bg-danger rounded-pill float-end">5</span>
                                 </a>
-                                <a class="dropdown-item" href="lockscreen.html">
+                                <a class="dropdown-item" href="#">
                                     <i class="dropdown-icon fe fe-lock"></i> Lockscreen
                                 </a>
                                 <a class="dropdown-item" href="/">

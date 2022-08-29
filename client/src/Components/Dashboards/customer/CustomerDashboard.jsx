@@ -18,6 +18,8 @@ import { AuthContext } from "../../../helpers/AuthContext";
 import SidebarC from './SidebarC'
 import TopbarC from './TopbarC'
 
+import { Modal, Button } from "react-bootstrap";
+
 function CustomerDashboard() {
 
 
@@ -51,6 +53,30 @@ function CustomerDashboard() {
     const [order_description, setorder_description] = useState('');
 
     const [isLoading,setLoading]=useState(false);
+
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+
+    const handleShow = () =>{
+
+      setLoading(true)
+
+      setShow(true);
+    
+      setTimeout(() => {
+
+      setLoading(false)
+      setShow(false)
+
+     
+      
+  }, 2000);
+
+
+    }
+
 
 
     useEffect(()=>{
@@ -174,6 +200,67 @@ function CustomerDashboard() {
         
     }
 
+
+    const completeOrder=(oId)=>{
+
+        setLoading(true);
+
+        const order_details={
+            order_status:'completed',
+          
+          }
+
+      
+
+
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+    
+           // console.log("THE ACTUAL ID IS "+actualId)
+            
+            setorderId(res_b.data.id)
+            
+           
+            setTimeout(() => {
+                setLoading(false);
+                handleShow()
+               // toast.warning("Cancel Cancelled")
+            }, 1000);
+            
+            })
+    }
+
+
+    const cancelOrderC=(oId)=>{
+
+        setLoading(true);
+
+        const order_details={
+            order_status:'cancelled',
+          
+          }
+
+      
+
+
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+    
+           // console.log("THE ACTUAL ID IS "+actualId)
+            
+            setorderId(res_b.data.id)
+            
+           
+            setTimeout(() => {
+                setLoading(false);
+                handleShow()
+               // toast.warning("Order Cancelled")
+            }, 1000);
+            
+            })
+
+
+        
+    }
+
   return (
     <div>
 
@@ -267,7 +354,9 @@ function CustomerDashboard() {
                                                         
                                                     
                                                               data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
-                                                        <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
+                                                        <li><a href="#" onClick={() => {
+                                                            cancelOrderC(value.id);
+                                                              }} class="btn btn-danger"><i class="fe fe-x"></i></a></li>
                                                     </ul>
                                                     <a href="#" >
                                                         <img class="img-fluid br-7 w-100" src="assets/images/pngs/9.jpg" alt="img"/>
@@ -276,23 +365,28 @@ function CustomerDashboard() {
                                                 <div class="card-body pt-0">
                                                     <div class="product-content text-center">
                                                         <h1 class="title fw-bold fs-20"><a href="#">{value.item_name}</a></h1>
-                                                        <span class="tag tag-radius tag-round tag-primary">Price {value.price}</span>
-                                                        <div class="mb-2 text-warning">
-                                                            <i class="fa fa-star text-warning"></i>
-                                                            <i class="fa fa-star text-warning"></i>
-                                                            <i class="fa fa-star text-warning"></i>
-                                                            <i class="fa fa-star-half-o text-warning"></i>
-                                                            <i class="fa fa-star-o text-warning"></i>
-                                                        </div>
+                                                        <span class="tag tag-radius tag-round tag-primary">Ksh.{value.Product.price}</span>
+                                                       
                                                         <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
                                     
                                                         
                                                         <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
-                                                        <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
-
                                                         
-                                                        </div>
-                                                        <strong>{value.order_description} </strong>
+                                                       
+                                                    </div>
+
+                                                    <div>
+
+                                                            <div class="d-flex align-items-center mb-3 mt-3">
+                                                                <div class="me-4 text-center text-primary">
+
+                                                                    <span><i class="fe fe-phone fs-20"></i></span>
+                                                                </div>
+                                                                <div>
+                                                                    <strong>{value.Business.contacts} </strong>
+                                                                </div>
+                                                            </div>
+
                                                     </div>
 
                                                     <ul class="list-group border br-7">
@@ -302,7 +396,7 @@ function CustomerDashboard() {
                                             
                                              <li class="list-group-item border-0">
                                                 Sub Total
-                                                <span class="h6 fw-bold mb-0 float-end">Ksh. 360</span>
+                                                <span class="h6 fw-bold mb-0 float-end">{value.Product.price}</span>
                                             </li>
                                             <li class="list-group-item border-0">
                                                 Discount
@@ -314,7 +408,7 @@ function CustomerDashboard() {
                                             </li>
                                             <li class="list-group-item border-0">
                                                 Total
-                                                <span class="h4 fw-bold mb-0 float-end">Ksh.370</span>
+                                                <span class="h4 fw-bold mb-0 float-end">Ksh.{value.Product.price*value.quantity_ordered}</span>
                                             </li>
                                         </ul>
                                                 </div>
@@ -334,10 +428,15 @@ function CustomerDashboard() {
                                                       data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">Edit</button>
 
 
-
-                                                      <button  onClick={() => {
-                                                        cancelOrder();
-                                                          }} class="btn btn-danger mb-1" role="button"><i class="fe fe-x"></i>Cancel</button>
+                                                      {!isLoading && <button type="submit" onClick={() => {
+                                                        cancelOrderC(value.id);
+                                                          }} class="btn btn-danger btn btn-danger mb-1"><i class="fe fe-x text-white"></i>Cancel Order</button>
+                          
+                                                } 
+                                                {isLoading &&
+                                                    <button type="submit" class="btn btn-danger btn-block mt-2" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Processing...</button>
+                                                }
+                                                     
 
 
                                               
@@ -355,7 +454,35 @@ function CustomerDashboard() {
 
 
 
+                                <Modal class="modal fade" show={show}>
 
+                                <Modal.Header>
+                                  <Modal.Title>Cancel Order</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body class="modal-body text-center p-4 pb-5">
+                                
+                                
+                                
+                                
+                                <i class="icon icon-close fs-70 text-danger lh-1 my-4 d-inline-block"></i>
+                                <h4 class="text-danger mb-20">Order Cancelled</h4>
+                                
+                                
+                                
+                                  
+                                
+                                </Modal.Body>
+                                <Modal.Footer>
+                                
+                                {/* <Button variant="secondary" onClick={handleClose}>
+                                    Close
+                                  </Button>
+                                  <Button variant="primary" onClick={handleClose}>
+                                    Save Changes
+                                  </Button> */}
+                                 
+                                </Modal.Footer>
+                                </Modal>
                             
 
                                 
