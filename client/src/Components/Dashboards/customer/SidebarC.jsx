@@ -1,6 +1,23 @@
 import React from 'react'
+import {useEffect,useState,useContext } from 'react';
+import { AuthContext } from '../../../helpers/AuthContext'
+
+import{useNavigate} from 'react-router-dom'
 
 function SidebarC() {
+
+    const {authState} = useContext(AuthContext);
+    const {setAuthState} = useContext(AuthContext);
+
+    let history = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem("accessToken");
+        setAuthState({ username: "", id: 0, status: false });
+
+        history('/');
+        window.location.reload(false);
+      };
   return (
     <div>
 
@@ -123,6 +140,33 @@ function SidebarC() {
                                     </li>
                                 </ul>
                             </li>
+
+
+                            <li class="sub-category">
+                            <h3>Account</h3>
+                        </li>
+
+                        <li class="slide">
+
+                     
+
+
+                        <a class="side-menu__item" data-bs-toggle="slide" href="#">
+                        <i class="side-menu__icon fe fe-mail"></i> Inbox
+                        <span class="badge bg-danger rounded-pill float-end">5</span>
+                    </a>
+                    <a  class="side-menu__item" data-bs-toggle="slide" href="#">
+                        <i class="side-menu__icon fe fe-lock"></i> Lockscreen
+                    </a>
+                    <a type="submit" class="side-menu__item" data-bs-toggle="slide" onClick={logout}>
+                        <i class="side-menu__icon fe fe-alert-circle"></i>Logout
+                    </a>
+
+
+
+
+
+                        </li>
                          
                             
                           

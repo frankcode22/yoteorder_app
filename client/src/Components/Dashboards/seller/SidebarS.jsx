@@ -1,6 +1,25 @@
 import React from 'react'
 
+import {useEffect,useState,useContext } from 'react';
+import { AuthContext } from '../../../helpers/AuthContext'
+
+import{useNavigate} from 'react-router-dom'
+
 function SidebarS() {
+
+    const {authState} = useContext(AuthContext);
+    const {setAuthState} = useContext(AuthContext);
+
+    let history = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem("accessToken");
+        setAuthState({ username: "", id: 0, status: false });
+
+        history('/');
+        window.location.reload(false);
+      };
+    
   return (
     <div>
 
@@ -66,27 +85,6 @@ function SidebarS() {
                                 <i class="side-menu__icon fa fa-product-hunt" data-bs-toggle="tooltip" title="fa fa-product-hunt"></i><span
                                         class="side-menu__label">Products</span><span class="badge bg-green br-5 side-badge blink-text pb-1">New</span></a>
                             </li>
-
-                          
-
-                            <li class="sub-category">
-                                <h3>Pre-build Pages</h3>
-                            </li>
-                            
-                           
-                            <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i
-                                        class="side-menu__icon fe fe-folder"></i><span class="side-menu__label">File
-                                        Manager</span><span class="badge bg-pink side-badge">4</span><i
-                                        class="angle fe fe-chevron-right hor-angle"></i></a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">File Manager</a></li>
-                                    <li><a href="file-manager.html" class="slide-item"> File Manager</a></li>
-                                    <li><a href="filemanager-list.html" class="slide-item"> File Manager List</a></li>
-                                    <li><a href="filemanager-details.html" class="slide-item"> File Details</a></li>
-                                    <li><a href="file-attachments.html" class="slide-item"> File Attachments</a></li>
-                                </ul>
-                            </li>
                             <li class="sub-category">
                                 <h3>Misc Pages</h3>
                             </li>
@@ -96,44 +94,45 @@ function SidebarS() {
                                     <i class="side-menu__icon fe fe-cpu"></i>
                                     <span class="side-menu__label">Setting</span><i
                                         class="angle fe fe-chevron-right"></i></a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">Submenu items</a></li>
-                                    <li><a href="javascript:void(0)" class="slide-item">Submenu-1</a></li>
-                                    <li class="sub-slide">
-                                        <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)"><span
-                                                class="sub-side-menu__label">Submenu-2</span><i
-                                                class="sub-angle fe fe-chevron-right"></i></a>
-                                        <ul class="sub-slide-menu">
-                                            <li><a class="sub-slide-item" href="javascript:void(0)">Submenu-2.1</a></li>
-                                            <li><a class="sub-slide-item" href="javascript:void(0)">Submenu-2.2</a></li>
-                                            <li class="sub-slide2">
-                                                <a class="sub-side-menu__item2" href="javascript:void(0)"
-                                                    data-bs-toggle="sub-slide2"><span
-                                                        class="sub-side-menu__label2">Submenu-2.3</span><i
-                                                        class="sub-angle2 fe fe-chevron-right"></i></a>
-                                                <ul class="sub-slide-menu2">
-                                                    <li><a href="javascript:void(0)" class="sub-slide-item2">Submenu-2.3.1</a></li>
-                                                    <li><a href="javascript:void(0)" class="sub-slide-item2">Submenu-2.3.2</a></li>
-                                                    <li><a href="javascript:void(0)" class="sub-slide-item2">Submenu-2.3.3</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a class="sub-slide-item" href="javascript:void(0)">Submenu-2.4</a></li>
-                                            <li><a class="sub-slide-item" href="javascript:void(0)">Submenu-2.5</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                               
                             </li>
                             <li class="sub-category">
-                                <h3>General</h3>
+                                <h3>Account</h3>
+                            </li>
+
+                            <li class="slide">
+
+                         
+
+
+                            <a class="side-menu__item" data-bs-toggle="slide" href="#">
+                            <i class="side-menu__icon fe fe-mail"></i> Inbox
+                            <span class="badge bg-danger rounded-pill float-end">5</span>
+                        </a>
+                        <a  class="side-menu__item" data-bs-toggle="slide" href="#">
+                            <i class="side-menu__icon fe fe-lock"></i> Lockscreen
+                        </a>
+                        <a type="submit" class="side-menu__item" data-bs-toggle="slide" onClick={logout}>
+                            <i class="side-menu__icon fe fe-alert-circle"></i> Logout
+                        </a>
+
+
+
+
+
                             </li>
                            
                            
                            
                         </ul>
-                        <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
-                                width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z" />
-                            </svg></div>
+                       
+
+
+                          
+
+
+
+
                     </div>
                 </div>
                 

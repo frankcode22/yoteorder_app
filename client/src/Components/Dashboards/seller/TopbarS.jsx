@@ -7,6 +7,13 @@ function TopbarS() {
 
     const {authState} = useContext(AuthContext);
 
+    const {setAuthState} = useContext(AuthContext);
+
+    const logout = () => {
+        localStorage.removeItem("accessToken");
+        setAuthState({ username: "", id: 0, status: false });
+      };
+
   return (
     <div>
     <div class="app-header header sticky">

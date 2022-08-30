@@ -6,6 +6,12 @@ import { AuthContext } from '../../../helpers/AuthContext'
 function Topbar() {
 
     const {authState} = useContext(AuthContext);
+    const {setAuthState} = useContext(AuthContext);
+
+    const logout = () => {
+        localStorage.removeItem("accessToken");
+        setAuthState({ username: "", id: 0, status: false });
+      };
     
 
   return (

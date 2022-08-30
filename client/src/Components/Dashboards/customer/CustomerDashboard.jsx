@@ -1,17 +1,17 @@
 import React from 'react'
 import {useEffect,useState,useContext} from 'react';
 
-import {useParams} from "react-router-dom"
 
 
 import axios from 'axios';
+
 
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useNavigate,Link} from "react-router-dom";
+import { useNavigate,Link,useParams} from "react-router-dom";
 
 import { AuthContext } from "../../../helpers/AuthContext";
 
@@ -46,6 +46,8 @@ function CustomerDashboard() {
 
     const [randomNo, setRandomNo] = useState(0);
 
+
+    let history = useNavigate();
     
 
   
@@ -82,23 +84,37 @@ function CustomerDashboard() {
     useEffect(()=>{
 
        
-         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             setUserId(response.data.id)
       
       
            })
     
-        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+        //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+        //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
 
 
-          axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+          axios.get("http://localhost:3001/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+            
+          if(response.data!=null){
             setOrdersList(response.data);
             console.log("THE PRODUCT NAME IS "+response.data)
+
+          }
+          else{
+            setOrdersList([]);
+
+            console.log("Pleas login ")
+
+           // history('/sigin')
+
+          }
+          
+           
             })
     
     
@@ -111,8 +127,8 @@ function CustomerDashboard() {
 
     const openSelectedOrder=(oId)=>{
 
-   //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-    axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+   //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+    axios.get('http://localhost:3001/order/orderById/'+oId).then((response) => {
 
         console.log("THE PRODUCT NAME IS "+response.data.name)
 
@@ -146,7 +162,7 @@ function CustomerDashboard() {
             order_description:order_description,
           
           }
-    axios.put('https://yoteorder-server.herokuapp.com/order/updateorder/'+actualId,order_details).then((res_b)=>{
+    axios.put('http://localhost:3001/order/updateorder/'+actualId,order_details).then((res_b)=>{
     
     console.log("THE ACTUAL ID IS "+actualId)
     
@@ -178,7 +194,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+actualId,order_details).then((res_b)=>{
+        axios.put('http://localhost:3001/order/updatestatus/'+actualId,order_details).then((res_b)=>{
     
             console.log("THE ACTUAL ID IS "+actualId)
             
@@ -213,7 +229,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -242,7 +258,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             

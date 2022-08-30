@@ -91,6 +91,10 @@ function ProductSetting() {
 
     const [isLoading,setLoading]=useState(false);
 
+    const [isLoadingT,setLoadingT]=useState(false);
+
+    const [productStatus,setProductStatus]=useState('available');
+
 
     const [mapCenter, setMapCenter] = useState({
       lat: 0,
@@ -113,8 +117,8 @@ function ProductSetting() {
 
 
 
-     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
   
@@ -122,7 +126,7 @@ function ProductSetting() {
        })
 
 
-       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
     
@@ -150,8 +154,8 @@ function ProductSetting() {
 
 
 
-            //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('https://yoteorder-server.herokuapp.com/users/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+            //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('http://localhost:3001/users/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
       setProductsList(response.data)
   
@@ -166,6 +170,18 @@ function ProductSetting() {
 
 
 },[]);
+
+
+const getAllMyProducts=()=>{
+
+
+        //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+            axios.get('http://localhost:3001/users/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+                setProductsList(response.data)
+            
+                 })
+}
 
 
 
@@ -206,7 +222,7 @@ function ProductSetting() {
 
  //axios.post("https://kilimomazaoapi-dmi-cyber.herokuapp.com/product",data).then((response)=>{
     
-  axios.post("https://yoteorder-server.herokuapp.com/product",data).then((response)=>{
+  axios.post("http://localhost:3001/product",data).then((response)=>{
      
 
     console.log("The response is"+response.data)
@@ -258,8 +274,8 @@ function ProductSetting() {
 
 const openSelectedProduct=(pId)=>{
 
-    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-     axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
+    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+     axios.get('http://localhost:3001/product/byId/'+pId).then((response) => {
  
          console.log("THE PRODUCT NAME IS "+response.data.name)
  
@@ -308,7 +324,7 @@ const openSelectedProduct=(pId)=>{
               
           }
 
-        axios.put('https://yoteorder-server.herokuapp.com/product/updateproduct/'+productId,data).then((res_b)=>{
+        axios.put('http://localhost:3001/product/updateproduct/'+productId,data).then((res_b)=>{
     
             //console.log("THE ACTUAL ID IS "+actualId)
             
@@ -329,6 +345,84 @@ const openSelectedProduct=(pId)=>{
             })
 
     }
+
+
+
+
+    const updateAvailability=(pId)=>{
+
+        
+
+        setLoading(true);
+
+       // setLoadingT(false)
+
+        //setProductStatus('avalilable')
+
+        const p_details={
+            product_status:'available',
+          
+          }
+
+      
+
+
+        axios.put('http://localhost:3001/product/updatestatus/'+pId,p_details).then((res_b)=>{
+    
+           // console.log("THE ACTUAL ID IS "+actualId)
+            
+            //setProductId(res_b.data.id)
+            getAllMyProducts()
+           
+            setTimeout(() => {
+                setLoading(false);
+                // handleShow()
+                toast.warning("Available Status updated")
+            }, 1000);
+            
+            })
+
+
+        
+    }
+
+
+    const updateAvailabilityN=(pId)=>{
+
+        setLoadingT(true);
+       // setLoading(false)
+
+        setProductStatus('unavailable')
+
+        const p_details={
+            product_status:'unavailable',
+          
+          }
+
+      
+
+
+        axios.put('http://localhost:3001/product/updatestatus/'+pId,p_details).then((res_b)=>{
+    
+           // console.log("THE ACTUAL ID IS "+actualId)
+            
+            //setProductId(res_b.data.id)
+
+            getAllMyProducts()
+            
+           
+            setTimeout(() => {
+                setLoadingT(false);
+                // handleShow()
+                toast.warning("Status updated")
+            }, 1000);
+            
+            })
+
+
+        
+    }
+ 
  
 
 
@@ -384,77 +478,22 @@ const openSelectedProduct=(pId)=>{
                                     <div class="col-md-12 col-lg-12">
                                         <div class="card">
                                             <div class="card-header">
-                                                <div class="card-title">Categories</div>
+                                                <div class="card-title">Menu</div>
                                                 <a class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                                 <span class="icons"><i class="ri-star-line"></i></span> Products <span class="ms-auto badge bg-success bradius">03</span></a>
                                             </div>
                                             <div class="card-body">
                                                 <ul class="list-group">
-                                                    <li class="list-group-item border-0 p-0"> <a href="javascript:void(0)"><i class="fe fe-chevron-right"></i> Mens </a><span class="product-label">22</span> </li>
-                                                    <li class="list-group-item border-0 p-0"> <a href="javascript:void(0)"><i class="fe fe-chevron-right"></i> Womens </a><span class="product-label">15</span> </li>
-                                                    <li class="list-group-item border-0 p-0"> <a href="javascript:void(0)"><i class="fe fe-chevron-right"></i> Kids </a><span class="product-label">10</span> </li>
-                                                    <li class="list-group-item border-0 p-0"> <a href="javascript:void(0)"><i class="fe fe-chevron-right"></i> Others </a><span class="product-label">88</span> </li>
+                                                    <li class="list-group-item border-0 p-0"> <a href="javascript:void(0)"><i class="fe fe-chevron-right"></i> Domestic Use </a><span class="product-label">22</span> </li>
+                                                    <li class="list-group-item border-0 p-0"> <a href="javascript:void(0)"><i class="fe fe-chevron-right"></i> Electronics </a><span class="product-label">15</span> </li>
+                                                    <li class="list-group-item border-0 p-0"> <a href="javascript:void(0)"><i class="fe fe-chevron-right"></i> Agricultural </a><span class="product-label">10</span> </li>
+                                                    <li class="list-group-item border-0 p-0"> <a href="javascript:void(0)"><i class="fe fe-chevron-right"></i> Contruction </a><span class="product-label">88</span> </li>
                                                 </ul>
                                             </div>
                                         </div>
                                        
                                       
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <label class="form-label">Category</label>
-                                                    <select name="beast" id="select-beast" class="form-control form-select select2">
-                                                        <option value="0">--Select--</option>
-                                                        <option value="1">Dress</option>
-                                                        <option value="2">Bags &amp; Purses</option>
-                                                        <option value="3">Coat &amp; Jacket</option>
-                                                        <option value="4">Beauty</option>
-                                                        <option value="5">Jeans</option>
-                                                        <option value="5">Jewellery</option>
-                                                        <option value="5">Electronics</option>
-                                                        <option value="5">Sports</option>
-                                                        <option value="5">Technology</option>
-                                                        <option value="5">Watches</option>
-                                                        <option value="5">Accessories</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Brand</label>
-                                                    <select name="beast" id="select-beast1" class="form-control form-select select2">
-                                                        <option value="0">--Select--</option>
-                                                        <option value="1">White</option>
-                                                        <option value="2">Black</option>
-                                                        <option value="3">Red</option>
-                                                        <option value="4">Green</option>
-                                                        <option value="5">Blue</option>
-                                                        <option value="6">Yellow</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Type</label>
-                                                    <select name="beast" id="select-beast2" class="form-control form-select select2">
-                                                        <option value="0">--Select--</option>
-                                                        <option value="1">Extra Small</option>
-                                                        <option value="2">Small</option>
-                                                        <option value="3">Medium</option>
-                                                        <option value="4">Large</option>
-                                                        <option value="5">Extra Large</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label">Color</label>
-                                                    <select name="beast" id="select-beast3" class="form-control form-select select2">
-                                                        <option value="0">--Select--</option>
-                                                        <option value="1">White</option>
-                                                        <option value="2">Black</option>
-                                                        <option value="3">Red</option>
-                                                        <option value="4">Green</option>
-                                                        <option value="5">Blue</option>
-                                                        <option value="6">Yellow</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
+                                     
                                         
                                     </div>
                                 </div>
@@ -548,6 +587,8 @@ const openSelectedProduct=(pId)=>{
                                                             </div>
                                                         </div>
                                                         <div class="card-footer text-center">
+
+                                                       
                                                         
                                                 <button  type="submit" class="btn btn-primary mb-1"
                                                 
@@ -558,8 +599,36 @@ const openSelectedProduct=(pId)=>{
                                                 
                                             
                                                       data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9">Edit</button>
-                                                    
-                                                            <a href="#"  class="btn btn-success"><i  class="fe fe-edit"></i>Availability</a>
+
+                                                   
+                                               
+
+                                                           {value.status=='available' && !isLoading && <button type="submit" onClick={() => {
+                                                            updateAvailabilityN(value.id);
+                                                              }}   class="btn btn-success"><i  class="fe fe-edit"></i>Available</button>}
+
+
+                                                              {isLoading &&
+                                                                <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating Status...</button>
+                                                               }
+
+
+                                                           {value.status=='unavailable' && !isLoadingT &&<button type="submit" onClick={() => {
+                                                            updateAvailability(value.id);
+                                                              }}  class="btn btn-danger"><i  class="fe fe-edit"></i>Unavalilable</button>
+                                                        
+                                                        
+                                                          }
+
+                                                        
+
+                                                         {isLoadingT &&
+                                                            <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating Status...</button>
+                                                           }
+
+
+                                                          
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

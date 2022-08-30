@@ -1,6 +1,20 @@
 import React from 'react'
+import {useEffect,useState,useContext } from 'react';
+import { AuthContext } from '../../../helpers/AuthContext'
+import{useNavigate} from 'react-router-dom'
 
 function SideBar() {
+    const {authState} = useContext(AuthContext);
+    const {setAuthState} = useContext(AuthContext);
+    let history = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem("accessToken");
+        setAuthState({ username: "", id: 0, status: false });
+
+        history('/');
+        window.location.reload(false);
+      };
   return (
    
 <div class="sticky">

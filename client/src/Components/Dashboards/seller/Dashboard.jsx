@@ -94,34 +94,34 @@ function Dashboard() {
     useEffect(()=>{
 
        
-         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             setUserId(response.data.id)
       
       
            })
     
-        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+        //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+        //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
 
 
-        //   axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        //   axios.get("http://localhost:3001/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
         //     setOrdersList(response.data);
         //     })
 
 
 
-            // axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+            // axios.get("http://localhost:3001/order/getallorders").then((response) => {
             //     setOrdersList(response.data);
             //     })
 
 
 
 
-                axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
 
@@ -129,7 +129,7 @@ function Dashboard() {
     
           setbusinessId(response.data.id);
 
-          setServicesList(response.data.Services);
+          //setServicesList(response.data.Services);
 
           setStaffList(response.data.Staffs);
 
@@ -137,7 +137,7 @@ function Dashboard() {
 
           setBussSetup(true);
 
-          setOrdersList(response.data.Orders)
+          //setOrdersList(response.data.Orders)
 
           setCustomersCount(response.data.Customers.length)
 
@@ -152,11 +152,52 @@ function Dashboard() {
           setbusinessId(0)
           setBussSetup(false);
           setbusiness_name('nobuzz')
-          setOrdersList([])
+          //setOrdersList([])
         }
     
         
          })
+
+
+         axios.get('http://localhost:3001/order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+            if(response.data!=null){
+    
+              setIsBusinessSet(true)
+        
+              setbusinessId(response.data.BusinessId);
+    
+              //setServicesList(response.data.Services);
+    
+              //setStaffList(response.data.Staffs);
+    
+             // setbusiness_name(response.data.business_name);
+    
+              setBussSetup(true);
+    
+              setOrdersList(response.data)
+    
+             // setCustomersCount(response.data.Customers.length)
+    
+              //setcustomer_contacts(response.data.Customers.)
+          
+            
+          
+            }
+            else{
+          
+              setIsBusinessSet(false)
+              setbusinessId(0)
+              setBussSetup(false);
+              setbusiness_name('nobuzz')
+              setOrdersList([])
+            }
+        
+            
+             })
+
+
+         
         
     
     
@@ -171,8 +212,8 @@ function Dashboard() {
 
     const openSelectedOrder=(oId)=>{
 
-        //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-         axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+        //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+         axios.get('http://localhost:3001/order/orderById/'+oId).then((response) => {
      
              console.log("THE PRODUCT NAME IS "+response.data.name)
      
@@ -198,7 +239,7 @@ function Dashboard() {
          const custDetailsOrder=(userId)=>{
 
 
-            axios.get('https://yoteorder-server.herokuapp.com/customer/getById/'+userId).then((response) => {
+            axios.get('http://localhost:3001/customer/getById/'+userId).then((response) => {
      
                 //console.log("THE PRODUCT NAME IS "+response.data.name)
         
@@ -228,7 +269,7 @@ function Dashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -257,7 +298,7 @@ function Dashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -488,7 +529,7 @@ function Dashboard() {
                                                                     </div>
                                                                 </a>
                                                                 <div class="d-flex align-items-center mb-3 mt-3">
-                                                                <span class="tag tag-radius tag-round tag-primary">Price {value.price}</span>
+                                                                <span class="tag tag-radius tag-round tag-primary">Price {value.Product.price}</span>
 
 
                                                         
@@ -504,7 +545,7 @@ function Dashboard() {
                                                                     <span><i class="fe fe-mail fs-20"></i></span>
                                                                 </div>
                                                                 <div>
-                                                                    <strong>{value.email}</strong>
+                                                                    <strong>Customer Email:<a  href="#" class="mb-3">{value.Customer.email}</a></strong>
                                                                 </div>
                                                             </div>
 
@@ -514,11 +555,18 @@ function Dashboard() {
                                                                     <span><i class="fe fe-phone fs-20"></i></span>
                                                                 </div>
                                                                 <div>
-                                                                    <strong>{value.UserId} </strong>
+                                                                    <strong>Customer Constacts:<a  href="#" class="mb-3">{value.Customer.phone_no}</a> </strong>
                                                                 </div>
                                                             </div>
 
+                                                                
+
+                                                                <div class="border br-7">
+
                                                                 <p class="fs-16">{value.order_description} </p>
+
+
+                                                                </div>
 
 
                                                                 
@@ -551,7 +599,7 @@ function Dashboard() {
                                                     </div>
                                                     <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
                                                         <div class="card-body p-0">
-                                                            <div class="price h3 text-center mb-5 fw-bold">Total:Kes 650 </div>
+                                                            <div class="price h3 text-center mb-5 fw-bold">Total:Ksh {value.Product.price * value.quantity_ordered} </div>
 
                                                             {!isLoading && <button type="submit" onClick={() => {
                                                                 completeOrder(value.id);
