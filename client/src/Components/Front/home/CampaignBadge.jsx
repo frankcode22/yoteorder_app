@@ -11,12 +11,8 @@ export default function CampaignBadge() {
                         <div class="col-lg-9">
                             <h1 class="fw-semibold text-white">Get Started With PataMtaani.
                               </h1>
-                            <p class="text-white">Sed ut perspiciatis unde omnis
-                                iste natus error sit voluptatem accusantium
-                                doloremque laudantium, totam rem aperiam, eaque ipsa
-                                quae ab illo inventore veritatis et quasi architecto
-                                beatae vitae dicta sunt
-                                explicabo.
+                            <p class="text-white">The PataMtaani is a software app which provides a modern platform for vendors to sell, their
+                            products in their areas of residence and immediate neighborhood.
                             </p>
                         </div>
                         <div class="col-lg-3 text-end my-auto">

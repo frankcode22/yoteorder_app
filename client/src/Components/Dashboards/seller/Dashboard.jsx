@@ -20,6 +20,8 @@ import TopbarS from './TopbarS';
 
 import { Modal, Button } from "react-bootstrap";
 
+import ContentLoader from '../../../utils/ContentLoader';
+
 function Dashboard() {
 
     const [userId, setUserId] = useState('');
@@ -66,6 +68,11 @@ function Dashboard() {
     const [isLoading,setLoading]=useState(false);
 
 
+    const [isDivLoading, setIsDivLoading] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState("");
+
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -92,6 +99,9 @@ function Dashboard() {
 
 
     useEffect(()=>{
+
+
+        setIsDivLoading(true);
 
        
          //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
@@ -160,41 +170,58 @@ function Dashboard() {
 
 
          axios.get('https://yoteorder-server.herokuapp.com/order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-    
-            if(response.data!=null){
-    
-              setIsBusinessSet(true)
+
+
+
+           
         
-              setbusinessId(response.data.BusinessId);
+             setTimeout(() => {
+                if(response.data!=null){
     
-              //setServicesList(response.data.Services);
-    
-              //setStaffList(response.data.Staffs);
-    
-             // setbusiness_name(response.data.business_name);
-    
-              setBussSetup(true);
-    
-              setOrdersList(response.data)
-    
-             // setCustomersCount(response.data.Customers.length)
-    
-              //setcustomer_contacts(response.data.Customers.)
+                    setIsBusinessSet(true)
+              
+                    setbusinessId(response.data.BusinessId);
           
-            
+                    //setServicesList(response.data.Services);
           
-            }
-            else{
+                    //setStaffList(response.data.Staffs);
           
-              setIsBusinessSet(false)
-              setbusinessId(0)
-              setBussSetup(false);
-              setbusiness_name('nobuzz')
-              setOrdersList([])
-            }
+                   // setbusiness_name(response.data.business_name);
+          
+                    setBussSetup(true);
+          
+                    setOrdersList(response.data)
+          
+                   // setCustomersCount(response.data.Customers.length)
+          
+                    //setcustomer_contacts(response.data.Customers.)
+                
+                  
+                
+                  }
+                  else{
+                
+                    setIsBusinessSet(false)
+                    setbusinessId(0)
+                    setBussSetup(false);
+                    setbusiness_name('nobuzz')
+                    setOrdersList([])
+                  }
+      
+
+               // setSeller_name(response.data.Users);
+                setIsDivLoading(false)   // Hide loading screen 
+               // toast.info('Product saved successfully');
+            }, 4000);
+
+    
         
             
-             })
+             }).catch(() => {
+                setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
+                setIsDivLoading(false);
+             });
+      
 
 
          
@@ -202,7 +229,6 @@ function Dashboard() {
     
     
     
-         
     
     
     
@@ -316,6 +342,226 @@ function Dashboard() {
 
         
     }
+
+
+
+    const loadOrdersContent=(
+
+
+        <div class="card-body">
+
+
+                               
+
+
+                                   
+                            
+        <div class="row">
+        {ordersList.map((value, key) => {
+          return (
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="card overflow-hidden border p-0 shadow-none">
+                    <div class="card-body">
+                        <div class="row g-0">
+                            <div class="col-xl-3 col-lg-12 col-md-12">
+                                <div class="product-list">
+                                    <div class="product-image">
+                                        <ul class="icons">
+                                            <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
+                                            <li><a href="#" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
+                                            <li><a href="#" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="br-be-0 br-te-0">
+                                        <a href="#" class="">
+                                            <img src="assets/images/pngs/9.jpg" alt="img" class="cover-image br-7 w-100"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <a href="#" class="">
+                                            <h3 class="fw-bold fs-30 mb-3">{value.item_name}</h3>
+                                            <div class="mb-2 text-warning">
+                                                <i class="fa fa-star fs-18 text-warning"></i>
+                                                <i class="fa fa-star fs-18 text-warning"></i>
+                                                <i class="fa fa-star fs-18 text-warning"></i>
+                                                <i class="fa fa-star-half-o fs-18 text-warning"></i>
+                                                <i class="fa fa-star-o fs-18 text-warning"></i>
+                                            </div>
+                                        </a>
+                                        <div class="d-flex align-items-center mb-3 mt-3">
+                                        <span class="tag tag-radius tag-round tag-primary">Price {value.Product.price}</span>
+
+
+                                
+
+                                        <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
+
+
+                                      
+                                    <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3 mt-3">
+                                        <div class="me-4 text-center text-primary">
+                                            <span><i class="fe fe-mail fs-20"></i></span>
+                                        </div>
+                                        <div>
+                                            <strong>Customer Email:<a  href="#" class="mb-3">{value.Customer.email}</a></strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-3 mt-3">
+                                        <div class="me-4 text-center text-primary">
+
+                                            <span><i class="fe fe-phone fs-20"></i></span>
+                                        </div>
+                                        <div>
+                                            <strong>Customer Phone No:<a  href="#" class="mb-3">{value.Customer.phone_no}</a> </strong>
+                                        </div>
+                                    </div>
+
+                                    <div><i class="task-icon bg-primary"></i><h6 class="fw-semibold">The order is  <a href="javascript:void(0)" class="fw-semibold tag-green">{value.order_status}</a> .Made on <span class="text-muted fs-11 mx-2 fw-normal">{value.createdAt}</span></h6><p class="text-muted fs-12"> By <a href="javascript:void(0)" class="fw-semibold">{value.Customer.name}</a></p></div>
+
+                                        
+
+                                        <div class="border br-7">
+
+                                        <p class="fs-16">{value.order_description} </p>
+
+
+                                        </div>
+
+
+                                        
+                                    
+                                        
+                                        <form class="shop__filter">
+                                            <div class="row gutters-xs">
+                                                <div class="col-auto">
+                                                    <label class="colorinput">
+                                                        <input type="checkbox" name="color" value="azure" class="colorinput-input" checked/>
+                                                        <span class="colorinput-color bg-azure"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <label class="colorinput">
+                                                        <input type="checkbox" name="color" value="indigo" class="colorinput-input"/>
+                                                        <span class="colorinput-color bg-indigo"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <label class="colorinput">
+                                                        <input type="checkbox" name="color" value="purple" class="colorinput-input"/>
+                                                        <span class="colorinput-color bg-purple"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
+                                <div class="card-body p-0">
+                                    <div class="price h3 text-center mb-5 fw-bold">Total:Ksh {value.Product.price * value.quantity_ordered} </div>
+
+                                    {!isLoading && <button type="submit" onClick={() => {
+                                        completeOrder(value.id);
+                                          }} class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Complete Order</button>
+          
+                                } 
+                                {isLoading &&
+                                    <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Completing Order...</button>
+                                }
+
+
+
+                                {!isLoading && <button type="submit" onClick={() => {
+                                    cancelOrder(value.id);
+                                      }} class="btn btn-danger btn-block mt-2"><i class="fe fe-x text-white"></i>Cancel Order</button>
+      
+                            } 
+                            {isLoading &&
+                                <button type="submit" class="btn btn-danger btn-block mt-2" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Processing...</button>
+                            }
+                                   
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+)})}
+
+<ToastContainer></ToastContainer>
+
+            <Modal class="modal fade" id="modaldemo8" show={show}>
+
+<Modal.Header>
+<Modal.Title>Completing Order</Modal.Title>
+</Modal.Header>
+<Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+
+<i class="icon icon-check fs-70 text-success lh-1 my-5 d-inline-block"></i>
+<h4 class="text-success tx-semibold">Order Completed!</h4>
+
+
+
+
+
+</Modal.Body>
+<Modal.Footer>
+
+{/* <Button variant="secondary" onClick={handleClose}>
+Close
+</Button>
+<Button variant="primary" onClick={handleClose}>
+Save Changes
+</Button> */}
+
+</Modal.Footer>
+</Modal>
+            
+          
+           
+            <div class="mb-5">
+                <div class="float-end">
+                    <ul class="pagination ">
+                        <li class="page-item page-prev disabled">
+                            <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                        <li class="page-item page-next">
+                            <a class="page-link" href="javascript:void(0)">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+
+        
+
+
+
+        
+        </div>
+
+
+
+
+
+    )
 
 
 
@@ -486,210 +732,28 @@ function Dashboard() {
                                 <div class="card-header">
                                     <h3 class="card-title">Latest Orders</h3>
                                 </div>
-                                <div class="card-body">
 
 
 
-                                   
-                            
-                                <div class="row">
-                                {ordersList.map((value, key) => {
-                                  return (
-                                    <div class="col-xl-12 col-lg-12 col-md-12">
-                                        <div class="card overflow-hidden border p-0 shadow-none">
-                                            <div class="card-body">
-                                                <div class="row g-0">
-                                                    <div class="col-xl-3 col-lg-12 col-md-12">
-                                                        <div class="product-list">
-                                                            <div class="product-image">
-                                                                <ul class="icons">
-                                                                    <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
-                                                                    <li><a href="#" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
-                                                                    <li><a href="#" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="br-be-0 br-te-0">
-                                                                <a href="#" class="">
-                                                                    <img src="assets/images/pngs/9.jpg" alt="img" class="cover-image br-7 w-100"/>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
-                                                        <div class="card-body">
-                                                            <div class="mb-3">
-                                                                <a href="#" class="">
-                                                                    <h3 class="fw-bold fs-30 mb-3">{value.item_name}</h3>
-                                                                    <div class="mb-2 text-warning">
-                                                                        <i class="fa fa-star fs-18 text-warning"></i>
-                                                                        <i class="fa fa-star fs-18 text-warning"></i>
-                                                                        <i class="fa fa-star fs-18 text-warning"></i>
-                                                                        <i class="fa fa-star-half-o fs-18 text-warning"></i>
-                                                                        <i class="fa fa-star-o fs-18 text-warning"></i>
-                                                                    </div>
-                                                                </a>
-                                                                <div class="d-flex align-items-center mb-3 mt-3">
-                                                                <span class="tag tag-radius tag-round tag-primary">Price {value.Product.price}</span>
+                                {isDivLoading ? <ContentLoader/>: loadOrdersContent}
 
-
-                                                        
-
-                                                                <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
-        
-        
-                                                              
-                                                            <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
-                                                            </div>
-                                                            <div class="d-flex align-items-center mb-3 mt-3">
-                                                                <div class="me-4 text-center text-primary">
-                                                                    <span><i class="fe fe-mail fs-20"></i></span>
-                                                                </div>
-                                                                <div>
-                                                                    <strong>Customer Email:<a  href="#" class="mb-3">{value.Customer.email}</a></strong>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="d-flex align-items-center mb-3 mt-3">
-                                                                <div class="me-4 text-center text-primary">
-
-                                                                    <span><i class="fe fe-phone fs-20"></i></span>
-                                                                </div>
-                                                                <div>
-                                                                    <strong>Customer Constacts:<a  href="#" class="mb-3">{value.Customer.phone_no}</a> </strong>
-                                                                </div>
-                                                            </div>
-
-                                                                
-
-                                                                <div class="border br-7">
-
-                                                                <p class="fs-16">{value.order_description} </p>
-
-
-                                                                </div>
-
-
-                                                                
-                                                            
-                                                                
-                                                                <form class="shop__filter">
-                                                                    <div class="row gutters-xs">
-                                                                        <div class="col-auto">
-                                                                            <label class="colorinput">
-                                                                                <input type="checkbox" name="color" value="azure" class="colorinput-input" checked/>
-                                                                                <span class="colorinput-color bg-azure"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="col-auto">
-                                                                            <label class="colorinput">
-                                                                                <input type="checkbox" name="color" value="indigo" class="colorinput-input"/>
-                                                                                <span class="colorinput-color bg-indigo"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="col-auto">
-                                                                            <label class="colorinput">
-                                                                                <input type="checkbox" name="color" value="purple" class="colorinput-input"/>
-                                                                                <span class="colorinput-color bg-purple"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
-                                                        <div class="card-body p-0">
-                                                            <div class="price h3 text-center mb-5 fw-bold">Total:Ksh {value.Product.price * value.quantity_ordered} </div>
-
-                                                            {!isLoading && <button type="submit" onClick={() => {
-                                                                completeOrder(value.id);
-                                                                  }} class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Complete Order</button>
-                                  
-                                                        } 
-                                                        {isLoading &&
-                                                            <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Completing Order...</button>
-                                                        }
-
-
-
-                                                        {!isLoading && <button type="submit" onClick={() => {
-                                                            cancelOrder(value.id);
-                                                              }} class="btn btn-danger btn-block mt-2"><i class="fe fe-x text-white"></i>Cancel Order</button>
-                              
-                                                    } 
-                                                    {isLoading &&
-                                                        <button type="submit" class="btn btn-danger btn-block mt-2" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Processing...</button>
-                                                    }
-                                                           
-                                                        
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                        )})}
-
-                        <ToastContainer></ToastContainer>
-
-                                    <Modal class="modal fade" id="modaldemo8" show={show}>
-
-<Modal.Header>
-  <Modal.Title>Completing Order</Modal.Title>
-</Modal.Header>
-<Modal.Body class="modal-body text-center p-4 pb-5">
+                                {errorMessage && 
 
 
 
 
-<i class="icon icon-check fs-70 text-success lh-1 my-5 d-inline-block"></i>
-<h4 class="text-success tx-semibold">Order Completed!</h4>
-
-
-
-  
-
-</Modal.Body>
-<Modal.Footer>
-
-{/* <Button variant="secondary" onClick={handleClose}>
-    Close
-  </Button>
-  <Button variant="primary" onClick={handleClose}>
-    Save Changes
-  </Button> */}
- 
-</Modal.Footer>
-</Modal>
+                                    <div class="col-sm-12 border">
+                                    <h3 class="card-title">{errorMessage}</h3>
+                                
                                     
-                                  
-                                   
-                                    <div class="mb-5">
-                                        <div class="float-end">
-                                            <ul class="pagination ">
-                                                <li class="page-item page-prev disabled">
-                                                    <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
-                                                </li>
-                                                <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
-                                                <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
-                                                <li class="page-item page-next">
-                                                    <a class="page-link" href="javascript:void(0)">Next</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            
-
-                                
+                                    
+                                    
+                               </div>}
 
 
 
-                                
-                                </div>
+
+                               
                             </div>
                         </div>
                       

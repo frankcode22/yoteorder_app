@@ -130,6 +130,8 @@ function OrderedProduct() {
 
       const [randomNo, setRandomNo] = useState(0);
 
+      const [showAlert, setShowAlert] = useState(false);
+
 
       const [show, setShow] = useState(false);
 
@@ -208,9 +210,9 @@ function OrderedProduct() {
   
    
 
-  // axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
+  // axios.get(`http://localhost:3001/product/search/${pname}`).then((response) => {
   
-            axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
+            axios.get(`http://localhost:3001/product/search/${pname}`).then((response) => {
 
            
 
@@ -301,11 +303,28 @@ function OrderedProduct() {
   
   const makeOrder = ()  => {
   setLoading(true);
+
+
+  if(name=="" || phone_no==""){
+
+    setLoading(false);
+
+    setShowAlert(true)
+
+
+    setTimeout(() => {
+        setShowAlert(false)
+       
+     }, 2500);
+
+     return
+
+  }
   
    //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
   
   
-    axios.post('https://yoteorder-server.herokuapp.com/users',user_details).then((response)=>{
+    axios.post('http://localhost:3001/users',user_details).then((response)=>{
   
       console.log("THE CUSTOMER DATA IS"+response.data)
   
@@ -338,7 +357,7 @@ function OrderedProduct() {
 
   const data = { username:email, password: phone_no };
 
-  axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((rense) => {
+  axios.post("http://localhost:3001/users/login", data).then((rense) => {
     if (rense.data.error) {
       alert(rense.data.error);
       setLoading(false);
@@ -367,7 +386,7 @@ function OrderedProduct() {
        
       }
 
-    axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+    axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
     
         console.log("THE CUSTOMER DATA IS->"+res.data)
     
@@ -382,13 +401,14 @@ function OrderedProduct() {
             quantity_ordered:quantity_ordered,
             customer_phone_no:rense.data.phone_no,
             order_description:order_description,
+            order_status:'pending',
             orderId:randomNo,
             ProductId:productId,
             UserId:rense.data.id,
             CustomerId:res.data.id,
             BusinessId:businessId,
           }
-    axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+    axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
     
     // console.log("The response is"+res_b.data)
     
@@ -420,7 +440,7 @@ function OrderedProduct() {
         CustomerId:customerId,
         BusinessId:businessId,
       }
-axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
 
 // console.log("The response is"+res_b.data)
 
@@ -439,7 +459,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
       if(rense.data.role=="Customer"){
 
 
-        axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") }}).then((res_auth) => {
+        axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") }}).then((res_auth) => {
 
         setUserId(res_auth.data.id)
 
@@ -457,7 +477,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
        
     //   }
 
-    // axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+    // axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
     
     //     console.log("The response is"+res.data)
     
@@ -476,7 +496,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 //                         UserId:res_auth.data.id,
 //                         BusinessId:businessId,
 //                       }
-//             axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+//             axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
 
 //  // console.log("The response is"+res_b.data)
 
@@ -557,7 +577,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
      //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
     
     
-      axios.post('https://yoteorder-server.herokuapp.com/users',user_details).then((response)=>{
+      axios.post('http://localhost:3001/users',user_details).then((response)=>{
     
         console.log("THE CUSTOMER DATA IS"+response.data)
     
@@ -598,7 +618,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   
   
   
-        axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+        axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
     
         console.log("The response is"+res.data)
     
@@ -618,7 +638,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   
   
         
-  //       axios.post('https://yoteorder-server.herokuapp.com/booking',appointment).then((res_b)=>{
+  //       axios.post('http://localhost:3001/booking',appointment).then((res_b)=>{
     
   //       console.log("The response is"+res_b.data)
     
@@ -641,7 +661,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   
     const data = { username:email, password: phone_no };
   
-    axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((rense) => {
+    axios.post("http://localhost:3001/users/login", data).then((rense) => {
       if (rense.data.error) {
         alert(rense.data.error);
         setLoading(false);
@@ -666,7 +686,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
             
   
   
-              axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((res_auth) => {
+              axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((res_auth) => {
   
                   setUserId(res_auth.data.id)
   
@@ -685,7 +705,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                             }
   
   
-                            axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+                            axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
     
        // console.log("The response is"+res_b.data)
     
@@ -779,8 +799,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     setShowSearchInforContent(false)
 
 
-      //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        axios.get('https://yoteorder-server.herokuapp.com/business/byId/'+bId).then((response) => {
+      //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+        axios.get('http://localhost:3001/business/byId/'+bId).then((response) => {
 
         console.log("THE BUSS NAME IS "+response.data.business_name)
 
@@ -791,8 +811,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
 
-            //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
+            //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+        axios.get('http://localhost:3001/product/byId/'+pId).then((response) => {
 
             console.log("THE PRODUCT NAME IS "+response.data.name)
 
@@ -857,7 +877,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                     <i class="fa fa-star-half-o text-warning"></i>
                                     <i class="fa fa-star-o text-warning"></i>
                                 </div>
-                                <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
+                                <div class="price">Ksh {value.price}/ {value.unit_of_measure}<span class="ms-4">Ksh  {value.price}</span>
                               
                                 </div>
                                 <span class="tag tag-radius tag-round tag-teal">{value.status}</span>
@@ -981,8 +1001,21 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
         {showCustomerDetailsForm &&
         <div class="card-body">
+
+
+        {showAlert &&
+        
+            <div class="alert alert-danger mb-0" role="alert">
+            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+            <span class="alert-inner--text"><strong>Alert!</strong> Please enter your name and phone number!</span>
+        </div>
+        }
+
+                                 
+        
   <form>
     <div class="row mb-3">
+    
       <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Your Name</label>
       <div class="col-sm-10">
         <div class="input-group input-group-merge">
@@ -1677,19 +1710,14 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
 
-      
-
-
-
-
-                                  <div class="sptb section bg-white" id="Features">
+        <div class="sptb section bg-white" id="Features">
                                       <div class="container">
                                           <div class="row">
                                               <h4 class="text-center fw-semibold">Features</h4>
                                               <span class="landing-title"></span>
-                                              <h2 class="fw-semibold text-center">Sash Main Features</h2>
-                                              <p class="text-default mb-5 text-center">The Sash admin template comes with
-                                                  ready-to-use features that are completely easy-to-use for any user, even for
+                                              <h2 class="fw-semibold text-center">PataMtaani Main Features</h2>
+                                              <p class="text-default mb-5 text-center">The PataMtaani app comes with
+                                                  ready-to-use services that are completely easy-to-use for any user, even for
                                                   a beginner.</p>
                                               <div class="row mt-7">
                                                   <div class="col-lg-6 col-md-12">
@@ -1716,9 +1744,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Quality &amp; Clean Code</h4>
-                                                              <p class="mb-0">The Sash admin code is maintained very cleanly
-                                                                  and well-structured with proper comments.</p>
+                                                              <h4 class="fw-bold">Convenient &amp; Products</h4>
+                                                              <p class="mb-0">Pata Mtaani helps you buy and sell household products and services just within your area of residence and your immediate neigbors</p>
                                                           </div>
                                                       </div>
                                                   </div>
@@ -1776,10 +1803,9 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Multiple Demos</h4>
+                                                              <h4 class="fw-bold">Convenience of services</h4>
                                                               <p class="mb-0">
-                                                                  We included multiple demos, preview video, and screen shots
-                                                                  to give a quick overview of our Sash admin template.
+                                                              Pata Mtaani helps you buy and sell all types of services just within your area of residence and your immediate neigbors
                                                               </p>
                                                           </div>
                                                       </div>
@@ -1856,10 +1882,10 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Validation Forms</h4>
+                                                              <h4 class="fw-bold">Merket Analysis</h4>
                                                               <p class="mb-0">
-                                                                  Different types of “Form Validation” are implemented in this
-                                                                  Sash admin template and used strict validation rules.
+                                                                 Pata Mtaani app will do a market analysis of your area of residence and, give the data back the vendors on the best products
+                                                                 and services to sell.
                                                               </p>
                                                           </div>
                                                       </div>
@@ -1911,11 +1937,9 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Widgets</h4>
+                                                              <h4 class="fw-bold">Seller and Buyer interaction</h4>
                                                               <p class="mb-0">
-                                                                  30+ widgets are included in this template. Please check out
-                                                                  the best option that suits you and implement it in your
-                                                                  projects.
+                                                              Pata Mtaani helps you buy and sell household products and services just within your area of residence and your immediate neigbors
                                                               </p>
                                                           </div>
                                                       </div>
@@ -1983,11 +2007,9 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">9 Types of Charts</h4>
+                                                              <h4 class="fw-bold">Variety of Payment Methods</h4>
                                                               <p class="mb-0">
-                                                                  We included nine (9) types of the best possible chart
-                                                                  options for your project. You can customize with your
-                                                                  requirement.
+                                                                  We have more than nine (4) payment methods to and currency convertion capabilities.
                                                               </p>
                                                           </div>
                                                       </div>
@@ -2023,11 +2045,9 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Documentation</h4>
+                                                              <h4 class="fw-bold">Free Delivery</h4>
                                                               <p class="mb-0">
-                                                                  The documentation provides clear-cut material for the Sash
-                                                                  admin template. The documentation is explained or instructed
-                                                                  in such a way that every user can understand.
+                                                                  Pata Mtaani has completely catered all the delivery needs.
                                                               </p>
                                                           </div>
                                                       </div>
@@ -2036,6 +2056,11 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                           </div>
                                       </div>
                                   </div>
+
+
+
+
+                                 
 
 
 

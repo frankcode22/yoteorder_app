@@ -109,9 +109,7 @@ function SidebarS() {
                             <i class="side-menu__icon fe fe-mail"></i> Inbox
                             <span class="badge bg-danger rounded-pill float-end">5</span>
                         </a>
-                        <a  class="side-menu__item" data-bs-toggle="slide" href="#">
-                            <i class="side-menu__icon fe fe-lock"></i> Lockscreen
-                        </a>
+                       
                         <a type="submit" class="side-menu__item" data-bs-toggle="slide" onClick={logout}>
                             <i class="side-menu__icon fe fe-alert-circle"></i> Logout
                         </a>

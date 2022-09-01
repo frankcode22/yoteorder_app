@@ -34,8 +34,8 @@ function Homepage() {
 
 
 
-            //axios.get('http://localhost:3001/business/bestRated').then((response) => {
-           axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+            axios.get('http://localhost:3001/business/bestRated').then((response) => {
+           //axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
 
             setBestList(response.data)
 
@@ -92,7 +92,7 @@ function Homepage() {
                 <div class="predefined_styles">
                     <div class="swichermainleft text-center">
                         <div class="p-3 d-grid gap-2">
-                            <a href="../../index.html" class="btn ripple btn-primary mt-0">View Demo</a>
+                            <a href="#" class="btn ripple btn-primary mt-0">View Demo</a>
                             <a href="https://themeforest.net/item/sash-bootstrap-5-admin-dashboard-template/35183671"
                                 class="btn ripple btn-secondary">Buy Now</a>
                             <a href="https://themeforest.net/user/spruko/portfolio" class="btn ripple btn-pink">Our
@@ -595,7 +595,7 @@ function Homepage() {
                                           <div class="row">
                                               <h4 class="text-center fw-semibold">Features</h4>
                                               <span class="landing-title"></span>
-                                              <h2 class="fw-semibold text-center">PataMtaani Main Services</h2>
+                                              <h2 class="fw-semibold text-center">PataMtaani Main Features</h2>
                                               <p class="text-default mb-5 text-center">The PataMtaani app comes with
                                                   ready-to-use services that are completely easy-to-use for any user, even for
                                                   a beginner.</p>
@@ -624,9 +624,8 @@ function Homepage() {
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Quality &amp; Clean Code</h4>
-                                                              <p class="mb-0">The Sash admin code is maintained very cleanly
-                                                                  and well-structured with proper comments.</p>
+                                                              <h4 class="fw-bold">Convenient &amp; Products</h4>
+                                                              <p class="mb-0">Pata Mtaani helps you buy and sell household products and services just within your area of residence and your immediate neigbors</p>
                                                           </div>
                                                       </div>
                                                   </div>
@@ -684,10 +683,9 @@ function Homepage() {
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Multiple Demos</h4>
+                                                              <h4 class="fw-bold">Convenience of services</h4>
                                                               <p class="mb-0">
-                                                                  We included multiple demos, preview video, and screen shots
-                                                                  to give a quick overview of our Sash admin template.
+                                                              Pata Mtaani helps you buy and sell all types of services just within your area of residence and your immediate neigbors
                                                               </p>
                                                           </div>
                                                       </div>
@@ -764,10 +762,10 @@ function Homepage() {
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Validation Forms</h4>
+                                                              <h4 class="fw-bold">Merket Analysis</h4>
                                                               <p class="mb-0">
-                                                                  Different types of “Form Validation” are implemented in this
-                                                                  Sash admin template and used strict validation rules.
+                                                                 Pata Mtaani app will do a market analysis of your area of residence and, give the data back the vendors on the best products
+                                                                 and services to sell.
                                                               </p>
                                                           </div>
                                                       </div>
@@ -819,11 +817,9 @@ function Homepage() {
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Widgets</h4>
+                                                              <h4 class="fw-bold">Seller and Buyer interaction</h4>
                                                               <p class="mb-0">
-                                                                  30+ widgets are included in this template. Please check out
-                                                                  the best option that suits you and implement it in your
-                                                                  projects.
+                                                              Pata Mtaani helps you buy and sell household products and services just within your area of residence and your immediate neigbors
                                                               </p>
                                                           </div>
                                                       </div>
@@ -891,11 +887,9 @@ function Homepage() {
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">9 Types of Charts</h4>
+                                                              <h4 class="fw-bold">Variety of Payment Methods</h4>
                                                               <p class="mb-0">
-                                                                  We included nine (9) types of the best possible chart
-                                                                  options for your project. You can customize with your
-                                                                  requirement.
+                                                                  We have more than nine (4) payment methods to and currency convertion capabilities.
                                                               </p>
                                                           </div>
                                                       </div>
@@ -931,11 +925,9 @@ function Homepage() {
                                                               </svg>
                                                           </div>
                                                           <div class="text-left">
-                                                              <h4 class="fw-bold">Documentation</h4>
+                                                              <h4 class="fw-bold">Free Delivery</h4>
                                                               <p class="mb-0">
-                                                                  The documentation provides clear-cut material for the Sash
-                                                                  admin template. The documentation is explained or instructed
-                                                                  in such a way that every user can understand.
+                                                                  Pata Mtaani has completely catered all the delivery needs.
                                                               </p>
                                                           </div>
                                                       </div>
@@ -959,14 +951,9 @@ function Homepage() {
                                                       <div class="card-body pt-5 px-7">
                                                           <div class="row">
                                                               <div class="col-lg-9">
-                                                                  <h1 class="fw-semibold text-white">Get Started With YoteOrder.
+                                                                  <h1 class="fw-semibold text-white">Get Started With PataMtaani.
                                                                     </h1>
-                                                                  <p class="text-white">Sed ut perspiciatis unde omnis
-                                                                      iste natus error sit voluptatem accusantium
-                                                                      doloremque laudantium, totam rem aperiam, eaque ipsa
-                                                                      quae ab illo inventore veritatis et quasi architecto
-                                                                      beatae vitae dicta sunt
-                                                                      explicabo.
+                                                                  <p class="text-white">Buy and sell within your residence.
                                                                   </p>
                                                               </div>
                                                               <div class="col-lg-3 text-end my-auto">
@@ -1011,45 +998,43 @@ function Homepage() {
                     {/* <div class="col-lg-4 col-sm-12 col-md-12 reveal revealleft"> */}
                         <div class="col-lg-4 col-sm-12 col-md-12 revealleft">
                             <h6>About</h6>
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                veritatis et quasi architecto beatae vitae dicta sunt
-                                explicabo.
+                            <p>
+                            PataMtaani is a platfom developed to make it easy for residents to buy and sell any products within their area of residents.
                             </p>
-                            <p class="mb-5 mb-lg-2">Duis aute irure dolor in reprehenderit in voluptate
-                                velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat .
+                            <p class="mb-5 mb-lg-2">PataMtaani enables services prividers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
+                            to the local population.
                             </p>
                         </div>
                         <div class="col-lg-2 col-sm-6 col-md-4 revealleft">
                             <h6>Pages</h6>
                             <ul class="list-unstyled mb-5 mb-lg-0">
                                 <li><a href="#">Dashboard</a></li>
-                                <li><a href="alerts.html">Elements</a></li>
-                                <li><a href="form-elements.html">Forms</a></li>
-                                <li><a href="charts.html">Charts</a></li>
-                                <li><a href="datatable.html">Tables</a></li>
-                                <li><a href="file-attachments.html">Other Pages</a></li>
+                                <li><a href="#">Features</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">Customer Care</a></li>
+                               
+                                <li><a href="#">Contact Us</a></li>
                             </ul>
                         </div>
                         <div class="col-lg-2 col-sm-6 col-md-4 revealleft">
                             <h6>Information</h6>
                             <ul class="list-unstyled mb-5 mb-lg-0">
-                                <li><a href="about.html">Our Team</a></li>
-                                <li><a href="about.html">Contact US</a></li>
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="services.html">Services</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="terms.html">Terms and Services</a></li>
+                                <li><a href="#">Our Team</a></li>
+                                <li><a href="#">Contact US</a></li>
+                                <li><a href="#">Features</a></li>
+                                <li><a href="#">Services</a></li>
+                              
+                                <li><a href="#">Terms and Services</a></li>
                             </ul>
                         </div>
                         <div class="col-lg-4 col-sm-12 col-md-4 revealleft">
                             <div class="">
                                 <a href="#"><img loading="lazy" alt="" class="logo-2 mb-3"
-                                        src="assets/images/brand/logo-3.png"/></a>
-                                <a href="/"><img src="assets/images/brand/logo_new.png"
-                                        class="logo-3" alt="logo"/></a>
-                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                                    dolore eu fugiat nulla pariatur Excepteur sint occaecat.</p>
+                                        src="assets/images/brand/logo_new.png"/></a>
+                               
+                                <p>PataMtaani enables services prividers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
+                                to the local population.</p>
                                 <div class="form-group">
                                     
                                 </div>
@@ -1072,8 +1057,8 @@ function Homepage() {
                     <div class="row ">
                         <div class="col-md-12 col-sm-12">
                             Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>.
-                            Designed with <span class="fa fa-heart text-danger"></span> by <a
-                                href="javascript:void(0)"> PataMtaani </a> All rights reserved.
+                            Developed By<a
+                                href="javascript:void(0)"> FrankCode Ent </a> All rights reserved.
                         </div>
                     </div>
                 </footer>

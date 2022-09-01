@@ -18,6 +18,8 @@ import TopbarS from './TopbarS'
 
 import { SingleUploader, MultiUploader, Dropzone } from './Uploaders/Uploaders';
 
+import ContentLoader from '../../../utils/ContentLoader';
+
 
 
 
@@ -113,7 +115,7 @@ function ProductSetting() {
   useEffect(()=>{
 
    
-
+    setIsDivLoading(true);
 
 
 
@@ -157,11 +159,23 @@ function ProductSetting() {
             //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
      axios.get('https://yoteorder-server.herokuapp.com/users/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
-      setProductsList(response.data)
+    
   
   
-       })
+      setTimeout(() => {
+        setProductsList(response.data)
 
+       // setSeller_name(response.data.Users);
+        setIsDivLoading(false)   // Hide loading screen 
+       // toast.info('Product saved successfully');
+    }, 4000);
+
+    //setSeller_name(response.data.Users.first_name)
+    
+}).catch(() => {
+    setErrorMessage("Unable to fetch your products list.Kindly check your internet connection!!");
+    setIsDivLoading(false);
+ });
     
 
        
@@ -422,6 +436,144 @@ const openSelectedProduct=(pId)=>{
 
         
     }
+
+
+
+    const loadProductsContent=(
+
+
+
+        <div class="row">
+
+        {showErrorAlert &&   <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+        <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">You must have a business</a>and try submitting again.
+    </div>} 
+        
+      
+
+         {productsList.map((value, key) => {
+             return (
+             <div class="col-md-6 col-xl-4 col-sm-6">
+                 <div class="card">
+                     <div class="product-grid6">
+                         <div class="product-image6 p-5">
+                             <ul class="icons">
+                                 <li>
+                                     <a  class="btn btn-primary mb-1"
+                 
+                 
+                                     onClick={() => {
+                                         openSelectedProduct(value.id);
+                                           }}
+                                     
+                                 
+                                           data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9"> <i class="fe fe-eye">  </i> </a>
+                                 </li>
+                                 <li><a class="btn btn-success"
+                 
+                 
+                                 onClick={() => {
+                                     openSelectedProduct(value.id);
+                                       }}
+                                 
+                             
+                                       data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9"><i  class="fe fe-edit"></i></a></li>
+                                 <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
+                             </ul>
+                             <a href="shop-description.html" >
+                                 <img class="img-fluid br-7 w-100" src="../assets/images/pngs/9.jpg" alt="img"/>
+                             </a>
+                         </div>
+                         <div class="card-body pt-0">
+                             <div class="product-content text-center">
+                                 <h1 class="title fw-bold fs-20"><a href="shop-description.html">{value.name}</a></h1>
+                                 <div class="mb-2 text-warning">
+                                     <i class="fa fa-star text-warning"></i>
+                                     <i class="fa fa-star text-warning"></i>
+                                     <i class="fa fa-star text-warning"></i>
+                                     <i class="fa fa-star-half-o text-warning"></i>
+                                     <i class="fa fa-star-o text-warning"></i>
+                                 </div>
+                                 <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="card-footer text-center">
+
+                        
+                         
+                 <button  type="submit" class="btn btn-primary mb-1"
+                 
+                 
+                 onClick={() => {
+                     openSelectedProduct(value.id);
+                       }}
+                 
+             
+                       data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9">Edit</button>
+
+                    
+                
+
+                            {value.status=='available' && !isLoading && <button type="submit" onClick={() => {
+                             updateAvailabilityN(value.id);
+                               }}   class="btn btn-success"><i  class="fe fe-edit"></i>Available</button>}
+
+
+                               {isLoading &&
+                                 <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating Status...</button>
+                                }
+
+
+                            {value.status=='unavailable' && !isLoadingT &&<button type="submit" onClick={() => {
+                             updateAvailability(value.id);
+                               }}  class="btn btn-danger"><i  class="fe fe-edit"></i>Unavalilable</button>
+                         
+                         
+                           }
+
+                         
+
+                          {isLoadingT &&
+                             <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating Status...</button>
+                            }
+
+
+                           
+                             
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             )
+         })}
+
+           
+             <div class="mb-5">
+                 <div class="float-end">
+                     <ul class="pagination ">
+                         <li class="page-item page-prev disabled">
+                             <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
+                         </li>
+                         <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                         <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                         <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                         <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                         <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                         <li class="page-item page-next">
+                             <a class="page-link" href="javascript:void(0)">Next</a>
+                         </li>
+                     </ul>
+                 </div>
+             </div>
+         </div>
+
+
+
+
+    )
  
  
 
@@ -530,132 +682,40 @@ const openSelectedProduct=(pId)=>{
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="tab-11">
-                                        <div class="row">
-
-                                       {showErrorAlert &&   <div class="alert alert-danger" role="alert">
-                                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
-                                       <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">You must have a business</a>and try submitting again.
-                                   </div>} 
-                                       
-                                     
-
-                                        {productsList.map((value, key) => {
-                                            return (
-                                            <div class="col-md-6 col-xl-4 col-sm-6">
-                                                <div class="card">
-                                                    <div class="product-grid6">
-                                                        <div class="product-image6 p-5">
-                                                            <ul class="icons">
-                                                                <li>
-                                                                    <a  class="btn btn-primary mb-1"
-                                                
-                                                
-                                                                    onClick={() => {
-                                                                        openSelectedProduct(value.id);
-                                                                          }}
-                                                                    
-                                                                
-                                                                          data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9"> <i class="fe fe-eye">  </i> </a>
-                                                                </li>
-                                                                <li><a class="btn btn-success"
-                                                
-                                                
-                                                                onClick={() => {
-                                                                    openSelectedProduct(value.id);
-                                                                      }}
-                                                                
-                                                            
-                                                                      data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9"><i  class="fe fe-edit"></i></a></li>
-                                                                <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
-                                                            </ul>
-                                                            <a href="shop-description.html" >
-                                                                <img class="img-fluid br-7 w-100" src="../assets/images/pngs/9.jpg" alt="img"/>
-                                                            </a>
-                                                        </div>
-                                                        <div class="card-body pt-0">
-                                                            <div class="product-content text-center">
-                                                                <h1 class="title fw-bold fs-20"><a href="shop-description.html">{value.name}</a></h1>
-                                                                <div class="mb-2 text-warning">
-                                                                    <i class="fa fa-star text-warning"></i>
-                                                                    <i class="fa fa-star text-warning"></i>
-                                                                    <i class="fa fa-star text-warning"></i>
-                                                                    <i class="fa fa-star-half-o text-warning"></i>
-                                                                    <i class="fa fa-star-o text-warning"></i>
-                                                                </div>
-                                                                <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="card-footer text-center">
-
-                                                       
-                                                        
-                                                <button  type="submit" class="btn btn-primary mb-1"
-                                                
-                                                
-                                                onClick={() => {
-                                                    openSelectedProduct(value.id);
-                                                      }}
-                                                
-                                            
-                                                      data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9">Edit</button>
-
-                                                   
-                                               
-
-                                                           {value.status=='available' && !isLoading && <button type="submit" onClick={() => {
-                                                            updateAvailabilityN(value.id);
-                                                              }}   class="btn btn-success"><i  class="fe fe-edit"></i>Available</button>}
 
 
-                                                              {isLoading &&
-                                                                <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating Status...</button>
-                                                               }
 
 
-                                                           {value.status=='unavailable' && !isLoadingT &&<button type="submit" onClick={() => {
-                                                            updateAvailability(value.id);
-                                                              }}  class="btn btn-danger"><i  class="fe fe-edit"></i>Unavalilable</button>
-                                                        
-                                                        
-                                                          }
+                                    {isDivLoading ? <ContentLoader/>: loadProductsContent}
 
-                                                        
+                                    {errorMessage && 
+    
+    
+    
+    
+                                        <div class="col-sm-12 border">
+                                        <h3 class="card-title">{errorMessage}</h3>
+                                    
+                                        
+                                        
+                                        
+                                   </div>}
 
-                                                         {isLoadingT &&
-                                                            <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating Status...</button>
-                                                           }
 
 
-                                                          
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
-                                            )
-                                        })}
 
-                                          
-                                            <div class="mb-5">
-                                                <div class="float-end">
-                                                    <ul class="pagination ">
-                                                        <li class="page-item page-prev disabled">
-                                                            <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
-                                                        </li>
-                                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
-                                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
-                                                        <li class="page-item page-next">
-                                                            <a class="page-link" href="javascript:void(0)">Next</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
+
+
+
+
+
+
+
+
+
+
+                                      
                                     </div>
                                     <div class="tab-pane" id="tab-12">
                                         <div class="row">
@@ -1039,13 +1099,11 @@ const openSelectedProduct=(pId)=>{
                             <div class="modal-dialog modal-dialog-centered text-center" role="document">
                                 <div class="modal-content modal-content-demo">
                                     <div class="modal-header">
-                                        <h6 class="modal-title">Message Preview</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                        <h6 class="modal-title">Add New Product</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                                     </div>
                                     <div class="modal-body">
-                                    <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Product Details</h3>
-                                    </div>
+                                   
+                                  
                                     <div class="card-body">
                                     {/*  <div class="form-row">
                                             <div class="form-group col-md-6 mb-0">
@@ -1174,6 +1232,59 @@ const openSelectedProduct=(pId)=>{
                                                 </div>
                                             </div>
                                         </div>
+
+
+                                        <div class="form-row">
+                                        <div class="form-group col-md-6 mb-0">
+                                        <div class="form-group ">
+                        
+                                        <label class="form-label" for="multicol-country">Unit Of Measure</label>
+                                <select id="multicol-country" class="form-control select2 form-select"  
+                                value={unit_of_measure} 
+                                onChange={(event) => {
+                                  setunit_of_measure(event.target.value);
+                                }}
+    
+                              
+                                
+                                data-allow-clear="true">
+                                  <option value="">Select Unit Of Measure</option>
+                                  <option value="Kgs">Kgs</option>
+                                  <option value="Litre">Litres</option>
+                                  <option value="Plate">Plates</option>
+    
+                                  <option value="Item">Item</option>
+                        
+                                  <option value="Piece">Piece</option>
+                                  <option value="Package">Package</option>
+                                  <option value="Order">Order</option>
+                        
+                        
+                                
+                                 
+                                  
+                                </select>
+                                            
+                                            
+                                        </div>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            <div class="form-group">
+                                            <label for="dobWithTitle" class="form-label">Availability</label>
+                                            <div class="col-xl-2 px-3 px-xl-1">
+                                            <div class="form-group">
+                                                <label class="custom-switch form-switch mb-0">
+                                                        <input type="checkbox" name="custom-switch-radio" class="custom-switch-input"/>
+                                                        <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                                        <span class="custom-switch-description">Set Availability</span>
+                                                    </label>
+                                            </div>
+                                        </div>
+                                            </div>
+                                        </div>
+    
+    
+                                    </div>
                                       
                                            
                         
@@ -1184,7 +1295,7 @@ const openSelectedProduct=(pId)=>{
                                             
                                   
                                        
-                                    </div>
+                                    
                                 </div>
                                     </div>
                                     <div class="modal-footer">
@@ -1588,6 +1699,66 @@ const openSelectedProduct=(pId)=>{
                         </div>
                     </div>
                 </div>
+
+
+
+                <div class="form-row">
+                <div class="form-group col-md-6 mb-0">
+                <div class="form-group ">
+
+                <label class="form-label" for="multicol-country">Unit Of Measure</label>
+        <select id="multicol-country" class="form-control select2 form-select"  
+        value={unit_of_measure} 
+        onChange={(event) => {
+          setunit_of_measure(event.target.value);
+        }}
+
+      
+        
+        data-allow-clear="true">
+          <option value="">Select Unit Of Measure</option>
+          <option value="Kgs">Kgs</option>
+          <option value="Litre">Litres</option>
+          <option value="Plate">Plates</option>
+
+          <option value="Item">Item</option>
+
+          <option value="Piece">Piece</option>
+          <option value="Package">Package</option>
+          <option value="Order">Order</option>
+
+
+        
+         
+          
+        </select>
+                    
+                    
+                </div>
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    <div class="form-group">
+                    <label for="dobWithTitle" class="form-label">Availability</label>
+                    <div class="col-xl-2 px-3 px-xl-1">
+                    <div class="form-group">
+                        <label class="custom-switch form-switch mb-0">
+                                <input type="checkbox" name="custom-switch-radio" class="custom-switch-input"/>
+                                <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                <span class="custom-switch-description">Set Availability</span>
+                            </label>
+                    </div>
+                </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+                
+
+
+
                 <div class="form-footer mt-2">
                    
 

@@ -2136,7 +2136,7 @@ const openSelectedStaff=(sId)=>{
                     <div class="row">
                       <div class="col mb-3">
                         <label for="nameWithTitle" class="form-label">Service Name</label>
-                        <input type="text" id="service_name" class="form-control" placeholder="Eg. Automotive"
+                        <input type="text" id="service_name" class="form-control" placeholder="eg.laundry/cleaning services"
                         
                         onChange={(event) => {
                             set_service_name(event.target.value);

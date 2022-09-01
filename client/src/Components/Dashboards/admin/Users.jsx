@@ -55,8 +55,8 @@ const [dateJoined, setdateJoined] = useState('');
 useEffect(()=>{
 
    
-    //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-    axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
        setUserId(response.data.id)
 
@@ -71,13 +71,13 @@ useEffect(()=>{
  
       })
 
-   //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-   //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+   //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+   //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
    //   setOrdersList(response.data);
    //   })
 
 
-     axios.get("https://yoteorder-server.herokuapp.com/users/allusers",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get("http://localhost:3001/users/allusers",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
        
         setUserList(response.data)
        console.log("THE USER LIST DATA "+response.data)

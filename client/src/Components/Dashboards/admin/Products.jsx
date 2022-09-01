@@ -55,8 +55,8 @@ const [dateJoined, setdateJoined] = useState('');
 useEffect(()=>{
 
    
-    //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-    axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
        setUserId(response.data.id)
 
@@ -71,13 +71,13 @@ useEffect(()=>{
  
       })
 
-   //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-   //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+   //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+   //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
    //   setOrdersList(response.data);
    //   })
 
 
-     axios.get("https://yoteorder-server.herokuapp.com/product/allproducts",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get("http://localhost:3001/product/allproducts",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
        
         setProductsList(response.data)
        console.log("THE Products LIST DATA "+response.data)
@@ -781,8 +781,7 @@ useEffect(()=>{
         <div class="container">
             <div class="row align-items-center flex-row-reverse">
                 <div class="col-md-12 col-sm-12 text-center">
-                    Copyright © <span id="year"></span> <a href="javascript:void(0)">Sash</a>. Designed with <span
-                        class="fa fa-heart text-danger"></span> by <a href="javascript:void(0)"> Spruko </a> All rights reserved.
+                    Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>. Designed by <a href="javascript:void(0)"> Frankcode20 </a> All rights reserved.
                 </div>
             </div>
         </div>
