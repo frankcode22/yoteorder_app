@@ -91,8 +91,8 @@ function CustomerDashboard() {
     useEffect(()=>{
 
        
-         //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             setUserId(response.data.id)
 
@@ -101,13 +101,13 @@ function CustomerDashboard() {
       
            })
     
-        //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-        //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
+        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
 
 
-          axios.get("http://localhost:3001/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+          axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
             
           if(response.data!=null){
             setOrdersList(response.data);
@@ -136,8 +136,8 @@ function CustomerDashboard() {
 
     const openSelectedOrder=(oId)=>{
 
-   //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-    axios.get('http://localhost:3001/order/orderById/'+oId).then((response) => {
+   //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+    axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
 
         console.log("THE PRODUCT NAME IS "+response.data.name)
 
@@ -162,8 +162,8 @@ function CustomerDashboard() {
 
     const openOrderToPay=(oId,price)=>{
 
-        //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-         axios.get('http://localhost:3001/order/orderById/'+oId).then((response) => {
+        //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
      
              console.log("THE PRODUCT NAME IS "+response.data.name)
 
@@ -201,7 +201,7 @@ function CustomerDashboard() {
             order_description:order_description,
           
           }
-    axios.put('http://localhost:3001/order/updateorder/'+actualId,order_details).then((res_b)=>{
+    axios.put('https://yoteorder-server.herokuapp.com/order/updateorder/'+actualId,order_details).then((res_b)=>{
     
     console.log("THE ACTUAL ID IS "+actualId)
     
@@ -233,7 +233,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('http://localhost:3001/order/updatestatus/'+actualId,order_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+actualId,order_details).then((res_b)=>{
     
             console.log("THE ACTUAL ID IS "+actualId)
             
@@ -268,7 +268,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -297,7 +297,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -329,7 +329,7 @@ function CustomerDashboard() {
       
 
 
-        axios.post('http://localhost:3001/mpesa/pay',order_details).then((response)=>{
+        axios.post('https://yoteorder-server.herokuapp.com/mpesa/pay',order_details).then((response)=>{
     
             console.log("THE MPESA RESPONSE IS"+response.data)
 
@@ -370,23 +370,35 @@ function CustomerDashboard() {
       
 
 
-        axios.post('http://localhost:3001/mpesa/pay',order_details).then((response)=>{
-    
-            console.log("THE MPESA RESPONSE IS"+response.data)
+        axios.post('https://yoteorder-server.herokuapp.com/mpesa/pay',order_details).then((response)=>{
 
-            console.log("CUSTOMER NO IS"+formated_contact)
-
-            console.log("TILL NO IS "+sellerTillNo)
-            
-           // setorderId(res_b.data.id)
-            
-           
-            setTimeout(() => {
+            if (response.data.error) {
+                alert(JSON.stringify(response.data.error));
+                console.log("MPESA API ERROR"+JSON.stringify(response.data.error))
                 setLoading(false);
-                //handleShow()
-                toast.success("Payment Done Successful")
-            }, 4000);
-            
+               
+              }
+              else{
+
+                console.log("THE MPESA RESPONSE IS"+response.data)
+
+                console.log("CUSTOMER NO IS"+formated_contact)
+    
+                console.log("TILL NO IS "+sellerTillNo)
+                
+               // setorderId(res_b.data.id)
+                
+               
+                setTimeout(() => {
+                    setLoading(false);
+                    //handleShow()
+                    toast.success("Payment Done Successful")
+                }, 4000);
+                
+
+              }
+    
+          
             })
 
 

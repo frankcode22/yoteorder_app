@@ -53,8 +53,8 @@ const [dateJoined, setdateJoined] = useState('');
 useEffect(()=>{
 
    
-     //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
 
@@ -69,13 +69,13 @@ useEffect(()=>{
   
        })
 
-    //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-    //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
+    //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+    //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
     //   setOrdersList(response.data);
     //   })
 
 
-      axios.get("http://localhost:3001/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+      axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
         setOrdersList(response.data);
         console.log("THE PRODUCT NAME IS "+response.data)
         })
@@ -90,8 +90,8 @@ useEffect(()=>{
 
 const openSelectedOrder=(oId)=>{
 
-//axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-axios.get('http://localhost:3001/order/orderById/'+oId).then((response) => {
+//axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
 
     console.log("THE PRODUCT NAME IS "+response.data.name)
 

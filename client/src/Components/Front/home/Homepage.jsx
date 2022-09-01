@@ -34,8 +34,8 @@ function Homepage() {
 
 
 
-            axios.get('http://localhost:3001/business/bestRated').then((response) => {
-           //axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+           //axios.get('http://localhost:3001/business/bestRated').then((response) => {
+           axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
 
             setBestList(response.data)
 
