@@ -44,6 +44,13 @@ function CustomerDashboard() {
     const [email, setEmail] = useState("");
     const [phone_no, setPhone_no] = useState("");
 
+
+    const [customerPhoneNo, setCustomerPhoneNo] = useState("");
+
+    const [sellerTillNo, setsellerTillNo] = useState("");
+
+    const [amount, setAmount] = useState("");
+
     const [randomNo, setRandomNo] = useState(0);
 
 
@@ -84,21 +91,23 @@ function CustomerDashboard() {
     useEffect(()=>{
 
        
-         //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             setUserId(response.data.id)
+
+           setCustomerPhoneNo(response.data.phone_no)
       
       
            })
     
-        //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-        //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
+        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
 
 
-          axios.get("http://localhost:3001/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+          axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
             
           if(response.data!=null){
             setOrdersList(response.data);
@@ -127,8 +136,8 @@ function CustomerDashboard() {
 
     const openSelectedOrder=(oId)=>{
 
-   //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-    axios.get('http://localhost:3001/order/orderById/'+oId).then((response) => {
+   //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+    axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
 
         console.log("THE PRODUCT NAME IS "+response.data.name)
 
@@ -150,6 +159,36 @@ function CustomerDashboard() {
     }
 
 
+
+    const openOrderToPay=(oId,price)=>{
+
+        //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+     
+             console.log("THE PRODUCT NAME IS "+response.data.name)
+
+             console.log("THE PRODUCT PRICE IS "+price)
+
+             setAmount(price*response.data.quantity_ordered)
+     
+             setactualId(oId)
+     
+             setorderId(response.data.orderId)
+     
+             setitem_name(response.data.item_name)
+     
+             setquantity_ordered(response.data.quantity_ordered)
+     
+             setorder_description(response.data.order_description)
+                 
+     
+                 })
+     
+     
+     
+         }
+
+
     const editOrder=()=>{
 
 
@@ -162,7 +201,7 @@ function CustomerDashboard() {
             order_description:order_description,
           
           }
-    axios.put('http://localhost:3001/order/updateorder/'+actualId,order_details).then((res_b)=>{
+    axios.put('https://yoteorder-server.herokuapp.com/order/updateorder/'+actualId,order_details).then((res_b)=>{
     
     console.log("THE ACTUAL ID IS "+actualId)
     
@@ -194,7 +233,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('http://localhost:3001/order/updatestatus/'+actualId,order_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+actualId,order_details).then((res_b)=>{
     
             console.log("THE ACTUAL ID IS "+actualId)
             
@@ -229,7 +268,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -258,7 +297,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -270,6 +309,83 @@ function CustomerDashboard() {
                 handleShow()
                // toast.warning("Order Cancelled")
             }, 1000);
+            
+            })
+
+
+        
+    }
+
+
+    const payOrder=()=>{
+
+        setLoading(true);
+
+        const order_details={
+            "short_code":"174379",
+            "buyer":"254714639773",    
+          }
+
+      
+
+
+        axios.post('https://yoteorder-server.herokuapp.com/mpesa/pay',order_details).then((response)=>{
+    
+            console.log("THE MPESA RESPONSE IS"+response.data)
+
+            console.log("CUSTOMER NO IS"+customerPhoneNo)
+
+            console.log("TILL NO IS "+sellerTillNo)
+            
+           // setorderId(res_b.data.id)
+            
+           
+            setTimeout(() => {
+                setLoading(false);
+                handleShow()
+               // toast.warning("Order Cancelled")
+            }, 1000);
+            
+            })
+
+
+        
+    }
+
+
+
+    const payOrderTest=()=>{
+
+        setLoading(true);
+
+        // console.log("AMOUNT IS "+amount)
+
+        let formated_contact='254'+customerPhoneNo.substring(1);
+
+        const order_details={
+            "short_code":sellerTillNo,
+            "buyer":formated_contact,    
+          }
+
+      
+
+
+        axios.post('https://yoteorder-server.herokuapp.com/mpesa/pay',order_details).then((response)=>{
+    
+            console.log("THE MPESA RESPONSE IS"+response.data)
+
+            console.log("CUSTOMER NO IS"+formated_contact)
+
+            console.log("TILL NO IS "+sellerTillNo)
+            
+           // setorderId(res_b.data.id)
+            
+           
+            setTimeout(() => {
+                setLoading(false);
+                //handleShow()
+                toast.success("Payment Done Successful")
+            }, 4000);
             
             })
 
@@ -360,7 +476,7 @@ function CustomerDashboard() {
                                                         <li>
                                                             <a onClick={() => {
                                                                 openSelectedOrder(value.id);
-                                                                  }} class="btn btn-primary" data-bs-toggle="modal" href="#modaldemo8" class="btn btn-success"> <i class="fe fe-eye">  </i> </a>
+                                                                  }} class="btn btn-primary" data-bs-toggle="modal" href="#modaldemo8"> <i class="fe fe-eye">  </i> </a>
                                                         </li>
                                                         <li>
                                                         
@@ -425,6 +541,8 @@ function CustomerDashboard() {
                                             <li class="list-group-item border-0">
                                                 Total
                                                 <span class="h4 fw-bold mb-0 float-end">Ksh.{value.Product.price*value.quantity_ordered}</span>
+                                               
+                                              
                                             </li>
                                         </ul>
                                                 </div>
@@ -444,15 +562,65 @@ function CustomerDashboard() {
                                                       data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">Edit</button>
 
 
-                                                      {!isLoading && <button type="submit" onClick={() => {
-                                                        cancelOrderC(value.id);
-                                                          }} class="btn btn-danger btn btn-danger mb-1"><i class="fe fe-x text-white"></i>Cancel Order</button>
-                          
-                                                } 
+                                                     
+
+
+                                                <button type="submit" class="btn btn-success d-grid mb-3"
+                                                
+                                                
+                                                onClick={() => {
+
+                                                    openOrderToPay(value.id,value.Product.price);
+                                            
+                                                 }}
+
+
+                                                 
+                                                
+                                                 data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo90">Pay Now</button>
+
+                                                 {!isLoading && <button type="submit" onClick={() => {
+                                                    cancelOrderC(value.id);
+                                                      }} class="btn btn-danger btn btn-danger mb-1"><i class="fe fe-x text-white"></i>Cancel Order</button>
+                      
+                                            } 
+
+                                                
                                                 {isLoading &&
                                                     <button type="submit" class="btn btn-danger btn-block mt-2" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Processing...</button>
                                                 }
                                                      
+
+
+
+                                                  {/*  {!isLoading && <button type="submit" onClick={() => {
+                                                        openSelectedOrder(value.id);
+                                                          }}
+                                                    class="btn btn btn-success mb-1"  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8"><i class="fe fe-tick text-white"></i>Pay</button>
+                                                    
+                          
+                                                } */}
+
+
+
+                                                     
+
+                                                {/* <button type="submit" class="btn btn-success-light d-grid mb-3"
+                                                
+                                                
+                                                onClick={() => {
+
+                                                    payOrder(value.id);
+                                            
+                                                 }}
+
+
+
+                                                
+                                                data-bs-effect="effect-fall">Pay Test</button>*/}
+                                                
+
+
 
 
                                               
@@ -461,6 +629,8 @@ function CustomerDashboard() {
                                                 </div>
                                             </div>
                                         </div>
+
+                                      
                                     </div>
 
                                     )
@@ -499,6 +669,10 @@ function CustomerDashboard() {
                                  
                                 </Modal.Footer>
                                 </Modal>
+
+
+
+                                
                             
 
                                 
@@ -517,6 +691,100 @@ function CustomerDashboard() {
                                 </div>
                             </div>
                         </div>
+
+
+
+
+
+                        <div class="modal fade" id="modaldemo90">
+                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                            <div class="modal-content modal-content-demo">
+                                <div class="modal-header">
+                                    <h6 class="modal-title">Pay Your Order</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                <img class="img-fluid" src="assets/images/brand/mpesa.png" alt="img"/>
+                                <h6>{orderId}</h6>
+                               
+                                <div class="form-row">
+                
+                
+                
+                                <div class="form-group col-md-12 mb-0">
+                                <label class="form-label">Your Phone No</label>
+                                   
+                        
+                                <input type="text" class="form-control" id="customerPhoneNo"
+                
+                                value={customerPhoneNo}
+                                
+                                onChange={(event) => {
+                                    setCustomerPhoneNo(event.target.value);
+                                  }} 
+                                
+                                />
+                                </div>
+                
+                
+                
+                              
+                                <div class="form-group col-md-12 mb-0">
+                                    <div class="form-group">
+                                    <label class="form-label">Seller Till No</label>
+                                        <input type="text" class="form-control" id="name2"
+                                        
+                                        onChange={(event) => {
+                                            setsellerTillNo(event.target.value);
+                                          }} 
+                                        
+                                       />
+                                    </div>
+                                </div>
+                
+                
+                                <div class="form-group col-md-12 mb-0">
+                                <div class="form-group">
+                                <label class="form-label">Amount</label>
+
+                                <span class="tag tag-radius tag-round tag-primary">Ksh.{amount}</span>
+                                   
+                                </div>
+                            </div>
+                        
+                                
+                               
+                              
+                               
+                            </div>
+                        
+                            <div class="form-footer mt-2">
+                           
+                        </div>
+                                
+                                </div>
+                                <div class="modal-footer">
+                
+                                {!isLoading &&  <button  onClick={() => {
+                
+                                    payOrderTest();
+                           
+                                }} class="btn btn-primary">Pay Now</button>
+                
+                
+                              
+                
+                            } 
+                            {isLoading &&
+                                <button type="submit" class="btn btn-primary" disabled> <i class="spinner-border text-success me-2"></i>Initiating Payment....</button>
+                            }
+                                   
+                                    
+                                    
+                                    <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
 
@@ -615,6 +883,10 @@ function CustomerDashboard() {
                 </div>
             </div>
         </div>
+
+
+                      
+     
 
 
 <ToastContainer/>

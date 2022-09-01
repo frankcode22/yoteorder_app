@@ -117,8 +117,8 @@ function ProductSetting() {
 
 
 
-     //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
   
@@ -126,7 +126,7 @@ function ProductSetting() {
        })
 
 
-       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
     
@@ -154,8 +154,8 @@ function ProductSetting() {
 
 
 
-            //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/users/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+            //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/users/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
       setProductsList(response.data)
   
@@ -175,8 +175,8 @@ function ProductSetting() {
 const getAllMyProducts=()=>{
 
 
-        //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-            axios.get('http://localhost:3001/users/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+            axios.get('https://yoteorder-server.herokuapp.com/users/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
                 setProductsList(response.data)
             
@@ -222,7 +222,7 @@ const getAllMyProducts=()=>{
 
  //axios.post("https://kilimomazaoapi-dmi-cyber.herokuapp.com/product",data).then((response)=>{
     
-  axios.post("http://localhost:3001/product",data).then((response)=>{
+  axios.post("https://yoteorder-server.herokuapp.com/product",data).then((response)=>{
      
 
     console.log("The response is"+response.data)
@@ -274,8 +274,8 @@ const getAllMyProducts=()=>{
 
 const openSelectedProduct=(pId)=>{
 
-    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-     axios.get('http://localhost:3001/product/byId/'+pId).then((response) => {
+    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
  
          console.log("THE PRODUCT NAME IS "+response.data.name)
  
@@ -324,7 +324,7 @@ const openSelectedProduct=(pId)=>{
               
           }
 
-        axios.put('http://localhost:3001/product/updateproduct/'+productId,data).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/product/updateproduct/'+productId,data).then((res_b)=>{
     
             //console.log("THE ACTUAL ID IS "+actualId)
             
@@ -367,7 +367,7 @@ const openSelectedProduct=(pId)=>{
       
 
 
-        axios.put('http://localhost:3001/product/updatestatus/'+pId,p_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -402,7 +402,7 @@ const openSelectedProduct=(pId)=>{
       
 
 
-        axios.put('http://localhost:3001/product/updatestatus/'+pId,p_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
