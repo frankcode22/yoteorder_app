@@ -20,6 +20,9 @@ import TopbarC from './TopbarC'
 
 import { Modal, Button } from "react-bootstrap";
 
+
+import ContentLoader from '../../../utils/ContentLoader';
+
 function CustomerDashboard() {
 
 
@@ -47,11 +50,14 @@ function CustomerDashboard() {
 
     const [customerPhoneNo, setCustomerPhoneNo] = useState("");
 
-    const [sellerTillNo, setsellerTillNo] = useState("");
+    const [sellerTillNo, setsellerTillNo] = useState("174379");
 
     const [amount, setAmount] = useState("");
 
     const [randomNo, setRandomNo] = useState(0);
+
+
+    const [accessToken, setAccessToken] = useState("");
 
 
     let history = useNavigate();
@@ -67,6 +73,9 @@ function CustomerDashboard() {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
+
+    const [isDivLoading, setIsDivLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleShow = () =>{
 
@@ -105,7 +114,7 @@ function CustomerDashboard() {
         //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
-
+        setIsDivLoading(true);
 
           axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
             
@@ -122,9 +131,25 @@ function CustomerDashboard() {
            // history('/sigin')
 
           }
+
+
+          
+      setTimeout(() => {
+       
+       // setSeller_name(response.data.Users);
+        setIsDivLoading(false)   // Hide loading screen 
+       // toast.info('Product saved successfully');
+    }, 4000);
           
            
-            })
+            }).catch(() => {
+                setErrorMessage("Unable to fetch your Orders list.Kindly check your internet connection!!");
+                setIsDivLoading(false);
+             });
+
+
+
+           
     
     
     
@@ -133,6 +158,34 @@ function CustomerDashboard() {
     
     
     },[]);
+
+
+
+    const genAccessToken=()=>{
+
+
+        axios.get('https://yoteorder-server.herokuapp.com/mpesa/get_token').then((response) => {
+
+            if (response.data.error) {
+
+                toast.warn("MPESA ERROR!! Check internet connection and try again "+JSON.stringify(response.data.error))
+               // toast.warn("Error Details",response.data)
+                // alert(" ",);
+                setLoading(false)
+                
+              } 
+              else{
+                setAccessToken(response.data)
+                console.log('The ACCESS TOKEN IS '+response.data)
+
+              }
+    
+             
+      
+      
+           })
+
+    }
 
     const openSelectedOrder=(oId)=>{
 
@@ -164,6 +217,8 @@ function CustomerDashboard() {
 
         //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
          axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+
+            genAccessToken()
      
              console.log("THE PRODUCT NAME IS "+response.data.name)
 
@@ -180,6 +235,10 @@ function CustomerDashboard() {
              setquantity_ordered(response.data.quantity_ordered)
      
              setorder_description(response.data.order_description)
+
+           
+
+          
                  
      
                  })
@@ -216,7 +275,7 @@ function CustomerDashboard() {
 
     setTimeout(() => {
         setLoading(false);
-        toast.warning("Order Updated")
+        toast.success("Order Updated")
     }, 3000);
     
     })
@@ -358,13 +417,18 @@ function CustomerDashboard() {
 
         setLoading(true);
 
+      
+
         // console.log("AMOUNT IS "+amount)
 
         let formated_contact='254'+customerPhoneNo.substring(1);
 
         const order_details={
             "short_code":sellerTillNo,
-            "buyer":formated_contact,    
+            "buyer":formated_contact, 
+            "amount":amount,
+            "accesstoken":accessToken,
+
           }
 
       
@@ -373,7 +437,12 @@ function CustomerDashboard() {
         axios.post('https://yoteorder-server.herokuapp.com/mpesa/pay',order_details).then((response)=>{
 
             if (response.data.error) {
-                alert(JSON.stringify(response.data.error));
+                //alert(JSON.stringify(response.data.error));
+
+                // toast.error("Error in MPesa server.You must have internet connection")
+                toast.warn("STK PUSH ERROR! PLEASE TRY AGAIN",JSON.stringify(response.data.error))
+
+
                 console.log("MPESA API ERROR"+JSON.stringify(response.data.error))
                 setLoading(false);
                
@@ -404,6 +473,239 @@ function CustomerDashboard() {
 
         
     }
+
+
+    const loadCutomerOrderContent=(
+
+        <div class="row">
+
+
+
+        {ordersList.map((value, key) => {
+            return (
+            <div class="col-md-6 col-xl-4 col-sm-6">
+                <div class="card">
+                    <div class="product-grid6">
+                        <div class="product-image6 p-5">
+                            <ul class="icons">
+                                <li>
+                                    <a onClick={() => {
+                                        openSelectedOrder(value.id);
+                                          }} class="btn btn-primary" data-bs-toggle="modal" href="#modaldemo8"> <i class="fe fe-eye">  </i> </a>
+                                </li>
+                                <li>
+                                
+                                <a href="#"  onClick={() => {
+                                    openSelectedOrder(value.id);
+                                      }}
+                                
+                            
+                                      data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
+                                <li><a href="#" onClick={() => {
+                                    cancelOrderC(value.id);
+                                      }} class="btn btn-danger"><i class="fe fe-x"></i></a></li>
+                            </ul>
+                            <a href="#" >
+                                <img class="img-fluid br-7 w-100" src="assets/images/pngs/9.jpg" alt="img"/>
+                            </a>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="product-content text-center">
+                                <h1 class="title fw-bold fs-20"><a href="#">{value.item_name}</a></h1>
+                                <span class="tag tag-radius tag-round tag-primary">Ksh.{value.Product.price}</span>
+                               
+                                <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
+            
+                                
+                                <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
+                                
+                               
+                            </div>
+
+                            <div>
+
+                                    <div class="d-flex align-items-center mb-3 mt-3">
+                                        <div class="me-4 text-center text-primary">
+
+                                            <span><i class="fe fe-phone fs-20"></i></span>
+                                        </div>
+                                        <div>
+                                      
+                                            <strong>  <a href={`tel:${value.Business.contacts}`}>{value.Business.contacts} </a></strong>
+
+                                       
+                                        </div>
+                                    </div>
+
+                            </div>
+
+                            <ul class="list-group border br-7">
+                            
+                    
+                           
+                    
+                     <li class="list-group-item border-0">
+                        Sub Total
+                        <span class="h6 fw-bold mb-0 float-end">{value.Product.price}</span>
+                    </li>
+                    <li class="list-group-item border-0">
+                        Discount
+                        <span class="h6 fw-bold mb-0 float-end">5%</span>
+                    </li>
+                    <li class="list-group-item border-0">
+                        Shipping
+                        <span class="h6 fw-bold mb-0 float-end">Free</span>
+                    </li>
+                    <li class="list-group-item border-0">
+                        Total
+                        <span class="h4 fw-bold mb-0 float-end">Ksh.{value.Product.price*value.quantity_ordered}</span>
+                       
+                      
+                    </li>
+                </ul>
+                        </div>
+                        <div class="card-footer text-center">
+
+                        <p>
+                       
+
+                        <button  type="submit" class="btn btn-primary mb-1"
+                        
+                        
+                        onClick={() => {
+                            openSelectedOrder(value.id);
+                              }}
+                        
+                    
+                              data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">Edit</button>
+
+
+                             
+
+                      
+
+                        <button type="submit" class="btn btn-success mb-1"
+                        
+                        
+                        onClick={() => {
+
+                            openOrderToPay(value.id,value.Product.price);
+                    
+                         }}
+
+
+                         
+                        
+                         data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo90">Pay Now</button>
+
+                         {!isLoading && <button type="submit" onClick={() => {
+                            cancelOrderC(value.id);
+                              }} class="btn btn-danger btn btn-danger mb-1"><i class="fe fe-x text-white"></i>Cancel Order</button>
+
+                    } 
+
+                        
+                        {isLoading &&
+                            <button type="submit" class="btn btn-danger btn-block mt-2" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Processing...</button>
+                        }
+                             
+
+
+
+                          {/*  {!isLoading && <button type="submit" onClick={() => {
+                                openSelectedOrder(value.id);
+                                  }}
+                            class="btn btn btn-success mb-1"  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8"><i class="fe fe-tick text-white"></i>Pay</button>
+                            
+  
+                        } */}
+
+
+
+                             
+
+                        {/* <button type="submit" class="btn btn-success-light d-grid mb-3"
+                        
+                        
+                        onClick={() => {
+
+                            payOrder(value.id);
+                    
+                         }}
+
+
+
+                        
+                        data-bs-effect="effect-fall">Pay Test</button>*/}
+                        
+
+
+
+
+                      
+                    </p>
+                           
+                        </div>
+                    </div>
+                </div>
+
+              
+            </div>
+
+            )
+        })}
+
+
+
+
+
+        <Modal class="modal fade" show={show}>
+
+        <Modal.Header>
+          <Modal.Title>Cancel Order</Modal.Title>
+        </Modal.Header>
+        <Modal.Body class="modal-body text-center p-4 pb-5">
+        
+        
+        
+        
+        <i class="icon icon-close fs-70 text-danger lh-1 my-4 d-inline-block"></i>
+        <h4 class="text-danger mb-20">Order Cancelled</h4>
+        
+        
+        
+          
+        
+        </Modal.Body>
+        <Modal.Footer>
+        
+        {/* <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button> */}
+         
+        </Modal.Footer>
+        </Modal>
+
+
+
+        
+    
+
+        
+
+
+
+
+              
+
+           
+
+        </div>
+
+    )
 
   return (
     <div>
@@ -461,492 +763,294 @@ function CustomerDashboard() {
                             </ol>
                         </div>
                     </div>
-                    
-                  
-                    
+
+
+
                     <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Logged In As  <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-user"></i>{authState.first_name}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span></h3>
+                            </div>
+
+
+
+                            {isDivLoading ? <ContentLoader/>: loadCutomerOrderContent}
+
+                            {errorMessage && 
+
+
+
+
+                                <div class="col-sm-12 border">
+                                <h3 class="card-title">{errorMessage}</h3>
+                            
+                                
+                                
+                                
+                           </div>}
+
+
+
+
+                           
+                        </div>
+                    </div>
+                  
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                        <div class="card overflow-hidden">
+                            <div class="card-body pb-0 bg-recentorder">
+                                <h3 class="card-title text-white">Recent Orders</h3>
+                                <div class="chartjs-wrapper-demo">
+                                    <canvas id="recentorders" class="chart-dropshadow"></canvas>
+                                </div>
+                            </div>
+                            <div id="flotback-chart" class="flot-background"></div>
+                            <div class="card-body">
+                                <div class="d-flex mb-4 mt-3">
+                                    <div
+                                        class="avatar avatar-md bg-secondary-transparent text-secondary bradius me-3">
+                                        <i class="fe fe-check"></i>
+                                    </div>
+                                    <div class="">
+                                        <h6 class="mb-1 fw-semibold">Delivered Orders</h6>
+                                        <p class="fw-normal fs-12"> <span class="text-success">3.5%</span>
+                                            increased </p>
+                                    </div>
+                                    <div class=" ms-auto my-auto">
+                                        <p class="fw-bold fs-20"> 1,768 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="avatar  avatar-md bg-pink-transparent text-pink bradius me-3">
+                                        <i class="fe fe-x"></i>
+                                    </div>
+                                    <div class="">
+                                        <h6 class="mb-1 fw-semibold">Cancelled Orders</h6>
+                                        <p class="fw-normal fs-12"> <span class="text-success">1.2%</span>
+                                            increased </p>
+                                    </div>
+                                    <div class=" ms-auto my-auto">
+                                        <p class="fw-bold fs-20 mb-0"> 3,675 </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
 
                     
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Your Order Welcome: {authState.first_name}</h3>
-                                </div>
-                                <div class="card-body">
-
-                                <div class="row">
-
-
-
-                                {ordersList.map((value, key) => {
-                                    return (
-                                    <div class="col-md-6 col-xl-4 col-sm-6">
-                                        <div class="card">
-                                            <div class="product-grid6">
-                                                <div class="product-image6 p-5">
-                                                    <ul class="icons">
-                                                        <li>
-                                                            <a onClick={() => {
-                                                                openSelectedOrder(value.id);
-                                                                  }} class="btn btn-primary" data-bs-toggle="modal" href="#modaldemo8"> <i class="fe fe-eye">  </i> </a>
-                                                        </li>
-                                                        <li>
-                                                        
-                                                        <a href="#"  onClick={() => {
-                                                            openSelectedOrder(value.id);
-                                                              }}
-                                                        
-                                                    
-                                                              data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
-                                                        <li><a href="#" onClick={() => {
-                                                            cancelOrderC(value.id);
-                                                              }} class="btn btn-danger"><i class="fe fe-x"></i></a></li>
-                                                    </ul>
-                                                    <a href="#" >
-                                                        <img class="img-fluid br-7 w-100" src="assets/images/pngs/9.jpg" alt="img"/>
-                                                    </a>
-                                                </div>
-                                                <div class="card-body pt-0">
-                                                    <div class="product-content text-center">
-                                                        <h1 class="title fw-bold fs-20"><a href="#">{value.item_name}</a></h1>
-                                                        <span class="tag tag-radius tag-round tag-primary">Ksh.{value.Product.price}</span>
-                                                       
-                                                        <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
-                                    
-                                                        
-                                                        <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
-                                                        
-                                                       
-                                                    </div>
-
-                                                    <div>
-
-                                                            <div class="d-flex align-items-center mb-3 mt-3">
-                                                                <div class="me-4 text-center text-primary">
-
-                                                                    <span><i class="fe fe-phone fs-20"></i></span>
-                                                                </div>
-                                                                <div>
-                                                                    <strong>{value.Business.contacts} </strong>
-                                                                </div>
-                                                            </div>
-
-                                                    </div>
-
-                                                    <ul class="list-group border br-7">
-                                                    
-                                            
-                                                   
-                                            
-                                             <li class="list-group-item border-0">
-                                                Sub Total
-                                                <span class="h6 fw-bold mb-0 float-end">{value.Product.price}</span>
-                                            </li>
-                                            <li class="list-group-item border-0">
-                                                Discount
-                                                <span class="h6 fw-bold mb-0 float-end">5%</span>
-                                            </li>
-                                            <li class="list-group-item border-0">
-                                                Shipping
-                                                <span class="h6 fw-bold mb-0 float-end">Free</span>
-                                            </li>
-                                            <li class="list-group-item border-0">
-                                                Total
-                                                <span class="h4 fw-bold mb-0 float-end">Ksh.{value.Product.price*value.quantity_ordered}</span>
-                                               
-                                              
-                                            </li>
-                                        </ul>
-                                                </div>
-                                                <div class="card-footer text-center">
-
-                                                <p>
-                                               
-
-                                                <button  type="submit" class="btn btn-primary mb-1"
-                                                
-                                                
-                                                onClick={() => {
-                                                    openSelectedOrder(value.id);
-                                                      }}
-                                                
-                                            
-                                                      data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8">Edit</button>
-
-
-                                                     
-
-
-                                                <button type="submit" class="btn btn-success d-grid mb-3"
-                                                
-                                                
-                                                onClick={() => {
-
-                                                    openOrderToPay(value.id,value.Product.price);
-                                            
-                                                 }}
-
-
-                                                 
-                                                
-                                                 data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo90">Pay Now</button>
-
-                                                 {!isLoading && <button type="submit" onClick={() => {
-                                                    cancelOrderC(value.id);
-                                                      }} class="btn btn-danger btn btn-danger mb-1"><i class="fe fe-x text-white"></i>Cancel Order</button>
-                      
-                                            } 
-
-                                                
-                                                {isLoading &&
-                                                    <button type="submit" class="btn btn-danger btn-block mt-2" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Processing...</button>
-                                                }
-                                                     
-
-
-
-                                                  {/*  {!isLoading && <button type="submit" onClick={() => {
-                                                        openSelectedOrder(value.id);
-                                                          }}
-                                                    class="btn btn btn-success mb-1"  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo8"><i class="fe fe-tick text-white"></i>Pay</button>
-                                                    
+                    <div class="modal fade" id="modaldemo90">
+                    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                        <div class="modal-content modal-content-demo">
+                            <div class="modal-header">
+                                <h6 class="modal-title">Pay Your Order</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            <img class="img-fluid" src="assets/images/brand/mpesa.png" alt="img"/>
+                            <h6>{orderId}</h6>
+                           
+                            <div class="form-row">
+            
+            
+            
+                            <div class="form-group col-md-12 mb-0">
+                            <label class="form-label">Your Phone No</label>
+                               
+                    
+                            <input type="text" class="form-control" id="customerPhoneNo"
+            
+                            value={customerPhoneNo}
+                            
+                            onChange={(event) => {
+                                setCustomerPhoneNo(event.target.value);
+                              }} 
+                            
+                            />
+                            </div>
+            
+            
+            
                           
-                                                } */}
-
-
-
-                                                     
-
-                                                {/* <button type="submit" class="btn btn-success-light d-grid mb-3"
-                                                
-                                                
-                                                onClick={() => {
-
-                                                    payOrder(value.id);
-                                            
-                                                 }}
-
-
-
-                                                
-                                                data-bs-effect="effect-fall">Pay Test</button>*/}
-                                                
-
-
-
-
-                                              
-                                            </p>
-                                                   
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                      
-                                    </div>
-
-                                    )
-                                })}
-
-
-
-
-
-                                <Modal class="modal fade" show={show}>
-
-                                <Modal.Header>
-                                  <Modal.Title>Cancel Order</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body class="modal-body text-center p-4 pb-5">
-                                
-                                
-                                
-                                
-                                <i class="icon icon-close fs-70 text-danger lh-1 my-4 d-inline-block"></i>
-                                <h4 class="text-danger mb-20">Order Cancelled</h4>
-                                
-                                
-                                
-                                  
-                                
-                                </Modal.Body>
-                                <Modal.Footer>
-                                
-                                {/* <Button variant="secondary" onClick={handleClose}>
-                                    Close
-                                  </Button>
-                                  <Button variant="primary" onClick={handleClose}>
-                                    Save Changes
-                                  </Button> */}
-                                 
-                                </Modal.Footer>
-                                </Modal>
-
-
-
-                                
-                            
-
-                                
-
-
-
-
-                                      
-
-                                   
-
-                                </div>
-
-
-                                
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-
-                        <div class="modal fade" id="modaldemo90">
-                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
-                            <div class="modal-content modal-content-demo">
-                                <div class="modal-header">
-                                    <h6 class="modal-title">Pay Your Order</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                <div class="modal-body">
-                                <img class="img-fluid" src="assets/images/brand/mpesa.png" alt="img"/>
-                                <h6>{orderId}</h6>
-                               
-                                <div class="form-row">
-                
-                
-                
-                                <div class="form-group col-md-12 mb-0">
-                                <label class="form-label">Your Phone No</label>
-                                   
-                        
-                                <input type="text" class="form-control" id="customerPhoneNo"
-                
-                                value={customerPhoneNo}
-                                
-                                onChange={(event) => {
-                                    setCustomerPhoneNo(event.target.value);
-                                  }} 
-                                
-                                />
-                                </div>
-                
-                
-                
-                              
-                                <div class="form-group col-md-12 mb-0">
-                                    <div class="form-group">
-                                    <label class="form-label">Seller Till No</label>
-                                        <input type="text" class="form-control" id="name2"
-                                        
-                                        onChange={(event) => {
-                                            setsellerTillNo(event.target.value);
-                                          }} 
-                                        
-                                       />
-                                    </div>
-                                </div>
-                
-                
-                                <div class="form-group col-md-12 mb-0">
+                            <div class="form-group col-md-12 mb-0">
                                 <div class="form-group">
-                                <label class="form-label">Amount</label>
+                                <label class="form-label">Seller Till No</label>
+                                    <input type="text" class="form-control" id="till_no" value={sellerTillNo}
+                                    
+                                    onChange={(event) => {
+                                        setsellerTillNo(event.target.value);
+                                      }} 
 
-                                <span class="tag tag-radius tag-round tag-primary">Ksh.{amount}</span>
-                                   
+                                      disabled
+                                    
+                                   />
                                 </div>
                             </div>
-                        
-                                
-                               
-                              
+            
+            
+                            <div class="form-group col-md-12 mb-0">
+                            <div class="form-group">
+                            <label class="form-label">Amount</label>
+
+                            <span class="tag tag-radius tag-round tag-primary">Ksh.{amount}</span>
                                
                             </div>
-                        
-                            <div class="form-footer mt-2">
+                        </div>
+                    
+                            
+                           
+                          
                            
                         </div>
+                    
+                        <div class="form-footer mt-2">
+                       
+                    </div>
+                            
+                            </div>
+                            <div class="modal-footer">
+            
+                            {!isLoading &&  <button  onClick={() => {
+            
+                                payOrderTest();
+                       
+                            }} class="btn btn-primary">Pay Now</button>
+            
+            
+                          
+            
+                        } 
+                        {isLoading &&
+                            <button type="submit" class="btn btn-primary" disabled> <i class="spinner-border text-success me-2"></i>Initiating Payment....</button>
+                        }
+                               
                                 
-                                </div>
-                                <div class="modal-footer">
-                
-                                {!isLoading &&  <button  onClick={() => {
-                
-                                    payOrderTest();
-                           
-                                }} class="btn btn-primary">Pay Now</button>
-                
-                
-                              
-                
-                            } 
-                            {isLoading &&
-                                <button type="submit" class="btn btn-primary" disabled> <i class="spinner-border text-success me-2"></i>Initiating Payment....</button>
-                            }
-                                   
-                                    
-                                    
-                                    <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                </div>
+                                
+                                <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
-
-
-
-
-                        
-            <div class="modal fade" id="modaldemo8">
-            <div class="modal-dialog modal-dialog-centered text-center" role="document">
-                <div class="modal-content modal-content-demo">
-                    <div class="modal-header">
-                        <h6 class="modal-title">Message Preview</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                    <h6>{orderId}</h6>
-                   
-                    <div class="form-row">
-
-
-
-                    <div class="form-group col-md-12 mb-0">
-                    <label class="form-label">Order ID</label>
-                       
-            
-                    <input type="text" class="form-control" id="order_id"
-                    
-                    onChange={(event) => {
-                        setorderId(event.target.value);
-                      }} 
-                    
-                    value={orderId}/>
-                    </div>
-
-
-
-                    <div class="form-group col-md-6 mb-0">
-            
-                   {/* <p>Product Id {productId} Seller Id {businessId}  </p>*/} 
-                        <div class="form-group">
-                        <label class="form-label">Product Name</label>
-                            <input type="text" class="form-control" id="item_name" value={item_name}
-                            
-                            onChange={(event) => {
-                                setitem_name(event.target.value);
-                              }} 
-                            
-                            placeholder="Item name"/>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6 mb-0">
-                        <div class="form-group">
-                        <label class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="name2" value={quantity_ordered}
-                            
-                            onChange={(event) => {
-                                setquantity_ordered(event.target.value);
-                              }} 
-                            
-                            placeholder="Quantity"/>
-                        </div>
-                    </div>
-            
-                    
-                   
-                    <div class="form-group col-md-12 mb-0">
-                    <label class="form-label">Additional Infor</label>
-                       
-            
-                        <textarea class="form-control" value={order_description}  onChange={(event) => {
-                            setorder_description(event.target.value);
-                          }}  placeholder="Comments" id="floatingTextarea2" style={{height: '100px'}}></textarea>
-                    </div>
-                   
                 </div>
-            
-                <div class="form-footer mt-2">
+
+
+
+
+                    
+        <div class="modal fade" id="modaldemo8">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Message Preview</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                <h6>{orderId}</h6>
+               
+                <div class="form-row">
+
+
+
+                <div class="form-group col-md-12 mb-0">
+                <label class="form-label">Order ID</label>
+                   
+        
+                <input type="text" class="form-control" id="order_id"
+                
+                onChange={(event) => {
+                    setorderId(event.target.value);
+                  }} 
+                
+                value={orderId}/>
+                </div>
+
+
+
+                <div class="form-group col-md-6 mb-0">
+        
+               {/* <p>Product Id {productId} Seller Id {businessId}  </p>*/} 
+                    <div class="form-group">
+                    <label class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="item_name" value={item_name}
+                        
+                        onChange={(event) => {
+                            setitem_name(event.target.value);
+                          }} 
+                        
+                        placeholder="Item name"/>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    <div class="form-group">
+                    <label class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="name2" value={quantity_ordered}
+                        
+                        onChange={(event) => {
+                            setquantity_ordered(event.target.value);
+                          }} 
+                        
+                        placeholder="Quantity"/>
+                    </div>
+                </div>
+        
+                
+               
+                <div class="form-group col-md-12 mb-0">
+                <label class="form-label">Additional Infor</label>
+                   
+        
+                    <textarea class="form-control" value={order_description}  onChange={(event) => {
+                        setorder_description(event.target.value);
+                      }}  placeholder="Comments" id="floatingTextarea2" style={{height: '100px'}}></textarea>
+                </div>
                
             </div>
+        
+            <div class="form-footer mt-2">
+           
+        </div>
+                
+                </div>
+                <div class="modal-footer">
+
+                {!isLoading &&  <button  onClick={() => {
+
+                    editOrder()
+           
+                }} class="btn btn-primary">Save changes</button>
+
+            } 
+            {isLoading &&
+                <button type="submit" class="btn btn-primary" disabled> <i class="fas fa-sync fa-spin"></i>Saving Changes....</button>
+            }
+                   
                     
-                    </div>
-                    <div class="modal-footer">
-
-                    {!isLoading &&  <button  onClick={() => {
-
-                        editOrder()
-               
-                    }} class="btn btn-primary">Save changes</button>
-
-                } 
-                {isLoading &&
-                    <button type="submit" class="btn btn-primary" disabled> <i class="fas fa-sync fa-spin"></i>Saving Changes....</button>
-                }
-                       
-                        
-                        
-                        <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    </div>
+                    
+                    <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
 
 
-                      
-     
+                  
+ 
 
 
 <ToastContainer/>
 
 
-                      
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
-                            <div class="card overflow-hidden">
-                                <div class="card-body pb-0 bg-recentorder">
-                                    <h3 class="card-title text-white">Recent Orders</h3>
-                                    <div class="chartjs-wrapper-demo">
-                                        <canvas id="recentorders" class="chart-dropshadow"></canvas>
-                                    </div>
-                                </div>
-                                <div id="flotback-chart" class="flot-background"></div>
-                                <div class="card-body">
-                                    <div class="d-flex mb-4 mt-3">
-                                        <div
-                                            class="avatar avatar-md bg-secondary-transparent text-secondary bradius me-3">
-                                            <i class="fe fe-check"></i>
-                                        </div>
-                                        <div class="">
-                                            <h6 class="mb-1 fw-semibold">Delivered Orders</h6>
-                                            <p class="fw-normal fs-12"> <span class="text-success">3.5%</span>
-                                                increased </p>
-                                        </div>
-                                        <div class=" ms-auto my-auto">
-                                            <p class="fw-bold fs-20"> 1,768 </p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="avatar  avatar-md bg-pink-transparent text-pink bradius me-3">
-                                            <i class="fe fe-x"></i>
-                                        </div>
-                                        <div class="">
-                                            <h6 class="mb-1 fw-semibold">Cancelled Orders</h6>
-                                            <p class="fw-normal fs-12"> <span class="text-success">1.2%</span>
-                                                increased </p>
-                                        </div>
-                                        <div class=" ms-auto my-auto">
-                                            <p class="fw-bold fs-20 mb-0"> 3,675 </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                       
-                    </div>
+
+
+
+
+
+                   
+                </div>
+                    
+                  
+                    
+                    
                     
                  
                    

@@ -20,6 +20,7 @@ import { AuthContext } from "../../../helpers/AuthContext";
 
 
 import LoadingSpinner from '../../../utils/LoadingSpinner'
+import ContentLoader from '../../../utils/ContentLoader'
 
 import ProcessingAlert from '../../../utils/ProcessingAlert';
 
@@ -242,6 +243,7 @@ function OrderedProduct() {
   const cancelSelectedService=()=>{
 
     setShowBookingDiv(false)
+   
   
     setShowCustomerDetailsForm(false)
 
@@ -267,6 +269,7 @@ function OrderedProduct() {
     setTimeout(() => {
         setLoading(false);
         setShowBookingDiv(false)
+        //setIsDivLoading(true);
   
         setShowCustomerDetailsForm(true)
     
@@ -827,6 +830,10 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 }
 
 
+
+
+
+
   const vendorSearchDiv=(
 
 
@@ -912,7 +919,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
 
-        
+            
     <div class="col-md-8 col-xl-8">
 
     <div class="card border">
@@ -988,7 +995,11 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
     } 
     {isLoading &&
-        <button type="submit" class="btn btn-primary" disabled> <i class="fas fa-sync fa-spin"></i>Initiating order....</button>
+        
+        <button class="btn btn-primary my-1" type="button" disabled="">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Initiating order...
+    </button>
     }
        
 
@@ -1000,90 +1011,103 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     }
 
         {showCustomerDetailsForm &&
-        <div class="card-body">
+
+            <div class="card-body">
 
 
-        {showAlert &&
-        
-            <div class="alert alert-danger mb-0" role="alert">
-            <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
-            <span class="alert-inner--text"><strong>Alert!</strong> Please enter your name and phone number!</span>
-        </div>
-        }
-
-                                 
-        
-  <form>
-    <div class="row mb-3">
+    {showAlert &&
     
-      <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Your Name</label>
-      <div class="col-sm-10">
-        <div class="input-group input-group-merge">
-          <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-          <input type="text" class="form-control" id="basic-icon-default-fullname"  
-          
-          onChange={(event) => {
-            setName(event.target.value);
-          }} 
-
-          placeholder='eg. Jane Masinde'
-          
-          aria-describedby="basic-icon-default-fullname2"/>
-        </div>
-      </div>
+        <div class="alert alert-danger mb-0" role="alert">
+        <span class="alert-inner--icon"><i class="fe fe-slash"></i></span>
+        <span class="alert-inner--text"><strong>Alert!</strong> Please enter your name and phone number!</span>
     </div>
-  
-    <div class="row mb-3">
-      <label class="col-sm-2 col-form-label" for="basic-icon-default-email">Email</label>
-      <div class="col-sm-10">
-        <div class="input-group input-group-merge">
-       
-          <input type="text" id="basic-icon-default-email" class="form-control"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-
-          placeholder='eg. jane@gmail.com'
-          
-          aria-describedby="Eg.mike20@gmail.com"/>
-         
-        </div>
-        <div class="form-text"> You can use letters, numbers &amp; periods </div>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <label class="col-sm-2 form-label" for="basic-icon-default-phone">Phone No</label>
-      <div class="col-sm-10">
-        <div class="input-group input-group-merge">
-          <span id="basic-icon-default-phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
-          <input type="text" id="basic-icon-default-phone" class="form-control phone-mask"
-          onChange={(event) => {
-            setPhone_no(event.target.value);
-          }}
-          
-          placeholder="eg. 0713876543" aria-label="658 799 8941" aria-describedby="basic-icon-default-phone2"/>
-        </div>
-      </div>
-    </div>
-   
-    <div class="row justify-content-end">
-      <div class="col-sm-12">
-
-      {!isLoading && <button type="submit" onClick={makeOrder} class="btn btn-primary">Place Order</button>
-
-    } 
-    {isLoading &&
-        <button type="submit" class="btn btn-primary" disabled> <i class="fas fa-sync fa-spin"></i>Making Order....</button>
     }
-       
 
-        <button type="reset" onClick={() => {
-          cancelSelectedService();
-        }} class="btn btn-label-secondary">Cancel</button>
-      </div>
+                             
+    
+<form>
+<div class="row mb-3">
+
+  <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Your Name</label>
+  <div class="col-sm-10">
+    <div class="input-group input-group-merge">
+      <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
+      <input type="text" class="form-control" id="basic-icon-default-fullname"  
+      
+      onChange={(event) => {
+        setName(event.target.value);
+      }} 
+
+      placeholder='eg. Jane Masinde'
+      
+      aria-describedby="basic-icon-default-fullname2"/>
     </div>
-  </form>
+  </div>
 </div>
+
+<div class="row mb-3">
+  <label class="col-sm-2 col-form-label" for="basic-icon-default-email">Email</label>
+  <div class="col-sm-10">
+    <div class="input-group input-group-merge">
+   
+      <input type="text" id="basic-icon-default-email" class="form-control"
+      onChange={(event) => {
+        setEmail(event.target.value);
+      }}
+
+      placeholder='eg. jane@gmail.com'
+      
+      aria-describedby="Eg.mike20@gmail.com"/>
+     
+    </div>
+    <div class="form-text"> You can use letters, numbers &amp; periods </div>
+  </div>
+</div>
+<div class="row mb-3">
+  <label class="col-sm-2 form-label" for="basic-icon-default-phone">Phone No</label>
+  <div class="col-sm-10">
+    <div class="input-group input-group-merge">
+      <span id="basic-icon-default-phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
+      <input type="text" id="basic-icon-default-phone" class="form-control phone-mask"
+      onChange={(event) => {
+        setPhone_no(event.target.value);
+      }}
+      
+      placeholder="eg. 0713876543" aria-label="658 799 8941" aria-describedby="basic-icon-default-phone2"/>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-end">
+  <div class="col-sm-12">
+
+  {!isLoading && <button type="submit" onClick={makeOrder} class="btn btn-primary">Place Order</button>
+
+} 
+{isLoading &&
+  
+
+    <button class="btn btn-primary my-1" type="button" disabled="">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Preparing Your Order....
+</button>
+}
+   
+
+    <button type="reset" onClick={() => {
+      cancelSelectedService();
+    }} class="btn btn-label-secondary">Cancel</button>
+  </div>
+</div>
+</form>
+</div>
+
+
+
+      
+
+
+
     }
 
 
@@ -1091,6 +1115,18 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
     </div>
 </div>
+
+
+
+   
+
+
+
+
+
+
+
+
 
         
         <div class="col-md-4  col-xl-4">
@@ -2123,81 +2159,72 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
         <div class="card">
             <div class="card-body">
                 <div class="top-footer">
-                    <div class="row">
+                <div class="row">
 
-                    {/* <div class="col-lg-4 col-sm-12 col-md-12 reveal revealleft"> */}
-                        <div class="col-lg-4 col-sm-12 col-md-12 revealleft">
-                            <h6>About</h6>
-                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-                                veritatis et quasi architecto beatae vitae dicta sunt
-                                explicabo.
-                            </p>
-                            <p class="mb-5 mb-lg-2">Duis aute irure dolor in reprehenderit in voluptate
-                                velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat .
-                            </p>
-                        </div>
-                        <div class="col-lg-2 col-sm-6 col-md-4 revealleft">
-                            <h6>Pages</h6>
-                            <ul class="list-unstyled mb-5 mb-lg-0">
-                                <li><a href="index.html">Dashboard</a></li>
-                                <li><a href="alerts.html">Elements</a></li>
-                                <li><a href="form-elements.html">Forms</a></li>
-                                <li><a href="charts.html">Charts</a></li>
-                                <li><a href="datatable.html">Tables</a></li>
-                                <li><a href="file-attachments.html">Other Pages</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-2 col-sm-6 col-md-4 revealleft">
-                            <h6>Information</h6>
-                            <ul class="list-unstyled mb-5 mb-lg-0">
-                                <li><a href="about.html">Our Team</a></li>
-                                <li><a href="about.html">Contact US</a></li>
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="services.html">Services</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="terms.html">Terms and Services</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-4 col-sm-12 col-md-4 revealleft">
-                            <div class="">
-                                <a href="index.html"><img loading="lazy" alt="" class="logo-2 mb-3"
-                                        src="assets/images/brand/logo-3.png"/></a>
-                                <a href="index.html"><img src="assets/images/brand/logo.png"
-                                        class="logo-3" alt="logo"/></a>
-                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                                    dolore eu fugiat nulla pariatur Excepteur sint occaecat.</p>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control"
-                                            placeholder="Enter your email"
-                                            aria-label="Example text with button addon"
-                                            aria-describedby="button-addon1"/>
-                                        <button class="btn btn-primary" type="button"
-                                            id="button-addon2">Submit</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="btn-list mt-6">
-                                <button type="button" class="btn btn-icon rounded-pill"><i
-                                        class="fa fa-facebook"></i></button>
-                                <button type="button" class="btn btn-icon rounded-pill"><i
-                                        class="fa fa-youtube"></i></button>
-                                <button type="button" class="btn btn-icon rounded-pill"><i
-                                        class="fa fa-twitter"></i></button>
-                                <button type="button" class="btn btn-icon rounded-pill"><i
-                                        class="fa fa-instagram"></i></button>
-                            </div>
-                            <hr/>
-                        </div>
+                {/* <div class="col-lg-4 col-sm-12 col-md-12 reveal revealleft"> */}
+                    <div class="col-lg-4 col-sm-12 col-md-12 revealleft">
+                        <h6>About</h6>
+                        <p>
+                        PataMtaani is a platfom developed to make it easy for residents to buy and sell any products within their area of residents.
+                        </p>
+                        <p class="mb-5 mb-lg-2">PataMtaani enables services prividers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
+                        to the local population.
+                        </p>
                     </div>
+                    <div class="col-lg-2 col-sm-6 col-md-4 revealleft">
+                        <h6>Pages</h6>
+                        <ul class="list-unstyled mb-5 mb-lg-0">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">Services</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">Customer Care</a></li>
+                           
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-md-4 revealleft">
+                        <h6>Information</h6>
+                        <ul class="list-unstyled mb-5 mb-lg-0">
+                            <li><a href="#">Our Team</a></li>
+                            <li><a href="#">Contact US</a></li>
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">Services</a></li>
+                          
+                            <li><a href="#">Terms and Services</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-sm-12 col-md-4 revealleft">
+                        <div class="">
+                            <a href="#"><img loading="lazy" alt="" class="logo-2 mb-3"
+                                    src="assets/images/brand/logo_new.png"/></a>
+                           
+                            <p>PataMtaani empowers all small-scale services providers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
+                            to the local population.</p>
+                            <div class="form-group">
+                                
+                            </div>
+                        </div>
+                        <div class="btn-list mt-6">
+                            <button type="button" class="btn btn-icon rounded-pill"><i
+                                    class="fa fa-facebook"></i></button>
+                            <button type="button" class="btn btn-icon rounded-pill"><i
+                                    class="fa fa-youtube"></i></button>
+                            <button type="button" class="btn btn-icon rounded-pill"><i
+                                    class="fa fa-twitter"></i></button>
+                            <button type="button" class="btn btn-icon rounded-pill"><i
+                                    class="fa fa-instagram"></i></button>
+                        </div>
+                        <hr/>
+                    </div>
+                </div>
                 </div>
                 <footer class="main-footer px-0 pb-0 text-center">
                 <div class="row ">
                     <div class="col-md-12 col-sm-12">
                         Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>.
-                        Designed with <span class="fa fa-heart text-danger"></span> by <a
-                            href="javascript:void(0)"> PataMtaani </a> All rights reserved.
+                        Designed by <a
+                            href="javascript:void(0)"> Frankcode20 Ent </a> All rights reserved.
                     </div>
                 </div>
             </footer>

@@ -312,7 +312,7 @@ function Homepage() {
             <div class="form-group">
                 <input class="form-control" onChange={(event) => {
                     setpname(event.target.value);
-                  }} placeholder="Search here..." type="text"/>
+                  }} placeholder="Search eg.Pro Gas" type="text"/>
             </div>
         </div>
         
@@ -1033,7 +1033,7 @@ function Homepage() {
                                 <a href="#"><img loading="lazy" alt="" class="logo-2 mb-3"
                                         src="assets/images/brand/logo_new.png"/></a>
                                
-                                <p>PataMtaani enables services prividers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
+                                <p>PataMtaani empowers all small-scale services providers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
                                 to the local population.</p>
                                 <div class="form-group">
                                     

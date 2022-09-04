@@ -176,6 +176,10 @@ function AccountSetting() {
 
           setbusiness_name(response.data.business_name);
 
+          setbusiness_type(response.data.business_type);
+
+          
+
           setbuss_contacts(response.data.contacts)
 
           setBussSetup(true);
@@ -699,26 +703,6 @@ const openSelectedStaff=(sId)=>{
                             <span class="icons"><i class="ri-star-line"></i></span> Starred <span class="ms-auto badge bg-success bradius">03</span>
                         </a>
 
-                        <a class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                        <span class="icons"><i class="ri-star-line"></i></span> Products <span class="ms-auto badge bg-success bradius">03</span>
-                        
-                        </a>
-
-                       
-
-
-                       
-                       
-                        
-                        <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                            <span class="icons"><i class="ri-price-tag-3-line"></i></span> Tags
-                        </a>
-                        <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                            <span class="icons"><i class="ri-mail-send-line"></i></span> Sent Mail
-                        </a>
-                        <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                            <span class="icons"><i class="ri-delete-bin-line"></i></span> Trash
-                        </a>
                     </div>
                    
                 </div>
@@ -760,25 +744,16 @@ const openSelectedStaff=(sId)=>{
                           </div>
                       </div>
                       <div class="mt-4">
-                          <h4 class="fw-semibold mt-3">There is nothing more beautiful.</h4>
-                          <p class="mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.
+                          <h4 class="fw-semibold mt-3">{business_type}</h4>
+                          <p class="mb-0">The best vendor around
                           </p>
                       </div>
                   </div>
                   <div class="card-footer user-pro-2">
                       <div class="media mt-0">
-                          <div class="media-user me-2">
-                              <div class="avatar-list avatar-list-stacked">
-                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/12.jpg)'}}></span>
-                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
-                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/9.jpg)'}}></span>
-                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
-                                  <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users//4.jpg)'}}></span>
-                                  <span class="avatar brround text-primary">+28</span>
-                              </div>
-                          </div>
+                         
                           <div class="media-body">
-                              <h6 class="mb-0 mt-2 ms-2">10 buyers like your business</h6>
+                              <h6 class="mb-0 mt-2 ms-2">10 customers like your business</h6>
                           </div>
                           <div class="ms-auto">
                               <div class="d-flex mt-1">
