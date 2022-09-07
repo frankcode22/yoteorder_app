@@ -133,6 +133,9 @@ function OrderedProduct() {
 
       const [showAlert, setShowAlert] = useState(false);
 
+      
+    const [imagePath, setImagePath] = useState("");
+
 
       const [show, setShow] = useState(false);
 
@@ -211,15 +214,17 @@ function OrderedProduct() {
   
    
 
-  // axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
+  // axios.get(`http://localhost:3001/product/search/${pname}`).then((response) => {
   
-            axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
+            axios.get(`http://localhost:3001/product/search/${pname}`).then((response) => {
 
            
 
          
             setTimeout(() => {
-                setProductsList(response.data);
+                setProductsList(response.data.item_list);
+
+                setImagePath(response.data.imagePath)
 
                // setSeller_name(response.data.Users);
                 setIsDivLoading(false)   // Hide loading screen 
@@ -229,7 +234,7 @@ function OrderedProduct() {
             //setSeller_name(response.data.Users.first_name)
             
         }).catch(() => {
-            setErrorMessage("Unable to fetch your products list");
+            setErrorMessage("Unable to fetch your search.Make sure you have internet connection.");
             setIsDivLoading(false);
          });
   
@@ -327,7 +332,7 @@ function OrderedProduct() {
    //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
   
   
-    axios.post('https://yoteorder-server.herokuapp.com/users',user_details).then((response)=>{
+    axios.post('http://localhost:3001/users',user_details).then((response)=>{
   
       console.log("THE CUSTOMER DATA IS"+response.data)
   
@@ -360,7 +365,7 @@ function OrderedProduct() {
 
   const data = { username:email, password: phone_no };
 
-  axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((rense) => {
+  axios.post("http://localhost:3001/users/login", data).then((rense) => {
     if (rense.data.error) {
       alert(rense.data.error);
       setLoading(false);
@@ -389,7 +394,7 @@ function OrderedProduct() {
        
       }
 
-    axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+    axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
     
         console.log("THE CUSTOMER DATA IS->"+res.data)
     
@@ -411,7 +416,7 @@ function OrderedProduct() {
             CustomerId:res.data.id,
             BusinessId:businessId,
           }
-    axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+    axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
     
     // console.log("The response is"+res_b.data)
     
@@ -443,7 +448,7 @@ function OrderedProduct() {
         CustomerId:customerId,
         BusinessId:businessId,
       }
-axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
 
 // console.log("The response is"+res_b.data)
 
@@ -462,7 +467,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
       if(rense.data.role=="Customer"){
 
 
-        axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") }}).then((res_auth) => {
+        axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") }}).then((res_auth) => {
 
         setUserId(res_auth.data.id)
 
@@ -480,7 +485,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
        
     //   }
 
-    // axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+    // axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
     
     //     console.log("The response is"+res.data)
     
@@ -499,7 +504,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 //                         UserId:res_auth.data.id,
 //                         BusinessId:businessId,
 //                       }
-//             axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+//             axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
 
 //  // console.log("The response is"+res_b.data)
 
@@ -580,7 +585,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
      //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
     
     
-      axios.post('https://yoteorder-server.herokuapp.com/users',user_details).then((response)=>{
+      axios.post('http://localhost:3001/users',user_details).then((response)=>{
     
         console.log("THE CUSTOMER DATA IS"+response.data)
     
@@ -621,7 +626,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   
   
   
-        axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+        axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
     
         console.log("The response is"+res.data)
     
@@ -641,7 +646,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   
   
         
-  //       axios.post('https://yoteorder-server.herokuapp.com/booking',appointment).then((res_b)=>{
+  //       axios.post('http://localhost:3001/booking',appointment).then((res_b)=>{
     
   //       console.log("The response is"+res_b.data)
     
@@ -664,7 +669,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   
     const data = { username:email, password: phone_no };
   
-    axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((rense) => {
+    axios.post("http://localhost:3001/users/login", data).then((rense) => {
       if (rense.data.error) {
         alert(rense.data.error);
         setLoading(false);
@@ -689,7 +694,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
             
   
   
-              axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((res_auth) => {
+              axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((res_auth) => {
   
                   setUserId(res_auth.data.id)
   
@@ -708,7 +713,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                             }
   
   
-                            axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+                            axios.post('http://localhost:3001/order',order_details).then((res_b)=>{
     
        // console.log("The response is"+res_b.data)
     
@@ -802,8 +807,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     setShowSearchInforContent(false)
 
 
-      //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        axios.get('https://yoteorder-server.herokuapp.com/business/byId/'+bId).then((response) => {
+      //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+        axios.get('http://localhost:3001/business/byId/'+bId).then((response) => {
 
         console.log("THE BUSS NAME IS "+response.data.business_name)
 
@@ -814,8 +819,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
 
-            //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
+            //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+        axios.get('http://localhost:3001/product/byId/'+pId).then((response) => {
 
             console.log("THE PRODUCT NAME IS "+response.data.name)
 
@@ -863,7 +868,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                 <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
                             </ul>
                             <a href="#" >
-                                <img class="img-fluid br-7 w-100" src="/assets/images/pngs/9.jpg" alt="img"/>
+                                <img class="img-fluid br-7 w-100"  src={imagePath+"/uploads/"+value.BusinessId+"/"+value.product_image} alt="img"/>
                             </a>
                         </div>
                         <div class="card-body pt-0">

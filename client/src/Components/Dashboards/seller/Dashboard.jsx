@@ -70,7 +70,13 @@ function Dashboard() {
 
     const [isDivLoading, setIsDivLoading] = useState(false);
 
+    const [showOrderConfirmed, setShowOrderConfirmed] = useState(false);
+
+    
+
     const [errorMessage, setErrorMessage] = useState("");
+
+    const [confirmationMessage, setConfirmationMessage] = useState("");
 
 
     const [show, setShow] = useState(false);
@@ -104,34 +110,34 @@ function Dashboard() {
         setIsDivLoading(true);
 
        
-         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             setUserId(response.data.id)
       
       
            })
     
-        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+        //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+        //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
 
 
-        //   axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        //   axios.get("http://localhost:3001/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
         //     setOrdersList(response.data);
         //     })
 
 
 
-            // axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+            // axios.get("http://localhost:3001/order/getallorders").then((response) => {
             //     setOrdersList(response.data);
             //     })
 
 
 
 
-        axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
 
@@ -169,7 +175,7 @@ function Dashboard() {
          })
 
 
-         axios.get('https://yoteorder-server.herokuapp.com/order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('http://localhost:3001/order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
 
 
@@ -236,25 +242,25 @@ function Dashboard() {
 
 
 
-    const openSelectedOrder=(oId)=>{
+    const openSelectedOrder=(oId,orderId,customer_contacts)=>{
 
-        //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-         axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+        
      
-             console.log("THE PRODUCT NAME IS "+response.data.name)
+             console.log("THE ORDER NAME IS "+oId)
      
              setactualId(oId)
      
-             setorderId(response.data.orderId)
+             setorderId(orderId)
      
-             setitem_name(response.data.item_name)
+             setcustomer_contacts(customer_contacts)
+
+             
+             console.log("THE CUSTOMER NO IS "+customer_contacts)
      
-             setquantity_ordered(response.data.quantity_ordered)
-     
-             setorder_description(response.data.order_description)
+           
                  
      
-                 })
+              
      
      
      
@@ -265,7 +271,7 @@ function Dashboard() {
          const custDetailsOrder=(userId)=>{
 
 
-            axios.get('https://yoteorder-server.herokuapp.com/customer/getById/'+userId).then((response) => {
+            axios.get('http://localhost:3001/customer/getById/'+userId).then((response) => {
      
                 //console.log("THE PRODUCT NAME IS "+response.data.name)
         
@@ -283,6 +289,40 @@ function Dashboard() {
             }
 
 
+
+            const confirmOrder=(oId)=>{
+
+                setLoading(true);
+        
+                const order_details={
+                    order_status:'confirmed',
+                    confirmationMessage:confirmationMessage,
+                  
+                  }
+        
+              
+        
+        
+                axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
+            
+                   // console.log("THE ACTUAL ID IS "+actualId)
+                    
+                    setorderId(res_b.data.id)
+                    
+                   
+                    setTimeout(() => {
+                        setLoading(false);
+                        setShowOrderConfirmed(true)
+                        setShow(false)
+                        //handleShow()
+                       // toast.warning("Cancel Cancelled")
+                    }, 1000);
+                    
+                    })
+            }
+        
+
+
     const completeOrder=(oId)=>{
 
         setLoading(true);
@@ -295,7 +335,7 @@ function Dashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -324,7 +364,7 @@ function Dashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -342,6 +382,9 @@ function Dashboard() {
 
         
     }
+
+
+
 
 
 
@@ -467,6 +510,13 @@ function Dashboard() {
                                 <div class="card-body p-0">
                                     <div class="price h3 text-center mb-5 fw-bold">Total:Ksh {value.Product.price * value.quantity_ordered} </div>
 
+                                 
+                                    <button type="submit"  onClick={() => {
+                                        openSelectedOrder(value.id,value.orderId,value.Customer.phone_no);
+                                          }} class="btn btn-primary btn-block" data-bs-toggle="modal" href="#modaldemo80"><i class="fe fe-check"></i>Confirm Order</button>
+                                 
+                                 
+                                 
                                     {!isLoading && <button type="submit" onClick={() => {
                                         completeOrder(value.id);
                                           }} class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Complete Order</button>
@@ -495,6 +545,127 @@ function Dashboard() {
                 </div>
             </div>
 )})}
+
+
+
+
+               
+<div class="modal fade" id="modaldemo80">
+<div class="modal-dialog modal-dialog-centered text-center" role="document">
+    <div class="modal-content modal-content-demo">
+        <div class="modal-header">
+            <h6 class="modal-title">Confirm Order Now</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+
+      
+
+        {showOrderConfirmed &&
+
+            <div>
+
+            <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+            <h4 class="text-success mb-4">Order Confirmed Successfully!</h4>
+
+            </div>
+
+
+        }
+       
+        <h6>{orderId}</h6>
+
+        {!showOrderConfirmed &&
+
+            <div class="form-row">
+
+
+
+            <div class="form-group col-md-12 mb-0">
+            <label class="form-label">Order ID</label>
+               
+    
+            <input type="text" class="form-control" id="order_id"
+            
+            onChange={(event) => {
+                setorderId(event.target.value);
+              }} 
+            
+            value={orderId}/>
+            </div>
+    
+    
+    
+            <div class="form-group col-md-12 mb-0">
+    
+          
+                <div class="form-group">
+                <label class="form-label">Customer Contact</label>
+                    <input type="text" class="form-control" id="customer_contacts" value={customer_contacts}
+                    
+                    onChange={(event) => {
+                        setcustomer_contacts(event.target.value);
+                      }} 
+                    
+                    placeholder="customer_contacts" disabled/>
+                </div>
+            </div>
+         
+    
+            
+           
+            <div class="form-group col-md-12 mb-0">
+            <label class="form-label">Any Message to Customer</label>
+               
+            
+    
+                <textarea class="form-control"  onChange={(event) => {
+                    setConfirmationMessage(event.target.value);
+                    
+                  }}  placeholder="Enter any message to customer" id="floatingTextarea2" style={{height: '100px'}}></textarea>
+            </div>
+           
+        </div>
+
+
+        }
+       
+      
+
+    <div class="form-footer mt-2">
+   
+</div>
+        
+        </div>
+        <div class="modal-footer">
+
+        {!isLoading &&  <button  onClick={() => {
+
+            confirmOrder(actualId);
+   
+        }} class="btn btn-primary"><i class="fe fe-check"></i>Confirm Now</button>
+
+        
+
+    } 
+    {isLoading &&
+
+        <button class="btn btn-primary my-1" type="button" disabled="">
+                                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                                Confirming order...
+                                            </button>
+       
+    }
+           
+            
+            
+            <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
 
 <ToastContainer></ToastContainer>
 

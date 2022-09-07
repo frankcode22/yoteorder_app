@@ -8,6 +8,12 @@ import {Link} from 'react-router-dom'
 import HowToGetStarted from './HowToGetStarted'
 import CampaignBadge from './CampaignBadge';
 
+import ContentLoader from '../../../utils/ContentLoader';
+
+import DivLoader from '../../../utils/DivLoader'
+
+import LoadingSpinner from '../../../utils/LoadingSpinner'
+
 function Homepage() {
 
     const [pname, setpname] = useState("");
@@ -25,19 +31,21 @@ function Homepage() {
     const [isLoading,setLoading]=useState(false);
 
 
+
+
    // console.log("THE AUTHENTICATION STATUS",isAuthenticated)
 
 
     useEffect(()=>{
 
-       // setIsDivLoading(true);
+        setIsDivLoading(true);
 
 
 
-           //axios.get('http://localhost:3001/business/bestRated').then((response) => {
-           axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+           axios.get('http://localhost:3001/business/bestRated').then((response) => {
+           //axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
 
-            setBestList(response.data)
+         
 
             console.log("BUSSINESS LIST IS"+response.data)
 
@@ -45,18 +53,20 @@ function Homepage() {
 
          
             setTimeout(() => {
+
+                setBestList(response.data)
+
+                setIsDivLoading(false)  
                 
 
-               // setSeller_name(response.data.Users);
-               // setIsDivLoading(false)   // Hide loading screen 
-               // toast.info('Product saved successfully');
+             
             }, 3000);
 
             //setSeller_name(response.data.Users.first_name)
             
         }).catch(() => {
             setErrorMessage("Unable to fetch your vendors list");
-            //setIsDivLoading(false);
+            setIsDivLoading(false);
          });
   
   
@@ -82,6 +92,103 @@ function Homepage() {
 
 
           localStorage.setItem('ordered_item', JSON.stringify(pname));
+
+
+    const vendorContentDiv=(
+
+
+        
+        <div class="row row-cols-4 bg-transparent">
+
+        {bestList.map((value, key) => {
+            return (
+
+
+                <div class="col-xl-3 col-sm-6 col-md-6">
+
+             
+                
+                <div class="card border p-0">
+                    <div class="card-header">
+                        <h3 class="card-title">{value.business_name}</h3>
+                        <div class="card-options">
+                            <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                            <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
+                        </div>
+                    </div>
+                        <a href='#'>
+                            <div class="card-body text-center">
+                                <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg" style={{ background: 'url(assets/images/users/15.jpg)', center: 'center' }}></span>
+                                <h4 class="h4 mb-0 mt-3">{value.User.first_name}</h4>
+                                <p class="card-text">Vendor</p>
+
+
+                                <div class="mb-2 text-warning">
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                </div>
+
+                              
+                                <hr/>   
+                              
+                                <div>
+                                <span><i class="fe fe-map-pin fs-20"></i></span><strong>{value.location}</strong>
+                                </div>
+                           
+
+                               
+                                    <div>
+                                    <span><i class="fe fe-phone fs-20"></i></span><strong>{value.contacts} </strong>
+                                    </div>
+                                
+                            </div>
+                        </a>
+                    
+                    <div class="card-footer text-center">
+                        <div class="row user-social-detail">
+                            <div class="social-profile me-4 rounded text-center">
+                                <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
+                            </div>
+                            <div class="social-profile me-4 rounded text-center">
+                                <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
+                            </div>
+                            <div class="social-profile me-4 rounded text-center">
+                                <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+               
+                
+            </div>
+
+
+            )
+        }
+        )
+
+        }
+      
+  
+       
+      
+      
+    </div>
+
+    )
+
+
+
+
+
+
   return (
     <div className='app ltr landing-page horizontal'>
 
@@ -160,9 +267,13 @@ function Homepage() {
     
 
 
-<div id="global-loader">
+{/* <div id="global-loader">
 <img src="assets/images/loader.svg" class="loader-img" alt="Loader"/>
-</div>
+</div>*/}
+
+
+
+
 
 
 <div class="page">
@@ -397,89 +508,30 @@ function Homepage() {
             </div>
 
 
-        <div class="row row-cols-4 bg-transparent">
-
-        {bestList.map((value, key) => {
-            return (
 
 
-                <div class="col-xl-3 col-sm-6 col-md-6">
+            
+            {isDivLoading ? <DivLoader/>: vendorContentDiv}
 
-             
-                
-                <div class="card border p-0">
-                    <div class="card-header">
-                        <h3 class="card-title">{value.business_name}</h3>
-                        <div class="card-options">
-                            <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                            <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                        </div>
-                    </div>
-                        <a href='#'>
-                            <div class="card-body text-center">
-                                <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg" style={{ background: 'url(assets/images/users/15.jpg)', center: 'center' }}></span>
-                                <h4 class="h4 mb-0 mt-3">{value.User.first_name}</h4>
-                                <p class="card-text">Vendor</p>
+            {errorMessage && 
 
 
-                                <div class="mb-2 text-warning">
-                                    <i class="fa fa-star text-warning"></i>
-                                    <i class="fa fa-star text-warning"></i>
-                                    <i class="fa fa-star text-warning"></i>
-                                    <i class="fa fa-star text-warning"></i>
-                                    <i class="fa fa-star text-warning"></i>
-                                </div>
 
-                              
-                                <hr/>   
-                              
-                                <div>
-                                <span><i class="fe fe-map-pin fs-20"></i></span><strong>{value.location}</strong>
-                                </div>
-                           
 
-                               
-                                    <div>
-                                    <span><i class="fe fe-phone fs-20"></i></span><strong>{value.contacts} </strong>
-                                    </div>
-                                
-                            </div>
-                        </a>
-                    
-                    <div class="card-footer text-center">
-                        <div class="row user-social-detail">
-                            <div class="social-profile me-4 rounded text-center">
-                                <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                            </div>
-                            <div class="social-profile me-4 rounded text-center">
-                                <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                            </div>
-                            <div class="social-profile me-4 rounded text-center">
-                                <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-sm-12 border">
+                <h3 class="card-title">{errorMessage}</h3>
+            
                 
                 
                 
-                
-               
-                
-            </div>
+           </div>}
 
 
-            )
-        }
-        )
 
-        }
-      
-  
-       
-      
-      
-    </div>
+
+
+
+
 
     <CampaignBadge></CampaignBadge>
 
