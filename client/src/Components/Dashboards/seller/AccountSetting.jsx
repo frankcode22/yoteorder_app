@@ -17,7 +17,10 @@ import TopbarS from './TopbarS'
 
 import { useNavigate } from "react-router-dom"
 
-function AccountSetting() {
+import API from '../../../services';
+import { Progress } from 'reactstrap';
+
+function AccountSetting(props) {
 
     const [name, setName] = useState("");
     const [type, setType] = useState("");
@@ -28,6 +31,16 @@ function AccountSetting() {
     const [phone_no, setPhone_no] = useState("");
 
     const [buss_contacts, setbuss_contacts] = useState("");
+
+
+    let { idx, label, uploadUrl } = props;
+
+    const [isUploding, setUploding] = useState(false);
+    const [uploadedImg, setUplodedImg] = useState("");
+    const [uploadProgress, setProgress] = useState(0);
+
+    const [image, setImage] = useState('')
+
 
 
 
@@ -124,6 +137,14 @@ function AccountSetting() {
 
     const [isDivLoading, setIsDivLoading] = useState(false);
 
+
+    const [imagePath, setImagePath] = useState("");
+
+    const [profile_photo, setprofile_photo] = useState("");
+
+
+    
+
     const [isLoading,setLoading]=useState(false);
 
 
@@ -151,8 +172,8 @@ function AccountSetting() {
 
 
 
-     //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
   
@@ -160,27 +181,36 @@ function AccountSetting() {
        })
 
 
-       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
 
           setIsBusinessSet(true)
     
-          setbusinessId(response.data.id);
+          setbusinessId(response.data.my_buss.id);
 
-          setlocation(response.data.location)
+          setlocation(response.data.my_buss.location)
 
-          setServicesList(response.data.Services);
+          setServicesList(response.data.my_buss.Services);
 
-          setStaffList(response.data.Staffs);
+          setStaffList(response.data.my_buss.Staffs);
 
-          setbusiness_name(response.data.business_name);
+          setbusiness_name(response.data.my_buss.business_name);
 
-          setbusiness_type(response.data.business_type);
+          setbusiness_type(response.data.my_buss.business_type);
+
+          setbusiness_description(response.data.my_buss.business_description);
+
+
+          setImagePath(response.data.imagePath)
+          
+          setprofile_photo(response.data.my_buss.profile_photo)
+
+         
 
           
 
-          setbuss_contacts(response.data.contacts)
+          setbuss_contacts(response.data.my_buss.contacts)
 
           setBussSetup(true);
       
@@ -200,8 +230,8 @@ function AccountSetting() {
     
     
     
-           //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-          axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+           //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+          axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
           setCustomersList(response.data);
           })
     
@@ -229,6 +259,7 @@ const buss_data={
     city:city,
     state:state,
     country:country,
+    business_description:business_description,
     status:status,
     UserId:userId,
    
@@ -240,9 +271,9 @@ const buss_data={
     const saveBusinessInfor = ()  => {
         setLoading(true);
     
-         //axios.post("http://localhost:3001/business",buss_data).then((response)=>{
+         //axios.post("https://yoteorder-server.herokuapp.com/business",buss_data).then((response)=>{
         
-        axios.post("http://localhost:3001/business/bussinfor",buss_data).then((response)=>{
+        axios.post("https://yoteorder-server.herokuapp.com/business/bussinfor",buss_data).then((response)=>{
     
         console.log("The response is"+response.data)
 
@@ -273,6 +304,74 @@ const buss_data={
     }
 
 
+    const handleChange = async e => {
+      let formData = new FormData();
+
+    
+      setImage(e.target.files[0]);
+
+      formData.append('businessId',businessId);
+
+      formData.append('file', e.target.files[0]);
+     
+      setUploding(true);
+      let { data } = await API.post('business/single-upload', formData,{headers: {
+          "Content-Type": "multipart/form-data",
+      }}, {
+          onUploadProgress: ({ loaded, total }) => {
+              let progress = ((loaded / total) * 100).toFixed(2);
+              setProgress(progress);
+             
+          }
+      });
+      setUplodedImg(data.imagePath);
+
+     // localStorage.setItem('product_photo', JSON.stringify(data.imagePath));
+      console.log("tTHE IMAGE NAME IS "+data.imagePath)
+      console.log("THE FILE NAME IS "+data.ImageName)
+      console.log("THE BUSS ID IS "+businessId)
+      setUploding(false);
+  }
+
+
+
+  
+  const updateBusinessProfile= async e => {
+    setLoading(true)
+    
+    let formData = new FormData();
+    formData.append('businessId', businessId);
+    formData.append('file',image);
+    
+
+    setUploding(true);
+    let { data } = await API.put('business/update-profile/'+businessId, formData, {
+        onUploadProgress: ({ loaded, total }) => {
+            let progress = ((loaded / total) * 100).toFixed(2);
+            setProgress(progress);
+           
+        }
+    });
+    setUplodedImg(data.imagePath);
+
+   // localStorage.setItem('product_photo', JSON.stringify(data.imagePath));
+    console.log("tTHE IMAGE NAME IS "+data.imagePath)
+    console.log("THE FILE NAME IS "+data.ImageName)
+    console.log("THE BUSS ID IS "+data.businessId)
+
+    setUploding(false);
+
+   
+
+    setTimeout(() => {
+        setLoading(false);
+        
+        toast.success('Profile set successfully');
+    }, 2000);
+    
+}
+
+
 
   const data={
     name:name,
@@ -295,7 +394,7 @@ const buss_data={
 
  //axios.post("https://kilimomazaoapi-dmi-cyber.herokuapp.com/product",data).then((response)=>{
     
-  axios.post("http://localhost:3001/product",data).then((response)=>{
+  axios.post("https://yoteorder-server.herokuapp.com/product",data).then((response)=>{
      
 
     console.log("The response is"+response.data)
@@ -340,11 +439,11 @@ const service_data={
     }
     else{
 
-    // axios.post("http://localhost:3001/service",service_data).then((response)=>{
+    // axios.post("https://yoteorder-server.herokuapp.com/service",service_data).then((response)=>{
 
      
     
-    axios.post("http://localhost:3001/service",service_data).then((response)=>{
+    axios.post("https://yoteorder-server.herokuapp.com/service",service_data).then((response)=>{
 
       console.log("The response is"+response.data)
 
@@ -424,9 +523,9 @@ const addStaff = ()  => {
   setLoading(true);
 
  
-  //  axios.post("http://localhost:3001/staff",staff_data).then((response)=>{
+  //  axios.post("https://yoteorder-server.herokuapp.com/staff",staff_data).then((response)=>{
 
-      axios.post("http://localhost:3001/staff",staff_data).then((response)=>{
+      axios.post("https://yoteorder-server.herokuapp.com/staff",staff_data).then((response)=>{
 
 
       setStaffList([
@@ -459,8 +558,8 @@ const addStaff = ()  => {
 
 const openSelectedService=(sId)=>{
 
-  //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-   axios.get('http://localhost:3001/service/getbyId/'+sId).then((response) => {
+  //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+   axios.get('https://yoteorder-server.herokuapp.com/service/getbyId/'+sId).then((response) => {
 
       // console.log("THE SERVICE NAME IS "+response.data.service_name)
 
@@ -496,7 +595,7 @@ const openSelectedService=(sId)=>{
       }
 
      
-    axios.put('http://localhost:3001/service/update_service/'+serviceId,data).then((res_b)=>{
+    axios.put('https://yoteorder-server.herokuapp.com/service/update_service/'+serviceId,data).then((res_b)=>{
 
         //console.log("THE ACTUAL ID IS "+actualId)
         
@@ -510,7 +609,7 @@ const openSelectedService=(sId)=>{
 
 
 
-       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
 
@@ -538,8 +637,8 @@ const openSelectedService=(sId)=>{
 
 const openSelectedStaff=(sId)=>{
 
-  //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-   axios.get('http://localhost:3001/staff/getbyId/'+sId).then((response) => {
+  //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+   axios.get('https://yoteorder-server.herokuapp.com/staff/getbyId/'+sId).then((response) => {
 
        console.log("THE Staff NAME IS "+response.data.service_name)
 
@@ -576,7 +675,7 @@ const openSelectedStaff=(sId)=>{
       }
 
      
-    axios.put('http://localhost:3001/staff/updatestaff/'+staffId,staff_data).then((res_b)=>{
+    axios.put('https://yoteorder-server.herokuapp.com/staff/updatestaff/'+staffId,staff_data).then((res_b)=>{
 
         //console.log("THE ACTUAL ID IS "+actualId)
         
@@ -589,7 +688,7 @@ const openSelectedStaff=(sId)=>{
        // console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
-       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
 
@@ -710,9 +809,16 @@ const openSelectedStaff=(sId)=>{
             {showBusinessSetupDiv && <div class="col-xl-9">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Compose new message</h3>
+                    <h3 class="card-title">Set up your business profile</h3>
+
+
+                    <div class="col-xl-3 col-lg-12">
+                             
+                    <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo01"><i class="fa fa-plus-square me-2"></i>Add Business Profile</a>
                 </div>
-                <div class="card-body">
+                </div>
+
+               <div class="card-body">
 
 
 
@@ -723,7 +829,7 @@ const openSelectedStaff=(sId)=>{
                       <div class="d-flex">
                           <div class="media mt-0">
                               <div class="media-user me-2">
-                                  <div class=""><img alt="" class="rounded-circle avatar avatar-md" src="assets/images/users/16.jpg"/></div>
+                                  <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={imagePath+"/uploads/vendors/"+businessId+"/"+profile_photo} /></div>
                               </div>
                               <div class="media-body">
                                   <h6 class="mb-0 mt-1">{business_name}</h6>
@@ -745,7 +851,7 @@ const openSelectedStaff=(sId)=>{
                       </div>
                       <div class="mt-4">
                           <h4 class="fw-semibold mt-3">{business_type}</h4>
-                          <p class="mb-0">The best vendor around
+                          <p class="mb-0">{business_description}
                           </p>
                       </div>
                   </div>
@@ -898,14 +1004,14 @@ const openSelectedStaff=(sId)=>{
                       <div class="row">
                         <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
                         <div class="col-sm-9">
-                          <input type="text" id="formtabs-first-name" class="form-control" 
+                          <input type="text" id="formtabs-buss-name" class="form-control" 
                           
                           onChange={(event) => {
                               setbusiness_name(event.target.value);
                             }}
                           
                           
-                          placeholder="Eg. Edith Salon" />
+                          placeholder="Eg. Wanjiku Shop" />
                         </div>
                       </div>
                     </div>
@@ -914,7 +1020,7 @@ const openSelectedStaff=(sId)=>{
                       
                         <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
                         <div class="col-sm-9">
-                        <textarea id="basic-icon-default-message" class="form-control" placeholder="My business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
+                        <textarea id="basic-icon-default-message" class="form-control" placeholder="Eg. my business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
                         
                         onChange={(event) => {
                           setbusiness_description(event.target.value);
@@ -941,7 +1047,12 @@ const openSelectedStaff=(sId)=>{
                             <option value="Kiambu">Kiambu</option>
                             <option value="Machakos">Machakos</option>
                             <option value="Kakuru">Kakuru</option>
-                            <option value="Makueni">Makueni</option>
+                            <option value="Murang'a">Murang'a</option>
+                            <option value="Kericho">Makueni</option>
+                            <option value="Embu">Embu</option>
+                            <option value="Meru">Meru</option>
+                            <option value="Kakuru">Kericho</option>
+                            <option value="Uasin-gishu">Uasin-gishu</option>
                             <option value="Nyeri">Nyeri</option>
                             
                           </select>
@@ -961,13 +1072,15 @@ const openSelectedStaff=(sId)=>{
                           
                           
                           multiple>
-                            <option value="Eateries" selected>Eateries</option>
+                            <option value="Domestic-Products" selected>Household Products</option>
+                           
 
                             <option value="Domestic-Products" selected>Domestic Products</option>
 
                             <option value="Wines-Spirits">Drinks/Wines/Spirts/Alcohol</option>
 
                             <option value="Drinks">Drinks</option>
+                            <option value="Ready Made Meals">Ready Made Meals</option>
                          
                             <option value="Beauty">Beauty</option>
                             <option value="Education">Education</option>
@@ -2323,6 +2436,73 @@ const openSelectedStaff=(sId)=>{
         </div>
         <ToastContainer></ToastContainer>
     </div>
+
+
+
+    <div class="modal fade" id="modaldemo01">
+    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Profile Photo</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+            <div class="row">
+              <div class="col mb-3">
+
+
+              <div class="form-group">
+              <label class="form-label mt-0">Upload profile photo</label>
+              <input class="form-control" type="file" onChange={handleChange}/>
+              </div>
+
+              
+              {
+                isUploding ? (
+                    <div className="flex-grow-1 px-2">
+                        <div className="text-center">{uploadProgress}%</div>
+                        <Progress value={uploadProgress} />
+                    </div>
+                ) : null
+            }
+            {
+                uploadedImg && !isUploding ? (
+                    <img
+                        src={uploadedImg}
+                        alt="UploadedImage"
+                        className="img-thumbnail img-fluid uploaded-img ml-3"
+                    />
+                ) : null
+            }
+        
+
+
+
+
+              
+              </div>
+            </div>
+    
+            
+          
+          </div>
+            <div class="modal-footer">
+              
+
+
+                {!isLoading && <button type="submit" onClick={updateBusinessProfile} class="btn btn-primary">Update Now</button>
+
+            } 
+            {isLoading &&
+                <button type="submit" class="btn btn-primary" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating profile</button>
+            }
+        
+                
+                
+                <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

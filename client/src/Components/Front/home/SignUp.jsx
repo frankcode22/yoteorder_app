@@ -77,8 +77,8 @@ function SignUp() {
       const onSubmit = (data) => {
         setLoading(true);
         
-       axios.post("http://localhost:3001/users", data).then((response) => {
-        //axios.post("https://yoteorder-server.herokuapp.com/users", data).then((response) => {
+       //axios.post("http://localhost:3001/users", data).then((response) => {
+        axios.post("https://yoteorder-server.herokuapp.com/users", data).then((response) => {
 
 
             if(response.data.error) {

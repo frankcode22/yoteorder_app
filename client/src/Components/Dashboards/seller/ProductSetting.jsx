@@ -113,6 +113,10 @@ function ProductSetting(props) {
     const [uploadedImg, setUplodedImg] = useState("");
     const [uploadProgress, setProgress] = useState(0);
 
+
+
+    const [product_image, setProduct_image] = useState('');
+
   
 
 
@@ -147,8 +151,8 @@ function ProductSetting(props) {
 
 
 
-     //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
   
@@ -156,15 +160,15 @@ function ProductSetting(props) {
        })
 
 
-       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
     
-          setbusinessId(response.data.id);
+          setbusinessId(response.data.my_buss.id);
 
          
 
-          setbusiness_name(response.data.business_name);
+          setbusiness_name(response.data.my_buss.business_name);
 
           setBussSetup(true);
       
@@ -184,8 +188,8 @@ function ProductSetting(props) {
 
 
 
-            //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+            //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
     
   
@@ -241,7 +245,7 @@ const addProductHandler = async (e) => {
 
 
  
-    await axios.post('http://localhost:3001/product/add', formData)
+    await axios.post('https://yoteorder-server.herokuapp.com/product/add', formData)
     //history.push('/products')
 
 }
@@ -249,13 +253,32 @@ const addProductHandler = async (e) => {
 
 const getAllMyProducts=()=>{
 
+    //setIsDivLoading(true)
 
-        //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-            axios.get('http://localhost:3001/users/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
-                setProductsList(response.data)
-            
-                 })
+    axios.get('https://yoteorder-server.herokuapp.com/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+      
+  
+  
+        setTimeout(() => {
+
+          setProductsList(response.data.products)
+  
+          setImagePath(response.data.imagePath)
+  
+         // setSeller_name(response.data.Users);
+         // setIsDivLoading(false)   // Hide loading screen 
+         // toast.info('Product saved successfully');
+      }, 1000);
+  
+      //setSeller_name(response.data.Users.first_name)
+      
+  }).catch(() => {
+      setErrorMessage("Unable to fetch your PRODUCTS.Kindly check your internet connection!!");
+      setIsDivLoading(false);
+   });
+      
 }
 
 
@@ -297,7 +320,7 @@ const getAllMyProducts=()=>{
 
  //axios.post("https://kilimomazaoapi-dmi-cyber.herokuapp.com/product",data).then((response)=>{
     
-  axios.post("http://localhost:3001/product",data).then((response)=>{
+  axios.post("https://yoteorder-server.herokuapp.com/product",data).then((response)=>{
      
 
     console.log("The response is"+response.data)
@@ -322,7 +345,7 @@ const getAllMyProducts=()=>{
             unit_of_measure:unit_of_measure,
             latitude:lat,
             longitude:lng,
-            //product_image:product_image,
+            product_image:product_image,
             UserId:userId,
             BusinessId:businessId,
         },
@@ -349,8 +372,8 @@ const getAllMyProducts=()=>{
 
 const openSelectedProduct=(pId)=>{
 
-    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-     axios.get('http://localhost:3001/product/byId/'+pId).then((response) => {
+    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
  
          console.log("THE PRODUCT NAME IS "+response.data.name)
  
@@ -402,7 +425,7 @@ const openSelectedProduct=(pId)=>{
               
           }
 
-        axios.put('http://localhost:3001/product/updateproduct/'+productId,data).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/product/updateproduct/'+productId,data).then((res_b)=>{
     
             //console.log("THE ACTUAL ID IS "+actualId)
             
@@ -445,7 +468,7 @@ const openSelectedProduct=(pId)=>{
       
 
 
-        axios.put('http://localhost:3001/product/updatestatus/'+pId,p_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -480,7 +503,7 @@ const openSelectedProduct=(pId)=>{
       
 
 
-        axios.put('http://localhost:3001/product/updatestatus/'+pId,p_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -533,6 +556,82 @@ const openSelectedProduct=(pId)=>{
 
 
 
+    const saveDetails = async e => {
+        setLoading(true)
+        
+        let formData = new FormData();
+        formData.append('businessId', businessId);
+        formData.append('file',image);
+        formData.append('name', name);
+
+
+        formData.append('product_description', product_description);
+        formData.append('price',price);
+        formData.append('quantity', quantity);
+
+        formData.append('type',type);
+        // formData.append('address_line_2', address_line_2);
+
+        formData.append('unit_of_measure',unit_of_measure);
+        // formData.append('latitude', latitude);
+
+        // formData.append('longitude', lng);
+
+        formData.append('UserId', userId);
+
+    
+
+        setUploding(true);
+        let { data } = await API.post('images/save-product', formData, {
+            onUploadProgress: ({ loaded, total }) => {
+                let progress = ((loaded / total) * 100).toFixed(2);
+                setProgress(progress);
+               
+            }
+        });
+        setUplodedImg(data.imagePath);
+
+       // localStorage.setItem('product_photo', JSON.stringify(data.imagePath));
+        console.log("tTHE IMAGE NAME IS "+data.imagePath)
+        console.log("THE FILE NAME IS "+data.ImageName)
+        console.log("THE BUSS ID IS "+data.businessId)
+    
+        setUploding(false);
+
+
+        setProductsList([
+            ...productsList,
+            {
+                name:name,
+                type:type,
+                product_description:product_description,
+                price: price,
+                quantity:quantity,
+                geo_location:address_line_2,
+                unit_of_measure:unit_of_measure,
+                latitude:lat,
+                longitude:lng,
+                //product_image:product_image,
+                UserId:userId,
+                BusinessId:businessId,
+            },
+          ]);
+    
+
+
+        
+
+
+        setTimeout(() => {
+            setLoading(false);
+            
+            toast.success('Product saved successfully');
+        }, 2000);
+        
+    }
+
+
+
 
     const updateProductNew = async e => {
         setLoading(true)
@@ -575,6 +674,8 @@ const openSelectedProduct=(pId)=>{
         console.log("THE BUSS ID IS "+data.businessId)
     
         setUploding(false);
+
+        getAllMyProducts();
 
 
         setTimeout(() => {
@@ -631,14 +732,14 @@ const openSelectedProduct=(pId)=>{
                                        data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9"><i  class="fe fe-edit"></i></a></li>
                                  <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
                              </ul>
-                             <a href="shop-description.html" >
+                             <a href="#" >
 
                                  <img class="img-fluid br-7 w-100" src={imagePath+"/uploads/"+value.BusinessId+"/"+value.product_image}  alt="img"/>
                              </a>
                          </div>
                          <div class="card-body pt-0">
                              <div class="product-content text-center">
-                                 <h1 class="title fw-bold fs-20"><a href="shop-description.html">{value.name}</a></h1>
+                                 <h1 class="title fw-bold fs-20"><a href="#">{value.name}</a></h1>
                                  <div class="mb-2 text-warning">
                                      <i class="fa fa-star text-warning"></i>
                                      <i class="fa fa-star text-warning"></i>
@@ -733,9 +834,12 @@ const openSelectedProduct=(pId)=>{
     <div class="app sidebar-mini ltr">
 
 
-    <div id="global-loader">
+    {/*  <div id="global-loader">
     <img src="assets/images/loader.svg" class="loader-img" alt="Loader"/>
-    </div>
+    </div> */}
+
+
+  
 
     
     <div class="page">
@@ -878,13 +982,13 @@ const openSelectedProduct=(pId)=>{
                                                                 <div class="product-list">
                                                                     <div class="product-image">
                                                                         <ul class="icons">
-                                                                            <li><a href="shop-description.html" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
+                                                                            <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
                                                                             <li><a href="add-product.html" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
                                                                             <li><a href="wishlist.html" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
                                                                         </ul>
                                                                     </div>
                                                                     <div class="br-be-0 br-te-0">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <img src="../assets/images/pngs/9.jpg" alt="img" class="cover-image br-7 w-100"/>
                                                                         </a>
                                                                     </div>
@@ -893,7 +997,7 @@ const openSelectedProduct=(pId)=>{
                                                             <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
                                                                 <div class="card-body">
                                                                     <div class="mb-3">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <h3 class="fw-bold fs-30 mb-3">Candy Pure Rose Water</h3>
                                                                             <div class="mb-2 text-warning">
                                                                                 <i class="fa fa-star fs-18 text-warning"></i>
@@ -948,13 +1052,13 @@ const openSelectedProduct=(pId)=>{
                                                                 <div class="product-list">
                                                                     <div class="product-image">
                                                                         <ul class="icons">
-                                                                            <li><a href="shop-description.html" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
+                                                                            <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
                                                                             <li><a href="add-product.html" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
                                                                             <li><a href="wishlist.html" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
                                                                         </ul>
                                                                     </div>
                                                                     <div class="br-be-0 br-te-0">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <img src="../assets/images/pngs/10.jpg" alt="img" class="cover-image br-7 w-100"/>
                                                                         </a>
                                                                     </div>
@@ -963,7 +1067,7 @@ const openSelectedProduct=(pId)=>{
                                                             <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
                                                                 <div class="card-body">
                                                                     <div class="mb-3">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <h3 class="fw-bold fs-30 mb-3">White Tshirt for Men</h3>
                                                                             <div class="mb-2 text-warning">
                                                                                 <i class="fa fa-star fs-18 text-warning"></i>
@@ -1018,13 +1122,13 @@ const openSelectedProduct=(pId)=>{
                                                                 <div class="product-list">
                                                                     <div class="product-image">
                                                                         <ul class="icons">
-                                                                            <li><a href="shop-description.html" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
+                                                                            <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
                                                                             <li><a href="add-product.html" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
                                                                             <li><a href="wishlist.html" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
                                                                         </ul>
                                                                     </div>
                                                                     <div class="br-be-0 br-te-0">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <img src="../assets/images/pngs/8.jpg" alt="img" class="cover-image br-7 w-100"/>
                                                                         </a>
                                                                     </div>
@@ -1033,7 +1137,7 @@ const openSelectedProduct=(pId)=>{
                                                             <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
                                                                 <div class="card-body">
                                                                     <div class="mb-3">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <h3 class="fw-bold fs-30 mb-3">Stylish Rockerz 255 Ear Pods</h3>
                                                                             <div class="mb-2 text-warning">
                                                                                 <i class="fa fa-star fs-18 text-warning"></i>
@@ -1088,13 +1192,13 @@ const openSelectedProduct=(pId)=>{
                                                                 <div class="product-list">
                                                                     <div class="product-image">
                                                                         <ul class="icons">
-                                                                            <li><a href="shop-description.html" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
+                                                                            <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
                                                                             <li><a href="add-product.html" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
                                                                             <li><a href="wishlist.html" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
                                                                         </ul>
                                                                     </div>
                                                                     <div class="br-be-0 br-te-0">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <img src="../assets/images/pngs/4.jpg" alt="img" class="cover-image br-7 w-100"/>
                                                                         </a>
                                                                     </div>
@@ -1103,7 +1207,7 @@ const openSelectedProduct=(pId)=>{
                                                             <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
                                                                 <div class="card-body">
                                                                     <div class="mb-3">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <h3 class="fw-bold fs-30 mb-3">Flower Pot for Home Decor</h3>
                                                                             <div class="mb-2 text-warning">
                                                                                 <i class="fa fa-star fs-18 text-warning"></i>
@@ -1158,13 +1262,13 @@ const openSelectedProduct=(pId)=>{
                                                                 <div class="product-list">
                                                                     <div class="product-image">
                                                                         <ul class="icons">
-                                                                            <li><a href="shop-description.html" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
+                                                                            <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
                                                                             <li><a href="add-product.html" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
                                                                             <li><a href="wishlist.html" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
                                                                         </ul>
                                                                     </div>
                                                                     <div class="br-be-0 br-te-0">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <img src="../assets/images/pngs/3.jpg" alt="img" class="cover-image br-7 w-100"/>
                                                                         </a>
                                                                     </div>
@@ -1173,7 +1277,7 @@ const openSelectedProduct=(pId)=>{
                                                             <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
                                                                 <div class="card-body">
                                                                     <div class="mb-3">
-                                                                        <a href="shop-description.html" class="">
+                                                                        <a href="#" class="">
                                                                             <h3 class="fw-bold fs-30 mb-3">Running Shoes for men</h3>
                                                                             <div class="mb-2 text-warning">
                                                                                 <i class="fa fa-star fs-18 text-warning"></i>
@@ -1256,12 +1360,268 @@ const openSelectedProduct=(pId)=>{
 
 
 
+                                    <div>
+                                    <div class="card-body">
+                                      {/*<label htmlFor={idx} className="text-primary font-weight-bold">{label}</label> */}  
+                                       
                                   
-                                    <SingleUploader
+                                           
+                            
+                                                    <div class="form-group ">
+                            
+                                                        <label for="nameWithTitle" class="form-label">Product Name</label>
+                            
+                            
+                                                        <input type="hidden" id="nameWithTitle" class="form-control"
+                            
+                                                            value={businessId}
+                            
+                                                            onChange={(event) => {
+                                                                setbusinessId(event.target.value);
+                                                            }}
+                            
+                                                        />
+                            
+                                                        <input type="hidden" id="price" class="form-control" value={userId}
+                            
+                                                            onChange={(event) => {
+                                                                setUserId(event.target.value);
+                                                            }}
+                                                        />
+                            
+                                                        <input type="text" id="product_name" class="form-control" placeholder="eg.pro gas"
+                            
+                                                            onChange={(event) => {
+                                                                setName(event.target.value);
+                                                            }}
+                            
+                                                        />
+                                                    </div>
+                                                    <div class="form-group ">
+                            
+                                                        <label class="form-label" for="multicol-country">Type</label>
+                                                        <select id="multicol-country" class="form-control select2 form-select"
+                                                            onChange={(event) => {
+                                                                setType(event.target.value);
+                                                            }}
+                            
+                                                            data-allow-clear="true">
+                                                            <option value="">Select Category</option>
+                                                            <option value="General-use">General use</option>
+                                                            <option value="Household-Product">Household Product</option>
+
+                                                            <option value="Drinking-Liquor">Drinking/Liquor</option>
+
+                                                            <option value="Agricultural">Agricultural</option>
+                                                            <option value="Ready-Meal">Ready Meal</option>
+
+                                                            <option value="Domestic-Products">Domestic Use</option>
+                                                            
+                
+                                                           
+                                                            <option value="Livestock">Livestock</option>
+                                                            <option value="Electronic">Electronic</option>
+                                                            <option value="Automotive">Automotive</option>
+                                                            
+                            
+                                                            <option value="Contruction">Contruction</option>
+                            
+                                                           
+                                                            <option value="Clothing">Clothing</option>
+                                                            <option value="Computing">Computing</option>
+                            
+                            
+                                                          
+                                                            <option value="Home-Based">Home-Based</option>
+                                                            <option value="Beauty">Beauty</option>
+                            
+                                                         
+                                                            <option value="Aquatic">Aquatic</option>
+                            
+                            
+                                                        </select>
+                            
+                            
+                                                    </div>
+                            
+                            
+                                                    <div class="form-row">
+                            
+                                                        <label for="description" class="form-label">Description</label>
+                            
+                            
+                                                        <textarea name="address" class="form-control" onChange={(event) => {
+                                                            setProduct_description(event.target.value);
+                                                        }} id="address" rows="2" placeholder="Your Product desciption"></textarea>
+                            
+                                                    </div>
+                            
+                            
+                            
+                            
+                            
+                            
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6 mb-0">
+                                                            <div class="form-group">
+                                                                <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
+                                                                <input type="number" id="price" class="form-control"
+                            
+                                                                    onChange={(event) => {
+                                                                        setPrice(event.target.value);
+                                                                    }}
+                            
+                            
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-6 mb-0">
+                                                            <div class="form-group">
+                                                                <label for="dobWithTitle" class="form-label">Quantity</label>
+                                                                <input type="number" class="form-control"
+                            
+                                                                    onChange={(event) => {
+                                                                        setQuantity(event.target.value);
+                                                                    }}
+                                                                    id="quantity" placeholder="eg.7" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                            
+                            
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-6 mb-0">
+                                                            <div class="form-group ">
+                            
+                                                                <label class="form-label" for="multicol-country">Unit Of Measure</label>
+                                                                <select id="multicol-country" class="form-control select2 form-select"
+                                                                    value={unit_of_measure}
+                                                                    onChange={(event) => {
+                                                                        setunit_of_measure(event.target.value);
+                                                                    }}
+                            
+                            
+                            
+                                                                    data-allow-clear="true">
+                                                                    <option value="">Select Unit Of Measure</option>
+                                                                    <option value="Kgs">Kgs</option>
+                                                                    <option value="Litre">Litres</option>
+                                                                    <option value="Plate">Plates</option>
+                            
+                                                                    <option value="Item">Item</option>
+                            
+                                                                    <option value="Piece">Piece</option>
+                                                                    <option value="Package">Package</option>
+                                                                    <option value="Order">Order</option>
+                            
+                            
+                            
+                            
+                            
+                                                                </select>
+                            
+                            
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-6 mb-0">
+                                                            <div class="form-group">
+                                                                <label for="dobWithTitle" class="form-label">Availability</label>
+                                                                <div class="col-xl-2 px-3 px-xl-1">
+                                                                    <div class="form-group">
+                                                                        <label class="custom-switch form-switch mb-0">
+                                                                            <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" />
+                                                                            <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                                                            <span class="custom-switch-description">Set Availability</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                            
+                            
+                                                    </div>
+                            
+                            
+                            
+                            
+                                                
+                            
+                                               
+                                              
+                                           
+                            
+                            
+                                                <div class="form-group">
+                                                <label class="form-label mt-0">Default file input example</label>
+                                                <input class="form-control" type="file" id={idx} onChange={handleChange}/>
+                                                </div>
+                            
+                            
+                                                <input type="hidden" value={businessId}  onChange={(event) => {
+                                                    setbusinessId(event.target.value);
+                                                  }} placeholder="bedrooms"/>
+                            
+                                                
+                                         
+                                            {
+                                                isUploding ? (
+                                                    <div className="flex-grow-1 px-2">
+                                                        <div className="text-center">{uploadProgress}%</div>
+                                                        <Progress value={uploadProgress} />
+                                                    </div>
+                                                ) : null
+                                            }
+                                            {
+                                                uploadedImg && !isUploding ? (
+                                                    <img
+                                                        src={uploadedImg}
+                                                        alt="UploadedImage"
+                                                        className="img-thumbnail img-fluid uploaded-img ml-3"
+                                                    />
+                                                ) : null
+                                            }
+                                        
+                            
+                                      
+                            
+                                        </div>
+                            
+                            
+                            
+                                        <div class="modal-footer">
+                            
+                            
+                                        {!isLoading && <button type="submit" onClick={saveDetails} class="btn btn-primary">Save</button>
+                                      
+                                            } 
+                                            {isLoading &&
+                                                <button type="submit" class="btn btn-primary" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+                                            }
+                            
+                            
+                                             <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                            
+                                        <ToastContainer/>
+                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                  {/* <SingleUploader
                                       uploadUrl="images/single-upload"
                                       label="Single File Upload"
                                       id="single-uploder"
-                                    />
+                                    />*/}
+                                    
                                  
                                    
                                   
