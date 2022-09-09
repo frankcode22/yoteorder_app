@@ -139,7 +139,7 @@ function Dashboard() {
 
         axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
-        if(response.data!=null){
+        if(response.data.my_buss!=null){
 
           setIsBusinessSet(true)
     
@@ -590,7 +590,7 @@ function Dashboard() {
                 setorderId(event.target.value);
               }} 
             
-            value={orderId}/>
+            value={orderId} disabled/>
             </div>
     
     

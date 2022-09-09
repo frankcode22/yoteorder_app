@@ -21,7 +21,7 @@ import Topbar from './Topbar';
 
 function Products() {
 
-    const {authState} = useContext(AuthContext);
+const {authState} = useContext(AuthContext);
 const [userId, setUserId] = useState('');
 
 const [ordersList, setOrdersList] = useState([]);

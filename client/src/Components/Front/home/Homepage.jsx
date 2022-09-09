@@ -42,7 +42,7 @@ function Homepage() {
 
 
 
-           //axios.get('http://localhost:3001/business/bestRated').then((response) => {
+          // axios.get('http://localhost:3001/business/bestRated').then((response) => {
            axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
 
          
@@ -304,7 +304,7 @@ function Homepage() {
                     
                     <div class="header-nav-right p-5">
                         <a href="/signup" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
-                            >New User
+                            >Get Started
                         </a>
                         {/*   <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto"> */}
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto">
@@ -367,7 +367,7 @@ function Homepage() {
                     <div class="header-nav-right d-none d-lg-flex">
                         <a href="/signup"
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
-                           >New User
+                           >Get Started
                         </a>
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Login

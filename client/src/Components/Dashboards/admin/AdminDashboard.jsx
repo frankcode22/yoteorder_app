@@ -29,6 +29,8 @@ function AdminDashboard() {
 
     }
   return (
+
+    <div>
     <div class="app sidebar-mini ltr light-mode">
 
 
@@ -3147,6 +3149,7 @@ function AdminDashboard() {
     
     
     
+    </div>
     </div>
   )
 }

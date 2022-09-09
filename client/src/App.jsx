@@ -24,6 +24,8 @@ import ProfileC from "./Components/Dashboards/customer/ProfileC";
 import ProfileS from "./Components/Dashboards/seller/ProfileS";
 import Users from "./Components/Dashboards/admin/Users";
 import Products from "./Components/Dashboards/admin/Products";
+import Vendors from "./Components/Dashboards/admin/Vendors";
+import EditBusinessSetting from "./Components/Dashboards/admin/EditBusinessSetting";
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -37,8 +39,8 @@ function App() {
 
   useEffect(() => {
     axios
-   // .get("https://yoteorder-server.herokuapp.com/users/auth", {
-      .get("http://localhost:3001/users/auth",{
+    .get("https://yoteorder-server.herokuapp.com/users/auth", {
+     // .get("http://localhost:3001/users/auth",{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -93,6 +95,10 @@ function App() {
         <Route path="/users" element={ <Users/>}/>
 
         <Route path="/products" element={ <Products/>}/>
+
+        <Route path="/vendors" element={ <Vendors/>}/>
+
+        <Route path="/edit-business-setting/:id" element={ <EditBusinessSetting/>}/>
 
 
        

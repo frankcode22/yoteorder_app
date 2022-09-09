@@ -26,6 +26,9 @@ import ContentLoader from '../../../utils/ContentLoader';
 import { Container, Form, Button } from 'react-bootstrap'
 
 
+import './styles.css'
+
+
 
 
 function ProductSetting(props) {
@@ -100,7 +103,20 @@ function ProductSetting(props) {
 
     const [isLoading,setLoading]=useState(false);
 
+    const [showSuccessAlert,setShowSucessAlert]=useState(false);
+
+
     const [isLoadingT,setLoadingT]=useState(false);
+
+    const [isdisabled,setIsdisabled]=useState(false);
+
+    const [nameinvalid,setnameinvalid]=useState(false);
+
+    const [priceinvalid,setpriceinvalid]=useState(false);
+
+    const [showActionBtn,setShowActionBtn]=useState(true);
+
+    const [btndisabled,setBtndisabled]=useState('');
 
     const [productStatus,setProductStatus]=useState('available');
 
@@ -162,7 +178,7 @@ function ProductSetting(props) {
 
        axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
-        if(response.data!=null){
+        if(response.data.my_buss!=null){
     
           setbusinessId(response.data.my_buss.id);
 
@@ -558,6 +574,31 @@ const openSelectedProduct=(pId)=>{
 
     const saveDetails = async e => {
         setLoading(true)
+
+        if(name==""){
+            setnameinvalid(true)
+            setLoading(false)
+
+            setTimeout(() => {
+                setnameinvalid(false)
+               
+             }, 2000);
+            return
+        }
+
+        if(price==""){
+            setpriceinvalid(true)
+            setLoading(false)
+
+            setTimeout(() => {
+                setpriceinvalid(false)
+               
+             }, 2000);
+            return
+        }
+
+
+      
         
         let formData = new FormData();
         formData.append('businessId', businessId);
@@ -623,7 +664,13 @@ const openSelectedProduct=(pId)=>{
 
 
         setTimeout(() => {
+
+          
+
+            
             setLoading(false);
+            setShowActionBtn(false)
+            setShowSucessAlert(true)
             
             toast.success('Product saved successfully');
         }, 2000);
@@ -680,8 +727,10 @@ const openSelectedProduct=(pId)=>{
 
         setTimeout(() => {
             setLoading(false);
+            setShowActionBtn(false)
+            setShowSucessAlert(true)
             
-            toast.success('Product saved successfully');
+            toast.success('Product update successfully');
         }, 2000);
         
     }
@@ -1362,225 +1411,265 @@ const openSelectedProduct=(pId)=>{
 
                                     <div>
                                     <div class="card-body">
-                                      {/*<label htmlFor={idx} className="text-primary font-weight-bold">{label}</label> */}  
+                                      {/*<label htmlFor={idx} className="text-primary font-weight-bold">{label}</label> */}
+                                      
+                                      
+
+                                      {showSuccessAlert &&
+
+                                        <div>
+                            
+                                        <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+                                        <h4 class="text-success mb-4">Product saved successfully!</h4>
+                            
+                                        </div>
+                            
+                            
+                                    }
                                        
                                   
-                                           
-                            
-                                                    <div class="form-group ">
-                            
-                                                        <label for="nameWithTitle" class="form-label">Product Name</label>
-                            
-                            
-                                                        <input type="hidden" id="nameWithTitle" class="form-control"
-                            
-                                                            value={businessId}
-                            
-                                                            onChange={(event) => {
-                                                                setbusinessId(event.target.value);
-                                                            }}
-                            
-                                                        />
-                            
-                                                        <input type="hidden" id="price" class="form-control" value={userId}
-                            
-                                                            onChange={(event) => {
-                                                                setUserId(event.target.value);
-                                                            }}
-                                                        />
-                            
-                                                        <input type="text" id="product_name" class="form-control" placeholder="eg.pro gas"
-                            
-                                                            onChange={(event) => {
-                                                                setName(event.target.value);
-                                                            }}
-                            
-                                                        />
-                                                    </div>
-                                                    <div class="form-group ">
-                            
-                                                        <label class="form-label" for="multicol-country">Type</label>
-                                                        <select id="multicol-country" class="form-control select2 form-select"
-                                                            onChange={(event) => {
-                                                                setType(event.target.value);
-                                                            }}
-                            
-                                                            data-allow-clear="true">
-                                                            <option value="">Select Category</option>
-                                                            <option value="General-use">General use</option>
-                                                            <option value="Household-Product">Household Product</option>
+                                    {!showSuccessAlert && 
+                                        <div>
 
-                                                            <option value="Drinking-Liquor">Drinking/Liquor</option>
-
-                                                            <option value="Agricultural">Agricultural</option>
-                                                            <option value="Ready-Meal">Ready Meal</option>
-
-                                                            <option value="Domestic-Products">Domestic Use</option>
-                                                            
-                
-                                                           
-                                                            <option value="Livestock">Livestock</option>
-                                                            <option value="Electronic">Electronic</option>
-                                                            <option value="Automotive">Automotive</option>
-                                                            
-                            
-                                                            <option value="Contruction">Contruction</option>
-                            
-                                                           
-                                                            <option value="Clothing">Clothing</option>
-                                                            <option value="Computing">Computing</option>
-                            
-                            
-                                                          
-                                                            <option value="Home-Based">Home-Based</option>
-                                                            <option value="Beauty">Beauty</option>
-                            
-                                                         
-                                                            <option value="Aquatic">Aquatic</option>
-                            
-                            
-                                                        </select>
-                            
-                            
-                                                    </div>
-                            
-                            
-                                                    <div class="form-row">
-                            
-                                                        <label for="description" class="form-label">Description</label>
-                            
-                            
-                                                        <textarea name="address" class="form-control" onChange={(event) => {
-                                                            setProduct_description(event.target.value);
-                                                        }} id="address" rows="2" placeholder="Your Product desciption"></textarea>
-                            
-                                                    </div>
-                            
-                            
-                            
-                            
-                            
-                            
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6 mb-0">
-                                                            <div class="form-group">
-                                                                <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
-                                                                <input type="number" id="price" class="form-control"
-                            
-                                                                    onChange={(event) => {
-                                                                        setPrice(event.target.value);
-                                                                    }}
-                            
-                            
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-md-6 mb-0">
-                                                            <div class="form-group">
-                                                                <label for="dobWithTitle" class="form-label">Quantity</label>
-                                                                <input type="number" class="form-control"
-                            
-                                                                    onChange={(event) => {
-                                                                        setQuantity(event.target.value);
-                                                                    }}
-                                                                    id="quantity" placeholder="eg.7" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                            
-                            
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6 mb-0">
-                                                            <div class="form-group ">
-                            
-                                                                <label class="form-label" for="multicol-country">Unit Of Measure</label>
-                                                                <select id="multicol-country" class="form-control select2 form-select"
-                                                                    value={unit_of_measure}
-                                                                    onChange={(event) => {
-                                                                        setunit_of_measure(event.target.value);
-                                                                    }}
-                            
-                            
-                            
-                                                                    data-allow-clear="true">
-                                                                    <option value="">Select Unit Of Measure</option>
-                                                                    <option value="Kgs">Kgs</option>
-                                                                    <option value="Litre">Litres</option>
-                                                                    <option value="Plate">Plates</option>
-                            
-                                                                    <option value="Item">Item</option>
-                            
-                                                                    <option value="Piece">Piece</option>
-                                                                    <option value="Package">Package</option>
-                                                                    <option value="Order">Order</option>
-                            
-                            
-                            
-                            
-                            
-                                                                </select>
-                            
-                            
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-md-6 mb-0">
-                                                            <div class="form-group">
-                                                                <label for="dobWithTitle" class="form-label">Availability</label>
-                                                                <div class="col-xl-2 px-3 px-xl-1">
-                                                                    <div class="form-group">
-                                                                        <label class="custom-switch form-switch mb-0">
-                                                                            <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" />
-                                                                            <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
-                                                                            <span class="custom-switch-description">Set Availability</span>
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                            
-                            
-                                                    </div>
-                            
-                            
-                            
-                            
-                                                
-                            
-                                               
-                                              
-                                           
-                            
-                            
-                                                <div class="form-group">
-                                                <label class="form-label mt-0">Default file input example</label>
-                                                <input class="form-control" type="file" id={idx} onChange={handleChange}/>
-                                                </div>
-                            
-                            
-                                                <input type="hidden" value={businessId}  onChange={(event) => {
-                                                    setbusinessId(event.target.value);
-                                                  }} placeholder="bedrooms"/>
-                            
-                                                
-                                         
-                                            {
-                                                isUploding ? (
-                                                    <div className="flex-grow-1 px-2">
-                                                        <div className="text-center">{uploadProgress}%</div>
-                                                        <Progress value={uploadProgress} />
-                                                    </div>
-                                                ) : null
-                                            }
-                                            {
-                                                uploadedImg && !isUploding ? (
-                                                    <img
-                                                        src={uploadedImg}
-                                                        alt="UploadedImage"
-                                                        className="img-thumbnail img-fluid uploaded-img ml-3"
-                                                    />
-                                                ) : null
-                                            }
                                         
+
+                                        
+                                        <div class="form-group ">
+                            
+                                        <label for="nameWithTitle" class="form-label">Product Name</label>
+            
+            
+                                        <input type="hidden" id="nameWithTitle" class="form-control"
+            
+                                            value={businessId}
+            
+                                            onChange={(event) => {
+                                                setbusinessId(event.target.value);
+                                            }}
+            
+                                        />
+            
+                                        <input type="hidden" id="price" class="form-control" value={userId}
+            
+                                            onChange={(event) => {
+                                                setUserId(event.target.value);
+                                            }}
+                                        />
+                                      
+                                        <input type="text" id="product_name" class="form-control" placeholder="Eg.pro gas"
+            
+                                            onChange={(event) => {
+                                                setName(event.target.value);
+                                            }}
+            
+                                        />
+                                      {nameinvalid && <div class="invalid-feedback-p">Please provide a product name.</div> }  
+                                      
+                                    </div>
+                                    <div class="form-group ">
+            
+                                        <label class="form-label" for="multicol-country">Type</label>
+                                        <select id="multicol-country" class="form-control select2 form-select"
+                                            onChange={(event) => {
+                                                setType(event.target.value);
+                                            }}
+            
+                                            data-allow-clear="true">
+                                            <option value="">Select Category</option>
+                                            <option value="General-use">General use</option>
+                                            <option value="Household-Product">Household Product</option>
+
+                                            <option value="Drinking-Liquor">Drinking/Liquor</option>
+
+                                            <option value="Agricultural">Agricultural</option>
+                                            <option value="Ready-Meal">Ready Meal</option>
+
+                                            <option value="Domestic-Products">Domestic Use</option>
+                                            
+
+                                           
+                                            <option value="Livestock">Livestock</option>
+                                            <option value="Electronic">Electronic</option>
+                                            <option value="Automotive">Automotive</option>
+                                            
+            
+                                            <option value="Contruction">Contruction</option>
+            
+                                           
+                                            <option value="Clothing">Clothing</option>
+                                            <option value="Computing">Computing</option>
+            
+            
+                                          
+                                            <option value="Home-Based">Home-Based</option>
+                                            <option value="Beauty">Beauty</option>
+            
+                                            <option value="Aquatic">Aquatic</option>
+                                            <option value="Others">Others</option>
+            
+            
+                                        </select>
+            
+            
+                                    </div>
+            
+            
+                                    <div class="form-row">
+            
+                                        <label for="description" class="form-label">Description</label>
+            
+            
+                                        <textarea name="address" class="form-control" onChange={(event) => {
+                                            setProduct_description(event.target.value);
+                                        }} id="address" rows="2" placeholder="Please provide a short desciption of your product"></textarea>
+            
+                                    </div>
+
+
+
+
+
+                                    <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0">
+                                 
+            
+                                    <label class="form-label" for="multicol-country">Unit Of Measure</label>
+                                    <select id="multicol-country" class="form-control select2 form-select"
+                                        value={unit_of_measure}
+                                        onChange={(event) => {
+                                            setunit_of_measure(event.target.value);
+                                        }}
+
+
+
+                                        data-allow-clear="true">
+                                        <option value="">Select Unit Of Measure</option>
+                                        <option value="Kgs">Kgs</option>
+                                        <option value="Litre">Litres</option>
+                                        <option value="Plate">Plates</option>
+
+                                        <option value="Item">Item</option>
+
+                                        <option value="Piece">Piece</option>
+                                        <option value="Package">Package</option>
+                                        <option value="Order">Order</option>
+
+                                        <option value="Agreement">Agreement</option>
+
+
+
+
+
+                                    </select>
+
+
+                                
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0">
+                                        <div class="form-group">
+                                        <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
+                                        <input type="number" id="price" class="form-control"
+    
+                                            onChange={(event) => {
+                                                setPrice(event.target.value);
+                                            }}
+    
+    
+                                        />
+                                       {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
+                                        </div>
+                                    </div>
+                                </div>
+            
+            
+            
+            
+            
+            
+                                  
+            
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 mb-0">
+                                            <div class="form-group ">
+            
+                                            <label for="dobWithTitle" class="form-label">Quantity</label>
+                                            <input type="number" class="form-control"
+        
+                                                onChange={(event) => {
+                                                    setQuantity(event.target.value);
+                                                }}
+                                                id="quantity" placeholder="eg.7" />
+            
+            
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6 mb-0">
+                                            <div class="form-group">
+                                                <label for="dobWithTitle" class="form-label">Availability</label>
+                                                <div class="col-xl-2 px-3 px-xl-1">
+                                                    <div class="form-group">
+                                                        <label class="custom-switch form-switch mb-0">
+                                                            <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" />
+                                                            <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                                            <span class="custom-switch-description">Set Availability</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+            
+            
+                                    </div>
+            
+            
+            
+            
+                                
+            
+                               
+                              
+                           
+            
+            
+                                <div class="form-group">
+                                <label class="form-label mt-0">Default file input example</label>
+                                <input class="form-control" type="file" id={idx} onChange={handleChange}/>
+                                </div>
+            
+            
+                                <input type="hidden" value={businessId}  onChange={(event) => {
+                                    setbusinessId(event.target.value);
+                                  }} placeholder="bedrooms"/>
+            
+                                
+                         
+                            {
+                                isUploding ? (
+                                    <div className="flex-grow-1 px-2">
+                                        <div className="text-center">{uploadProgress}%</div>
+                                        <Progress value={uploadProgress} />
+                                    </div>
+                                ) : null
+                            }
+                            {
+                                uploadedImg && !isUploding ? (
+                                    <img
+                                        src={uploadedImg}
+                                        alt="UploadedImage"
+                                        className="img-thumbnail img-fluid uploaded-img ml-3"
+                                    />
+                                ) : null
+                            }
+                        
+                                        
+                                        
+                                        
+                                        
+                                        </div>
+                                    
+                                    
+                                    }
+                            
                             
                                       
                             
@@ -1591,7 +1680,7 @@ const openSelectedProduct=(pId)=>{
                                         <div class="modal-footer">
                             
                             
-                                        {!isLoading && <button type="submit" onClick={saveDetails} class="btn btn-primary">Save</button>
+                                        {!isLoading && showActionBtn && <button type="submit" onClick={saveDetails}  class="btn btn-primary">Save</button>
                                       
                                             } 
                                             {isLoading &&
@@ -1771,222 +1860,272 @@ const openSelectedProduct=(pId)=>{
                               
                                 <div class="card-body">
                                 {/*<label htmlFor={idx} className="text-primary font-weight-bold">{label}</label> */}  
-                                 
-                            
-                                     
-                      
-                                              <div class="form-group ">
-                      
-                                                  <label for="nameWithTitle" class="form-label">Product Name</label>
-                      
-                      
-                                                  <input type="hidden" id="nameWithTitle" class="form-control" placeholder="Enter Name"
-                      
-                                                      value={businessId}
-                      
-                                                      onChange={(event) => {
-                                                          setbusinessId(event.target.value);
-                                                      }}
-                      
-                                                  />
-                      
-                                                  <input type="hidden" id="price" class="form-control" value={userId}
-                      
-                                                      onChange={(event) => {
-                                                          setUserId(event.target.value);
-                                                      }}
-                                                  />
-                      
-                                                  <input type="text" id="product_name" class="form-control" placeholder="Enter Name"
-                      
-                                                  value={name}
-                      
-                                                      onChange={(event) => {
-                                                          setName(event.target.value);
-                                                      }}
-                      
-                                                  />
-                                              </div>
-                                              <div class="form-group ">
-                      
-                                                  <label class="form-label" for="multicol-country">Type</label>
-                                                  <select id="multicol-country" class="form-control select2 form-select"
-                                                      onChange={(event) => {
-                                                          setType(event.target.value);
-                                                      }}
-                                                      value={type}
-                      
-                                                      data-allow-clear="true">
-                                                      <option value="">Select Category</option>
-                                                      <option value="Eateries">Eateries</option>
-                                                      <option value="Electronics">Electronics</option>
-                                                      <option value="Automotive">Automotive</option>
-                      
-                                                      <option value="Contruction">Contruction</option>
-                      
-                                                      <option value="Drinks">Drinks</option>
-                                                      <option value="Clothing">Clothing</option>
-                                                      <option value="Computing">Computing</option>
-                      
-                      
-                                                      <option value="Domestic">Domestic Use</option>
-                                                      <option value="Home-Based">Home-Based</option>
-                                                      <option value="Beauty">Beauty</option>
-                      
-                                                      <option value="Agricultural">Agricultural</option>
-                                                      <option value="Livestock">Livestock</option>
-                                                      <option value="Aquatic">Aquatic</option>
-                      
-                      
-                                                  </select>
-                      
-                      
-                                              </div>
-                      
-                      
-                                              <div class="form-row">
-                      
-                                                  <label for="description" class="form-label">Description</label>
-                      
-                      
-                                                  <textarea name="address" class="form-control" value={product_description} onChange={(event) => {
-                                                      setProduct_description(event.target.value);
-                                                  }} id="address" rows="2" placeholder="Your Product desciption"></textarea>
-                      
-                                              </div>
-                      
-                      
-                      
-                      
-                      
-                      
-                                              <div class="form-row">
-                                                  <div class="form-group col-md-6 mb-0">
-                                                      <div class="form-group">
-                                                          <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
-                                                          <input type="number" id="price" class="form-control"
-                      
-                                                          value={price}
-                      
-                                                              onChange={(event) => {
-                                                                  setPrice(event.target.value);
-                                                              }}
-                      
-                      
-                                                          />
-                                                      </div>
-                                                  </div>
-                                                  <div class="form-group col-md-6 mb-0">
-                                                      <div class="form-group">
-                                                          <label for="dobWithTitle" class="form-label">Quantity</label>
-                                                          <input type="number" class="form-control"
-                      
-                                                          value={quantity}
-                      
-                                                              onChange={(event) => {
-                                                                  setQuantity(event.target.value);
-                                                              }}
-                                                              id="quantity" placeholder="eg.7" />
-                                                      </div>
-                                                  </div>
-                                              </div>
-                      
-                      
-                                              <div class="form-row">
-                                                  <div class="form-group col-md-6 mb-0">
-                                                      <div class="form-group ">
-                      
-                                                          <label class="form-label" for="multicol-country">Unit Of Measure</label>
-                                                          <select id="multicol-country" class="form-control select2 form-select"
-                                                              value={unit_of_measure}
-                                                              onChange={(event) => {
-                                                                  setunit_of_measure(event.target.value);
-                                                              }}
 
-                                                            
+
+                                {showSuccessAlert &&
+
+                                    <div>
+                        
+                                    <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+                                    <h4 class="text-success mb-4">Product updated successfully!</h4>
+                        
+                                    </div>
+                        
+                        
+                                }
+
+
+                                {!showSuccessAlert && 
+                                    <div>
+
+                                    <div class="form-group ">
                       
-                      
-                      
-                                                              data-allow-clear="true">
-                                                              <option value="">Select Unit Of Measure</option>
-                                                              <option value="Kgs">Kgs</option>
-                                                              <option value="Litre">Litres</option>
-                                                              <option value="Plate">Plates</option>
-                      
-                                                              <option value="Item">Item</option>
-                      
-                                                              <option value="Piece">Piece</option>
-                                                              <option value="Package">Package</option>
-                                                              <option value="Order">Order</option>
-                      
-                      
-                      
-                      
-                      
-                                                          </select>
-                      
-                      
-                                                      </div>
-                                                  </div>
-                                                  <div class="form-group col-md-6 mb-0">
-                                                      <div class="form-group">
-                                                          <label for="dobWithTitle" class="form-label">Availability</label>
-                                                          <div class="col-xl-2 px-3 px-xl-1">
-                                                              <div class="form-group">
-                                                                  <label class="custom-switch form-switch mb-0">
-                                                                      <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" />
-                                                                      <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
-                                                                      <span class="custom-switch-description">Set Availability</span>
-                                                                  </label>
-                                                              </div>
-                                                          </div>
-                                                      </div>
-                                                  </div>
-                      
-                      
-                                              </div>
-                      
-                      
-                      
-                      
-                                          
-                      
-                                         
+                                    <label for="nameWithTitle" class="form-label">Product Name</label>
+        
+        
+                                    <input type="hidden" id="nameWithTitle" class="form-control" placeholder="Enter Name"
+        
+                                        value={businessId}
+        
+                                        onChange={(event) => {
+                                            setbusinessId(event.target.value);
+                                        }}
+        
+                                    />
+        
+                                    <input type="hidden" id="price" class="form-control" value={userId}
+        
+                                        onChange={(event) => {
+                                            setUserId(event.target.value);
+                                        }}
+                                    />
+        
+                                    <input type="text" id="product_name" class="form-control" placeholder="Enter Name"
+        
+                                    value={name}
+        
+                                        onChange={(event) => {
+                                            setName(event.target.value);
+                                        }}
+        
+                                    />
+                                </div>
+                                <div class="form-group ">
+        
+                                    <label class="form-label" for="multicol-country">Type</label>
+                                    <select id="multicol-country" class="form-control select2 form-select"
+                                        onChange={(event) => {
+                                            setType(event.target.value);
+                                        }}
+
+                                        value={type}
+        
+                                        data-allow-clear="true">
+                                        <option value="">Select Category</option>
+                                        <option value="General-use">General use</option>
+                                        <option value="Household-Product">Household Product</option>
+
+                                        <option value="Drinking-Liquor">Drinking/Liquor</option>
+
+                                        <option value="Agricultural">Agricultural</option>
+                                        <option value="Ready-Meal">Ready Meal</option>
+
+                                        <option value="Domestic-Products">Domestic Use</option>
                                         
-                                     
-                      
-                      
-                                          <div class="form-group">
-                                          <label class="form-label mt-0">Default file input example</label>
-                                          <input class="form-control" type="file" id={idx} onChange={handleChange}/>
-                                          </div>
-                      
-                      
-                                          <input type="hidden" value={businessId}  onChange={(event) => {
-                                              setbusinessId(event.target.value);
-                                            }} placeholder="bedrooms"/>
-                      
-                                          
-                                   
-                                      {
-                                          isUploding ? (
-                                              <div className="flex-grow-1 px-2">
-                                                  <div className="text-center">{uploadProgress}%</div>
-                                                  <Progress value={uploadProgress} />
-                                              </div>
-                                          ) : null
-                                      }
-                                      {
-                                          uploadedImg && !isUploding ? (
-                                              <img
-                                                  src={uploadedImg}
-                                                  alt="UploadedImage"
-                                                  className="img-thumbnail img-fluid uploaded-img ml-3"
-                                              />
-                                          ) : null
-                                      }
-                                  
-                      
+
+                                       
+                                        <option value="Livestock">Livestock</option>
+                                        <option value="Electronic">Electronic</option>
+                                        <option value="Automotive">Automotive</option>
+                                        
+        
+                                        <option value="Contruction">Contruction</option>
+        
+                                       
+                                        <option value="Clothing">Clothing</option>
+                                        <option value="Computing">Computing</option>
+        
+        
+                                      
+                                        <option value="Home-Based">Home-Based</option>
+                                        <option value="Beauty">Beauty</option>
+        
+                                        <option value="Aquatic">Aquatic</option>
+                                        <option value="Others">Others</option>
+        
+        
+                                    </select>
+        
+        
+                                </div>
+        
+        
+                                <div class="form-row">
+        
+                                    <label for="description" class="form-label">Description</label>
+        
+        
+                                    <textarea name="address" class="form-control" value={product_description} onChange={(event) => {
+                                        setProduct_description(event.target.value);
+                                    }} id="address" rows="2" placeholder="Your Product desciption"></textarea>
+        
+                                </div>
+
+
+
+                                
+                                <div class="form-row">
+                                <div class="form-group col-md-6 mb-0">
+                             
+        
+                                <label class="form-label" for="multicol-country">Unit Of Measure</label>
+                                <select id="multicol-country" class="form-control select2 form-select"
+                                    value={unit_of_measure}
+                                    onChange={(event) => {
+                                        setunit_of_measure(event.target.value);
+                                    }}
+
+
+
+                                    data-allow-clear="true">
+                                    <option value="">Select Unit Of Measure</option>
+                                    <option value="Kgs">Kgs</option>
+                                    <option value="Litre">Litres</option>
+                                    <option value="Plate">Plates</option>
+
+                                    <option value="Item">Item</option>
+
+                                    <option value="Piece">Piece</option>
+                                    <option value="Package">Package</option>
+                                    <option value="Order">Order</option>
+
+                                    <option value="Agreement">Agreement</option>
+
+
+
+
+
+                                </select>
+
+
+                            
+                                </div>
+                                <div class="form-group col-md-6 mb-0">
+                                    <div class="form-group">
+                                    <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
+                                    <input type="number" id="price" class="form-control"
+
+                                        value={price}
+
+                                        onChange={(event) => {
+                                            setPrice(event.target.value);
+                                        }}
+
+
+                                    />
+                                    </div>
+                                </div>
+                            </div>
+        
+        
+        
+        
+        
+        
+                              
+        
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 mb-0">
+                                        <div class="form-group ">
+        
+                                        <label for="dobWithTitle" class="form-label">Quantity</label>
+                                        <input type="number" class="form-control"
+
+                                           value={quantity}
+    
+                                            onChange={(event) => {
+                                                setQuantity(event.target.value);
+                                            }}
+                                            id="quantity" placeholder="eg.7" />
+        
+        
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6 mb-0">
+                                        <div class="form-group">
+                                            <label for="dobWithTitle" class="form-label">Availability</label>
+                                            <div class="col-xl-2 px-3 px-xl-1">
+                                                <div class="form-group">
+                                                    <label class="custom-switch form-switch mb-0">
+                                                        <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" />
+                                                        <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                                        <span class="custom-switch-description">Set Availability</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+        
+        
+                                </div>
+        
+        
+        
+        
+        
+        
+                          
+        
+                           
+        
+        
+        
+        
+                            
+    
+        
+        
+                            <div class="form-group">
+                            <label class="form-label mt-0">Default file input example</label>
+                            <input class="form-control" type="file" id={idx} onChange={handleChange}/>
+                            </div>
+        
+        
+                            <input type="hidden" value={businessId}  onChange={(event) => {
+                                setbusinessId(event.target.value);
+                              }} placeholder="bedrooms"/>
+        
+                            
+                     
+                        {
+                            isUploding ? (
+                                <div className="flex-grow-1 px-2">
+                                    <div className="text-center">{uploadProgress}%</div>
+                                    <Progress value={uploadProgress} />
+                                </div>
+                            ) : null
+                        }
+                        {
+                            uploadedImg && !isUploding ? (
+                                <img
+                                    src={uploadedImg}
+                                    alt="UploadedImage"
+                                    className="img-thumbnail img-fluid uploaded-img ml-3"
+                                />
+                            ) : null
+                        }
+                    
+
+
+
+
+                                    </div>
+
+
+                                }
+
+
+
                                 
                       
                                   </div>
@@ -1996,7 +2135,7 @@ const openSelectedProduct=(pId)=>{
                                   <div class="modal-footer">
                       
                       
-                                  {!isLoading && <button type="submit" onClick={updateProductNew} class="btn btn-primary">Save</button>
+                                  {!isLoading && showActionBtn &&  <button type="submit" onClick={updateProductNew} class="btn btn-primary">Save</button>
                                 
                                       } 
                                       {isLoading &&
@@ -2015,7 +2154,7 @@ const openSelectedProduct=(pId)=>{
                         </div>
                     </div>
 
-                    <ToastContainer/>
+                  
 
 
 

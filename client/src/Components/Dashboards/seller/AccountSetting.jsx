@@ -183,7 +183,7 @@ function AccountSetting(props) {
 
        axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
-        if(response.data!=null){
+        if(response.data.my_buss!=null){
 
           setIsBusinessSet(true)
     

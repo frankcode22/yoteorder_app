@@ -961,7 +961,8 @@ function CustomerDashboard() {
                     setorderId(event.target.value);
                   }} 
                 
-                value={orderId}/>
+                value={orderId} disabled/>
+
                 </div>
 
 
