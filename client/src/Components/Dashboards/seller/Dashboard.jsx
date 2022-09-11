@@ -22,7 +22,16 @@ import { Modal, Button } from "react-bootstrap";
 
 import ContentLoader from '../../../utils/ContentLoader';
 
+import { BusinessDetailsContext } from '../../../helpers/BusinessDetailsContext';
+import DataContext from '../../../helpers/DataContext';
+
 function Dashboard() {
+
+
+    const {businessDetails,setBusinessDetails } = useContext(DataContext);
+
+
+    // const my_buss_details = useContext(BusinessDetailsContext)
 
     const [userId, setUserId] = useState('');
   
@@ -134,10 +143,49 @@ function Dashboard() {
             //     setOrdersList(response.data);
             //     })
 
+            console.log("YOUR VENDOR BUSINESS DETAILS  IS ",businessDetails);
 
 
 
-        axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+            if(businessDetails.my_buss!=null){
+
+                setIsBusinessSet(true)
+          
+                setbusinessId(businessDetails.my_buss.id);
+      
+                //setServicesList(response.data.Services);
+      
+                setStaffList(businessDetails.my_buss.Staffs);
+      
+                setbusiness_name(businessDetails.my_buss.business_name);
+
+                console.log("YOUR  BUSINESS NAME  IS ",businessDetails.my_buss.business_name);
+      
+                setBussSetup(true);
+      
+                //setOrdersList(response.data.Orders)
+      
+                setCustomersCount(businessDetails.my_buss.Customers.length)
+      
+                //setcustomer_contacts(response.data.Customers.)
+            
+              
+            
+              }
+              else{
+            
+                setIsBusinessSet(false)
+                setbusinessId(0)
+                setBussSetup(false);
+                setbusiness_name('nobuzz')
+                //setOrdersList([])
+              }
+
+
+
+              {/* 
+
+                axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data.my_buss!=null){
 
@@ -173,6 +221,11 @@ function Dashboard() {
     
         
          })
+            
+            */}
+
+
+      
 
 
          axios.get('https://yoteorder-server.herokuapp.com/order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
@@ -231,14 +284,20 @@ function Dashboard() {
 
 
          
+    
+
+
         
+
+
+         
     
     
     
     
     
     
-    },[]);
+    },[businessDetails]);
 
 
 

@@ -20,7 +20,14 @@ import { useNavigate } from "react-router-dom"
 import API from '../../../services';
 import { Progress } from 'reactstrap';
 
+import DataContext from '../../../helpers/DataContext';
+
 function AccountSetting(props) {
+
+
+  const {businessDetails,setBusinessDetails } = useContext(DataContext);
+
+ // const { posts, setPosts } = useContext(DataContext);
 
     const [name, setName] = useState("");
     const [type, setType] = useState("");
@@ -142,6 +149,8 @@ function AccountSetting(props) {
 
     const [profile_photo, setprofile_photo] = useState("");
 
+    const [customersCount, setCustomersCount] = useState(0);
+
 
     
 
@@ -181,7 +190,69 @@ function AccountSetting(props) {
        })
 
 
-       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+       console.log("YOUR VENDOR BUSINESS DETAILS  IS ",businessDetails);
+
+
+
+       if(businessDetails.my_buss!=null){
+
+           setIsBusinessSet(true)
+     
+           setbusinessId(businessDetails.my_buss.id);
+ 
+           //setServicesList(response.data.Services);
+
+          setServicesList(businessDetails.my_buss.Services);
+
+         
+ 
+           setStaffList(businessDetails.my_buss.Staffs);
+ 
+           setbusiness_name(businessDetails.my_buss.business_name);
+
+           console.log("YOUR  BUSINESS NAME  IS ",businessDetails.my_buss.business_name);
+
+       
+
+           setbusiness_type(businessDetails.my_buss.business_type);
+ 
+           setbusiness_description(businessDetails.my_buss.business_description);
+ 
+ 
+           setImagePath(businessDetails.imagePath)
+           
+           setprofile_photo(businessDetails.my_buss.profile_photo)
+ 
+          
+ 
+           
+ 
+           setbuss_contacts(businessDetails.my_buss.contacts)
+ 
+           setBussSetup(true);
+ 
+           //setOrdersList(response.data.Orders)
+ 
+           setCustomersCount(businessDetails.my_buss.Customers.length)
+ 
+           //setcustomer_contacts(response.data.Customers.)
+       
+         
+       
+         }
+         else{
+       
+           setIsBusinessSet(false)
+           setbusinessId(0)
+           setBussSetup(false);
+           setbusiness_name('nobuzz')
+           //setOrdersList([])
+         }
+
+
+
+         {/*  axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data.my_buss!=null){
 
@@ -226,7 +297,11 @@ function AccountSetting(props) {
         }
     
         
-         })
+         })*/}
+
+
+
+      
     
     
     
@@ -241,7 +316,7 @@ function AccountSetting(props) {
 
 
 
-},[]);
+},[businessDetails]);
 
 
 
@@ -272,6 +347,9 @@ const buss_data={
         setLoading(true);
     
          //axios.post("https://yoteorder-server.herokuapp.com/business",buss_data).then((response)=>{
+
+
+          try {
         
         axios.post("https://yoteorder-server.herokuapp.com/business/bussinfor",buss_data).then((response)=>{
     
@@ -288,6 +366,10 @@ const buss_data={
 
         setbusinessId(response.data.id)
 
+
+        const newDetails = response.data;
+        setBusinessDetails(newDetails);
+
     
            
             setTimeout(() => {
@@ -299,7 +381,11 @@ const buss_data={
            //  history("/dashboard");
           
            
-        })
+        });
+
+      } catch (err) {
+        console.log(`Error: ${err.message}`);
+      }
     
     }
 

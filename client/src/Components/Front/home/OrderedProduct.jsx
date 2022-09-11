@@ -993,7 +993,10 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
    
 
 
-      
+    <a  onClick={() => {
+        checkOutAndBook()
+      }} class="btn btn-primary" href='#home'><i class="fe fe-shopping-cart mx-2"></i>Confirm Now</a>
+
       {!isLoading &&  <button type="submit" onClick={() => {
         checkOutAndBook();
       }} class="btn btn-primary">Confirm</button>
@@ -1294,7 +1297,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                     <div class="swichermainleft text-center">
                         <div class="p-3 d-grid gap-2">
                             <a href="/" class="btn ripple btn-primary mt-0">View Demo</a>
-                            <a href="https://themeforest.net/item/sash-bootstrap-5-admin-dashboard-template/35183671"
+                            <a href="#"
                                 class="btn ripple btn-secondary">Buy Now</a>
                             <a href="/" class="btn ripple btn-pink">Our
                                 Portfolio</a>
@@ -1444,29 +1447,22 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                         </li>
                         <li class="slide">
                             <a class="side-menu__item" data-bs-toggle="slide" href="#About"><span
-                                    class="side-menu__label">About</span></a>
+                                    class="side-menu__label">Services</span></a>
                         </li>
                         <li class="slide">
                             <a class="side-menu__item" data-bs-toggle="slide" href="#Faqs"><span
-                                    class="side-menu__label">Faq's</span></a>
+                                    class="side-menu__label">Help Centre</span></a>
                         </li>
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Blog"><span
-                                    class="side-menu__label">Blog</span></a>
-                        </li>
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Clients"><span
-                                    class="side-menu__label">Clients</span></a>
-                        </li>
+                       
                         <li class="slide">
                             <a class="side-menu__item" data-bs-toggle="slide" href="#Contact"><span
                                     class="side-menu__label">Contact</span></a>
                         </li>
                     </ul>
                     <div class="header-nav-right d-none d-lg-flex">
-                        <a href="register.html"
+                        <a href="/signup"
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
-                            target="_blank">New User
+                            target="_blank">Get Started
                         </a>
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Login

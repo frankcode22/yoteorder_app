@@ -4,11 +4,16 @@ import { useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../../helpers/AuthContext";
 
+
 function SignIn() {
+
+
     const [username, setUsername] = useState("");
     const [role, setRole] = useState("");
     const [password, setPassword] = useState("");
     const { setAuthState } = useContext(AuthContext);
+
+
   
     let history = useNavigate();
   
@@ -61,6 +66,10 @@ function SignIn() {
 
 
           else if(response.data.role=="Vendor"){
+
+         
+
+         
     
             setTimeout(() => {
               setLoading(false);

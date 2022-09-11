@@ -20,11 +20,17 @@ import SideBar from './SideBar';
 import Topbar from './Topbar';
 
 import ContentLoader from '../../../utils/ContentLoader';
+import DataContext from '../../../helpers/DataContext';
 
 
 
 function Vendors() {
-    const {authState} = useContext(AuthContext);
+
+const { posts, setPosts } = useContext(DataContext);
+
+const {bussinessList, setBussinessList} = useContext(DataContext);
+
+ const {authState} = useContext(AuthContext);
 const [userId, setUserId] = useState('');
 
 const [ordersList, setOrdersList] = useState([]);
@@ -103,31 +109,38 @@ useEffect(()=>{
        setIsDivLoading(true);
 
 
-       axios.get('https://yoteorder-server.herokuapp.com/business/vendors_', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       
 
-    
-  
-  
-        setTimeout(() => {
+
+   console.log("HI ADMIN ALL BUSINESS DETAILS FROM CONTREXT:",bussinessList);
+
+
+   if(bussinessList!=null){
+
+
+    setTimeout(() => {
+
+    setVendorsList(bussinessList)
+    setIsDivLoading(false)  
         
-  
-          //setImagePath(response.data.imagePath)
-          setVendorsList(response.data)
-  
-         // setSeller_name(response.data.Users);
-          setIsDivLoading(false)   // Hide loading screen 
-         // toast.info('Product saved successfully');
-      }, 2000);
-  
-      //setSeller_name(response.data.Users.first_name)
-      
-  }).catch(() => {
-      setErrorMessage("Unable to fetch your products list.Kindly check your internet connection!!");
-      setIsDivLoading(false);
-   });
+     
+    }, 3000);
+
+   
 
 
-},[])
+}
+else{
+
+    setErrorMessage("Unable to fetch your vendors list");
+    setIsDivLoading(false);
+}
+
+
+   
+
+
+},[bussinessList])
 
 
 

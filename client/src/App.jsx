@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 
 import { AuthContext } from "./helpers/AuthContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import axios from "axios";
 import Homepage from "./Components/Front/home/Homepage";
 import SignIn from "./Components/Front/home/SignIn";
@@ -26,8 +26,14 @@ import Users from "./Components/Dashboards/admin/Users";
 import Products from "./Components/Dashboards/admin/Products";
 import Vendors from "./Components/Dashboards/admin/Vendors";
 import EditBusinessSetting from "./Components/Dashboards/admin/EditBusinessSetting";
+import { DataProvider } from "./helpers/DataContext";
+
+
 
 function App() {
+
+
+
   const [authState, setAuthState] = useState({
     username:"",
     first_name:"",
@@ -37,10 +43,12 @@ function App() {
     status:false,
   });
 
+
+
   useEffect(() => {
     axios
-    .get("https://yoteorder-server.herokuapp.com/users/auth", {
-     // .get("http://localhost:3001/users/auth",{
+   // .get("https://yoteorder-server.herokuapp.com/users/auth", {
+      .get("http://localhost:3001/users/auth",{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -59,6 +67,14 @@ function App() {
           });
         }
       });
+
+
+    
+
+
+
+    
+
   }, []);
 
   const logout = () => {
@@ -69,6 +85,13 @@ function App() {
   return (
     <div className="App">
     <AuthContext.Provider value={{ authState, setAuthState }}>
+    
+
+   
+
+   
+
+    <DataProvider>
        
     <Router>
   
@@ -130,6 +153,8 @@ function App() {
        
     
       </Router>
+      </DataProvider>
+
 
     </AuthContext.Provider>
    

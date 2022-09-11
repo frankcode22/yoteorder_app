@@ -13,8 +13,12 @@ import ContentLoader from '../../../utils/ContentLoader';
 import DivLoader from '../../../utils/DivLoader'
 
 import LoadingSpinner from '../../../utils/LoadingSpinner'
+import DataContext from '../../../helpers/DataContext';
+
 
 function Homepage() {
+
+    const {bussinessList, setBussinessList} = useContext(DataContext);
 
     const [pname, setpname] = useState("");
 
@@ -42,7 +46,29 @@ function Homepage() {
 
 
 
-          // axios.get('http://localhost:3001/business/bestRated').then((response) => {
+        if(bussinessList!=null){
+
+
+            setTimeout(() => {
+
+                setBestList(bussinessList)
+            setIsDivLoading(false)  
+                
+             
+            }, 3000);
+
+           
+
+
+        }
+        else{
+
+            setErrorMessage("Unable to fetch your vendors list");
+            setIsDivLoading(false);
+        }
+
+
+    {/** // axios.get('http://localhost:3001/business/bestRated').then((response) => {
            axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
 
          
@@ -67,10 +93,14 @@ function Homepage() {
         }).catch(() => {
             setErrorMessage("Unable to fetch your vendors list");
             setIsDivLoading(false);
-         });
+         }); */}
+
+
+
+         
   
   
-  },[]);
+  },[bussinessList]);
 
    
 
@@ -200,9 +230,9 @@ function Homepage() {
                     <div class="swichermainleft text-center">
                         <div class="p-3 d-grid gap-2">
                             <a href="#" class="btn ripple btn-primary mt-0">View Demo</a>
-                            <a href="https://themeforest.net/item/sash-bootstrap-5-admin-dashboard-template/35183671"
+                            <a href="#"
                                 class="btn ripple btn-secondary">Buy Now</a>
-                            <a href="https://themeforest.net/user/spruko/portfolio" class="btn ripple btn-pink">Our
+                            <a href="#" class="btn ripple btn-pink">Our
                                 Portfolio</a>
                         </div>
                     </div>
@@ -343,21 +373,17 @@ function Homepage() {
                             <a class="side-menu__item" data-bs-toggle="slide" href="#Features"><span
                                     class="side-menu__label">Features</span></a>
                         </li>
+
                         <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#About"><span
-                                    class="side-menu__label">About</span></a>
-                        </li>
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Faqs"><span
-                                    class="side-menu__label">Faq's</span></a>
-                        </li>
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Blog"><span
-                                    class="side-menu__label">Blog</span></a>
-                        </li>
+                        <a class="side-menu__item" data-bs-toggle="slide" href="#Features"><span
+                                class="side-menu__label">Services</span></a>
+                    </li>
+                       
+                       
+                       
                         <li class="slide">
                             <a class="side-menu__item" data-bs-toggle="slide" href="#Clients"><span
-                                    class="side-menu__label">Clients</span></a>
+                                    class="side-menu__label">Help Centre</span></a>
                         </li>
                         <li class="slide">
                             <a class="side-menu__item" data-bs-toggle="slide" href="#Contact"><span
@@ -367,7 +393,7 @@ function Homepage() {
                     <div class="header-nav-right d-none d-lg-flex">
                         <a href="/signup"
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
-                           >Get Started
+                            target="_blank">Get Started
                         </a>
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Login

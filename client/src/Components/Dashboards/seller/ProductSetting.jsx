@@ -27,6 +27,7 @@ import { Container, Form, Button } from 'react-bootstrap'
 
 
 import './styles.css'
+import DataContext from '../../../helpers/DataContext';
 
 
 
@@ -34,6 +35,9 @@ import './styles.css'
 function ProductSetting(props) {
 
     let { idx, label, uploadUrl } = props;
+
+
+    const {productsList1, setProductsList1 } = useContext(DataContext);
 
     const [name, setName] = useState("");
     const [type, setType] = useState("");
@@ -203,8 +207,37 @@ function ProductSetting(props) {
          })
 
 
+         console.log("YOUR PRODUCT LIST DETAILS  IS ",productsList1);
 
-            //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+         if(productsList1!=null){
+          
+    
+            setTimeout(() => {
+
+                setProductsList(productsList1)
+               
+
+        
+               // setImagePath(response.data.imagePath)
+        
+               // setSeller_name(response.data.Users);
+                setIsDivLoading(false)   // Hide loading screen 
+               // toast.info('Product saved successfully');
+            }, 1000);
+        
+          
+        
+          }
+          else{
+        
+            setErrorMessage("Unable to fetch your products list.Kindly check your internet connection!!");
+            setIsDivLoading(false);
+          }
+
+
+       {/*
+        //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
      axios.get('https://yoteorder-server.herokuapp.com/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
     
@@ -227,13 +260,18 @@ function ProductSetting(props) {
     setIsDivLoading(false);
  });
     
+    
+    */}
+
+
+        
 
        
 
 
 
 
-},[]);
+},[productsList1]);
 
 
 
