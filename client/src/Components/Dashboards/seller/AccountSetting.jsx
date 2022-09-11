@@ -164,7 +164,7 @@ function AccountSetting(props) {
   });
 
 
-  let history = useNavigate();
+
 
 
   const [bussSetup,setBussSetup]=useState(false);
@@ -174,6 +174,13 @@ function AccountSetting(props) {
   const [showServicesDiv,setShowServicesDiv]=useState(false);
 
   const [showBusinessSetupDiv,setShowBusinessSetupDiv]=useState(true);
+
+
+  const [cloudinaryUrl, setCloudinaryUrl] = useState("");
+  //const [service_type, set_service_type] = useState("");
+
+
+  let history = useNavigate();
 
 
 
@@ -212,6 +219,8 @@ function AccountSetting(props) {
            setbusiness_name(businessDetails.my_buss.business_name);
 
            console.log("YOUR  BUSINESS NAME  IS ",businessDetails.my_buss.business_name);
+
+           setCloudinaryUrl(businessDetails.my_buss.cloudinary_url)
 
        
 
@@ -444,13 +453,16 @@ const buss_data={
     console.log("tTHE IMAGE NAME IS "+data.imagePath)
     console.log("THE FILE NAME IS "+data.ImageName)
     console.log("THE BUSS ID IS "+data.businessId)
-
+    
+    // setCloudinaryUrl(data.cloudinary_url)
     setUploding(false);
 
    
 
     setTimeout(() => {
+    
         setLoading(false);
+
         
         toast.success('Profile set successfully');
     }, 2000);
@@ -915,7 +927,8 @@ const openSelectedStaff=(sId)=>{
                       <div class="d-flex">
                           <div class="media mt-0">
                               <div class="media-user me-2">
-                                  <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={imagePath+"/uploads/vendors/"+businessId+"/"+profile_photo} /></div>
+                              {/** <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={imagePath+"/uploads/vendors/"+businessId+"/"+profile_photo} /></div> */}
+                                  <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={cloudinaryUrl} /></div>
                               </div>
                               <div class="media-body">
                                   <h6 class="mb-0 mt-1">{business_name}</h6>

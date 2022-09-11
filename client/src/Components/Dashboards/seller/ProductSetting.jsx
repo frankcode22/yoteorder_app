@@ -678,8 +678,8 @@ const openSelectedProduct=(pId)=>{
         setUploding(false);
 
 
-        setProductsList([
-            ...productsList,
+        setProductsList1([
+            ...productsList1,
             {
                 name:name,
                 type:type,
@@ -690,7 +690,7 @@ const openSelectedProduct=(pId)=>{
                 unit_of_measure:unit_of_measure,
                 latitude:lat,
                 longitude:lng,
-                //product_image:product_image,
+                cloudinary_url:data.cloudinary_url,
                 UserId:userId,
                 BusinessId:businessId,
             },
@@ -821,7 +821,9 @@ const openSelectedProduct=(pId)=>{
                              </ul>
                              <a href="#" >
 
-                                 <img class="img-fluid br-7 w-100" src={imagePath+"/uploads/"+value.BusinessId+"/"+value.product_image}  alt="img"/>
+                             {/*<img class="img-fluid br-7 w-100" src={imagePath+"/uploads/"+value.BusinessId+"/"+value.product_image}  alt="img"/> */}
+
+                                 <img class="img-fluid br-7 w-100" src={value.cloudinary_url}  alt="img"/>
                              </a>
                          </div>
                          <div class="card-body pt-0">
@@ -1729,7 +1731,7 @@ const openSelectedProduct=(pId)=>{
                                              <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                         </div>
                             
-                                        <ToastContainer/>
+                                       
                                         </div>
 
 
@@ -2417,7 +2419,7 @@ const openSelectedProduct=(pId)=>{
 
                 <button type="button" class="btn btn-label-secondary" data-bs-dismiss="offcanvas">Close</button>
           
-                <ToastContainer />
+               
                 </div>
             </div>
         </div>

@@ -111,6 +111,19 @@ function OrderedProduct() {
 
       const [business_name, setbusiness_name] = useState('');
 
+      const [cloudinaryUrl, setCloudinaryUrl] = useState('');
+
+      const [business_location, setBusiness_location] = useState('');
+
+      const [business_city, setBusiness_city] = useState('');
+
+      const [business_contacts, setBusiness_contacts] = useState('');
+
+      
+
+      
+
+
       
     
       const [customerId, setCustomerId] = useState('');
@@ -813,6 +826,14 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
         console.log("THE BUSS NAME IS "+response.data.business_name)
 
         setbusiness_name(response.data.business_name)
+
+        setCloudinaryUrl(response.data.cloudinary_url)
+
+        setBusiness_location(response.data.location)
+
+        setBusiness_city(response.data.city)
+
+        setBusiness_contacts(response.data.contacts)
             
 
             })
@@ -868,8 +889,13 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                                 <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
                             </ul>
                             <a href="#" >
-                                <img class="img-fluid br-7 w-100"  src={imagePath+"/uploads/"+value.BusinessId+"/"+value.product_image} alt="img"/>
-                            </a>
+                            {/*  <img class="img-fluid br-7 w-100"  src={imagePath+"/uploads/"+value.BusinessId+"/"+value.product_image} alt="img"/> */}
+                               
+                            
+                            <img class="img-fluid br-7 w-100"  src={value.cloudinary_url} alt="img"/>
+                               
+                            
+                                </a>
                         </div>
                         <div class="card-body pt-0">
 
@@ -992,16 +1018,21 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     <div class="form-footer mt-2">
    
 
-
+    {!isLoading && 
     <a  onClick={() => {
         checkOutAndBook()
       }} class="btn btn-primary" href='#home'><i class="fe fe-shopping-cart mx-2"></i>Confirm Now</a>
 
-      {!isLoading &&  <button type="submit" onClick={() => {
+    } 
+
+
+    {/**  {!isLoading &&  <button type="submit" onClick={() => {
         checkOutAndBook();
       }} class="btn btn-primary">Confirm</button>
 
-    } 
+    }  */}
+
+    
     {isLoading &&
         
         <button class="btn btn-primary my-1" type="button" disabled="">
@@ -1159,7 +1190,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 <div class="card-body">
 <div class="mx-auto chart-circle chart-circle-md mt-3 mb-4 text-center" data-value="0.75" data-thickness="8" data-bs-color="#6c5ffc">
 <div class="profile-img-1">
-<img src="/assets/images/users/21.jpg" alt="img"/>
+<img src={cloudinaryUrl} alt="img"/>
 
 
 
@@ -1192,7 +1223,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
         <span><i class="fe fe-map-pin fs-20"></i></span>
     </div>
     <div>
-        <strong>Francisco, USA</strong>
+        <strong>{business_location}, {business_city}</strong>
     </div>
 </div>
 <div class="d-flex align-items-center mb-3 mt-3">
@@ -1200,7 +1231,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
         <span><i class="fe fe-phone fs-20"></i></span>
     </div>
     <div>
-        <strong>+125 254 3562 </strong>
+        <strong>{business_contacts} </strong>
     </div>
 </div>
 <div class="d-flex align-items-center mb-3 mt-3">

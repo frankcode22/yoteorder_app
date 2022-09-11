@@ -495,7 +495,7 @@ function CustomerDashboard() {
                                 </li>
                                 <li>
                                 
-                                <a href="#"  onClick={() => {
+                                <a onClick={() => {
                                     openSelectedOrder(value.id);
                                       }}
                                 
@@ -506,7 +506,8 @@ function CustomerDashboard() {
                                       }} class="btn btn-danger"><i class="fe fe-x"></i></a></li>
                             </ul>
                             <a href="#" >
-                                <img class="img-fluid br-7 w-100" src="assets/images/pngs/9.jpg" alt="img"/>
+                            {/**<img class="img-fluid br-7 w-100" src="assets/images/pngs/9.jpg" alt="img"/> */}
+                                <img class="img-fluid br-7 w-100" src={value.Product.cloudinary_url} alt="img"/>
                             </a>
                         </div>
                         <div class="card-body pt-0">
