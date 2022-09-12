@@ -22,6 +22,12 @@ import { Progress } from 'reactstrap';
 
 import DataContext from '../../../helpers/DataContext';
 
+import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
+
 function AccountSetting(props) {
 
 
@@ -78,6 +84,8 @@ function AccountSetting(props) {
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
     const [address_line_1, setaddress_line_1] = useState("");
+   
+
     const [address_line_2, setaddress_line_2] = useState("");
 
 
@@ -157,11 +165,14 @@ function AccountSetting(props) {
     const [isLoading,setLoading]=useState(false);
 
 
+    
     const [mapCenter, setMapCenter] = useState({
-      lat: 0,
-      lng: 0
-  
-  });
+        lat: -1.2869176,
+        lng: 36.9444321
+    });
+
+
+
 
 
 
@@ -188,8 +199,8 @@ function AccountSetting(props) {
 
 
 
-     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
   
@@ -261,7 +272,7 @@ function AccountSetting(props) {
 
 
 
-         {/*  axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         {/*  axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data.my_buss!=null){
 
@@ -314,8 +325,8 @@ function AccountSetting(props) {
     
     
     
-           //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-          axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+           //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+          axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
           setCustomersList(response.data);
           })
     
@@ -329,17 +340,86 @@ function AccountSetting(props) {
 
 
 
+
+
+const handleAddressChange = address => {
+  setAddress(address);
+    };
+
+
+
+    
+    const handleSelect = address => {
+      setAddress(address);
+       geocodeByAddress(address)
+        .then(results =>  getLatLng(results[0]))
+        .then(latLng => {
+          console.log('Success', latLng);
+          
+          // const address_one = address.results[0].formatted_address;
+         
+  
+          // console.log('Formated Addres', address_one);
+  
+  
+          // update center state
+          setMapCenter(latLng );
+  
+          setaddress_line_2(address);
+  
+          
+         
+        });
+        geocodeByAddress(address).then(response=>{
+  
+        
+          var add= response[0].formatted_address ;
+          var  value=add.split(",");
+    
+        let  count=value.length;
+        let  country=value[count-1];
+        let   state=value[count-2];
+        let  city=value[count-3];
+        let  postal_code=value[count-4];
+  
+       
+    
+          console.log('COUNTRY'+country);
+          console.log('CITY'+city);
+          console.log('STATE'+state);
+          console.log('ZIP CODE'+postal_code);
+  
+          // console.log('THE ID IS'+propid);
+  
+  
+          setCity(city);
+  
+          setPostal_code(postal_code);
+  
+          setState(state);
+  
+        
+        
+    
+         // console.log('ADDRESS COMPONENTS',addressComponent[2]);
+          
+        })
+        .catch(error => console.error('Error', error));
+    };
+
+
+
 const buss_data={
 
     business_name:business_name,
     business_type:industry,
     industry:industry,
-    location:location,
+    location:address,
     contacts:buss_contacts,
 
     address_line_1:address_line_1,
-    latitude:latitude,
-    longitude:longitude,
+    latitude:mapCenter.lat,
+    longitude:mapCenter.lng,
     city:city,
     state:state,
     country:country,
@@ -355,12 +435,12 @@ const buss_data={
     const saveBusinessInfor = ()  => {
         setLoading(true);
     
-         //axios.post("https://yoteorder-server.herokuapp.com/business",buss_data).then((response)=>{
+         //axios.post("http://localhost:3001/business",buss_data).then((response)=>{
 
 
           try {
         
-        axios.post("https://yoteorder-server.herokuapp.com/business/bussinfor",buss_data).then((response)=>{
+        axios.post("http://localhost:3001/business/bussinfor",buss_data).then((response)=>{
     
         console.log("The response is"+response.data)
 
@@ -492,7 +572,7 @@ const buss_data={
 
  //axios.post("https://kilimomazaoapi-dmi-cyber.herokuapp.com/product",data).then((response)=>{
     
-  axios.post("https://yoteorder-server.herokuapp.com/product",data).then((response)=>{
+  axios.post("http://localhost:3001/product",data).then((response)=>{
      
 
     console.log("The response is"+response.data)
@@ -537,11 +617,11 @@ const service_data={
     }
     else{
 
-    // axios.post("https://yoteorder-server.herokuapp.com/service",service_data).then((response)=>{
+    // axios.post("http://localhost:3001/service",service_data).then((response)=>{
 
      
     
-    axios.post("https://yoteorder-server.herokuapp.com/service",service_data).then((response)=>{
+    axios.post("http://localhost:3001/service",service_data).then((response)=>{
 
       console.log("The response is"+response.data)
 
@@ -621,9 +701,9 @@ const addStaff = ()  => {
   setLoading(true);
 
  
-  //  axios.post("https://yoteorder-server.herokuapp.com/staff",staff_data).then((response)=>{
+  //  axios.post("http://localhost:3001/staff",staff_data).then((response)=>{
 
-      axios.post("https://yoteorder-server.herokuapp.com/staff",staff_data).then((response)=>{
+      axios.post("http://localhost:3001/staff",staff_data).then((response)=>{
 
 
       setStaffList([
@@ -656,8 +736,8 @@ const addStaff = ()  => {
 
 const openSelectedService=(sId)=>{
 
-  //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-   axios.get('https://yoteorder-server.herokuapp.com/service/getbyId/'+sId).then((response) => {
+  //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+   axios.get('http://localhost:3001/service/getbyId/'+sId).then((response) => {
 
       // console.log("THE SERVICE NAME IS "+response.data.service_name)
 
@@ -693,7 +773,7 @@ const openSelectedService=(sId)=>{
       }
 
      
-    axios.put('https://yoteorder-server.herokuapp.com/service/update_service/'+serviceId,data).then((res_b)=>{
+    axios.put('http://localhost:3001/service/update_service/'+serviceId,data).then((res_b)=>{
 
         //console.log("THE ACTUAL ID IS "+actualId)
         
@@ -707,7 +787,7 @@ const openSelectedService=(sId)=>{
 
 
 
-       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
 
@@ -735,8 +815,8 @@ const openSelectedService=(sId)=>{
 
 const openSelectedStaff=(sId)=>{
 
-  //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-   axios.get('https://yoteorder-server.herokuapp.com/staff/getbyId/'+sId).then((response) => {
+  //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
+   axios.get('http://localhost:3001/staff/getbyId/'+sId).then((response) => {
 
        console.log("THE Staff NAME IS "+response.data.service_name)
 
@@ -773,7 +853,7 @@ const openSelectedStaff=(sId)=>{
       }
 
      
-    axios.put('https://yoteorder-server.herokuapp.com/staff/updatestaff/'+staffId,staff_data).then((res_b)=>{
+    axios.put('http://localhost:3001/staff/updatestaff/'+staffId,staff_data).then((res_b)=>{
 
         //console.log("THE ACTUAL ID IS "+actualId)
         
@@ -786,7 +866,7 @@ const openSelectedStaff=(sId)=>{
        // console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
-       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
 
@@ -816,11 +896,6 @@ const openSelectedStaff=(sId)=>{
 
   return (
     <div class="app sidebar-mini ltr">
-
-
-    <div id="global-loader">
-    <img src="assets/images/loader.svg" class="loader-img" alt="Loader"/>
-    </div>
 
     
     <div class="page">
@@ -1210,7 +1285,7 @@ const openSelectedStaff=(sId)=>{
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    {/** <div class="col-md-6">
                       <div class="row">
                       <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
                       <div class="col-sm-9">
@@ -1226,7 +1301,8 @@ const openSelectedStaff=(sId)=>{
           
                  
                       </div>
-                    </div>
+                    </div> */}
+                   
                     <div class="col-md-6">
                       <div class="row">
                         <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
@@ -1242,24 +1318,170 @@ const openSelectedStaff=(sId)=>{
                     </div>
                   </div>
                   <div class="row mt-4">
-                    <div class="col-md-6">
-                      <div class="row justify-content-end">
-                        <div class="col-sm-9">
-                          
-          
-                          {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary me-sm-3 me-1">Submit</button>
-          
-                      } 
-                      {isLoading &&
-                          <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
-                      }
-                          <button type="reset" class="btn btn-label-secondary">Cancel</button>
-          
-                        </div>
-                      </div>
-                    </div>
+                   
                   </div>
-                </form> }
+                </form>
+
+              
+              }
+
+
+
+              {!isBusinessSet && 
+
+                <div>
+  <div id='googleMaps'>
+    <PlacesAutocomplete
+      value={address}
+      onChange={handleAddressChange}
+      onSelect={handleSelect}
+    >
+      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+        <div>
+          <input
+            {...getInputProps({
+              placeholder: 'Search Places ...',
+              className: 'multisteps-form__input form-control',
+            })}
+          />
+
+        
+
+          
+          <div className="autocomplete-dropdown-container">
+            {loading && <div>Loading...</div>}
+            {suggestions.map(suggestion => {
+              const className = suggestion.active
+                ? 'suggestion-item--active'
+                : 'suggestion-item';
+              // inline style for demonstration purpose
+              const style = suggestion.active
+                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                : { backgroundColor: '#ffffff', cursor: 'pointer' };
+              return (
+                <div
+                  {...getSuggestionItemProps(suggestion, {
+                    className,
+                    style,
+                  })}
+                >
+                  <span>{suggestion.description}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </PlacesAutocomplete>
+
+   <div class="col" style={{height:"400px"}}>
+
+    <Map 
+    google={props.google}
+      initialCenter={{
+        lat: mapCenter.lat,
+        lng: mapCenter.lng
+      }}
+      center={{
+        lat: mapCenter.lat,
+        lng: mapCenter.lng
+      }}
+    >
+      <Marker 
+        position={{
+          lat: mapCenter.lat,
+          lng: mapCenter.lng
+        }} />
+    </Map>
+ </div>
+  </div>
+
+
+  <div class="row g-3">
+
+  <div class="col-md-6">
+  <div class="row">
+    <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Latitude</label>
+    <div class="col-sm-9">
+      <input type="text" id="formtabs-buss-name" class="form-control" 
+      
+      value={mapCenter.lat}
+
+      onChange={(event) => {
+        setLatitude(event.target.value);
+      }}
+      
+      
+      placeholder="Latidude" />
+    </div>
+  </div>
+</div>
+<div class="col-md-6">
+  <div class="row">
+  
+    <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Logitude</label>
+    <div class="col-sm-9">
+    <input type="text" id="formtabs-buss-name" class="form-control" 
+      
+    value={mapCenter.lng}
+
+    onChange={(event) => {
+      setLongitude(event.target.value);
+    }}
+    
+    placeholder="Eg. Logitude" />
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-6">
+<div class="row">
+  <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">City</label>
+  <div class="col-sm-9">
+    <input type="text" id="formtabs-buss-name" class="form-control" 
+    
+    value={address}
+
+    onChange={(event) => {
+      setCity(event.target.value);
+    }}
+    
+    
+    placeholder="Latidude" />
+  </div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="row">
+
+  <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">State</label>
+  <div class="col-sm-9">
+  <input type="text" id="formtabs-buss-name" class="form-control" 
+    
+  value={state}
+
+  onChange={(event) => {
+    setState(event.target.value);
+  }}
+  
+  placeholder="Eg. Logitude" />
+  </div>
+</div>
+</div>
+
+</div>
+
+  
+
+
+</div>
+
+
+
+
+
+              }
 
                
 {/*  <div class="panel panel-primary">
@@ -2999,4 +3221,8 @@ const openSelectedStaff=(sId)=>{
   )
 }
 
-export default AccountSetting
+
+
+export default GoogleApiWrapper({
+  apiKey: ('AIzaSyAOJjEor9H6PWdsKLAQSr3dIH1fWJNveGI')
+})(AccountSetting)

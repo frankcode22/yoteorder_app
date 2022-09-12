@@ -25,8 +25,8 @@ export const DataProvider = ({ children }) => {
     useEffect(()=>{
 
 
-           axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
-          // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+           axios.get('http://localhost:3001/business/bestRated').then((response) => {
+          // axios.get('http://localhost:3001/business/bestRated').then((response) => {
 
          
 
@@ -52,7 +52,7 @@ export const DataProvider = ({ children }) => {
 
 
 
-         axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
          
 
@@ -77,7 +77,7 @@ export const DataProvider = ({ children }) => {
          });
 
 
-         axios.get('https://yoteorder-server.herokuapp.com/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('http://localhost:3001/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
     
   
