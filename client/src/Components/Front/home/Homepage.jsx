@@ -393,7 +393,7 @@ function Homepage() {
                     <div class="header-nav-right d-none d-lg-flex">
                         <a href="/signup"
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
-                            target="_blank">Get Started
+                           >Get Started
                         </a>
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Login

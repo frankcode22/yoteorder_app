@@ -22,11 +22,15 @@ import { Modal, Button } from "react-bootstrap";
 
 
 import ContentLoader from '../../../utils/ContentLoader';
+import OrderDetailsContext from '../../../helpers/OrderDetailsContext';
 
 function CustomerDashboard() {
 
 
     const {authState} = useContext(AuthContext);
+
+    const {customerOrders,setCustomerOrders} = useContext(OrderDetailsContext);
+
     const [userId, setUserId] = useState('');
 
     const [actualId, setactualId] = useState('');
@@ -77,6 +81,9 @@ function CustomerDashboard() {
     const [isDivLoading, setIsDivLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
+
+    const orderDetails = localStorage.getItem("order_details")
+
     const handleShow = () =>{
 
       setLoading(true)
@@ -116,7 +123,44 @@ function CustomerDashboard() {
         //   })
         setIsDivLoading(true);
 
-          axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        try {
+
+           // orderDetails=JSON.stringify(orderDetails)
+           // console.log("LOCAL STORANGE CONVERTED TO JSON",orderDetails)
+
+        if(customerOrders!=null){
+
+
+            setTimeout(() => {
+
+              setOrdersList(customerOrders)
+               setIsDivLoading(false)  
+                
+             
+            }, 1000);
+
+           
+
+
+        }
+        else{
+
+            setOrdersList([]);
+
+            setErrorMessage("Unable to fetch your orders list");
+            setIsDivLoading(false);
+        }
+
+
+    } catch (err) {
+        console.log(`Error: ${err.message}`);
+        setErrorMessage("Unable to fetch your Orders list.Kindly check your internet connection!!");
+        setIsDivLoading(false);
+    }
+
+
+
+        {/** axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
             
           if(response.data!=null){
             setOrdersList(response.data);
@@ -146,18 +190,20 @@ function CustomerDashboard() {
                 setErrorMessage("Unable to fetch your Orders list.Kindly check your internet connection!!");
                 setIsDivLoading(false);
              });
+ */}
 
+         
 
 
            
     
     
-    
+             console.log("LOCAL STORANGE ORDER DETAILS",orderDetails)
          
     
     
     
-    },[]);
+    },[customerOrders]);
 
 
 

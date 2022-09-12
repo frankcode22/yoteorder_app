@@ -27,6 +27,7 @@ import Products from "./Components/Dashboards/admin/Products";
 import Vendors from "./Components/Dashboards/admin/Vendors";
 import EditBusinessSetting from "./Components/Dashboards/admin/EditBusinessSetting";
 import { DataProvider } from "./helpers/DataContext";
+import { OrderDetailsDataProvider } from "./helpers/OrderDetailsContext";
 
 
 
@@ -48,7 +49,7 @@ function App() {
   useEffect(() => {
     axios
    .get("https://yoteorder-server.herokuapp.com/users/auth", {
-      //.get("http://localhost:3001/users/auth",{
+     // .get("http://localhost:3001/users/auth",{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -92,6 +93,8 @@ function App() {
    
 
     <DataProvider>
+
+    <OrderDetailsDataProvider>
        
     <Router>
   
@@ -153,6 +156,7 @@ function App() {
        
     
       </Router>
+      </OrderDetailsDataProvider>
       </DataProvider>
 
 

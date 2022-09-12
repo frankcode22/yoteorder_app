@@ -158,7 +158,7 @@ function SignUp() {
                         <Field class="input100 border-start-0 ms-0 form-control"   autocomplete="off"
                         id="inputCreatePost"
                         name="first_name"
-                        placeholder="(Ex. John Kamau)" type="text"/>
+                        placeholder="Eg.Victor Kamau" type="text"/>
                     </div>
 
                     <div class="wrap-input100 validate-input input-group" data-bs-validate="Valid email is required: ex@abc.xyz">
@@ -173,7 +173,7 @@ function SignUp() {
                     <Field class="input100 border-start-0 ms-0 form-control"   autocomplete="off"
                     id="inputCreatePost"
                       name="phone_no"
-                      placeholder="+245713292421"
+                      placeholder="eg.0714639773"
                     type="text"/>
                 </div>
                     <div class="wrap-input100 validate-input input-group" data-bs-validate="Valid email is required: ex@abc.xyz">

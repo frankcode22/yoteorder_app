@@ -26,6 +26,7 @@ import ProcessingAlert from '../../../utils/ProcessingAlert';
 
 import { Modal, Button } from "react-bootstrap";
 import { Helmet } from 'react-helmet';
+import OrderDetailsContext from '../../../helpers/OrderDetailsContext';
 
 
 function randomNumberInRange(min, max) {
@@ -43,6 +44,8 @@ function OrderedProduct() {
           ? JSON.parse(localStorage.getItem('loginData'))
           : null
       );
+
+      const {customerOrders,setCustomerOrders} = useContext(OrderDetailsContext);
 
       const [first_name, setFirst_name] = useState("");
       const [username, setUsername] = useState("");
@@ -434,7 +437,15 @@ function OrderedProduct() {
     // console.log("The response is"+res_b.data)
     
     setorderId(res_b.data.id)
-    
+
+
+    const allCustOrders = [...customerOrders, res_b.data];
+    setCustomerOrders(allCustOrders);
+
+  
+   // localStorage.setItem("order_details", allCustOrders);
+
+    localStorage.setItem("order_details", res_b.data);
     
     
     console.log("THE  ORDER ID IS "+res_b.data.id)
@@ -1021,7 +1032,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     {!isLoading && 
     <a  onClick={() => {
         checkOutAndBook()
-      }} class="btn btn-primary" href='#home'><i class="fe fe-shopping-cart mx-2"></i>Confirm Now</a>
+      }} class="btn btn-primary" href='#home'><i class="fa fa-check" data-bs-toggle="tooltip" title="" data-bs-original-title="fa fa-check" aria-label="fa fa-check"></i>Confirm Now</a>
 
     } 
 
