@@ -27,6 +27,7 @@ import ProcessingAlert from '../../../utils/ProcessingAlert';
 import { Modal, Button } from "react-bootstrap";
 import { Helmet } from 'react-helmet';
 import OrderDetailsContext from '../../../helpers/OrderDetailsContext';
+import LocationDataContext from '../../../helpers/LocationDataContext';
 
 
 function randomNumberInRange(min, max) {
@@ -39,6 +40,10 @@ function OrderedProduct() {
 
     let { pname } = useParams();
 
+    let { lat } = useParams();
+
+    let { lng } = useParams();
+
     const [loginData, setLoginData] = useState(
         localStorage.getItem('loginData')
           ? JSON.parse(localStorage.getItem('loginData'))
@@ -46,6 +51,9 @@ function OrderedProduct() {
       );
 
       const {customerOrders,setCustomerOrders} = useContext(OrderDetailsContext);
+
+
+      const {position, setPosition} = useContext(LocationDataContext);
 
       const [first_name, setFirst_name] = useState("");
       const [username, setUsername] = useState("");
@@ -74,8 +82,8 @@ function OrderedProduct() {
 
       
     
-      const [lat, setLat] = useState("-1.2865605");
-      const [lng, setLng] = useState("36.9463368");
+      //const [lat, setLat] = useState("-1.2865605");
+      //const [lng, setLng] = useState("36.9463368");
 
 
 
@@ -222,6 +230,10 @@ function OrderedProduct() {
 
         console.log("YOUR ITEM IS"+ordered_item)
 
+        console.log("YOUR NEW POSITION IS "+position)
+
+        
+
      
 
 
@@ -232,7 +244,7 @@ function OrderedProduct() {
 
   // axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
   
-            axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
+            axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}/${lat}/${lng}`).then((response) => {
 
            
 
@@ -2284,20 +2296,20 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
 
-<script src="/assets/js/jquery.min.js"></script>
+<script type="text/jsx" src="/assets/js/jquery.min.js"></script>
 
 
-<script src="/assets/plugins/bootstrap/js/popper.min.js"></script>
-<script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/jsx" src="/assets/plugins/bootstrap/js/popper.min.js"></script>
+<script type="text/jsx" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 
-<script src="/assets/js/jquery.sparkline.min.js"></script>
+<script type="text/jsx" src="/assets/js/jquery.sparkline.min.js"></script>
 
 
-<script src="/assets/js/sticky.js"></script>
+<script type="text/jsx" src="/assets/js/sticky.js"></script>
 
 
-<script src="/assets/js/circle-progress.min.js"></script>
+<script type="text/jsx" src="/assets/js/circle-progress.min.js"></script>
 
 
 <script src="/assets/plugins/peitychart/jquery.peity.min.js"></script>

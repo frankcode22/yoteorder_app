@@ -183,6 +183,8 @@ useEffect(()=>{
                                             <th>Product Name</th>
                                             <th>Price</th>
                                             <th>Business</th>
+                                            <th>Latitude</th>
+                                            <th>Longitude</th>
                                             <th>Date Added</th>
                                             <th>Status</th>
                                             <th class="text-center">Actions</th>
@@ -204,6 +206,10 @@ useEffect(()=>{
                                             <td class="text-nowrap align-middle">{value.name}</td>
                                             <td class="text-nowrap align-middle">{value.price}</td>
                                             <td class="text-nowrap align-middle">{value.Business.business_name}</td>
+
+                                            <td class="text-nowrap align-middle">{value.latitude}</td>
+                                            <td class="text-nowrap align-middle">{value.Business.longitude}</td>
+
                                             <td class="text-nowrap align-middle"><span>{value.createdAt}</span></td>
 
                                             <td class="text-nowrap align-middle"> <span class="tag tag-green">{value.status}</span></td>

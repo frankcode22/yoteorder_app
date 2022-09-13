@@ -16,9 +16,30 @@ import LoadingSpinner from '../../../utils/LoadingSpinner'
 import DataContext from '../../../helpers/DataContext';
 
 
+import LocationDataContext from '../../../helpers/LocationDataContext';
+import LocationDataContextInit from '../../../helpers/LocationDataContextInit';
+
+
+function truncate(number, index = 2) {
+    // cutting the number
+  return +number.toString().slice(0, (number.toString().indexOf(".")) + (index + 1));
+}
+
+
+
 function Homepage() {
 
     const {bussinessList, setBussinessList} = useContext(DataContext);
+
+    const {userPos, setUserPos} = useContext(LocationDataContextInit);
+
+    const {position, setPosition} = useContext(LocationDataContext);
+
+
+    const[lat,setLat]=useState('')
+
+    const[lng,setLng]=useState('')
+
 
     const [pname, setpname] = useState("");
 
@@ -42,7 +63,25 @@ function Homepage() {
 
     useEffect(()=>{
 
+
+     console.log('YOUR INILIALIZING POSITION DATA IS ',userPos)
+
+
+      let lat_val=parseFloat(userPos.lat);
+
+      let lng_val=parseFloat(userPos.long);
+
+        setLat(truncate(lat_val, 2))
+
+        setLng(truncate(lng_val, 2))
+
+        
+
         setIsDivLoading(true);
+
+     
+
+
 
 
 
@@ -68,7 +107,7 @@ function Homepage() {
         }
 
 
-    {/** // axios.get('http://localhost:3001/business/bestRated').then((response) => {
+    {/** // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
            axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
 
          
@@ -97,6 +136,13 @@ function Homepage() {
 
 
 
+        // console.log("BUSSINESS LIST IS"+response.data)
+
+       
+
+
+
+
          
   
   
@@ -113,7 +159,7 @@ function Homepage() {
       setLoading(false);
       //setAddress(string_lng)
      // history.push('/search-location-avon-park-florida');
-     history('/ordered-product/'+pname);
+     history('/ordered-product/'+pname+'/'+lat+'/'+lng);
     }, 3000);
     
       };

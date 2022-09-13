@@ -119,27 +119,27 @@ function Dashboard() {
         setIsDivLoading(true);
 
        
-         //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             setUserId(response.data.id)
       
       
            })
     
-        //    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-        //   axios.get("http://localhost:3001/order/getallorders").then((response) => {
+        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
 
 
-        //   axios.get("http://localhost:3001/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        //   axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
         //     setOrdersList(response.data);
         //     })
 
 
 
-            // axios.get("http://localhost:3001/order/getallorders").then((response) => {
+            // axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
             //     setOrdersList(response.data);
             //     })
 
@@ -185,7 +185,7 @@ function Dashboard() {
 
               {/* 
 
-                axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+                axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data.my_buss!=null){
 
@@ -228,7 +228,7 @@ function Dashboard() {
       
 
 
-         axios.get('http://localhost:3001/order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
 
 
@@ -330,7 +330,7 @@ function Dashboard() {
          const custDetailsOrder=(userId)=>{
 
 
-            axios.get('http://localhost:3001/customer/getById/'+userId).then((response) => {
+            axios.get('https://yoteorder-server.herokuapp.com/customer/getById/'+userId).then((response) => {
      
                 //console.log("THE PRODUCT NAME IS "+response.data.name)
         
@@ -362,7 +362,7 @@ function Dashboard() {
               
         
         
-                axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
+                axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
             
                    // console.log("THE ACTUAL ID IS "+actualId)
                     
@@ -394,7 +394,7 @@ function Dashboard() {
       
 
 
-        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -423,7 +423,7 @@ function Dashboard() {
       
 
 
-        axios.put('http://localhost:3001/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -2441,8 +2441,7 @@ Save Changes
             <div class="container">
                 <div class="row align-items-center flex-row-reverse">
                     <div class="col-md-12 col-sm-12 text-center">
-                        Copyright © <span id="year"></span> <a href="javascript:void(0)">Sash</a>. Designed with <span
-                            class="fa fa-heart text-danger"></span> by <a href="javascript:void(0)"> Spruko </a> All rights reserved.
+                        Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>.A web app developed and owned by <a href="javascript:void(0)"> FrankCode Ltd </a> All rights reserved.
                     </div>
                 </div>
             </div>

@@ -37,6 +37,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import LocationDataContextInit from '../../../helpers/LocationDataContextInit';
 
 
 
@@ -44,6 +45,10 @@ import PlacesAutocomplete, {
 function ProductSetting(props) {
 
     let { idx, label, uploadUrl } = props;
+
+
+
+    const {userPos, setUserPos} = useContext(LocationDataContextInit);
 
 
     const {productsList1, setProductsList1 } = useContext(DataContext);
@@ -178,13 +183,17 @@ function ProductSetting(props) {
 
   useEffect(()=>{
 
+     setLat(userPos.lat)
+
+    setLng(userPos.long)
+
    
     setIsDivLoading(true);
 
 
 
-     //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
   
@@ -192,7 +201,7 @@ function ProductSetting(props) {
        })
 
 
-       axios.get('http://localhost:3001/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data.my_buss!=null){
     
@@ -249,8 +258,8 @@ function ProductSetting(props) {
 
 
        {/*
-        //axios.get('http://localhost:3001/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('http://localhost:3001/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
     
   
@@ -382,7 +391,7 @@ const addProductHandler = async (e) => {
 
 
  
-    await axios.post('http://localhost:3001/product/add', formData)
+    await axios.post('https://yoteorder-server.herokuapp.com/product/add', formData)
     //history.push('/products')
 
 }
@@ -393,7 +402,7 @@ const getAllMyProducts=()=>{
     //setIsDivLoading(true)
 
 
-    axios.get('http://localhost:3001/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    axios.get('https://yoteorder-server.herokuapp.com/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
       
   
@@ -457,7 +466,7 @@ const getAllMyProducts=()=>{
 
  //axios.post("https://kilimomazaoapi-dmi-cyber.herokuapp.com/product",data).then((response)=>{
     
-  axios.post("http://localhost:3001/product",data).then((response)=>{
+  axios.post("https://yoteorder-server.herokuapp.com/product",data).then((response)=>{
      
 
     console.log("The response is"+response.data)
@@ -509,8 +518,8 @@ const getAllMyProducts=()=>{
 
 const openSelectedProduct=(pId)=>{
 
-    //axios.get("http://localhost:3001/customer/mycustomers").then((response) => {
-     axios.get('http://localhost:3001/product/byId/'+pId).then((response) => {
+    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+     axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
  
          console.log("THE PRODUCT NAME IS "+response.data.name)
  
@@ -562,7 +571,7 @@ const openSelectedProduct=(pId)=>{
               
           }
 
-        axios.put('http://localhost:3001/product/updateproduct/'+productId,data).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/product/updateproduct/'+productId,data).then((res_b)=>{
     
             //console.log("THE ACTUAL ID IS "+actualId)
             
@@ -605,7 +614,7 @@ const openSelectedProduct=(pId)=>{
       
 
 
-        axios.put('http://localhost:3001/product/updatestatus/'+pId,p_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -640,7 +649,7 @@ const openSelectedProduct=(pId)=>{
       
 
 
-        axios.put('http://localhost:3001/product/updatestatus/'+pId,p_details).then((res_b)=>{
+        axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -735,9 +744,9 @@ const openSelectedProduct=(pId)=>{
         // formData.append('address_line_2', address_line_2);
 
         formData.append('unit_of_measure',unit_of_measure);
-        // formData.append('latitude', latitude);
+        formData.append('latitude', lat);
 
-        // formData.append('longitude', lng);
+        formData.append('longitude', lng);
 
         formData.append('UserId', userId);
 
@@ -818,9 +827,9 @@ const openSelectedProduct=(pId)=>{
         // formData.append('address_line_2', address_line_2);
 
         formData.append('unit_of_measure',unit_of_measure);
-        // formData.append('latitude', latitude);
+        formData.append('latitude', lat);
 
-        // formData.append('longitude', lng);
+        formData.append('longitude', lng);
 
         formData.append('UserId', userId);
 
@@ -2578,6 +2587,4 @@ const openSelectedProduct=(pId)=>{
   )
 }
 
-export default GoogleApiWrapper({
-    apiKey: ('AIzaSyAOJjEor9H6PWdsKLAQSr3dIH1fWJNveGI')
-  })(ProductSetting)
+export default ProductSetting

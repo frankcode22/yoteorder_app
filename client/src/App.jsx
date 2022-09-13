@@ -28,6 +28,8 @@ import Vendors from "./Components/Dashboards/admin/Vendors";
 import EditBusinessSetting from "./Components/Dashboards/admin/EditBusinessSetting";
 import { DataProvider } from "./helpers/DataContext";
 import { OrderDetailsDataProvider } from "./helpers/OrderDetailsContext";
+import { LocationDataDataProvider } from "./helpers/LocationDataContext";
+import { LocationDataContextInitProvider } from "./helpers/LocationDataContextInit";
 
 
 
@@ -48,8 +50,8 @@ function App() {
 
   useEffect(() => {
     axios
-   //.get("https://yoteorder-server.herokuapp.com/users/auth", {
-      .get("http://localhost:3001/users/auth",{
+  .get("https://yoteorder-server.herokuapp.com/users/auth", {
+     // .get("http://localhost:3001/users/auth",{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -90,11 +92,13 @@ function App() {
 
    
 
-   
-
     <DataProvider>
 
     <OrderDetailsDataProvider>
+
+    <LocationDataDataProvider>
+
+    <LocationDataContextInitProvider>
        
     <Router>
   
@@ -144,7 +148,7 @@ function App() {
 
 
 
-        <Route path="/ordered-product/:pname" element={ <OrderedProduct/>} />
+        <Route path="/ordered-product/:pname/:lat/:lng" element={ <OrderedProduct/>} />
 
         <Route path="/order-now" element={ <BookingPage/>}/>
 
@@ -156,6 +160,8 @@ function App() {
        
     
       </Router>
+      </LocationDataContextInitProvider>
+      </LocationDataDataProvider>
       </OrderDetailsDataProvider>
       </DataProvider>
 

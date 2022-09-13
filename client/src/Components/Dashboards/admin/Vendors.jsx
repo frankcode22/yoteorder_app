@@ -172,13 +172,19 @@ const loadVendorsContant=(
                                                                                 <th
                                                                                 class="bg-transparent border-bottom-0">
                                                                                 Owner</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                                Category</th>
+                                                                          
                                                                            
                                                                             <th
                                                                                 class="bg-transparent border-bottom-0">
                                                                                 Location</th>
+
+                                                                                <th
+                                                                                class="bg-transparent border-bottom-0">
+                                                                                Latitude</th>
+
+                                                                                <th
+                                                                                class="bg-transparent border-bottom-0">
+                                                                                Longitude</th>
                                                                             <th
                                                                                 class="bg-transparent border-bottom-0">
                                                                                Owner Contacts</th>
@@ -234,9 +240,15 @@ const loadVendorsContant=(
                                                                             </div>
                                                                         </td>
                                                                          
+                                                                          
+
                                                                             <td><span
-                                                                                    class="fw-semibold mt-sm-2 d-block">{value.location}</span>
-                                                                            </td>
+                                                                            class="fw-semibold mt-sm-2 d-block">{value.latitude}</span>
+                                                                    </td>
+
+                                                                    <td><span
+                                                                    class="fw-semibold mt-sm-2 d-block">{value.longitude}</span>
+                                                            </td>
                                                                             <td>
                                                                                 <div class="d-flex">
                                                                                     <div
@@ -1395,10 +1407,9 @@ const loadVendorsContant=(
      <footer class="footer">
             <div class="container">
                 <div class="row align-items-center flex-row-reverse">
-                    <div class="col-md-12 col-sm-12 text-center">
-                        Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>. Designed with <span
-                            class="fa fa-heart text-danger"></span> by <a href="javascript:void(0)"> Frankcode20 </a> All rights reserved.
-                    </div>
+                <div class="col-md-12 col-sm-12 text-center">
+                Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>.A web app developed and owned by <a href="javascript:void(0)"> FrankCode Ltd </a> All rights reserved.
+            </div>
                 </div>
             </div>
         </footer>

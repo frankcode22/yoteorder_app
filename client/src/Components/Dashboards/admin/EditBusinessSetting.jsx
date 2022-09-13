@@ -19,10 +19,14 @@ import {useNavigate,useParams} from "react-router-dom"
 
 import API from '../../../services';
 import { Progress } from 'reactstrap';
+import LocationDataContextInit from '../../../helpers/LocationDataContextInit';
 
 function EditBusinessSetting(props) {
 
   let { id } = useParams();
+
+
+  const {userPos, setUserPos} = useContext(LocationDataContextInit);
   
   const [name, setName] = useState("");
   const [type, setType] = useState("");
@@ -150,10 +154,15 @@ function EditBusinessSetting(props) {
   const [isLoading,setLoading]=useState(false);
 
 
-  const [mapCenter, setMapCenter] = useState({
-    lat: 0,
-    lng: 0
+//   const [mapCenter, setMapCenter] = useState({
+//     lat: 0,
+//     lng: 0
 
+// });
+
+const [mapCenter, setMapCenter] = useState({
+  lat: userPos.lat,
+  lng: userPos.long
 });
 
 
@@ -256,8 +265,8 @@ const buss_data={
   contacts:buss_contacts,
 
   address_line_1:address_line_1,
-  latitude:latitude,
-  longitude:longitude,
+  latitude:mapCenter.lat,
+  longitude:mapCenter.lng,
   city:city,
   state:state,
   country:country,
