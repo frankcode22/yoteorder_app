@@ -19,7 +19,7 @@ export const LocationDataContextInitProvider = ({ children }) => {
     const [status, setStatus] = useState(null);
 
     const [search, setSearch] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
+   
 
    
 

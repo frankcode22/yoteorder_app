@@ -22,6 +22,11 @@ export const DataProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
 
 
+   
+
+
+   
+
     useEffect(()=>{
 
 
@@ -58,14 +63,28 @@ export const DataProvider = ({ children }) => {
 
             console.log("MY BUSINESS DETAILS FROM THE CONTEXT"+response.data)
 
+
+            if(response.data.my_buss!=null){
+
+            localStorage.setItem("business_set", true);
+            setBusinessDetails(response.data)
+
+            }
+            else{
+                localStorage.setItem("business_set", false);
+
+            }
+
+
+
            
-            setTimeout(() => {
+            // setTimeout(() => {
 
               
-                setBusinessDetails(response.data)
+            //     setBusinessDetails(response.data)
 
              
-            }, 1000);
+            // }, 1000);
 
             //setSeller_name(response.data.Users.first_name)
             

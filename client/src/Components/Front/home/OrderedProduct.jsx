@@ -44,6 +44,7 @@ function OrderedProduct() {
 
     let { lng } = useParams();
 
+
     const [loginData, setLoginData] = useState(
         localStorage.getItem('loginData')
           ? JSON.parse(localStorage.getItem('loginData'))
@@ -82,17 +83,14 @@ function OrderedProduct() {
 
       
     
-      //const [lat, setLat] = useState("-1.2865605");
-      //const [lng, setLng] = useState("36.9463368");
+    //   const [lat, setLat] = useState("-1.2865605");
+    //   const [lng, setLng] = useState("36.9463368");
 
 
 
       let { string_lng } = useParams();
 
     
-
-    
-
       const [productsList, setProductsList] = useState([]);
   
       const [seller_name, setSeller_name] = useState("");
@@ -130,6 +128,9 @@ function OrderedProduct() {
 
       const [business_contacts, setBusiness_contacts] = useState('');
 
+
+      const [productFound, setProductFound] = useState(false);
+
       
 
       
@@ -157,13 +158,23 @@ function OrderedProduct() {
 
       const [showAlert, setShowAlert] = useState(false);
 
-      
+     
     const [imagePath, setImagePath] = useState("");
+
+
+    const [divToShow, setDivToShow] = useState('');
 
 
       const [show, setShow] = useState(false);
 
+      const [showP, setShowP] = useState(false);
+
+
+      const [showBuyerDetailsModal, setShowBuyerDetailsModal] = useState(false);
+
       const handleClose = () => setShow(false);
+
+      const handleClose_ = () => setShowBuyerDetailsModal(false);
 
       const handleShow = () =>{
 
@@ -187,11 +198,30 @@ function OrderedProduct() {
       }
 
 
+
+      const handleBuyerDetailsModal = () =>{
+
+        setLoading(true)
+
+        setShowBuyerDetailsModal(true);
+      
+        setTimeout(() => {
+
+        setLoading(false)
+
+        // history("/dashboard-customer");
+        // window.location.reload(false);
+
       
 
-      
+        
+    }, 1000);
 
 
+      }
+
+
+    
     
     
       const [serviceId, setServiceId] = useState('');
@@ -225,38 +255,58 @@ function OrderedProduct() {
 
       useEffect(()=>{
 
+
         setIsDivLoading(true);
+
+        //setDivToShow('#Features')
 
 
         console.log("YOUR ITEM IS"+ordered_item)
 
         console.log("YOUR NEW POSITION IS "+position)
 
-        
 
-     
-
-
-     
+       
 
   
    
 
   // axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
   
-            axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}/${lat}/${lng}`).then((response) => {
+    axios.get(`https://yoteorder-server.herokuapp.com/product/search_geoloc/${pname}/${lat}/${lng}`).then((response) => {
 
-           
+        setShowP(true);
+
+       
+
+       
+
 
          
             setTimeout(() => {
                 setProductsList(response.data.item_list);
 
+                console.log("THIS IS YOUR SEARCH DETAILS "+response.data.item_list)
+
                 setImagePath(response.data.imagePath)
+
+
+                if( response.data.item_list==''){
+                    setProductFound(true)
+                    setShowP(false);
+                }
+
+                setShowP(false);
+
+    
+              
 
                // setSeller_name(response.data.Users);
                 setIsDivLoading(false)   // Hide loading screen 
                // toast.info('Product saved successfully');
+              // history(`/ordered-product/${pname}/${lat}/${lng}/#Features`)
+            
+             
             }, 4000);
 
             //setSeller_name(response.data.Users.first_name)
@@ -267,7 +317,7 @@ function OrderedProduct() {
          });
   
   
-  },[]);
+  },[position]);
 
 
 
@@ -310,6 +360,8 @@ function OrderedProduct() {
     
         setShowAllServicesDiv(false)
         setInitiateOrderProcessing(true)
+
+        handleBuyerDetailsModal()
       
     }, 3000);
   
@@ -320,11 +372,12 @@ function OrderedProduct() {
   
 
   const user_details={
-   first_name:name,
+    name:name,
    last_name:name,
    email:email,
-   phone_no:phone_no,
+   phoneNo:phone_no,
    account_type:"",
+   password:phone_no,
   
     state:"",
     city:null,
@@ -570,6 +623,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
           setShowCustomerDetailsForm(false)
 
           setShowAllServicesDiv(true)
+
+          setShowBuyerDetailsModal(false)
 
           handleShow()
 
@@ -949,7 +1004,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                             <a  onClick={() => {
                                 proceedToBooking(value.id,value.Business.id);
                                   }} class="btn btn-primary" href='#home'><i class="fe fe-shopping-cart mx-2"></i>Order Now</a>
-                            <a href="#" class="btn btn-outline-primary mb-1"><i class="fe fe-x"></i>Remove</a>
+                           
                         </div>
                     </div>
                 </div>
@@ -1044,7 +1099,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     {!isLoading && 
     <a  onClick={() => {
         checkOutAndBook()
-      }} class="btn btn-primary" href='#home'><i class="fa fa-check" data-bs-toggle="tooltip" title="" data-bs-original-title="fa fa-check" aria-label="fa fa-check"></i>Confirm Now</a>
+      }} class="btn btn-primary" href='#home'><i class="fa fa-check" data-bs-effect="effect-flip-vertical" title="" data-bs-original-title="fa fa-check" aria-label="fa fa-check"></i>Confirm Now</a>
 
     } 
 
@@ -1141,7 +1196,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 </div>
 
 <div class="row justify-content-end">
-  <div class="col-sm-12">
+{/**  <div class="col-sm-12">
 
   {!isLoading && <button type="submit" onClick={makeOrder} class="btn btn-primary">Place Order</button>
 
@@ -1159,7 +1214,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     <button type="reset" onClick={() => {
       cancelSelectedService();
     }} class="btn btn-label-secondary">Cancel</button>
-  </div>
+  </div>*/}
+ 
 </div>
 </form>
 </div>
@@ -1343,79 +1399,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     </Helmet>
 
 
-    <div class="switcher-wrapper">
-    <div class="demo_changer">
-        <div class="form_holder sidebar-right1">
-            <div class="row">
-                <div class="predefined_styles">
-                    <div class="swichermainleft text-center">
-                        <div class="p-3 d-grid gap-2">
-                            <a href="/" class="btn ripple btn-primary mt-0">View Demo</a>
-                            <a href="#"
-                                class="btn ripple btn-secondary">Buy Now</a>
-                            <a href="/" class="btn ripple btn-pink">Our
-                                Portfolio</a>
-                        </div>
-                    </div>
-                    <div class="swichermainleft">
-                        <h4>LTR and RTL VERSIONS</h4>
-                        <div class="skin-body">
-                            <div class="switch_section">
-                                <div class="switch-toggle d-flex">
-                                    <span class="me-auto">LTR Version</span>
-                                    <p class="onoffswitch2"><input type="radio" name="onoffswitch7"
-                                            id="myonoffswitch23" class="onoffswitch2-checkbox" checked/>
-                                        <label for="myonoffswitch23" class="onoffswitch2-label"></label>
-                                    </p>
-                                </div>
-                                <div class="switch-toggle d-flex mt-2">
-                                    <span class="me-auto">RTL Version</span>
-                                    <p class="onoffswitch2"><input type="radio" name="onoffswitch7"
-                                            id="myonoffswitch24" class="onoffswitch2-checkbox"/>
-                                        <label for="myonoffswitch24" class="onoffswitch2-label"></label>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swichermainleft">
-                        <h4>Light Theme Style</h4>
-                        <div class="skin-body">
-                            <div class="switch_section">
-                                <div class="switch-toggle d-flex">
-                                    <span class="me-auto">Light Theme</span>
-                                    <p class="onoffswitch2"><input type="radio" name="onoffswitch1"
-                                            id="myonoffswitch1" class="onoffswitch2-checkbox" checked/>
-                                        <label for="myonoffswitch1" class="onoffswitch2-label"></label>
-                                    </p>
-                                </div>
-                                <div class="switch-toggle d-flex mt-2">
-                                    <span class="me-auto">Dark Theme</span>
-                                    <p class="onoffswitch2"><input type="radio" name="onoffswitch1"
-                                            id="myonoffswitch2" class="onoffswitch2-checkbox"/>
-                                        <label for="myonoffswitch2" class="onoffswitch2-label"></label>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swichermainleft">
-                        <h4>Reset All Styles</h4>
-                        <div class="skin-body">
-                            <div class="switch_section my-4">
-                                <button class="btn btn-danger btn-block" onclick="localStorage.clear();
-                                        document.querySelector('html').style = '';
-                                        resetData() ;" type="button">Reset All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    
+
 
 
 
@@ -1454,7 +1438,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                 <div class="collapse navbar-collapse bg-white px-0" id="navbarSupportedContent-4">
                     
                     <div class="header-nav-right p-5">
-                        <a href="/signup" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
+                        <a href="/get-started" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
                             >New User
                         </a>
                         {/*   <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto"> */}
@@ -1514,7 +1498,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                         </li>
                     </ul>
                     <div class="header-nav-right d-none d-lg-flex">
-                        <a href="/signup"
+                        <a href="/get-started"
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
                             target="_blank">Get Started
                         </a>
@@ -1633,6 +1617,28 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
             <h3 class="card-title">Best Sellers Around You!!</h3>
         </div>
 
+      {productFound &&
+
+        <div class="col-md-12  col-xl-12">
+        <div class="card border">
+            <div class="card-header">
+                <h3 class="card-title card-alert alert alert-danger mb-0 ">Product not found</h3>
+                <div class="card-options">
+                    <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                    <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                Sorry no vendor selling  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{pname}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
+                 in your area. However, your search has been captured and our team will enroll vendors on your area within 72 hours.
+            </div>
+        </div>
+    </div>
+
+    }
+        
+
         
 
     
@@ -1660,6 +1666,42 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
 
+<Modal class="modal fade" id="modaldemo8" show={showP}>
+
+<Modal.Header>
+  <Modal.Title>Almost Done</Modal.Title>
+</Modal.Header>
+<Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+<div class="progress progress-md mb-3">
+                                                <div class="progress-bar progress-bar-indeterminate bg-blue-1"></div>
+                                            </div>
+
+
+<h4 class="text-success tx-semibold">Welcome To PataMtaani!</h4>
+<p class="mg-b-20 mg-x-20">Scanning your area to get available vendors...</p>
+
+
+
+  
+
+</Modal.Body>
+<Modal.Footer>
+
+{/* <Button variant="secondary" onClick={handleClose}>
+    Close
+  </Button>
+  <Button variant="primary" onClick={handleClose}>
+    Save Changes
+  </Button> */}
+ 
+</Modal.Footer>
+</Modal>
+
+
+
+
 
 <Modal class="modal fade" id="modaldemo8" show={show}>
 
@@ -1683,6 +1725,105 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 </Modal.Body>
 <Modal.Footer>
+
+{/* <Button variant="secondary" onClick={handleClose}>
+    Close
+  </Button>
+  <Button variant="primary" onClick={handleClose}>
+    Save Changes
+  </Button> */}
+ 
+</Modal.Footer>
+</Modal>
+
+
+
+<Modal class="modal fade" id="modaldemo8" show={showBuyerDetailsModal}>
+
+<Modal.Header>
+  <Modal.Title>Your Details and Contacts</Modal.Title>
+</Modal.Header>
+<Modal.Body class="modal-body">
+
+
+<form>
+<div class="row mb-3">
+
+  <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Your Name</label>
+  <div class="col-sm-10">
+    <div class="input-group input-group-merge">
+      <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
+      <input type="text" class="form-control" id="basic-icon-default-fullname"  
+      
+      onChange={(event) => {
+        setName(event.target.value);
+      }} 
+
+      placeholder='eg. Jane Masinde'
+      
+      aria-describedby="basic-icon-default-fullname2"/>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-3">
+  <label class="col-sm-2 col-form-label" for="basic-icon-default-email">Email</label>
+  <div class="col-sm-10">
+    <div class="input-group input-group-merge">
+   
+      <input type="text" id="basic-icon-default-email" class="form-control"
+      onChange={(event) => {
+        setEmail(event.target.value);
+      }}
+
+      placeholder='eg. jane@gmail.com'
+      
+      aria-describedby="Eg.mike20@gmail.com"/>
+     
+    </div>
+    <div class="form-text"> You can use letters, numbers &amp; periods </div>
+  </div>
+</div>
+<div class="row mb-3">
+  <label class="col-sm-2 form-label" for="basic-icon-default-phone">Phone No</label>
+  <div class="col-sm-10">
+    <div class="input-group input-group-merge">
+      <span id="basic-icon-default-phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
+      <input type="text" id="basic-icon-default-phone" class="form-control phone-mask"
+      onChange={(event) => {
+        setPhone_no(event.target.value);
+      }}
+      
+      placeholder="eg. 0713876543" aria-label="eg. 0713876543" aria-describedby="basic-icon-default-phone2"/>
+    </div>
+  </div>
+</div>
+
+
+</form>
+
+
+
+
+
+
+  
+
+</Modal.Body>
+<Modal.Footer class="modal-footer">
+
+
+{!isLoading && <button type="submit" onClick={makeOrder} class="btn btn-primary">Place Order</button>
+
+} 
+{isLoading &&
+  
+
+    <button class="btn btn-primary my-1" type="button" disabled="">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Preparing Your Order....
+</button>
+} <button class="btn btn-light" onClick={handleClose_} data-bs-dismiss="modal">Close</button>
 
 {/* <Button variant="secondary" onClick={handleClose}>
     Close
@@ -2296,20 +2437,20 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
 
-<script type="text/jsx" src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
 
 
-<script type="text/jsx" src="/assets/plugins/bootstrap/js/popper.min.js"></script>
-<script type="text/jsx" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/plugins/bootstrap/js/popper.min.js"></script>
+<script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 
-<script type="text/jsx" src="/assets/js/jquery.sparkline.min.js"></script>
+<script src="/assets/js/jquery.sparkline.min.js"></script>
 
 
-<script type="text/jsx" src="/assets/js/sticky.js"></script>
+<script src="/assets/js/sticky.js"></script>
 
 
-<script type="text/jsx" src="/assets/js/circle-progress.min.js"></script>
+<script src="/assets/js/circle-progress.min.js"></script>
 
 
 <script src="/assets/plugins/peitychart/jquery.peity.min.js"></script>

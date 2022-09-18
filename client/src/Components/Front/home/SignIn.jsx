@@ -25,8 +25,8 @@ function SignIn() {
         const data = { username: username, password: password };
     
         setLoading(true);
-      // axios.post("http://localhost:3001/users/login", data).then((response) => {
-        axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((response) => {
+       axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((response) => {
+        //axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((response) => {
           if (response.data.error) {
             alert(response.data.error);
             setLoading(false);
@@ -181,7 +181,7 @@ function SignIn() {
                                                 
                                               </div>
                                         <div class="text-center pt-3">
-                                            <p class="text-dark mb-0">Not a member?<a href="/signup" class="text-primary ms-1">Sign UP</a></p>
+                                            <p class="text-dark mb-0">Not a member?<a href="/get-started" class="text-primary ms-1">Sign UP</a></p>
                                         </div>
                                         <label class="login-social-icon"><span>Login with Social</span></label>
                                         <div class="d-flex justify-content-center">

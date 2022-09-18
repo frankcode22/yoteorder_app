@@ -534,63 +534,7 @@ return (
                                     </div>
                                 </div>
                             </div>
-                            <div class="card border p-0 shadow-none">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="media mt-0">
-                                            <div class="media-user me-2">
-                                                <div class=""><img alt="" class="rounded-circle avatar avatar-md" src="../assets/images/users/16.jpg"/></div>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mb-0 mt-1">Peter Hill</h6>
-                                                <small class="text-muted">Sep 24 2019, 09:14am</small>
-                                            </div>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="dropdown show">
-                                                <a class="new option-dots" href="JavaScript:void(0);" data-bs-toggle="dropdown">
-                                                    <span class=""><i class="fe fe-more-vertical"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="javascript:void(0)">Edit Post</a>
-                                                    <a class="dropdown-item" href="javascript:void(0)">Delete Post</a>
-                                                    <a class="dropdown-item" href="javascript:void(0)">Personal Settings</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4">
-                                        <div class="d-flex">
-                                            <a href="gallery.html" class="w-30 m-2"><img src="../assets/images/media/26.jpg" alt="img" class="br-5"/></a>
-                                            <a href="gallery.html" class="w-30 m-2"><img src="../assets/images/media/23.jpg" alt="img" class="br-5"/></a>
-                                            <a href="gallery.html" class="w-30 m-2"><img src="../assets/images/media/21.jpg" alt="img" class="br-5"/></a>
-                                        </div>
-                                        <h4 class="fw-semibold mt-3">There is nothing more beautiful.</h4>
-                                        <p class="mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="card-footer user-pro-2">
-                                    <div class="media mt-0">
-                                        <div class="media-user me-2">
-                                            <div class="avatar-list avatar-list-stacked">
-                                               
-                                                <span class="avatar brround text-primary">+28</span>
-                                            </div>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="mb-0 mt-2 ms-2">28 people like your photo</h6>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="d-flex mt-1">
-                                                <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-heart"></i></span></a>
-                                                <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-message-square"></i></span></a>
-                                                <a class="new text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-share-2"></i></span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
                         <div class="col-xl-3">
                             <div class="card">

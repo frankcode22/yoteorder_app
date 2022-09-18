@@ -1,4 +1,6 @@
 
+import { lazy, Suspense } from 'react';
+
 import { BrowserRouter as Router, Route, Routes,Switch, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
@@ -10,7 +12,7 @@ import PageNotFound from "./pages/PageNotFound";
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect,useContext } from "react";
 import axios from "axios";
-import Homepage from "./Components/Front/home/Homepage";
+//import Homepage from "./Components/Front/home/Homepage";
 import SignIn from "./Components/Front/home/SignIn";
 import AdminDashboard from "./Components/Dashboards/admin/AdminDashboard";
 import OrderedProduct from "./Components/Front/home/OrderedProduct";
@@ -31,6 +33,9 @@ import { OrderDetailsDataProvider } from "./helpers/OrderDetailsContext";
 import { LocationDataDataProvider } from "./helpers/LocationDataContext";
 import { LocationDataContextInitProvider } from "./helpers/LocationDataContextInit";
 
+const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
+//const Products = lazy(() => import('./Products'));
+
 
 
 function App() {
@@ -50,7 +55,7 @@ function App() {
 
   useEffect(() => {
     axios
-  .get("https://yoteorder-server.herokuapp.com/users/auth", {
+   .get("https://yoteorder-server.herokuapp.com/users/auth", {
      // .get("http://localhost:3001/users/auth",{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
@@ -101,7 +106,9 @@ function App() {
     <LocationDataContextInitProvider>
        
     <Router>
-  
+
+    
+    <Suspense fallback={<div>Loading...</div>}>
     <Routes>
      
         <Route path="/dashboard" element={ <AdminDashboard/>}/>
@@ -130,12 +137,21 @@ function App() {
 
         <Route path="/edit-business-setting/:id" element={ <EditBusinessSetting/>}/>
 
-
+  
        
     </Routes>
 
+    </Suspense>
+
+  
+
     <div>
-      
+    <Suspense fallback={<div><div class="dimmer active">
+    <div class="spinner1">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div></div>}>
       
     <Routes>
    
@@ -144,16 +160,19 @@ function App() {
         <Route path="/signin" element={ <SignIn/>} />
 
 
-        <Route path="/signup" element={ <SignUp/>} />
+        <Route path="/get-started" element={ <SignUp/>} />
 
 
 
-        <Route path="/ordered-product/:pname/:lat/:lng" element={ <OrderedProduct/>} />
+        <Route  path="/ordered-product/:pname/:lat/:lng"  element={ <OrderedProduct/>} />
+
+        {/** <Route path="/ordered-product/:pname" element={ <OrderedProduct/>} />*/}
 
         <Route path="/order-now" element={ <BookingPage/>}/>
 
 
         </Routes>
+        </Suspense>
        
         </div>
        

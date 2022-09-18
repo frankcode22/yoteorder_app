@@ -1,0 +1,5 @@
+Username frankcode
+password:#Code;123
+ Server name:patamtaanisqlserver
+
+Resource group: patamtaani

@@ -179,6 +179,13 @@ function ProductSetting(props) {
   //product_image=JSON.parse(product_image)
 
 
+  const [fileInputState, setFileInputState] = useState('');
+  const [previewSource, setPreviewSource] = useState('');
+  const [selectedFile, setSelectedFile] = useState();
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+
+
 
 
   useEffect(()=>{
@@ -293,6 +300,24 @@ function ProductSetting(props) {
 
 
 },[productsList1]);
+
+
+
+const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    previewFile(file);
+    setSelectedFile(file);
+    setFileInputState(e.target.value);
+};
+
+
+const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+        setPreviewSource(reader.result);
+    };
+};
 
 
 
@@ -516,7 +541,7 @@ const getAllMyProducts=()=>{
 }
 
 
-const openSelectedProduct=(pId)=>{
+const openSelectedProduct=(pId,e)=>{
 
     //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
      axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
@@ -534,6 +559,12 @@ const openSelectedProduct=(pId)=>{
 
          setType(response.data.category)
          setbusinessId(response.data.BusinessId)
+
+
+         
+
+      
+         
  
  
         
@@ -732,7 +763,7 @@ const openSelectedProduct=(pId)=>{
         
         let formData = new FormData();
         formData.append('businessId', businessId);
-        formData.append('file',image);
+        formData.append('file',selectedFile);
         formData.append('name', name);
 
 
@@ -782,7 +813,8 @@ const openSelectedProduct=(pId)=>{
                 unit_of_measure:unit_of_measure,
                 latitude:lat,
                 longitude:lng,
-                cloudinary_url:data.cloudinary_url,
+                //cloudinary_url:data.cloudinary_url,
+                cloudinary_url:data.imagePath,
                 UserId:userId,
                 BusinessId:businessId,
             },
@@ -1067,8 +1099,9 @@ const openSelectedProduct=(pId)=>{
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="card-title">Menu</div>
-                                                <a class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                                <span class="icons"><i class="ri-star-line"></i></span> Products <span class="ms-auto badge bg-success bradius">03</span></a>
+                                                {/**<a class="btn btn-primary off-canvas" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                                <span class="icons"><i class="ri-star-line"></i></span> Products <span class="ms-auto badge bg-success bradius">03</span></a> */}
+                                                
                                             </div>
                                             <div class="card-body">
                                                 <ul class="list-group">
@@ -1153,7 +1186,7 @@ const openSelectedProduct=(pId)=>{
 
                                       
                                     </div>
-                                    <div class="tab-pane" id="tab-12">
+                                    {/**  <div class="tab-pane" id="tab-12">
                                         <div class="row">
                                             <div class="col-xl-12 col-lg-12 col-md-12">
                                                 <div class="card overflow-hidden">
@@ -1523,7 +1556,8 @@ const openSelectedProduct=(pId)=>{
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
+                                  
                                 </div>
                               
                             </div>
@@ -1677,14 +1711,22 @@ const openSelectedProduct=(pId)=>{
                                         data-allow-clear="true">
                                         <option value="">Select Unit Of Measure</option>
                                         <option value="Kgs">Kgs</option>
-                                        <option value="Litre">Litres</option>
-                                        <option value="Plate">Plates</option>
-
                                         <option value="Item">Item</option>
+                                      
 
                                         <option value="Piece">Piece</option>
+                                        <option value="Litre">Litres</option>
                                         <option value="Package">Package</option>
                                         <option value="Order">Order</option>
+                                        
+                                      
+                                        <option value="Plate">Plates</option>
+
+                                        <option value="foot">foot</option>
+
+                                        <option value="mitre">mitre</option>
+
+                                       
 
                                         <option value="Agreement">Agreement</option>
 
@@ -1762,16 +1804,13 @@ const openSelectedProduct=(pId)=>{
                               
                            
             
-            
-                                <div class="form-group">
+            {/** <div class="form-group">
                                 <label class="form-label mt-0">Default file input example</label>
                                 <input class="form-control" type="file" id={idx} onChange={handleChange}/>
                                 </div>
             
             
-                                <input type="hidden" value={businessId}  onChange={(event) => {
-                                    setbusinessId(event.target.value);
-                                  }} placeholder="bedrooms"/>
+                                
             
                                 
                          
@@ -1792,7 +1831,32 @@ const openSelectedProduct=(pId)=>{
                                     />
                                 ) : null
                             }
+                         */}
+                               
+
+
+                            <div class="form-group">
+                            <label class="form-label mt-0">Upload Product Photo</label>
+                            <input class="form-control" type="file"
+                            name="image"
+                            onChange={handleFileInputChange}
+                            value={fileInputState}
+                           
+                        /> 
                         
+                        <input type="hidden" value={businessId}  onChange={(event) => {
+                            setbusinessId(event.target.value);
+                          }} placeholder="bussId"/>
+                            </div>
+
+
+                            {previewSource && (
+                                <img
+                                    src={previewSource}
+                                    alt="chosen"
+                                    style={{ height: '300px' }}
+                                />
+                            )}
                                         
                                         
                                         
@@ -2200,6 +2264,10 @@ const openSelectedProduct=(pId)=>{
         
         
                                 </div>
+
+
+
+                            
         
         
         
@@ -2214,10 +2282,7 @@ const openSelectedProduct=(pId)=>{
         
         
                             
-    
-        
-        
-                            <div class="form-group">
+                          <div class="form-group">
                             <label class="form-label mt-0">Default file input example</label>
                             <input class="form-control" type="file" id={idx} onChange={handleChange}/>
                             </div>
@@ -2246,6 +2311,9 @@ const openSelectedProduct=(pId)=>{
                                 />
                             ) : null
                         }
+        
+        
+                          
                     
 
 

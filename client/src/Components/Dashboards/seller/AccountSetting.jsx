@@ -1,5 +1,8 @@
+
+
+import { lazy, Suspense } from 'react';
 import React from 'react'
-import { useEffect,useState,useContext} from 'react';
+import { useEffect,useState,useContext,useCallback} from 'react';
 
 
 
@@ -28,6 +31,9 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 import LocationDataContextInit from '../../../helpers/LocationDataContextInit';
+//import SearchPlaces from './SearchPlaces';
+
+const SearchPlaces = lazy(() => import('./SearchPlaces'));
 
 function AccountSetting(props) {
 
@@ -163,6 +169,14 @@ function AccountSetting(props) {
     const [customersCount, setCustomersCount] = useState(0);
 
 
+    const [fileInputState, setFileInputState] = useState('');
+  const [previewSource, setPreviewSource] = useState('');
+  const [selectedFile, setSelectedFile] = useState();
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+
+
+
     
 
     const [isLoading,setLoading]=useState(false);
@@ -201,9 +215,25 @@ function AccountSetting(props) {
   let history = useNavigate();
 
 
+ 
+
+ 
+
+ 
+
+
+
 
   useEffect(()=>{
 
+    let buss_status=localStorage.getItem('business_set')
+
+     console.log("BUSS STATUS",buss_status)
+    
+    setIsBusinessSet(buss_status)
+
+
+   
 
 
      //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
@@ -350,6 +380,24 @@ function AccountSetting(props) {
 
 
 
+const handleFileInputChange = (e) => {
+  const file = e.target.files[0];
+  previewFile(file);
+  setSelectedFile(file);
+  setFileInputState(e.target.value);
+};
+
+
+const previewFile = (file) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onloadend = () => {
+      setPreviewSource(reader.result);
+  };
+};
+
+
+
 
 
 const handleAddressChange = address => {
@@ -451,6 +499,19 @@ const buss_data={
           try {
         
         axios.post("https://yoteorder-server.herokuapp.com/business/bussinfor",buss_data).then((response)=>{
+
+
+       // setBusinessDetails(b.map(post => post.id === id ? { ...response.data } : post));
+
+       const newDetails = response.data;
+       setBusinessDetails(newDetails ?{ ...response.data } : businessDetails);
+
+
+       setBussSetup(true)
+
+      // localStorage.setItem("business_set", true);
+
+       setbusiness_name(response.data.business_name)
     
         console.log("The response is"+response.data)
 
@@ -466,8 +527,12 @@ const buss_data={
         setbusinessId(response.data.id)
 
 
-        const newDetails = response.data;
-        setBusinessDetails(newDetails);
+       
+
+
+       // console.log("THE NEW BUSINESS OBJECT AFTER SETTING UP MY BUSS IS "+businessDetails)
+
+
 
     
            
@@ -526,7 +591,7 @@ const buss_data={
     
     let formData = new FormData();
     formData.append('businessId', businessId);
-    formData.append('file',image);
+    formData.append('file',selectedFile);
     
 
     setUploding(true);
@@ -950,44 +1015,54 @@ const openSelectedStaff=(sId)=>{
        
         <div class="row">
             <div class="col-xl-3">
+                
                 <div class="card">
-                    <div class="list-group list-group-transparent mb-0 mail-inbox pb-3">
-                        <div class="mt-4 mb-4 mx-4 text-center">
-                        <div class="col-sm-6 col-md-6 col-xl-3">
-                       
-
-                       
-                    </div>
-                            <a href="#" class="btn btn-primary btn-lg d-grid">Business</a>
-                            
+                <div class="card-body">
+                    <div class="list-group list-group-transparent mb-0 file-manager file-manager-border">
+                        <h4>General</h4>
+                        <div>
+                            <a href="javascript:void(0);" onClick={showBusinessSetUpSection} class="list-group-item  d-flex align-items-center px-0 border-top">
+                                <i class="fe fe-user fs-18 me-2 text-success p-2"></i>Account
+                            </a>
                         </div>
-                        <a href="#" onClick={showBusinessSetUpSection}   class="list-group-item d-flex align-items-center active mx-4">
-                            <span class="icons"><i class="side-menu__icon fe fe-home"></i></span> My Business <span class="ms-auto badge bg-secondary bradius">14</span>
-                           
-                        </a>
 
-                        <a class="list-group-item d-flex align-items-center mx-4" href='#' onClick={showServicesSection}>
-                        <span><i class="fe fe-calendar me-1"></i></span>Services
-                        
-                         </a>
- 
- 
-                         <a class="list-group-item d-flex align-items-center mx-4" href='#' onClick={showStaffSection}>
-                         <span><i  class="fe fe-user me-1"></i></span>Staff
-                         
-                          </a>
-                        <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                            <span class="icons"><i class="ri-mail-open-line"></i></span> Drafts
+                        <div>
+                        <a href="javascript:void(0);"  onClick={showServicesSection} class="list-group-item  d-flex align-items-center px-0">
+                            <i class="fe fe-calendar fs-18 me-2 text-secondary p-2"></i>Services
                         </a>
+                       </div> 
 
-                        
-                        <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                            <span class="icons"><i class="ri-star-line"></i></span> Starred <span class="ms-auto badge bg-success bradius">03</span>
-                        </a>
+                       <div>
+                       <a href="javascript:void(0);" onClick={showStaffSection} class="list-group-item  d-flex align-items-center px-0">
+                           <i class="fe fe-user fs-18 me-2 text-secondary p-2"></i> Staff
+                       </a>
+                   </div>
 
+                        <div>
+                            <a href="javascript:void(0);" class="list-group-item  d-flex align-items-center px-0">
+                                <i class="fe fe-bell fs-18 me-2 text-secondary p-2"></i>Notifications
+                            </a>
+                        </div>
+                        <div>
+                            <a href="javascript:void(0);" class="list-group-item  d-flex align-items-center px-0">
+                                <i class="fe fe-eye fs-18 me-2 text-primary p-2"></i> Appearances
+                            </a>
+                        </div>
+                       
+                        <div>
+                            <a href="javascript:void(0);" class="list-group-item  d-flex align-items-center px-0">
+                                <i class="fe fe-headphones fs-18 me-2 text-info p-2"></i> Help & Support
+                            </a>
+                        </div>
+                       
+                        <div>
+                            <a href="javascript:void(0);" class="list-group-item  d-flex align-items-center px-0">
+                                <i class="fe fe-help-circle fs-18 me-2 text-danger p-2"></i> About
+                            </a>
+                        </div>
                     </div>
-                   
                 </div>
+            </div>
             </div>
             {showBusinessSetupDiv && <div class="col-xl-9">
             <div class="card">
@@ -1341,48 +1416,62 @@ const openSelectedStaff=(sId)=>{
 
                 <div>
   <div id='googleMaps'>
-    <PlacesAutocomplete
-      value={address}
-      onChange={handleAddressChange}
-      onSelect={handleSelect}
-    >
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div>
-          <input
-            {...getInputProps({
-              placeholder: 'Search Places ...',
-              className: 'multisteps-form__input form-control',
-            })}
-          />
+
+  <Suspense fallback={<div>Loading...</div>}>
+
+  {/**<SearchPlaces></SearchPlaces> */}
+
+
+
+  {!userPos.lat==null &&      <PlacesAutocomplete
+    value={address}
+    onChange={handleAddressChange}
+    onSelect={handleSelect}
+  >
+    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+      <div>
+        <input
+          {...getInputProps({
+            placeholder: 'Search Places ...',
+            className: 'multisteps-form__input form-control',
+          })}
+        />
+
+      
 
         
-
-          
-          <div className="autocomplete-dropdown-container">
-            {loading && <div>Loading...</div>}
-            {suggestions.map(suggestion => {
-              const className = suggestion.active
-                ? 'suggestion-item--active'
-                : 'suggestion-item';
-              // inline style for demonstration purpose
-              const style = suggestion.active
-                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                : { backgroundColor: '#ffffff', cursor: 'pointer' };
-              return (
-                <div
-                  {...getSuggestionItemProps(suggestion, {
-                    className,
-                    style,
-                  })}
-                >
-                  <span>{suggestion.description}</span>
-                </div>
-              );
-            })}
-          </div>
+        <div className="autocomplete-dropdown-container">
+          {loading && <div>Loading...</div>}
+          {suggestions.map(suggestion => {
+            const className = suggestion.active
+              ? 'suggestion-item--active'
+              : 'suggestion-item';
+            // inline style for demonstration purpose
+            const style = suggestion.active
+              ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+              : { backgroundColor: '#ffffff', cursor: 'pointer' };
+            return (
+              <div
+                {...getSuggestionItemProps(suggestion, {
+                  className,
+                  style,
+                })}
+              >
+                <span>{suggestion.description}</span>
+              </div>
+            );
+          })}
         </div>
-      )}
-    </PlacesAutocomplete>
+      </div>
+    )}
+  </PlacesAutocomplete>}
+
+
+
+
+
+
+    </Suspense>
 
    <div class="col" style={{height:"400px"}}>
 
@@ -2781,7 +2870,8 @@ const openSelectedStaff=(sId)=>{
               <div class="col mb-3">
 
 
-              <div class="form-group">
+
+              {/** <div class="form-group">
               <label class="form-label mt-0">Upload profile photo</label>
               <input class="form-control" type="file" onChange={handleChange}/>
               </div>
@@ -2803,7 +2893,34 @@ const openSelectedStaff=(sId)=>{
                         className="img-thumbnail img-fluid uploaded-img ml-3"
                     />
                 ) : null
-            }
+            } */}
+
+
+             
+
+
+            <div class="form-group">
+            <label class="form-label mt-0">Upload Product Photo</label>
+            <input class="form-control" type="file"
+            name="image"
+            onChange={handleFileInputChange}
+            value={fileInputState}
+           
+        /> 
+        
+        <input type="hidden" value={businessId}  onChange={(event) => {
+            setbusinessId(event.target.value);
+          }} placeholder="bussId"/>
+            </div>
+
+
+            {previewSource && (
+                <img
+                    src={previewSource}
+                    alt="chosen"
+                    style={{ height: '300px' }}
+                />
+            )}
         
 
 

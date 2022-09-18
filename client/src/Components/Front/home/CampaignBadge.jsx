@@ -11,12 +11,12 @@ export default function CampaignBadge() {
                         <div class="col-lg-9">
                             <h1 class="fw-semibold text-white">Get Started With PataMtaani.
                               </h1>
-                            <p class="text-white">The PataMtaani is both a web and a mobile app which provides a modern platform for vendors to sell, their
+                            <p class="text-white">The Pata Mtaani is both a web and a mobile app which provides a modern platform for vendors to sell, their
                             products in their areas of residence and immediate neighborhood.
                             </p>
                         </div>
                         <div class="col-lg-3 text-end my-auto">
-                            <a href="/signup"
+                            <a href="/get-started"
                                 target="_blank"
                                 class="btn btn-pink w-lg pt-2 pb-2"><i
                                     class="fe fe-shopping-cart me-2"></i>Start Now

@@ -1,12 +1,12 @@
-import React, { useCallback,useState,useEffect,useContext } from 'react';
+import { lazy, Suspense } from 'react';
 
-import {useNavigate} from 'react-router-dom'
+import React, { useCallback,useState,useEffect,useContext } from 'react';
 
 import axios from 'axios';
 
-import {Link} from 'react-router-dom'
-import HowToGetStarted from './HowToGetStarted'
-import CampaignBadge from './CampaignBadge';
+import {Link,useNavigate} from 'react-router-dom'
+//import HowToGetStarted from './HowToGetStarted'
+//import CampaignBadge from './CampaignBadge';
 
 import ContentLoader from '../../../utils/ContentLoader';
 
@@ -18,6 +18,26 @@ import DataContext from '../../../helpers/DataContext';
 
 import LocationDataContext from '../../../helpers/LocationDataContext';
 import LocationDataContextInit from '../../../helpers/LocationDataContextInit';
+import { UsePositions } from './geo';
+import { usePosition } from './usePosition';
+
+import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
+
+import { Modal, Button } from "react-bootstrap";
+
+import 'react-toastify/dist/ReactToastify.css';
+
+import SearchBar from "./SearchBar";
+import BookData from "../../../Data.json";
+
+const CampaignBadge = lazy(() => import('./CampaignBadge'));
+
+const HowToGetStarted = lazy(() => import('./HowToGetStarted'));
+
+const BestRatedVendors = lazy(() => import('./BestRatedVendors'));
+
+
+
 
 
 function truncate(number, index = 2) {
@@ -27,13 +47,18 @@ function truncate(number, index = 2) {
 
 
 
+
+
 function Homepage() {
 
     const {bussinessList, setBussinessList} = useContext(DataContext);
 
     const {userPos, setUserPos} = useContext(LocationDataContextInit);
 
-    const {position, setPosition} = useContext(LocationDataContext);
+   // const {position, setPosition} = useContext(LocationDataContext);
+
+
+    const {latitude, longitude} = usePosition();
 
 
     const[lat,setLat]=useState('')
@@ -56,6 +81,35 @@ function Homepage() {
     const [isLoading,setLoading]=useState(false);
 
 
+    const [showServicesSearch,setShowServicesSearch]=useState(false);
+
+
+
+
+    const [show, setShow] = useState(false);
+
+    const [showErrorModal, setShowErrorModal] = useState(false);
+
+   
+    const handleShow = () =>{
+
+      setLoading(true)
+
+      setShow(true);
+    
+      setTimeout(() => {
+
+      setLoading(false)
+      setShow(false)
+
+     
+      
+  }, 5000);
+
+
+    }
+
+
 
 
    // console.log("THE AUTHENTICATION STATUS",isAuthenticated)
@@ -64,28 +118,115 @@ function Homepage() {
     useEffect(()=>{
 
 
-     console.log('YOUR INILIALIZING POSITION DATA IS ',userPos)
+        console.log('YOUR INILIALIZING POSITION DATA IS ',userPos)
+
+        console.log("Lat Value is "+latitude)
 
 
-      let lat_val=parseFloat(userPos.lat);
 
-      let lng_val=parseFloat(userPos.long);
 
-        setLat(truncate(lat_val, 2))
+        // let lat_val=parseFloat(userPos.lat);
+  
+        // let lng_val=parseFloat(userPos.long);
+  
+        //   setLat(truncate(lat_val, 2))
+  
+        //   setLng(truncate(lng_val, 2))
 
-        setLng(truncate(lng_val, 2))
+        
+        // let lat_val=parseFloat(latitude);
+  
+        // let lng_val=parseFloat(longitude);
+  
+        //   setLat(truncate(lat_val, 2))
+  
+        //   setLng(truncate(lng_val, 2))
+
+
+
+        //   console.log("Lat value is"+lat)
+
+        //   console.log("Long value is"+lng)
+  
+
+
+  
+          
+  
+          setIsDivLoading(true);
+  
+       
+  
+  
+  
+  
+  
+          if(bussinessList!=null){
+  
+  
+              setTimeout(() => {
+  
+                  setBestList(bussinessList)
+              setIsDivLoading(false)  
+                  
+               
+              }, 3000);
+  
+             
+  
+  
+          }
+          else{
+  
+              setErrorMessage("Unable to fetch your vendors list");
+              setIsDivLoading(false);
+          }
+  
+  
+      {/** // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+             axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+  
+           
+  
+              console.log("BUSSINESS LIST IS"+response.data)
+  
+             
+  
+           
+              setTimeout(() => {
+  
+                  setBestList(response.data)
+  
+                  setIsDivLoading(false)  
+                  
+  
+               
+              }, 3000);
+  
+              //setSeller_name(response.data.Users.first_name)
+              
+          }).catch(() => {
+              setErrorMessage("Unable to fetch your vendors list");
+              setIsDivLoading(false);
+           }); */}
+  
+  
+  
+          // console.log("BUSSINESS LIST IS"+response.data)
+  
+         
+  
+  
+  
+  
+
 
         
 
-        setIsDivLoading(true);
-
-     
+       // setIsDivLoading(true);
 
 
-
-
-
-        if(bussinessList!=null){
+        {/** if(bussinessList!=null){
 
 
             setTimeout(() => {
@@ -104,10 +245,18 @@ function Homepage() {
 
             setErrorMessage("Unable to fetch your vendors list");
             setIsDivLoading(false);
-        }
+        } */}
+
+     
 
 
-    {/** // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+
+
+
+       
+
+
+    {/** // axios.get('http://localhost:3001/business/bestRated').then((response) => {
            axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
 
          
@@ -142,27 +291,161 @@ function Homepage() {
 
 
 
-
-         
   
   
   },[bussinessList]);
 
+
+
+
+
+  const handleSearchOption= async (event) => {
+
+    const selectedOption=event.target.value
+
+    if(selectedOption=='Product'){
+
+        setShowServicesSearch(false)
+
+    }
+    else{
+        setShowServicesSearch(true)
+    }
+    
+
+   
+    //let { data } = await Axios.get(`http://localhost:3001/users/getuser/${selectedUser}`)
+
+
+
+   // console.log("THE RETURNED OBJECT IS"+data)
+
+    
+
+    console.log("THE SELECT OPTION IS "+selectedOption)
+
+
+     
+
+
+   }
+
    
 
 
-         const searchItem = () => {
-    setLoading(true);
+  const searchItem = () => {
+
+   // let lat_val=null
+
+   //console.log("Lat Value is "+latitude)
+
+    if(typeof(latitude) == 'undefined' || latitude== null){
+
+     
+        //toast.warn('Location data not found');
+
+
+        navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+            console.log(`geolocation permission status is ${permissionStatus.state}`);
+            if(permissionStatus.state=='denied'){
+                //alert('Kindly enable your location')
+                setShowErrorModal(true)
+              }
+            permissionStatus.onchange = () => {
+              console.log(`geolocation permission status has changed to ${permissionStatus.state}`);
+
+              
+              
+            };
+          });
+
+
+          setShowErrorModal(true)
+
+        return
+         
+    
+      }
+
+
+     let lat_val=parseFloat(latitude);
+
+  
+     let lng_val=parseFloat(longitude);
+
+    
+    //let lat_val=parseFloat('-1.2865233');
+  
+    //let lng_val=parseFloat('36.9464065');
+
+     let search_lat= truncate(lat_val, 2)
+
+     let search_lng=  truncate(lng_val, 2)
+
+
+
+      console.log("Lat value is"+search_lat)
+
+       console.log("Long value is"+search_lng)
+
+       console.log("Chek check value is"+latitude)
+
+    
+
+   
+
+    if(pname==''){
+
+      
+    
+    // alert("You must enter the item")
+
+    toast.warn('You must enter the search item');
+
+    
+         return
+    
+      }
+
+    // setLoading(true);
+
+
+    setLoading(true)
+
+    setShow(true);
+
+   
+
+  
+    setTimeout(() => {
+
+    setLoading(false)
+    history('/ordered-product/'+pname+'/'+search_lat+'/'+search_lng);
+    setShow(false)
+
    
     
-    setTimeout(() => {
-      setLoading(false);
-      //setAddress(string_lng)
-     // history.push('/search-location-avon-park-florida');
-     history('/ordered-product/'+pname+'/'+lat+'/'+lng);
-    }, 3000);
+}, 5000);
+
+
+
+
+} 
+
+
+const handleClose = () =>{
+    setLoading(false)
+    setShow(false);
+    history('/')
+    window.location.reload(false);
+
+
+
+
     
       };
+
+
 
 
 
@@ -170,96 +453,7 @@ function Homepage() {
           localStorage.setItem('ordered_item', JSON.stringify(pname));
 
 
-    const vendorContentDiv=(
-
-
-        
-        <div class="row row-cols-4 bg-transparent">
-
-        {bestList.map((value, key) => {
-            return (
-
-
-                <div class="col-xl-3 col-sm-6 col-md-6">
-
-             
-                
-                <div class="card border p-0">
-                    <div class="card-header">
-                        <h3 class="card-title">{value.business_name}</h3>
-                        <div class="card-options">
-                            <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                            <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                        </div>
-                    </div>
-                        <a href='#'>
-                            <div class="card-body text-center">
-                                <span class="avatar avatar-xxl brround cover-image" data-bs-image-src="assets/images/users/15.jpg" style={{ background: 'url(assets/images/users/15.jpg)', center: 'center' }}></span>
-                                <h4 class="h4 mb-0 mt-3">{value.User.first_name}</h4>
-                                <p class="card-text">Vendor</p>
-
-
-                                <div class="mb-2 text-warning">
-                                    <i class="fa fa-star text-warning"></i>
-                                    <i class="fa fa-star text-warning"></i>
-                                    <i class="fa fa-star text-warning"></i>
-                                    <i class="fa fa-star text-warning"></i>
-                                    <i class="fa fa-star text-warning"></i>
-                                </div>
-
-                              
-                                <hr/>   
-                              
-                                <div>
-                                <span><i class="fe fe-map-pin fs-20"></i></span><strong>{value.location}</strong>
-                                </div>
-                           
-
-                               
-                                    <div>
-                                    <span><i class="fe fe-phone fs-20"></i></span><strong>{value.contacts} </strong>
-                                    </div>
-                                
-                            </div>
-                        </a>
-                    
-                    <div class="card-footer text-center">
-                        <div class="row user-social-detail">
-                            <div class="social-profile me-4 rounded text-center">
-                                <a href="javascript:void(0)"><i class="fa fa-google"></i></a>
-                            </div>
-                            <div class="social-profile me-4 rounded text-center">
-                                <a href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                            </div>
-                            <div class="social-profile me-4 rounded text-center">
-                                <a href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                
-                
-               
-                
-            </div>
-
-
-            )
-        }
-        )
-
-        }
-      
-  
-       
-      
-      
-    </div>
-
-    )
-
+    
 
 
 
@@ -267,79 +461,9 @@ function Homepage() {
 
   return (
     <div className='app ltr landing-page horizontal'>
+   
 
-    <div class="switcher-wrapper">
-    <div class="demo_changer">
-        <div class="form_holder sidebar-right1">
-            <div class="row">
-                <div class="predefined_styles">
-                    <div class="swichermainleft text-center">
-                        <div class="p-3 d-grid gap-2">
-                            <a href="#" class="btn ripple btn-primary mt-0">View Demo</a>
-                            <a href="#"
-                                class="btn ripple btn-secondary">Buy Now</a>
-                            <a href="#" class="btn ripple btn-pink">Our
-                                Portfolio</a>
-                        </div>
-                    </div>
-                    <div class="swichermainleft">
-                        <h4>LTR and RTL VERSIONS</h4>
-                        <div class="skin-body">
-                            <div class="switch_section">
-                                <div class="switch-toggle d-flex">
-                                    <span class="me-auto">LTR Version</span>
-                                    <p class="onoffswitch2"><input type="radio" name="onoffswitch7"
-                                            id="myonoffswitch23" class="onoffswitch2-checkbox" checked/>
-                                        <label for="myonoffswitch23" class="onoffswitch2-label"></label>
-                                    </p>
-                                </div>
-                                <div class="switch-toggle d-flex mt-2">
-                                    <span class="me-auto">RTL Version</span>
-                                    <p class="onoffswitch2"><input type="radio" name="onoffswitch7"
-                                            id="myonoffswitch24" class="onoffswitch2-checkbox"/>
-                                        <label for="myonoffswitch24" class="onoffswitch2-label"></label>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swichermainleft">
-                        <h4>Light Theme Style</h4>
-                        <div class="skin-body">
-                            <div class="switch_section">
-                                <div class="switch-toggle d-flex">
-                                    <span class="me-auto">Light Theme</span>
-                                    <p class="onoffswitch2"><input type="radio" name="onoffswitch1"
-                                            id="myonoffswitch1" class="onoffswitch2-checkbox" checked/>
-                                        <label for="myonoffswitch1" class="onoffswitch2-label"></label>
-                                    </p>
-                                </div>
-                                <div class="switch-toggle d-flex mt-2">
-                                    <span class="me-auto">Dark Theme</span>
-                                    <p class="onoffswitch2"><input type="radio" name="onoffswitch1"
-                                            id="myonoffswitch2" class="onoffswitch2-checkbox"/>
-                                        <label for="myonoffswitch2" class="onoffswitch2-label"></label>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swichermainleft">
-                        <h4>Reset All Styles</h4>
-                        <div class="skin-body">
-                            <div class="switch_section my-4">
-                                <button class="btn btn-danger btn-block" onclick="localStorage.clear();
-                                        document.querySelector('html').style = '';
-                                        resetData() ;" type="button">Reset All
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    
     
 
 
@@ -379,7 +503,7 @@ function Homepage() {
                 <div class="collapse navbar-collapse bg-white px-0" id="navbarSupportedContent-4">
                     
                     <div class="header-nav-right p-5">
-                        <a href="/signup" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
+                        <a href="/get-started" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
                             >Get Started
                         </a>
                         {/*   <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto"> */}
@@ -437,7 +561,7 @@ function Homepage() {
                         </li>
                     </ul>
                     <div class="header-nav-right d-none d-lg-flex">
-                        <a href="/signup"
+                        <a href="/get-started"
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Get Started
                         </a>
@@ -481,15 +605,25 @@ function Homepage() {
         <div class="row p-0 m-0">
         <div class="form-label mt-4 p-xl-0">What do you need?</div>
 
+
+        
+
         <div class="col-xl-4">
             <div class="form-group">
-                <select class="form-select form-select select2" id="inputGroupSelect01">
+                <select class="form-select form-select select2"
+               
+                                
+                onChange={handleSearchOption}
+                
+                id="inputGroupSelect01">
                         <option value="Product">product</option>
                         <option value="Service">service</option>
                        
                     </select>
             </div>
         </div>
+
+        {!showServicesSearch && 
        
         <div class="col-xl-4">
             <div class="form-group">
@@ -498,6 +632,17 @@ function Homepage() {
                   }} placeholder="Search eg.Pro Gas" type="text"/>
             </div>
         </div>
+
+    }
+
+
+        {showServicesSearch && 
+             <div class="col-xl-4">
+     
+        <SearchBar placeholder="Enter a Service Name..." data={BookData} />
+      </div>}
+
+       
         
         {/* <div class="col-xl-2 px-3 px-xl-1">
             <div class="form-group">
@@ -512,8 +657,17 @@ function Homepage() {
         
 
         <div class="col-xl-2 px-3 px-xl-0">
+
+
         <div class="">
 
+       <button type="submit" onClick={searchItem} class="btn btn-secondary mb-3 btn-block" value="Search"><i class="fe fe-search"></i>Search</button>
+
+    
+
+        </div>
+
+       {/*  <div class="">
 
         {!isLoading && <button type="submit" onClick={searchItem} class="btn btn-secondary mb-3 btn-block" value="Search"><i class="fe fe-search"></i>Search</button>
 
@@ -524,11 +678,100 @@ function Homepage() {
         Searching...
     </button>}
 
-
-
+        </div>*/}
        
-        </div>
+    
     </div>
+    <Modal class="modal fade" id="modaldemo8" show={showErrorModal}>
+
+    <Modal.Header>
+        <Modal.Title>Location Details Error</Modal.Title>
+    </Modal.Header>
+    <Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+
+
+
+    <i class="icon icon-close fs-70 text-danger lh-1 my-4 d-inline-block"></i>
+       
+
+    <h4 class="text-danger mb-20">Error: Cannot access your location!</h4>
+
+
+    <p class="mb-4 mx-4">Kindly enable your location setting to use this app</p>
+
+
+
+    </Modal.Body>
+    <Modal.Footer>
+
+    <button class="btn btn-light" type="reset" onClick={() => {
+      handleClose();
+    }}>Cancel</button>
+
+        {/* <Button variant="secondary" onClick={handleClose}>
+Close
+</Button>
+<Button variant="primary" onClick={handleClose}>
+Save Changes
+</Button> */}
+
+    </Modal.Footer>
+</Modal>
+
+
+
+                                              <Modal class="modal fade" id="modaldemo8" show={show}>
+
+                                                  <Modal.Header>
+                                                      <Modal.Title>Initiating your Search</Modal.Title>
+                                                  </Modal.Header>
+                                                  <Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+
+                                                      <div class="spinner-border text-primary me-2" style={{ width: '3rem', height: '3rem' }} role="status">
+                                                          <span class="visually-hidden">Loading...</span>
+                                                      </div>
+
+
+                                                      <p class="text-center"> <div class="me-4 text-center text-primary">
+                                                          <span><i class="fe fe-map-pin fs-20"></i></span>
+                                                      </div>{latitude} ::{longitude}</p>
+                                                      <h4 class="h4 mb-0 mt-3">Processing..</h4>
+
+                                                      <p class="card-text">Your search for  <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>{pname} <a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span> currently in progress</p>
+
+
+
+
+
+
+                                                  </Modal.Body>
+                                                  <Modal.Footer>
+
+                                                  <button class="btn btn-light" type="reset" onClick={() => {
+                                                    handleClose();
+                                                  }}>Cancel</button>
+
+                                                      {/* <Button variant="secondary" onClick={handleClose}>
+    Close
+  </Button>
+  <Button variant="primary" onClick={handleClose}>
+    Save Changes
+  </Button> */}
+
+                                                  </Modal.Footer>
+                                              </Modal>
+
+
+
+
+
+
     </div>
 
        
@@ -537,7 +780,7 @@ function Homepage() {
 
 
         
-
+  <ToastContainer></ToastContainer>
    
 
 
@@ -566,9 +809,26 @@ function Homepage() {
     <div class="main-container">
         <div class="">
 
+     
 
+        
+        
+      
+        
+
+
+
+        <Suspense fallback={<div>Loading...</div>}>
+
+          
         <HowToGetStarted/>
 
+
+
+        </Suspense>
+
+
+      
 
 
         <div class="section pb-0">
@@ -581,9 +841,24 @@ function Homepage() {
 
 
 
+            <Suspense fallback={  <div class="dimmer active">
+            <div class="spinner2">
+                <div class="cube1"></div>
+                <div class="cube2"></div>
+            </div>
+        </div>}>
 
-            
-            {isDivLoading ? <DivLoader/>: vendorContentDiv}
+          
+
+          
+            <BestRatedVendors></BestRatedVendors>
+    
+    
+    
+            </Suspense>
+
+
+       
 
             {errorMessage && 
 
@@ -601,11 +876,16 @@ function Homepage() {
 
 
 
+           <Suspense fallback={<div>Loading...</div>}>
+
+          
+           <CampaignBadge></CampaignBadge>
 
 
+           </Suspense>
+   
 
-
-    <CampaignBadge></CampaignBadge>
+  
 
     </div>
     </div>
@@ -621,7 +901,7 @@ function Homepage() {
             <div class="row">
                 <h4 class="text-center fw-semibold">Statistics</h4>
                 <span class="landing-title"></span>
-                <h2 class="text-center fw-semibold mb-7">PataMtaani Statistics.</h2>
+                <h2 class="text-center fw-semibold mb-7">Pata Mtaani Statistics.</h2>
             </div>
             <div class="row text-center services-statistics landing-statistics">
                 <div class="col-xl-3 col-md-6 col-lg-6">
@@ -719,8 +999,8 @@ function Homepage() {
                                           <div class="row">
                                               <h4 class="text-center fw-semibold">Features</h4>
                                               <span class="landing-title"></span>
-                                              <h2 class="fw-semibold text-center">PataMtaani Main Features</h2>
-                                              <p class="text-default mb-5 text-center">The PataMtaani app comes with
+                                              <h2 class="fw-semibold text-center">Pata Mtaani Main Features</h2>
+                                              <p class="text-default mb-5 text-center">The Pata Mtaani app comes with
                                                   ready-to-use services that are completely easy-to-use for any user, even for
                                                   a beginner.</p>
                                               <div class="row mt-7">
@@ -1123,9 +1403,9 @@ function Homepage() {
                         <div class="col-lg-4 col-sm-12 col-md-12 revealleft">
                             <h6>About</h6>
                             <p>
-                            PataMtaani is a platfom developed to make it easy for residents to buy and sell any products within their area of residents.
+                            Pata Mtaani is a platfom developed to make it easy for residents to buy and sell any products within their area of residents.
                             </p>
-                            <p class="mb-5 mb-lg-2">PataMtaani enables services prividers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
+                            <p class="mb-5 mb-lg-2">Pata Mtaani enables services prividers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
                             to the local population.
                             </p>
                         </div>
@@ -1157,7 +1437,7 @@ function Homepage() {
                                 <a href="#"><img loading="lazy" alt="" class="logo-2 mb-3"
                                         src="assets/images/brand/logo_new.png"/></a>
                                
-                                <p>PataMtaani empowers all small-scale services providers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
+                                <p>Pata Mtaani empowers all small-scale services providers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
                                 to the local population.</p>
                                 <div class="form-group">
                                     
@@ -1193,6 +1473,8 @@ function Homepage() {
 </div>
 </div>
 <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+
 
     </div>
   )
