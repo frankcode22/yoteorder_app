@@ -187,9 +187,12 @@ return (
 <div class="app sidebar-mini ltr light-mode">
 
 
-<div id="global-loader">
+{/** <div id="global-loader">
 <img src="assets/images/loader.svg" class="loader-img" alt="Loader"/>
-</div>
+</div>*/}
+
+
+
 
 
 

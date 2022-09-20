@@ -1,0 +1,26 @@
+Ternary Operator
+The ternary operator is a simplified conditional operator like if / else.
+
+Syntax: condition ? <expression if true> : <expression if false>
+
+
+Let's revisit the App( ) function above to see how to pass data with props.
+
+First, we need to define a prop on the Welcome Component and assign a value to it:
+
+import Welcome from './Welcome';
+
+function App() { 
+  return (
+    <div className="App">
+      <Welcome name="John"/>
+      <Welcome name="Mary"/>
+      <Welcome name="Alex"/>
+    </div>
+  );
+}
+Props are custom values and they also make components more dynamic. Since the Welcome component is the child here, we need to define props on its parent (App), so we can pass the values and get the result simply by accessing the prop "name":
+
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}

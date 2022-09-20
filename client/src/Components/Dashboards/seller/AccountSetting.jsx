@@ -1212,7 +1212,7 @@ const openSelectedStaff=(sId)=>{
                   <div class="media overflow-visible">
                       <img class="avatar brround avatar-md me-3" src="../assets/images/users/18.jpg" alt="avatar-img"/>
                       <div class="media-body valign-middle mt-2">
-                          <a href="javascript:void(0)" class=" fw-semibold text-dark">John Paige</a>
+                          <a href="javascript:void(0)" class=" fw-semibold text-dark">John Munene</a>
                           <p class="text-muted mb-0">johan@gmail.com</p>
                       </div>
                       <div class="media-body valign-middle text-end overflow-visible mt-2">
@@ -1222,23 +1222,14 @@ const openSelectedStaff=(sId)=>{
                   <div class="media overflow-visible mt-sm-5">
                       <span class="avatar cover-image avatar-md brround bg-pink me-3">LQ</span>
                       <div class="media-body valign-middle mt-2">
-                          <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Quinn</a>
-                          <p class="text-muted mb-0">lilliangore</p>
+                          <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Kisilu</a>
+                          <p class="text-muted mb-0">lilika</p>
                       </div>
                       <div class="media-body valign-middle text-end overflow-visible mt-1">
                           <button class="btn btn-sm btn-secondary" type="button">Follow</button>
                       </div>
                   </div>
-                  <div class="media overflow-visible mt-sm-5">
-                      <img class="avatar brround avatar-md me-3" src="../assets/images/users/2.jpg" alt="avatar-img"/>
-                      <div class="media-body valign-middle mt-2">
-                          <a href="javascript:void(0)" class="text-dark fw-semibold">Harry Fisher</a>
-                          <p class="text-muted mb-0">harryuqt</p>
-                      </div>
-                      <div class="media-body valign-middle text-end overflow-visible mt-1">
-                          <button class="btn btn-sm btn-danger" type="button">Follow</button>
-                      </div>
-                  </div>
+                
                
               </div>
                   </div>

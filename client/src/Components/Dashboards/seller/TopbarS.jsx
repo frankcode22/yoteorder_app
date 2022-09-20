@@ -3,6 +3,8 @@ import React from 'react'
 import {useEffect,useState,useContext } from 'react';
 import { AuthContext } from '../../../helpers/AuthContext'
 
+import {Link} from 'react-router-dom'
+
 function TopbarS() {
 
     const {authState} = useContext(AuthContext);
@@ -382,9 +384,12 @@ function TopbarS() {
                                     </div>
                                 </div>
                                 <div class="dropdown-divider m-0"></div>
-                                <a class="dropdown-item" href="/profile-vendor">
+                                {/**<a class="dropdown-item" href="/profile-vendor">
                                     <i class="dropdown-icon fe fe-user"></i> Profile
-                                </a>
+                                </a> */}
+                                <Link class="dropdown-item" to="/profile-vendor">
+                                    <i class="dropdown-icon fe fe-user"></i> Profile
+                                </Link>
                                 <a class="dropdown-item" href="#">
                                     <i class="dropdown-icon fe fe-mail"></i> Inbox
                                     <span class="badge bg-danger rounded-pill float-end">5</span>

@@ -275,7 +275,7 @@ function OrderedProduct() {
   
     axios.get(`https://yoteorder-server.herokuapp.com/product/search_geoloc/${pname}/${lat}/${lng}`).then((response) => {
 
-        setShowP(true);
+       // setShowP(true);
 
        
 
@@ -293,10 +293,10 @@ function OrderedProduct() {
 
                 if( response.data.item_list==''){
                     setProductFound(true)
-                    setShowP(false);
+                    //setShowP(false);
                 }
 
-                setShowP(false);
+               // setShowP(false);
 
     
               
@@ -934,6 +934,12 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 }
 
 
+const backHome=()=>{
+
+    history('/get-started')
+}
+
+
 
 
 
@@ -1438,9 +1444,9 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                 <div class="collapse navbar-collapse bg-white px-0" id="navbarSupportedContent-4">
                     
                     <div class="header-nav-right p-5">
-                        <a href="/get-started" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
+                        <Link to="/get-started" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
                             >New User
-                        </a>
+                        </Link>
                         {/*   <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto"> */}
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto">
                         Login
@@ -1498,10 +1504,10 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                         </li>
                     </ul>
                     <div class="header-nav-right d-none d-lg-flex">
-                        <a href="/get-started"
-                            class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
-                            target="_blank">Get Started
-                        </a>
+                    <Link to='/get-started'
+                    class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
+                   >Get Started
+                   </Link>
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Login
                         </a>
@@ -1632,6 +1638,12 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
             <div class="card-body">
                 Sorry no vendor selling  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{pname}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
                  in your area. However, your search has been captured and our team will enroll vendors on your area within 72 hours.
+                 <br/>
+               
+
+                 <div class="text-center">
+                            <a class="btn btn-secondary mt-5 mb-5" onClick={backHome}> <i class="fa fa-long-arrow-left"></i> Back to Home </a>
+                        </div>
             </div>
         </div>
     </div>

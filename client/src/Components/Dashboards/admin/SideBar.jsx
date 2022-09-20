@@ -1,7 +1,7 @@
 import React from 'react'
 import {useEffect,useState,useContext } from 'react';
 import { AuthContext } from '../../../helpers/AuthContext'
-import{useNavigate} from 'react-router-dom'
+import{useNavigate,Link} from 'react-router-dom'
 
 function SideBar() {
     const {authState} = useContext(AuthContext);
@@ -85,11 +85,18 @@ function SideBar() {
 
         <li class="slide">
 
-
+      {/**
         <a class="side-menu__item" data-bs-toggle="slide" href="#">
         <i class="side-menu__icon fe fe-mail"></i> Inbox
         <span class="badge bg-danger rounded-pill float-end">5</span>
-        </a>
+        </a> */}
+
+
+
+        <Link class="side-menu__item" data-bs-toggle="slide" to='/mail'>
+        <i class="side-menu__icon fe fe-mail"></i> Inbox
+        <span class="badge bg-danger rounded-pill float-end">5</span>
+        </Link>
 
         <li class="slide">
         <a class="side-menu__item" data-bs-toggle="slide" href="/users"><i

@@ -8,7 +8,7 @@ import { useEffect,useState } from 'react';
 
 import axios from 'axios';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link} from "react-router-dom";
 
 
 import * as Yup from "yup";
@@ -194,10 +194,12 @@ function SignUp() {
   return (
     <div class="app sidebar-mini ltr login-img">
 
-  
-    <div id="global-loader">
+    {/** <div id="global-loader">
         <img src="assets/images/loader.svg" class="loader-img" alt="Loader"/>
-    </div>
+    </div> */}
+
+  
+   
 
     <div class="page">
         <div class="">
@@ -205,7 +207,10 @@ function SignUp() {
        
             <div class="col col-login mx-auto mt-7">
                 <div class="text-center">
-                <a href='/'><img src="assets/images/brand/logo_pink.png"  class="header-brand-img" alt=""/></a>
+
+                 {/** <a href='/'><img src="assets/images/brand/logo_pink.png" class="header-brand-img" alt=""/></a> */}
+                 <Link to={`/`}><img src="assets/images/brand/logo_pink.png" class="header-brand-img" alt=""/></Link>
+
                     
                 </div>
             </div>

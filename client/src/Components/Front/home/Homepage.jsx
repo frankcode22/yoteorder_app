@@ -8,11 +8,11 @@ import {Link,useNavigate} from 'react-router-dom'
 //import HowToGetStarted from './HowToGetStarted'
 //import CampaignBadge from './CampaignBadge';
 
-import ContentLoader from '../../../utils/ContentLoader';
+// import ContentLoader from '../../../utils/ContentLoader';
 
-import DivLoader from '../../../utils/DivLoader'
+// import DivLoader from '../../../utils/DivLoader'
 
-import LoadingSpinner from '../../../utils/LoadingSpinner'
+// import LoadingSpinner from '../../../utils/LoadingSpinner'
 import DataContext from '../../../helpers/DataContext';
 
 
@@ -29,6 +29,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import SearchBar from "./SearchBar";
 import BookData from "../../../Data.json";
+//import SearchModal from './SearchModal';
 
 const CampaignBadge = lazy(() => import('./CampaignBadge'));
 
@@ -55,7 +56,7 @@ function Homepage() {
 
     const {userPos, setUserPos} = useContext(LocationDataContextInit);
 
-   // const {position, setPosition} = useContext(LocationDataContext);
+    const {position, setPosition} = useContext(LocationDataContext);
 
 
     const {latitude, longitude} = usePosition();
@@ -64,6 +65,9 @@ function Homepage() {
     const[lat,setLat]=useState('')
 
     const[lng,setLng]=useState('')
+
+    const[exitCode,setExitCode]=useState(null)
+
 
 
     const [pname, setpname] = useState("");
@@ -115,23 +119,51 @@ function Homepage() {
    // console.log("THE AUTHENTICATION STATUS",isAuthenticated)
 
 
+   const handleClose = () =>{
+    setLoading(false)
+ // e.preventDefault();
+  //handleClose();
+  
+  
+
+ 
+
+   setShow(false);
+
+   setExitCode('stop')
+
+   clearTimeout(searchItem)
+
+   
+
+  
+   
+     };
+
+
+
+
     useEffect(()=>{
 
 
         console.log('YOUR INILIALIZING POSITION DATA IS ',userPos)
 
-        console.log("Lat Value is "+latitude)
+
+        console.log('YOUR  POSITION DATA FROM THE WATCH CONTEXT IS ',position)
+
+        //console.log("Lat Value is "+latitude)
 
 
 
+        console.log('YOUR CONTEXT POSITION FROM THE INITALIZING CONTEXT IS',userPos)
 
-        // let lat_val=parseFloat(userPos.lat);
+         let lat_val=parseFloat(userPos.lat);
   
-        // let lng_val=parseFloat(userPos.long);
+         let lng_val=parseFloat(userPos.long);
   
-        //   setLat(truncate(lat_val, 2))
+           setLat(truncate(lat_val, 2))
   
-        //   setLng(truncate(lng_val, 2))
+           setLng(truncate(lng_val, 2))
 
         
         // let lat_val=parseFloat(latitude);
@@ -166,7 +198,7 @@ function Homepage() {
   
               setTimeout(() => {
   
-                  setBestList(bussinessList)
+               setBestList(bussinessList)
               setIsDivLoading(false)  
                   
                
@@ -290,10 +322,20 @@ function Homepage() {
        
 
 
+        console.log('ON PAGE LOAD EFFECT YOUR LOCATION DATA IS: Lat: ',lat,' :Lng:',lng)
+
+
+     
+
+             
+       
+  
+ 
+  },[bussinessList,userPos,position,latitude,longitude,setLoading,handleClose]);
+
 
   
-  
-  },[bussinessList]);
+ 
 
 
 
@@ -314,12 +356,7 @@ function Homepage() {
     
 
    
-    //let { data } = await Axios.get(`http://localhost:3001/users/getuser/${selectedUser}`)
-
-
-
-   // console.log("THE RETURNED OBJECT IS"+data)
-
+    
     
 
     console.log("THE SELECT OPTION IS "+selectedOption)
@@ -330,69 +367,61 @@ function Homepage() {
 
    }
 
+
+
+    
+   const handleCloseError = () =>{
+    // setLoading(false)
+   // e.preventDefault();
+    //handleClose();
+     setShowErrorModal(false);
+     
+    
+     
+       };
+
+
+
+       
+
    
 
 
   const searchItem = () => {
 
-   // let lat_val=null
+   
 
-   //console.log("Lat Value is "+latitude)
+   
+    // if(!latitude  || !longitude){
 
-    if(typeof(latitude) == 'undefined' || latitude== null){
+    if(!lat  || !lng){
 
      
-        //toast.warn('Location data not found');
-
-
-        navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
-            console.log(`geolocation permission status is ${permissionStatus.state}`);
-            if(permissionStatus.state=='denied'){
-                //alert('Kindly enable your location')
-                setShowErrorModal(true)
-              }
-            permissionStatus.onchange = () => {
-              console.log(`geolocation permission status has changed to ${permissionStatus.state}`);
-
-              
-              
-            };
-          });
-
 
           setShowErrorModal(true)
 
-        return
-         
+        return  
     
       }
 
 
-     let lat_val=parseFloat(latitude);
+    //  let lat_val=parseFloat(latitude);
 
   
-     let lng_val=parseFloat(longitude);
+    //  let lng_val=parseFloat(longitude);
 
-    
-    //let lat_val=parseFloat('-1.2865233');
-  
-    //let lng_val=parseFloat('36.9464065');
+    //  let search_lat= truncate(lat_val, 2)
 
-     let search_lat= truncate(lat_val, 2)
-
-     let search_lng=  truncate(lng_val, 2)
+    //  let search_lng=  truncate(lng_val, 2)
 
 
 
-      console.log("Lat value is"+search_lat)
+      //console.log("Lat value is"+search_lat)
 
-       console.log("Long value is"+search_lng)
-
-       console.log("Chek check value is"+latitude)
+    // console.log("Long value is"+search_lng)
 
     
 
-   
 
     if(pname==''){
 
@@ -414,18 +443,31 @@ function Homepage() {
 
     setShow(true);
 
-   
+    if(exitCode){
+        console.log('Exit code is'+exitCode)
+        setExitCode(null)
+        return
+    }
+
+  
 
   
     setTimeout(() => {
 
+      
+
+      
+
     setLoading(false)
-    history('/ordered-product/'+pname+'/'+search_lat+'/'+search_lng);
+    //history('/ordered-product/'+pname+'/'+search_lat+'/'+search_lng);
+
+    history('/ordered-product/'+pname+'/'+lat+'/'+lng);
+
     setShow(false)
 
    
     
-}, 5000);
+}, 4000);
 
 
 
@@ -433,17 +475,12 @@ function Homepage() {
 } 
 
 
-const handleClose = () =>{
-    setLoading(false)
-    setShow(false);
-    history('/')
-    window.location.reload(false);
 
 
 
 
-    
-      };
+
+
 
 
 
@@ -503,9 +540,9 @@ const handleClose = () =>{
                 <div class="collapse navbar-collapse bg-white px-0" id="navbarSupportedContent-4">
                     
                     <div class="header-nav-right p-5">
-                        <a href="/get-started" class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
+                        <Link to='/get-started' class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
                             >Get Started
-                        </a>
+                        </Link>
                         {/*   <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto"> */}
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto">
                         Login
@@ -561,10 +598,10 @@ const handleClose = () =>{
                         </li>
                     </ul>
                     <div class="header-nav-right d-none d-lg-flex">
-                        <a href="/get-started"
+                        <Link to='/get-started'
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Get Started
-                        </a>
+                        </Link>
                         <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Login
                         </a>
@@ -608,7 +645,7 @@ const handleClose = () =>{
 
         
 
-        <div class="col-xl-4">
+        <div class="col-xl-6">
             <div class="form-group">
                 <select class="form-select form-select select2"
                
@@ -616,8 +653,8 @@ const handleClose = () =>{
                 onChange={handleSearchOption}
                 
                 id="inputGroupSelect01">
-                        <option value="Product">product</option>
-                        <option value="Service">service</option>
+                        <option value="Product">Product</option>
+                        <option value="Service">Service</option>
                        
                     </select>
             </div>
@@ -625,63 +662,54 @@ const handleClose = () =>{
 
         {!showServicesSearch && 
        
-        <div class="col-xl-4">
-            <div class="form-group">
+        <div class="col-xl-6">
+       
+        <div class="input-group">
+                                                    <input type="text" class="form-control" onChange={(event) => {
+                                                        setpname(event.target.value);
+                                                      }} placeholder="Search Eg.Watermelon..."/>
+                                                      {!isLoading && <span class="input-group-text btn btn-primary" onClick={searchItem}><i class="fe fe-search"></i>Search</span>}
+
+                                                      {isLoading &&
+                                                        <span class="btn btn-primary my-1" type="button" disabled="">
+                                                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                                      
+                                                    </span>}
+
+                                                </div>
+
+                                                {/** <div class="form-group">
                 <input class="form-control" onChange={(event) => {
                     setpname(event.target.value);
                   }} placeholder="Search eg.Pro Gas" type="text"/>
-            </div>
+            </div> */}
+           
         </div>
 
     }
 
 
         {showServicesSearch && 
-             <div class="col-xl-4">
+            
+             <div class="col-xl-6">
+           
+
      
         <SearchBar placeholder="Enter a Service Name..." data={BookData} />
-      </div>}
 
+
+      
        
-        
-        {/* <div class="col-xl-2 px-3 px-xl-1">
-            <div class="form-group">
-                <label class="custom-switch form-switch mb-0">
-                        <input type="checkbox" name="custom-switch-radio" class="custom-switch-input"/>
-                        <span class="custom-switch-indicator custom-switch-indicator-md"></span>
-                        <span class="custom-switch-description">Toggle example</span>
-                    </label>
-            </div>
-        </div>*/}
-        
-        
-
-        <div class="col-xl-2 px-3 px-xl-0">
-
-
-        <div class="">
-
-       <button type="submit" onClick={searchItem} class="btn btn-secondary mb-3 btn-block" value="Search"><i class="fe fe-search"></i>Search</button>
-
+      </div>
     
-
-        </div>
-
-       {/*  <div class="">
-
-        {!isLoading && <button type="submit" onClick={searchItem} class="btn btn-secondary mb-3 btn-block" value="Search"><i class="fe fe-search"></i>Search</button>
-
     }
-    {isLoading &&
-        <button class="btn btn-primary my-1" type="button" disabled="">
-        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-        Searching...
-    </button>}
 
-        </div>*/}
        
-    
-    </div>
+        
+       
+        
+        
+
     <Modal class="modal fade" id="modaldemo8" show={showErrorModal}>
 
     <Modal.Header>
@@ -707,9 +735,9 @@ const handleClose = () =>{
     </Modal.Body>
     <Modal.Footer>
 
-    <button class="btn btn-light" type="reset" onClick={() => {
-      handleClose();
-    }}>Cancel</button>
+    <Button class="btn btn-light"  variant="secondary"  onClick={() => {
+        handleCloseError();
+    }}>Cancel</Button>
 
         {/* <Button variant="secondary" onClick={handleClose}>
 Close
@@ -722,6 +750,8 @@ Save Changes
 </Modal>
 
 
+
+{/**<SearchModal latitude={latitude} longitude={longitude} show={show} searchItem={searchItem}/> */}
 
                                               <Modal class="modal fade" id="modaldemo8" show={show}>
 
@@ -753,13 +783,17 @@ Save Changes
                                                   </Modal.Body>
                                                   <Modal.Footer>
 
-                                                  <button class="btn btn-light" type="reset" onClick={() => {
+                                                  {/**  <button class="btn btn-light" type="reset" onClick={() => {
                                                     handleClose();
                                                   }}>Cancel</button>
+                                                */}
 
-                                                      {/* <Button variant="secondary" onClick={handleClose}>
-    Close
-  </Button>
+                                                      <Button variant="secondary" onClick={handleClose}>
+                                                          Close
+                                                      </Button>
+
+                                                 
+                                                      {/* 
   <Button variant="primary" onClick={handleClose}>
     Save Changes
   </Button> */}
@@ -808,6 +842,10 @@ Save Changes
 
     <div class="main-container">
         <div class="">
+
+
+
+        <UsePositions></UsePositions>
 
      
 

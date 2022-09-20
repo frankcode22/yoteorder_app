@@ -1,4 +1,5 @@
 import React from 'react'
+import { lazy, Suspense } from 'react';
 import { useEffect,useState,useContext} from 'react';
 
 
@@ -21,12 +22,24 @@ import API from '../../../services';
 import { Progress } from 'reactstrap';
 import LocationDataContextInit from '../../../helpers/LocationDataContextInit';
 
+import { Modal, Button } from "react-bootstrap";
+
+import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
+import LocationDataContext from '../../../helpers/LocationDataContext';
+
+
 function EditBusinessSetting(props) {
 
   let { id } = useParams();
 
 
   const {userPos, setUserPos} = useContext(LocationDataContextInit);
+
+  const {position, setPosition} = useContext(LocationDataContext);
   
   const [name, setName] = useState("");
   const [type, setType] = useState("");
@@ -149,9 +162,18 @@ function EditBusinessSetting(props) {
   const [profile_photo, setprofile_photo] = useState("");
 
 
+  const [fileInputState, setFileInputState] = useState('');
+  const [previewSource, setPreviewSource] = useState('');
+  const [selectedFile, setSelectedFile] = useState();
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+
+
   
 
   const [isLoading,setLoading]=useState(false);
+
+  const [cloudinaryUrl, setCloudinaryUrl] = useState("");
 
 
 //   const [mapCenter, setMapCenter] = useState({
@@ -166,6 +188,7 @@ const [mapCenter, setMapCenter] = useState({
 });
 
 
+
 let history = useNavigate();
 
 
@@ -175,7 +198,15 @@ const [showSetUpError,setShowSetUpError]=useState(false);
 
 const [showServicesDiv,setShowServicesDiv]=useState(false);
 
+
+const [showOrderConfirmed, setShowOrderConfirmed] = useState(false);
+
 const [showBusinessSetupDiv,setShowBusinessSetupDiv]=useState(true);
+
+
+const [message, setMessage] = useState("");
+
+const [show, setShow] = useState(false);
 
 
 
@@ -217,6 +248,8 @@ useEffect(()=>{
         
         setprofile_photo(response.data.profile_photo)
 
+        setCloudinaryUrl(response.data.cloudinary_url)
+
        
 
         
@@ -245,6 +278,10 @@ useEffect(()=>{
         axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
         setCustomersList(response.data);
         })
+
+        setMapCenter({  
+          lat: position.latitude,
+          lng: position.longitude})
   
 
      
@@ -252,7 +289,96 @@ useEffect(()=>{
 
 
 
-},[]);
+},[userPos,position]);
+
+
+
+const handleFileInputChange = (e) => {
+  const file = e.target.files[0];
+  previewFile(file);
+  setSelectedFile(file);
+  setFileInputState(e.target.value);
+};
+
+
+const previewFile = (file) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onloadend = () => {
+      setPreviewSource(reader.result);
+  };
+};
+
+
+
+
+
+const handleAddressChange = address => {
+  setAddress(address);
+    };
+
+
+
+    
+    const handleSelect = address => {
+      setAddress(address);
+       geocodeByAddress(address)
+        .then(results =>  getLatLng(results[0]))
+        .then(latLng => {
+          console.log('Success', latLng);
+          
+          // const address_one = address.results[0].formatted_address;
+         
+  
+          // console.log('Formated Addres', address_one);
+  
+  
+          // update center state
+          setMapCenter(latLng );
+  
+          setaddress_line_2(address);
+  
+          
+         
+        });
+        geocodeByAddress(address).then(response=>{
+  
+        
+          var add= response[0].formatted_address ;
+          var  value=add.split(",");
+    
+        let  count=value.length;
+        let  country=value[count-1];
+        let   state=value[count-2];
+        let  city=value[count-3];
+        let  postal_code=value[count-4];
+  
+       
+    
+          console.log('COUNTRY'+country);
+          console.log('CITY'+city);
+          console.log('STATE'+state);
+          console.log('ZIP CODE'+postal_code);
+  
+          // console.log('THE ID IS'+propid);
+  
+  
+          setCity(city);
+  
+          setPostal_code(postal_code);
+  
+          setState(state);
+  
+        
+        
+    
+         // console.log('ADDRESS COMPONENTS',addressComponent[2]);
+          
+        })
+        .catch(error => console.error('Error', error));
+    };
+
+
 
 
 
@@ -737,6 +863,54 @@ const openSelectedStaff=(sId)=>{
 }
 
 
+const openMessageDialog=()=>{
+
+  setShow(true)
+}
+
+
+const handleClose = () =>{
+  // setLoading(false)
+ // e.preventDefault();
+  //handleClose();
+   setShow(false);
+   
+  
+   
+     };
+
+
+const sendMsg=()=>{
+
+
+  const msg_payload={
+    buss_contacts:buss_contacts,
+    message:message,
+    businessId:businessId,
+  }
+  setLoading(true)
+
+  axios.post('https://yoteorder-server.herokuapp.com/business/send_msg',msg_payload).then((response) => {
+
+     console.log("THE RESPONSE IS "+response.data)
+
+
+
+     setTimeout(() => {
+      setLoading(false);
+      setShowOrderConfirmed(true)
+      toast.success("Staff Updated")
+  }, 1000);
+
+    
+      
+
+         })
+
+
+}
+
+
 
 
 return (
@@ -746,7 +920,10 @@ return (
   <Helmet>
 
 
-   
+
+
+
+ 
     <link id="style" href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
     
@@ -859,7 +1036,7 @@ return (
           {showBusinessSetupDiv && <div class="col-xl-9">
           <div class="card">
               <div class="card-header">
-                  <h3 class="card-title">Set up your business profile</h3>
+                
 
 
                   <div class="col-xl-3 col-lg-12">
@@ -870,8 +1047,14 @@ return (
               
               <div class="col-xl-3 col-lg-12">
                            
-              <a href='#' onClick={initiateEdit} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" ><i class="fa fa-edit me-2"></i>Edit Details</a>
+              <a onClick={initiateEdit} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" ><i class="fa fa-edit me-2"></i>Edit Details</a>
           </div>
+
+
+          <div class="col-xl-3 col-lg-12">
+                           
+          <a onClick={openMessageDialog} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" ><i class="ri-mail-line"></i>Send Msg</a>
+      </div>
               </div>
 
              <div class="card-body">
@@ -885,7 +1068,7 @@ return (
                     <div class="d-flex">
                         <div class="media mt-0">
                             <div class="media-user me-2">
-                                <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={imagePath+"/uploads/vendors/"+businessId+"/"+profile_photo} /></div>
+                            <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={cloudinaryUrl} /></div>
                             </div>
                             <div class="media-body">
                                 <h6 class="mb-0 mt-1">{business_name}</h6>
@@ -1208,562 +1391,317 @@ return (
                 </div>
               </form> }
 
-             
-{/*  <div class="panel panel-primary">
-              <div class="tab-menu-heading">
-                  <div class="tabs-menu">
-                      
-                      <ul class="nav panel-tabs panel-info">
-                          <li><a href="#tab21" class="active" data-bs-toggle="tab"><span><i class="fe fe-settings me-1"></i></span>Business Infor</a></li>
-                          <li><a href="#tab22" data-bs-toggle="tab"><span><i class="fe fe-calendar me-1"></i></span>Services</a></li>
-                          <li><a href="#tab23" data-bs-toggle="tab"><span><i class="fe fe-user me-1"></i></span>Staff</a></li>
-                          <li><a href="#tab24" data-bs-toggle="tab"><span><i class="fe fe-bell me-1"></i></span>Tab 4</a></li>
-                      </ul>
-                  </div>
-              </div>
-              <div class="panel-body tabs-menu-body">
-                  <div class="tab-content">
-                      <div class="tab-pane active" id="tab21">
+              {!isBusinessSet && 
 
-
-                      
-                       {isBusinessSet &&
-                        <div class="card border p-0 shadow-none">
-                        <div class="card-body">
-                            <div class="d-flex">
-                                <div class="media mt-0">
-                                    <div class="media-user me-2">
-                                        <div class=""><img alt="" class="rounded-circle avatar avatar-md" src="assets/images/users/16.jpg"/></div>
-                                    </div>
-                                    <div class="media-body">
-                                        <h6 class="mb-0 mt-1">{business_name}</h6>
-                                        <small class="text-muted">just now</small>
-                                    </div>
-                                </div>
-                                <div class="ms-auto">
-                                    <div class="dropdown show">
-                                        <a class="new option-dots" href="JavaScript:void(0);" data-bs-toggle="dropdown">
-                                            <span class=""><i class="fe fe-more-vertical"></i></span>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="javascript:void(0)">Edit Post</a>
-                                            <a class="dropdown-item" href="javascript:void(0)">Delete Post</a>
-                                            <a class="dropdown-item" href="javascript:void(0)">Personal Settings</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-4">
-                                <h4 class="fw-semibold mt-3">There is nothing more beautiful.</h4>
-                                <p class="mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-footer user-pro-2">
-                            <div class="media mt-0">
-                                <div class="media-user me-2">
-                                    <div class="avatar-list avatar-list-stacked">
-                                        <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/12.jpg)'}}></span>
-                                        <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
-                                        <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/9.jpg)'}}></span>
-                                        <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
-                                        <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users//4.jpg)'}}></span>
-                                        <span class="avatar brround text-primary">+28</span>
-                                    </div>
-                                </div>
-                                <div class="media-body">
-                                    <h6 class="mb-0 mt-2 ms-2">10 buyers like your business</h6>
-                                </div>
-                                <div class="ms-auto">
-                                    <div class="d-flex mt-1">
-                                        <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-heart"></i></span></a>
-                                        <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-message-square"></i></span></a>
-                                        <a class="new text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-share-2"></i></span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                      
-                      
-                      
-                      }
-                     
-
-                      {isBusinessSet &&
-                  <div class="row">
-
-
-                  <div class="col-xl-6 col-md-12">
-                  <div class="card m-b-20 border p-0 shadow-none">
-                      <div class="card-header">
-                          <h3 class="card-title">Business Contacts</h3>
-                          <div class="card-options">
-                              <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                              <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                          </div>
-                      </div>
-                      <div class="card-body">
-                      <div class="d-flex align-items-center mb-3 mt-3">
-                      <div class="me-4 text-center text-primary">
-                          <span><i class="fe fe-briefcase fs-20"></i></span>
-                      </div>
-                      <div>
-                          <strong>{business_name} </strong>
-                      </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3 mt-3">
-                      <div class="me-4 text-center text-primary">
-                          <span><i class="fe fe-map-pin fs-20"></i></span>
-                      </div>
-                      <div>
-                          <strong>{location}</strong>
-                      </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3 mt-3">
-                      <div class="me-4 text-center text-primary">
-                          <span><i class="fe fe-phone fs-20"></i></span>
-                      </div>
-                      <div>
-                          <strong>{buss_contacts} </strong>
-                      </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3 mt-3">
-                      <div class="me-4 text-center text-primary">
-                          <span><i class="fe fe-mail fs-20"></i></span>
-                      </div>
-                      <div>
-                          <strong>{email}</strong>
-                      </div>
-                  </div>
-                      </div>
-                  </div>
-              </div>
-
-
-
-              
-
-
-              
-              <div class="col-xl-6 col-md-12">
-              <div class="card d-flex m-b-20 border p-0 shadow-none">
-                  <div class="card-header">
-                      <h3 class="card-title">Customers</h3>
-                      <div class="card-options">
-                          <a class="text-gray" href="javascript:void(0)">
-                              <i class="mdi mdi-refresh"></i>
-                          </a>
-                          <a class="text-gray" href="javascript:void(0)">
-                              <i class="mdi mdi-bookmark-outline"></i>
-                          </a>
-                          <a class="text-gray" href="javascript:void(0)">
-                              <i class="mdi mdi-dots-vertical"></i>
-                          </a>
-                      </div>
-                  </div>
-                  <div class="card-body">
-                  <div class="">
-                  <div class="media overflow-visible">
-                      <img class="avatar brround avatar-md me-3" src="../assets/images/users/18.jpg" alt="avatar-img"/>
-                      <div class="media-body valign-middle mt-2">
-                          <a href="javascript:void(0)" class=" fw-semibold text-dark">John Paige</a>
-                          <p class="text-muted mb-0">johan@gmail.com</p>
-                      </div>
-                      <div class="media-body valign-middle text-end overflow-visible mt-2">
-                          <button class="btn btn-sm btn-primary" type="button">Follow</button>
-                      </div>
-                  </div>
-                  <div class="media overflow-visible mt-sm-5">
-                      <span class="avatar cover-image avatar-md brround bg-pink me-3">LQ</span>
-                      <div class="media-body valign-middle mt-2">
-                          <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Quinn</a>
-                          <p class="text-muted mb-0">lilliangore</p>
-                      </div>
-                      <div class="media-body valign-middle text-end overflow-visible mt-1">
-                          <button class="btn btn-sm btn-secondary" type="button">Follow</button>
-                      </div>
-                  </div>
-                  <div class="media overflow-visible mt-sm-5">
-                      <img class="avatar brround avatar-md me-3" src="../assets/images/users/2.jpg" alt="avatar-img"/>
-                      <div class="media-body valign-middle mt-2">
-                          <a href="javascript:void(0)" class="text-dark fw-semibold">Harry Fisher</a>
-                          <p class="text-muted mb-0">harryuqt</p>
-                      </div>
-                      <div class="media-body valign-middle text-end overflow-visible mt-1">
-                          <button class="btn btn-sm btn-danger" type="button">Follow</button>
-                      </div>
-                  </div>
-               
-              </div>
-                  </div>
-              </div>
-          </div>
+              <div>
+              <div id='googleMaps'>
+            
+           <p>Your Position {position.latitude}</p>
+            
+              {/**<SearchPlaces></SearchPlaces> */}
+            
+            
+            
+              {position &&      <PlacesAutocomplete
+                value={address}
+                onChange={handleAddressChange}
+                onSelect={handleSelect}
+              >
+                {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                  <div>
+                    <input
+                      {...getInputProps({
+                        placeholder: 'Search Places ...',
+                        className: 'multisteps-form__input form-control',
+                      })}
+                    />
+            
                   
-                  
-                  
-                  
-                  
-                  
-                  
-                  </div>}
-
-                 
-
-
-
-
-
-
-
-
-
-               {!isBusinessSet && 
-                <form>
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <div class="row">
-                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
-                      <div class="col-sm-9">
-                        <input type="text" id="formtabs-first-name" class="form-control" 
-                        
-                        onChange={(event) => {
-                            setbusiness_name(event.target.value);
-                          }}
-                        
-                        
-                        placeholder="Eg. Edith Salon" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="row">
+            
                     
-                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
-                      <div class="col-sm-9">
-                      <textarea id="basic-icon-default-message" class="form-control" placeholder="My business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
-                      
-                      onChange={(event) => {
-                        setbusiness_description(event.target.value);
-                      }}
-        
-                      aria-describedby="basic-icon-default-message2"></textarea>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="row">
-                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
-                      <div class="col-sm-9">
-                        <select id="formtabs-country" class="select2 form-select"
-                        
-                        onChange={(event) => {
-                            setCity(event.target.value);
-                          }}
-        
-                        
-                        data-allow-clear="true">
-                          <option value="">Select</option>
-                          <option value="Nairobi">Nairobi</option>
-                          <option value="Kiambu">Kiambu</option>
-                          <option value="Machakos">Machakos</option>
-                          <option value="Kakuru">Kakuru</option>
-                          <option value="Makueni">Makueni</option>
-                          <option value="Nyeri">Nyeri</option>
-                          
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 select2-primary">
-                    <div class="row">
-                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-language">Industry</label>
-                      <div class="col-sm-9">
-                        <select id="formtabs-language" class="select2 form-select"
-        
-        
-                        onChange={(event) => {
-                            setindustry(event.target.value);
-                          }}
-                        
-                        
-                        multiple>
-                          <option value="Eateries" selected>Eateries</option>
-
-                          <option value="Domestic-Products" selected>Domestic Products</option>
-
-                          <option value="Wines-Spirits">Drinks/Wines/Spirts/Alcohol</option>
-
-                          <option value="Drinks">Drinks</option>
-                       
-                          <option value="Beauty">Beauty</option>
-                          <option value="Education">Education</option>
-                          <option value="Automotive">Wellbeing</option>
-                          <option value="pt">Automotive</option>
-                          <option value="home care">Home Care</option>
-                          <option value="Maintenance">Maintenance</option>
-                          <option value="Electronics">Electronics</option>
-                       
-                          <option value="Automotive">Automotive</option>
-
-                          <option value="Contruction">Contruction</option>
-                
-                          
-                          <option value="Clothing">Clothing</option>
-                          <option value="Computing">Computing</option>
-                
-                
-                          <option value="Domestic">Domestic Use</option>
-                          <option value="Home-Based">Home-Based</option>
-                          <option value="Beauty">Beauty</option>
-                
-                          <option value="Agricultural">Agricultural</option>
-                          <option value="Livestock">Livestock</option>
-                          <option value="Poultry">Poultry</option>
-                          <option value="Aquatic">Aquatic</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="row">
-                    <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
-                    <div class="col-sm-9">
-                      <input type="text" id="location" class="form-control"
-                      
-                      
-                      onChange={(event) => {
-                        setlocation(event.target.value);
-                      }}
-                      
-                      placeholder="Eg.Njogoo Road" />
-                    </div>
-        
-               
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="row">
-                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
-                      <div class="col-sm-9">
-                        <input type="text" id="buss-contacts" class="form-control phone-mask"
-                        
-                        onChange={(event) => {
-                            setbuss_contacts(event.target.value);
-                          }}
-                        placeholder="0714639773" aria-label="0714639773" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mt-4">
-                  <div class="col-md-6">
-                    <div class="row justify-content-end">
-                      <div class="col-sm-9">
-                        
-        
-                        {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary me-sm-3 me-1">Submit</button>
-        
-                    } 
-                    {isLoading &&
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
-                    }
-                        <button type="reset" class="btn btn-label-secondary">Cancel</button>
-        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form> }
-
-                      </div>
-                      <div class="tab-pane" id="tab22">
-
-
-                   
-                      <div class="row mb-5">
-                      {servicesList.map((value, key) => {
+                    <div className="autocomplete-dropdown-container">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map(suggestion => {
+                        const className = suggestion.active
+                          ? 'suggestion-item--active'
+                          : 'suggestion-item';
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                          : { backgroundColor: '#ffffff', cursor: 'pointer' };
                         return (
-                      <div class="col-md-6">
-                        <div class="card mb-3">
-                          <div class="row g-0">
-                            <div class="col-md-4">
-                           
-                              <img class="card-img card-img-left" src="/assets/images/media/22.jpg" alt="Card image" />
-                            </div>
-                            <div class="col-md-8">
-                              <div class="card-body">
-                                <h5 class="card-title">{value.service_name}</h5>
-                                <span class="badge bg-info">Price: {value.service_cost}</span>
-                                <p class="card-text">
-                                 {value.service_description}
-                                </p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              
-                                <div class="demo-inline-spacing">
-              
-                                <button type="button" class="btn btn-success">Edit</button>
-                                <button type="button" class="btn btn-danger">Remove</button>
-                               
-              
-                            </div>
-                                              
-                              </div>
-                              
-                              
-                            </div>
-                            
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style,
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
                           </div>
-                        </div>
-                      </div>
-                      );
-                    })}
-                     
+                        );
+                      })}
                     </div>
-                          
-                      </div>
-                      <div class="tab-pane" id="tab23">
-
-                      <form>
-                      <div class="row g-3">
-                        <div class="col-md-6">
-                          <div class="row">
-                            <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
-                            <div class="col-sm-9">
-                              <input type="text" id="formtabs-first-name" class="form-control" 
-                              
-                              onChange={(event) => {
-                                  setbusiness_name(event.target.value);
-                                }}
-                              
-                              
-                              placeholder="Eg. Edith Salon" />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row">
-                          
-                            <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
-                            <div class="col-sm-9">
-                            <textarea id="basic-icon-default-message" class="form-control" placeholder="Hi, Do you have a moment to talk Joe?" aria-label="Hi, My business deals with beauty services?" 
-                            
-                            onChange={(event) => {
-                              setbusiness_description(event.target.value);
-                            }}
-              
-                            aria-describedby="basic-icon-default-message2"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row">
-                            <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
-                            <div class="col-sm-9">
-                              <select id="formtabs-country" class="select2 form-select"
-                              
-                              onChange={(event) => {
-                                  setCity(event.target.value);
-                                }}
-              
-                              
-                              data-allow-clear="true">
-                                <option value="">Select</option>
-                                <option value="Nairobi">Nairobi</option>
-                                <option value="Kiambu">Kiambu</option>
-                                <option value="Machakos">Machakos</option>
-                                <option value="Kakuru">Kakuru</option>
-                                <option value="Makueni">Makueni</option>
-                                <option value="Nyeri">Nyeri</option>
-                                
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6 select2-primary">
-                          <div class="row">
-                            <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-language">Industry</label>
-                            <div class="col-sm-9">
-                              <select id="formtabs-language" class="select2 form-select"
-              
-              
-                              onChange={(event) => {
-                                  setindustry(event.target.value);
-                                }}
-                              
-                              
-                              multiple>
-
-                              <option value="Eateries" selected>Eateries</option>
-
-                                
-
-
-                               
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row">
-                          <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
-                          <div class="col-sm-9">
-                            <input type="text" id="formtabs-first-name" class="form-control"
-                            
-                            
-                            onChange={(event) => {
-                              setlocation(event.target.value);
-                            }}
-                            
-                            placeholder="Eg.Ruai By Pass" />
-                          </div>
-              
-                     
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row">
-                            <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
-                            <div class="col-sm-9">
-                              <input type="text" id="formtabs-phone" class="form-control phone-mask"
-                              
-                              onChange={(event) => {
-                                  setPhone_no(event.target.value);
-                                }}
-                              placeholder="0714639773" aria-label="0714639773" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row mt-4">
-                        <div class="col-md-6">
-                          <div class="row justify-content-end">
-                            <div class="col-sm-9">
-                              
-              
-                              {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary me-sm-3 me-1">Submit</button>
-              
-                          } 
-                          {isLoading &&
-                              <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
-                          }
-                              <button type="reset" class="btn btn-label-secondary">Cancel</button>
-              
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                         
-                      </div>
-                      <div class="tab-pane" id="tab24">
-                          <p>page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes
-                              by accident, sometimes on purpose (injected humour and the like</p>
-                          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et</p>
-                      </div>
                   </div>
+                )}
+              </PlacesAutocomplete>}
+
+              {!position &&   
+              <PlacesAutocomplete
+                value={address}
+                onChange={handleAddressChange}
+                onSelect={handleSelect}
+              >
+                {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                  <div>
+                    <input
+                      {...getInputProps({
+                        placeholder: 'Search Places ...',
+                        className: 'multisteps-form__input form-control',
+                      })}
+                    />
+            
+                  
+            
+                    
+                    <div className="autocomplete-dropdown-container">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map(suggestion => {
+                        const className = suggestion.active
+                          ? 'suggestion-item--active'
+                          : 'suggestion-item';
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                          : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style,
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </PlacesAutocomplete>}
+            
+            
+            
+            
+            
+         
+            
+               <div class="col" style={{height:"400px"}}>
+            
+                <Map 
+                google={props.google}
+                  initialCenter={{
+                    lat: mapCenter.lat,
+                    lng: mapCenter.lng
+                  }}
+                  center={{
+                    lat: mapCenter.lat,
+                    lng: mapCenter.lng
+                  }}
+                >
+                  <Marker 
+                    position={{
+                      lat: mapCenter.lat,
+                      lng: mapCenter.lng
+                    }} />
+                </Map>
+             </div>
               </div>
-          </div>*/}
+            
+            
+              <div class="row g-3">
+            
+              <div class="col-md-6">
+              <div class="row">
+                <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Latitude</label>
+                <div class="col-sm-9">
+                  <input type="text" id="formtabs-buss-name" class="form-control" 
+                  
+                  value={mapCenter.lat}
+            
+                  onChange={(event) => {
+                    setLatitude(event.target.value);
+                  }}
+                  
+                  
+                  placeholder="Latidude" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+              
+                <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Logitude</label>
+                <div class="col-sm-9">
+                <input type="text" id="formtabs-buss-name" class="form-control" 
+                  
+                value={mapCenter.lng}
+            
+                onChange={(event) => {
+                  setLongitude(event.target.value);
+                }}
+                
+                placeholder="Eg. Logitude" />
+                </div>
+              </div>
+            </div>
+            
+            
+            <div class="col-md-6">
+            <div class="row">
+              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">City</label>
+              <div class="col-sm-9">
+                <input type="text" id="formtabs-buss-name" class="form-control" 
+                
+                value={address}
+            
+                onChange={(event) => {
+                  setCity(event.target.value);
+                }}
+                
+                
+                placeholder="Latidude" />
+              </div>
+            </div>
+            </div>
+            <div class="col-md-6">
+            <div class="row">
+            
+              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">State</label>
+              <div class="col-sm-9">
+              <input type="text" id="formtabs-buss-name" class="form-control" 
+                
+              value={state}
+            
+              onChange={(event) => {
+                setState(event.target.value);
+              }}
+              
+              placeholder="Eg. Logitude" />
+              </div>
+            </div>
+            </div>
+            
+            </div>
+            
+              
+            
+            
+            </div>
+
+              }
+            
+
+              <Modal class="modal fade" id="modaldemo8" show={show}>
+
+              <Modal.Header>
+                <Modal.Title>Send Message</Modal.Title>
+              </Modal.Header>
+              <Modal.Body class="modal-body text-center p-4 pb-5">
+              
+              
+              
+        {showOrderConfirmed &&
+
+          <div>
+
+          <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+          <h4 class="text-success mb-4">Message sent successfully!</h4>
+
+          </div>
+
+
+      }
+              
+           
+              
+            {!showOrderConfirmed &&    <div class="form-row">
+
+
+
+            <div class="form-group col-md-12 mb-0">
+            <label class="form-label">Business Name</label>
+   
+    
+            <input type="text" class="form-control" id="order_id"
+
+            value={business_name}
+            
+            onChange={(event) => {
+                setbusiness_name(event.target.value);
+              }} 
+            
+           disabled/>
+            </div>
+    
+    
+    
+            <div class="form-group col-md-12 mb-0">
+    
+          
+                <div class="form-group">
+                <label class="form-label">Business Contact</label>
+                    <input type="text" class="form-control" id="customer_contacts" value={buss_contacts}
+                    
+                    onChange={(event) => {
+                        setbuss_contacts(event.target.value);
+                      }} 
+                    
+                    placeholder="customer_contacts"/>
+                </div>
+            </div>
+         
+    
+            
+           
+            <div class="form-group col-md-12 mb-0">
+            <label class="form-label">Any Message to the business</label>
+               
+            
+    
+                <textarea class="form-control"  
+                  onChange={(event) => {
+                  setMessage(event.target.value);
+                }}  placeholder="Enter any message to customer" id="floatingTextarea2" style={{height: '100px'}}></textarea>
+            </div>
+           
+        </div>}   
+         
+              
+                
+              
+              </Modal.Body>
+              <Modal.Footer>
+
+              {!isLoading && <button type="submit" onClick={sendMsg} class="btn btn-primary">Send</button>
+
+} 
+{isLoading &&
+  
+
+    <button class="btn btn-primary my-1" type="button" disabled="">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Sending....
+</button>
+}
+
+              <Button variant="secondary" onClick={handleClose}>
+              Close
+          </Button>
+              
+           
+               
+              </Modal.Footer>
+              </Modal>
 
 
              
@@ -2942,6 +2880,7 @@ return (
 
 
 <script src="/assets/plugins/bootstrap/js/popper.min.js"></script>
+
 <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 
@@ -3028,4 +2967,7 @@ return (
 )
 }
 
-export default EditBusinessSetting
+
+export default GoogleApiWrapper({
+  apiKey: ('AIzaSyAOJjEor9H6PWdsKLAQSr3dIH1fWJNveGI')
+})(EditBusinessSetting)

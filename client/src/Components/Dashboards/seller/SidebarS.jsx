@@ -3,7 +3,7 @@ import React from 'react'
 import {useEffect,useState,useContext } from 'react';
 import { AuthContext } from '../../../helpers/AuthContext'
 
-import{useNavigate} from 'react-router-dom'
+import{useNavigate,Link} from 'react-router-dom'
 
 function SidebarS() {
 
@@ -55,17 +55,24 @@ function SidebarS() {
                                 <h3>Main</h3>
                             </li>
                             <li class="slide">
-                                <a class="side-menu__item has-link" data-bs-toggle="slide" href="/dashboard-vendor"><i
+                                <Link class="side-menu__item has-link" data-bs-toggle="slide" to='/dashboard-vendor'><i
                                         class="side-menu__icon fe fe-home"></i><span
-                                        class="side-menu__label">Dashboard</span></a>
+                                        class="side-menu__label">Dashboard</span></Link>
                             </li>
 
 
                             <li class="slide">
-                            <a class="side-menu__item has-link" data-bs-toggle="slide" href="/profile-vendor">
-                            
-                            <i class="side-menu__icon fe fe-user"></i> Profile<span
-                                    class="side-menu__label"></span></a>
+
+                            {/**<a class="side-menu__item has-link" data-bs-toggle="slide" href="/profile-vendor">
+
+                                  <i class="side-menu__icon fe fe-user"></i> Profile<span
+                                      class="side-menu__label"></span>
+                              </a> */}
+                              <Link class="side-menu__item has-link" data-bs-toggle="slide" to='/profile-vendor'>
+
+                                  <i class="side-menu__icon fe fe-user"></i> Profile<span
+                                      class="side-menu__label"></span>
+                              </Link>
 
 
                                    
@@ -78,22 +85,32 @@ function SidebarS() {
 
 
                             <li>
-                                <a class="side-menu__item has-link" href="/setting-products">
 
-                              
-                                
-                                <i class="side-menu__icon fa fa-product-hunt" data-bs-toggle="tooltip" title="fa fa-product-hunt"></i><span
-                                        class="side-menu__label">Products</span><span class="badge bg-green br-5 side-badge blink-text pb-1">New</span></a>
+                            {/** <a class="side-menu__item has-link" href="/setting-products">
+
+
+
+                                  <i class="side-menu__icon fa fa-product-hunt" data-bs-toggle="tooltip" title="fa fa-product-hunt"></i><span
+                                      class="side-menu__label">Products</span><span class="badge bg-green br-5 side-badge blink-text pb-1">New</span>
+                              </a> */}
+                              <Link class="side-menu__item has-link" to='/setting-products'>
+
+
+
+                                  <i class="side-menu__icon fa fa-product-hunt" data-bs-toggle="tooltip" title="fa fa-product-hunt"></i><span
+                                      class="side-menu__label">Products</span><span class="badge bg-green br-5 side-badge blink-text pb-1">New</span>
+                              </Link>
+                            
                             </li>
                             <li class="sub-category">
                                 <h3>Misc Pages</h3>
                             </li>
                           
                             <li class="slide">
-                                <a class="side-menu__item" data-bs-toggle="slide" href="/account-setting">
+                            <Link class="side-menu__item" data-bs-toggle="slide" to='/account-setting'>
                                     <i class="side-menu__icon fe fe-cpu"></i>
                                     <span class="side-menu__label">Setting</span><i
-                                        class="angle fe fe-chevron-right"></i></a>
+                                        class="angle fe fe-chevron-right"></i></Link>
                                
                             </li>
                             <li class="sub-category">

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../../helpers/AuthContext";
 
@@ -109,8 +109,12 @@ function SignIn() {
        
             <div class="col col-login mx-auto mt-7">
                 <div class="text-center">
+
+                {/** <a href='/'><img src="assets/images/brand/logo_pink.png" class="header-brand-img" alt=""/></a> */}
+
+                <Link to={`/`}><img src="assets/images/brand/logo_pink.png" class="header-brand-img" alt=""/></Link>
                 
-                <a href='/'><img src="assets/images/brand/logo_pink.png" class="header-brand-img" alt=""/></a>
+                
                 </div>
             </div>
 
@@ -181,7 +185,7 @@ function SignIn() {
                                                 
                                               </div>
                                         <div class="text-center pt-3">
-                                            <p class="text-dark mb-0">Not a member?<a href="/get-started" class="text-primary ms-1">Sign UP</a></p>
+                                            <p class="text-dark mb-0">Not a member?<Link to='/get-started' class="text-primary ms-1">Sign UP</Link></p>
                                         </div>
                                         <label class="login-social-icon"><span>Login with Social</span></label>
                                         <div class="d-flex justify-content-center">

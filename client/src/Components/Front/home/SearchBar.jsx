@@ -34,9 +34,11 @@ function SearchBar({ placeholder, data }) {
 
     
       <div class="form-group">
-          <input class="form-control"    placeholder={placeholder}
+     
+          <input class="form-control" placeholder={placeholder}
           value={wordEntered}
           onChange={handleFilter} type="text"/>
+          
       </div>
 
       
