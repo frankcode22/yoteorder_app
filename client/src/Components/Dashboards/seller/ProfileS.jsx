@@ -92,6 +92,8 @@ const [bussSetup,setBussSetup]=useState(false);
 
 const [showSetUpError,setShowSetUpError]=useState(false);
 
+const [notifications, setNotifications] = useState([]);
+
 
 
 
@@ -213,7 +215,7 @@ return (
 
 
 
-<SidebarS></SidebarS>
+<SidebarS notifications={notifications}></SidebarS>
 
 
 

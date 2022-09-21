@@ -1396,8 +1396,8 @@ return (
               <div>
               <div id='googleMaps'>
             
-           <p>Your Position {position.latitude}</p>
-            
+          {/** <p>Your Position {position.latitude}</p>
+            */} 
               {/**<SearchPlaces></SearchPlaces> */}
             
             

@@ -5,7 +5,7 @@ import { AuthContext } from '../../../helpers/AuthContext'
 
 import{useNavigate,Link} from 'react-router-dom'
 
-function SidebarS() {
+function SidebarS({notifications}) {
 
     const {authState} = useContext(AuthContext);
     const {setAuthState} = useContext(AuthContext);
@@ -122,10 +122,10 @@ function SidebarS() {
                          
 
 
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#">
+                            <Link class="side-menu__item" data-bs-toggle="slide" to='/mailbox'>
                             <i class="side-menu__icon fe fe-mail"></i> Inbox
-                            <span class="badge bg-danger rounded-pill float-end">5</span>
-                        </a>
+                            <span class="badge bg-danger rounded-pill float-end">{notifications.length?notifications.length:'0'}</span>
+                        </Link>
                        
                         <a type="submit" class="side-menu__item" data-bs-toggle="slide" onClick={logout}>
                             <i class="side-menu__icon fe fe-alert-circle"></i> Logout

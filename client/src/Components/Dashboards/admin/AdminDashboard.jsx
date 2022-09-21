@@ -1,16 +1,171 @@
 import React from 'react'
+import {useEffect,useState,useContext} from 'react';
 
+
+import axios from 'axios';
 
 import{useNavigate} from 'react-router-dom'
 import SideBar from './SideBar';
 import Topbar from './Topbar';
+import DataContext from '../../../helpers/DataContext';
+
+
 
 
 
 function AdminDashboard() {
 
 
+
+
+    const [productsList, setProductsList] = useState([]);
+    const [ordersList, setOrdersList] = useState([]);
+
+    const [customersList, setCustomersList] = useState([]);
+
+    const {bussinessList, setBussinessList} = useContext(DataContext);
+
+    const [isLoading,setLoading]=useState(false);
+
+
+    const [isDivLoading, setIsDivLoading] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const [vendorsList, setVendorsList] = useState([]);
+
+
     const history=useNavigate();
+
+
+   
+
+       useEffect(()=>{
+
+   
+       
+    
+    
+     
+    
+        setIsDivLoading(true);
+ 
+ 
+        
+ 
+ 
+    console.log("HI ADMIN ALL BUSINESS DETAILS FROM CONTREXT:",bussinessList);
+ 
+ 
+    if(bussinessList!=null){
+ 
+ 
+     setTimeout(() => {
+ 
+     setVendorsList(bussinessList)
+
+     setIsDivLoading(false)  
+         
+      
+     }, 3000);
+ 
+    
+ 
+ 
+ }
+ else{
+ 
+     setErrorMessage("Unable to fetch your vendors list");
+     setIsDivLoading(false);
+ }
+
+
+
+ axios.get('https://yoteorder-server.herokuapp.com/users/customers').then((response) => {
+     // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+
+    
+
+    
+
+      
+       setTimeout(() => {
+
+        setCustomersList(response.data)
+
+        //  setNotifications(response.data)
+
+        
+       }, 1000);
+
+       //setSeller_name(response.data.Users.first_name)
+       
+   }).catch((error) => {
+       
+
+       console.log("Error occured while fetching notifications "+error)
+     
+    });
+
+
+
+    axios.get('https://yoteorder-server.herokuapp.com/product/allproducts',{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+   
+       
+   
+       
+   
+         
+          setTimeout(() => {
+   
+           setProductsList(response.data)
+   
+           //  setNotifications(response.data)
+   
+           
+          }, 500);
+   
+          //setSeller_name(response.data.Users.first_name)
+          
+      }).catch((error) => {
+          
+   
+          console.log("Error occured while fetching notifications "+error)
+        
+       });
+
+       axios.get('https://yoteorder-server.herokuapp.com/order/allorders',{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+   
+       
+   
+            setOrdersList(response.data)
+   
+         
+          setTimeout(() => {
+   
+         
+   
+           //  setNotifications(response.data)
+   
+           
+          }, 1000);
+   
+          //setSeller_name(response.data.Users.first_name)
+          
+      }).catch((error) => {
+          
+   
+          console.log("Error occured while fetching notifications "+error)
+        
+       });
+ 
+ 
+    
+ 
+ 
+ },[bussinessList])
 
 
 
@@ -88,97 +243,100 @@ function AdminDashboard() {
                             </ol>
                         </div>
                     </div>
-                    
+
+
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                                    <div class="card overflow-hidden">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="mt-2">
-                                                    <h6 class="">Total Users</h6>
-                                                    <h2 class="mb-0 number-font">44,278</h2>
-                                                </div>
-                                                <div class="ms-auto">
-                                                    <div class="chart-wrapper mt-1">
-                                                        <canvas id="saleschart"
-                                                            class="h-8 w-9 chart-dropshadow"></canvas>
-                                                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                                <div class="card overflow-hidden">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="mt-2">
+                                                <h6 class="">Total Customers</h6>
+                                                <h2 class="mb-0 number-font">{customersList.length}</h2>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <div class="chart-wrapper mt-1">
+                                                    <canvas id="saleschart"
+                                                        class="h-8 w-9 chart-dropshadow"></canvas>
                                                 </div>
                                             </div>
-                                            <span class="text-muted fs-12"><span class="text-secondary"><i
-                                                        class="fe fe-arrow-up-circle  text-secondary"></i> 5%</span>
-                                                Last week</span>
                                         </div>
+                                        <span class="text-muted fs-12"><span class="text-secondary"><i
+                                                    class="fe fe-arrow-up-circle  text-secondary"></i> 5%</span>
+                                            Last week</span>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                                    <div class="card overflow-hidden">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="mt-2">
-                                                    <h6 class="">Total Profit</h6>
-                                                    <h2 class="mb-0 number-font">67,987</h2>
-                                                </div>
-                                                <div class="ms-auto">
-                                                    <div class="chart-wrapper mt-1">
-                                                        <canvas id="leadschart"
-                                                            class="h-8 w-9 chart-dropshadow"></canvas>
-                                                    </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                                <div class="card overflow-hidden">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="mt-2">
+                                                <h6 class="">Vendors </h6>
+                                                <h2 class="mb-0 number-font">{bussinessList.length}</h2>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <div class="chart-wrapper mt-1">
+                                                    <canvas id="leadschart"
+                                                        class="h-8 w-9 chart-dropshadow"></canvas>
                                                 </div>
                                             </div>
-                                            <span class="text-muted fs-12"><span class="text-pink"><i
-                                                        class="fe fe-arrow-down-circle text-pink"></i> 0.75%</span>
-                                                Last 6 days</span>
                                         </div>
+                                        <span class="text-muted fs-12"><span class="text-pink"><i
+                                                    class="fe fe-arrow-down-circle text-pink"></i> 0.75%</span>
+                                            Last 6 days</span>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                                    <div class="card overflow-hidden">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="mt-2">
-                                                    <h6 class="">Total Expenses</h6>
-                                                    <h2 class="mb-0 number-font">$76,965</h2>
-                                                </div>
-                                                <div class="ms-auto">
-                                                    <div class="chart-wrapper mt-1">
-                                                        <canvas id="profitchart"
-                                                            class="h-8 w-9 chart-dropshadow"></canvas>
-                                                    </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                                <div class="card overflow-hidden">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="mt-2">
+                                                <h6 class="">Total Products</h6>
+                                                <h2 class="mb-0 number-font">{productsList.length}</h2>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <div class="chart-wrapper mt-1">
+                                                    <canvas id="profitchart"
+                                                        class="h-8 w-9 chart-dropshadow"></canvas>
                                                 </div>
                                             </div>
-                                            <span class="text-muted fs-12"><span class="text-green"><i
-                                                        class="fe fe-arrow-up-circle text-green"></i> 0.9%</span>
-                                                Last 9 days</span>
                                         </div>
+                                        <span class="text-muted fs-12"><span class="text-green"><i
+                                                    class="fe fe-arrow-up-circle text-green"></i> 0.00%</span>
+                                            Last 7 days</span>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
-                                    <div class="card overflow-hidden">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="mt-2">
-                                                    <h6 class="">Total Cost</h6>
-                                                    <h2 class="mb-0 number-font">$59,765</h2>
-                                                </div>
-                                                <div class="ms-auto">
-                                                    <div class="chart-wrapper mt-1">
-                                                        <canvas id="costchart"
-                                                            class="h-8 w-9 chart-dropshadow"></canvas>
-                                                    </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                                <div class="card overflow-hidden">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <div class="mt-2">
+                                                <h6 class="">Total Orders</h6>
+                                                <h2 class="mb-0 number-font">{ordersList.length?ordersList.length:0}</h2>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <div class="chart-wrapper mt-1">
+                                                    <canvas id="costchart"
+                                                        class="h-8 w-9 chart-dropshadow"></canvas>
                                                 </div>
                                             </div>
-                                            <span class="text-muted fs-12"><span class="text-warning"><i
-                                                        class="fe fe-arrow-up-circle text-warning"></i> 0.6%</span>
-                                                Last year</span>
                                         </div>
+                                        <span class="text-muted fs-12"><span class="text-warning"><i
+                                                    class="fe fe-arrow-up-circle text-warning"></i> 0.0%</span>
+                                            Last month</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                    
+                    
                     
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">

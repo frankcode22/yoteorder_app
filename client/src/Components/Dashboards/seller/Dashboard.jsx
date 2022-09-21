@@ -87,6 +87,8 @@ function Dashboard() {
 
     const [confirmationMessage, setConfirmationMessage] = useState("");
 
+    const [notifications, setNotifications] = useState([]);
+
 
     const [show, setShow] = useState(false);
 
@@ -174,6 +176,9 @@ function Dashboard() {
                 console.log("YOUR  BUSINESS NAME  IS ",businessDetails.my_buss.business_name);
       
                 setBussSetup(true);
+
+                setNotifications(businessDetails.my_buss.Notifications)
+                
       
                 //setOrdersList(response.data.Orders)
       
@@ -842,7 +847,8 @@ Save Changes
 
 
 
-<SidebarS></SidebarS>
+
+<SidebarS notifications={notifications}></SidebarS>
 
 
 
@@ -908,8 +914,8 @@ Save Changes
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="mt-2">
-                                                    <h6 class="">Total Profit</h6>
-                                                    <h2 class="mb-0 number-font">Ksh. 0</h2>
+                                                    <h6 class="">Total Orders</h6>
+                                                    <h2 class="mb-0 number-font">{ordersList.length?ordersList.length:'0'}</h2>
                                                 </div>
                                                 <div class="ms-auto">
                                                     <div class="chart-wrapper mt-1">

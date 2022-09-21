@@ -31,6 +31,7 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 import LocationDataContextInit from '../../../helpers/LocationDataContextInit';
+import LocationDataContext from '../../../helpers/LocationDataContext';
 //import SearchPlaces from './SearchPlaces';
 
 const SearchPlaces = lazy(() => import('./SearchPlaces'));
@@ -38,9 +39,11 @@ const SearchPlaces = lazy(() => import('./SearchPlaces'));
 function AccountSetting(props) {
 
 
-  const {businessDetails,setBusinessDetails } = useContext(DataContext);
+  const {businessDetails,setBusinessDetails} = useContext(DataContext);
 
   const {userPos, setUserPos} = useContext(LocationDataContextInit);
+
+  const {position, setPosition} = useContext(LocationDataContext);
 
  // const { posts, setPosts } = useContext(DataContext);
 
@@ -174,6 +177,8 @@ function AccountSetting(props) {
   const [selectedFile, setSelectedFile] = useState();
   const [successMsg, setSuccessMsg] = useState('');
   const [errMsg, setErrMsg] = useState('');
+
+  const [notifications, setNotifications] = useState([]);
 
 
 
@@ -376,7 +381,7 @@ function AccountSetting(props) {
 
 
 
-},[businessDetails]);
+},[businessDetails,position,userPos]);
 
 
 
@@ -983,7 +988,7 @@ const openSelectedStaff=(sId)=>{
 <TopbarS></TopbarS>
 
 
-<SidebarS></SidebarS>
+<SidebarS notifications={notifications}></SidebarS>
 
 
 
@@ -1388,7 +1393,7 @@ const openSelectedStaff=(sId)=>{
                           onChange={(event) => {
                               setbuss_contacts(event.target.value);
                             }}
-                          placeholder="0714639773" aria-label="0714639773" />
+                          placeholder="eg.0718XXXXXX" aria-label="0714639773" />
                         </div>
                       </div>
                     </div>
@@ -1413,8 +1418,7 @@ const openSelectedStaff=(sId)=>{
   {/**<SearchPlaces></SearchPlaces> */}
 
 
-
-  {!userPos.lat==null &&      <PlacesAutocomplete
+  {position &&      <PlacesAutocomplete
     value={address}
     onChange={handleAddressChange}
     onSelect={handleSelect}
@@ -1456,6 +1460,101 @@ const openSelectedStaff=(sId)=>{
       </div>
     )}
   </PlacesAutocomplete>}
+
+
+
+  {!position &&   
+    <PlacesAutocomplete
+      value={address}
+      onChange={handleAddressChange}
+      onSelect={handleSelect}
+    >
+      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+        <div>
+          <input
+            {...getInputProps({
+              placeholder: 'Search Places ...',
+              className: 'multisteps-form__input form-control',
+            })}
+          />
+  
+        
+  
+          
+          <div className="autocomplete-dropdown-container">
+            {loading && <div>Loading...</div>}
+            {suggestions.map(suggestion => {
+              const className = suggestion.active
+                ? 'suggestion-item--active'
+                : 'suggestion-item';
+              // inline style for demonstration purpose
+              const style = suggestion.active
+                ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                : { backgroundColor: '#ffffff', cursor: 'pointer' };
+              return (
+                <div
+                  {...getSuggestionItemProps(suggestion, {
+                    className,
+                    style,
+                  })}
+                >
+                  <span>{suggestion.description}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </PlacesAutocomplete>}
+
+
+    {/** {!userPos.lat==null &&      <PlacesAutocomplete
+    value={address}
+    onChange={handleAddressChange}
+    onSelect={handleSelect}
+  >
+    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+      <div>
+        <input
+          {...getInputProps({
+            placeholder: 'Search Places ...',
+            className: 'multisteps-form__input form-control',
+          })}
+        />
+
+      
+
+        
+        <div className="autocomplete-dropdown-container">
+          {loading && <div>Loading...</div>}
+          {suggestions.map(suggestion => {
+            const className = suggestion.active
+              ? 'suggestion-item--active'
+              : 'suggestion-item';
+            // inline style for demonstration purpose
+            const style = suggestion.active
+              ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+              : { backgroundColor: '#ffffff', cursor: 'pointer' };
+            return (
+              <div
+                {...getSuggestionItemProps(suggestion, {
+                  className,
+                  style,
+                })}
+              >
+                <span>{suggestion.description}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    )}
+  </PlacesAutocomplete>} */}
+
+
+
+
+ 
 
 
 

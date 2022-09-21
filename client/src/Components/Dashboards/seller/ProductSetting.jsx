@@ -86,6 +86,8 @@ function ProductSetting(props) {
 
     const [postal_code, setPostal_code] = useState("");
 
+    const [notifications, setNotifications] = useState([]);
+
 
   
       const [showingInfoWindow, setShowingInfoWindow] = useState(false);
@@ -1065,7 +1067,7 @@ const openSelectedProduct=(pId,e)=>{
 <TopbarS></TopbarS>
 
 
-<SidebarS></SidebarS>
+<SidebarS notifications={notifications}></SidebarS>
 
 
 

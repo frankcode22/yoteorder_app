@@ -33,6 +33,7 @@ import { OrderDetailsDataProvider } from "./helpers/OrderDetailsContext";
 import { LocationDataDataProvider } from "./helpers/LocationDataContext";
 import { LocationDataContextInitProvider } from "./helpers/LocationDataContextInit";
 import EmailCompose from './Components/Dashboards/admin/EmailCompose';
+import MailBox from './Components/Dashboards/seller/MailBox';
 
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 //const Products = lazy(() => import('./Products'));
@@ -57,7 +58,7 @@ function App() {
   useEffect(() => {
     axios
    .get("https://yoteorder-server.herokuapp.com/users/auth", {
-    //  .get("http://localhost:3001/users/auth",{
+     // .get("http://localhost:3001/users/auth",{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -139,6 +140,8 @@ function App() {
         <Route path="/edit-business-setting/:id" element={ <EditBusinessSetting/>}/>
 
         <Route path="/mail" element={ <EmailCompose/>}/>
+
+        <Route path="/mailbox" element={ <MailBox/>}/>
 
   
        

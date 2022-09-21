@@ -355,14 +355,7 @@ function Homepage() {
     }
     
 
-   
-    
-    
-
     console.log("THE SELECT OPTION IS "+selectedOption)
-
-
-     
 
 
    }
