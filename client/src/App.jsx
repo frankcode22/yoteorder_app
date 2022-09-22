@@ -135,16 +135,46 @@ function App() {
 
         <Route path="/products" element={ <Products/>}/>
 
-        <Route path="/vendors" element={ <Vendors/>}/>
+        {/** <Route path="/vendors" element={ <Vendors/>}/>
 
-        <Route path="/edit-business-setting/:id" element={ <EditBusinessSetting/>}/>
+        <Route path="/edit-business-setting/:id" element={ <EditBusinessSetting/>}/> */}
 
-        <Route path="/mail" element={ <EmailCompose/>}/>
+       
+
+        <Route exact path="/mail" element={ <EmailCompose/>}/>
 
         <Route path="/mailbox" element={ <MailBox/>}/>
 
+
+      
+
+    
+
+        {/** 	<Route exact path='/explore'>
+    		<Vendors data={ data } />
+    	</Route>
+    	<Route path='/explore/:name'>
+    		<ExploreDetail data={ data } />
+    	</Route>
+    */}
+
+       
+    
+
   
        
+    </Routes>
+
+
+    <Routes>
+    <Route exact path='/vendors' element={ <Vendors/>}>
+    		
+    </Route>
+
+    <Route path='/vendors/:id'  element={ <EditBusinessSetting/>}>
+    
+    </Route>
+    
     </Routes>
 
     </Suspense>

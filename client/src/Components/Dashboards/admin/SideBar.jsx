@@ -68,12 +68,12 @@ function SideBar() {
             </li>
           
             <li class="slide">
-                <a class="side-menu__item" data-bs-toggle="slide" href="/vendors">
+                <Link class="side-menu__item" data-bs-toggle="slide" to="/vendors">
                     <i class="side-menu__icon fe fe-cpu"></i>
-                    <span class="side-menu__label">Manage Vendors</span><i
-                        class="angle fe fe-chevron-right"></i></a>
+                    <span class="side-menu__label">Vendors</span><i
+                        class="angle fe fe-chevron-right"></i></Link>
                 <ul class="slide-menu">
-                    <li class="side-menu-label1"><a href="/vendors">Vendors</a></li>
+                    <li class="side-menu-label1"><Link to="/vendors">Vendors</Link></li>
                     <li><a href="/vendors" class="slide-item">All Businness</a></li>
                    
                 </ul>
@@ -93,10 +93,10 @@ function SideBar() {
 
 
 
-        <Link class="side-menu__item" data-bs-toggle="slide" to='/mail'>
+        <a class="side-menu__item" data-bs-toggle="slide" href='/mail'>
         <i class="side-menu__icon fe fe-mail"></i> Inbox
         <span class="badge bg-danger rounded-pill float-end">5</span>
-        </Link>
+        </a>
 
         <li class="slide">
         <a class="side-menu__item" data-bs-toggle="slide" href="/users"><i

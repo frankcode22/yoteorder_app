@@ -29,13 +29,16 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import SearchBar from "./SearchBar";
 import BookData from "../../../Data.json";
-//import SearchModal from './SearchModal';
+import SearchModal from './SearchModal';
+
+import { ChildComponent } from './ChildComponent ';
 
 const CampaignBadge = lazy(() => import('./CampaignBadge'));
 
 const HowToGetStarted = lazy(() => import('./HowToGetStarted'));
 
 const BestRatedVendors = lazy(() => import('./BestRatedVendors'));
+
 
 
 
@@ -50,7 +53,7 @@ function truncate(number, index = 2) {
 
 
 
-function Homepage() {
+function Homepage(props) {
 
     const {bussinessList, setBussinessList} = useContext(DataContext);
 
@@ -61,10 +64,19 @@ function Homepage() {
 
     const {latitude, longitude} = usePosition();
 
+    const [trigger, setTrigger] = useState("Mbatha");
+
+
+   // let [showSecret, setShowSecret] = useState(0)
+
 
     const[lat,setLat]=useState('')
 
     const[lng,setLng]=useState('')
+
+    const[lat1,setLat1]=useState('')
+
+    const[lng1,setLng1]=useState('')
 
     const[exitCode,setExitCode]=useState(null)
 
@@ -93,6 +105,8 @@ function Homepage() {
     const [show, setShow] = useState(false);
 
     const [showErrorModal, setShowErrorModal] = useState(false);
+
+    const [showManualSearchModal, setShowManualSearchModal] = useState(false);
 
    
     const handleShow = () =>{
@@ -288,7 +302,7 @@ function Homepage() {
        
 
 
-    {/** // axios.get('http://localhost:3001/business/bestRated').then((response) => {
+    {/** // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
            axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
 
          
@@ -331,7 +345,7 @@ function Homepage() {
        
   
  
-  },[bussinessList,userPos,position,latitude,longitude,setLoading,handleClose]);
+  },[bussinessList,userPos,position,latitude,longitude,setLoading,lat1,handleClose]);
 
 
   
@@ -374,6 +388,17 @@ function Homepage() {
        };
 
 
+       const searchManually = () =>{
+      
+         setShowErrorModal(false)
+
+         setShowManualSearchModal(true)
+         
+        
+         
+           };
+
+
 
        
 
@@ -382,7 +407,7 @@ function Homepage() {
 
   const searchItem = () => {
 
-   
+    console.log("MAP CENTRE VALUES IS"+lat)
 
    
     // if(!latitude  || !longitude){
@@ -469,6 +494,92 @@ function Homepage() {
 
 
 
+const searchItem1 = () => {
+
+   
+    // if(!latitude  || !longitude){
+
+    if(!lat1  || !lng1){
+
+     
+
+          setShowErrorModal(true)
+
+        return  
+    
+      }
+
+
+    //  let lat_val=parseFloat(latitude);
+
+  
+    //  let lng_val=parseFloat(longitude);
+
+    //  let search_lat= truncate(lat_val, 2)
+
+    //  let search_lng=  truncate(lng_val, 2)
+
+
+
+      //console.log("Lat value is"+search_lat)
+
+    // console.log("Long value is"+search_lng)
+
+    
+
+
+    if(pname==''){
+
+      
+    
+    // alert("You must enter the item")
+
+    toast.warn('You must enter the search item');
+
+    
+         return
+    
+      }
+
+    // setLoading(true);
+
+    setShowManualSearchModal(false)
+    setLoading(true)
+
+
+    setShow(true);
+
+    if(exitCode){
+        console.log('Exit code is'+exitCode)
+        setExitCode(null)
+        return
+    }
+
+  
+
+  
+    setTimeout(() => {
+
+      
+
+    setLoading(false)
+    //history('/ordered-product/'+pname+'/'+search_lat+'/'+search_lng);
+
+    history('/ordered-product/'+pname+'/'+lat1+'/'+lng1);
+
+    setShow(false)
+
+   
+    
+}, 4000);
+
+
+
+
+} 
+
+
+
 
 
 
@@ -484,7 +595,9 @@ function Homepage() {
 
 
     
-
+         const closeModal=()=>{
+            setShowManualSearchModal(false)
+         }
 
 
 
@@ -721,7 +834,15 @@ function Homepage() {
     <h4 class="text-danger mb-20">Error: Cannot access your location!</h4>
 
 
-    <p class="mb-4 mx-4">Kindly enable your location setting to use this app</p>
+    <p class="mb-4 mx-4">Enable your location setting to use this app</p>
+
+    <h4 class="text-center">OR</h4>
+
+ 
+
+    <Button variant="btn btn-secondary" onClick={searchManually}><i class="fa fa-pinterest"></i>
+     Activate search map
+   </Button>
 
 
 
@@ -744,6 +865,10 @@ Save Changes
 
 
 
+<SearchModal setLat1={setLat1} setLng1={setLng1} userPos={userPos} show={showManualSearchModal} closeModal={closeModal} searchItem1={searchItem1}/>
+ 
+<p class="mb-4 mx-4">{lat1} : {lng1}</p>
+
 {/**<SearchModal latitude={latitude} longitude={longitude} show={show} searchItem={searchItem}/> */}
 
                                               <Modal class="modal fade" id="modaldemo8" show={show}>
@@ -763,7 +888,7 @@ Save Changes
 
                                                       <p class="text-center"> <div class="me-4 text-center text-primary">
                                                           <span><i class="fe fe-map-pin fs-20"></i></span>
-                                                      </div>{latitude} ::{longitude}</p>
+                                                      </div>{latitude?latitude:lat1} ::{longitude?longitude:lng1}</p>
                                                       <h4 class="h4 mb-0 mt-3">Processing..</h4>
 
                                                       <p class="card-text">Your search for  <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>{pname} <a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span> currently in progress</p>
@@ -839,6 +964,12 @@ Save Changes
 
 
         <UsePositions></UsePositions>
+
+        {/** <div onClick={() => { setTrigger(trigger => 'Mwesh'); }}>
+      <ChildComponent trigger={trigger}></ChildComponent>
+    </div> */}
+
+       
 
      
 

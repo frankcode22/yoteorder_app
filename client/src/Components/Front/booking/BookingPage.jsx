@@ -148,8 +148,8 @@ function BookingPage() {
   
     //   axios.get("https://tunepbackend.herokuapp.com/customer/mycustomers").then((response) => {
 
-   axios.get("http://localhost:3001/product/getproducts").then((response) => {
-   //axios.get("http://localhost:3001/product/search/"+item+"/"+string_lng).then((response) => {
+   axios.get("https://yoteorder-server.herokuapp.com/product/getproducts").then((response) => {
+   //axios.get("https://yoteorder-server.herokuapp.com/product/search/"+item+"/"+string_lng).then((response) => {
            // axios.get(`https://ngeritbackend.herokuapp.com/product/search/${item}`).then((response) => {
 
            
@@ -232,7 +232,7 @@ function BookingPage() {
    //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
   
   
-    axios.post('http://localhost:3001/users',user_details).then((response)=>{
+    axios.post('https://yoteorder-server.herokuapp.com/users',user_details).then((response)=>{
   
       console.log("THE CUSTOMER DATA IS"+response.data)
   
@@ -245,7 +245,7 @@ function BookingPage() {
 
 
 
-      axios.post('http://localhost:3001/customer',customer_details).then((res)=>{
+      axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
   
       console.log("The response is"+res.data)
   
@@ -265,7 +265,7 @@ function BookingPage() {
 
 
       
-//       axios.post('http://localhost:3001/booking',appointment).then((res_b)=>{
+//       axios.post('https://yoteorder-server.herokuapp.com/booking',appointment).then((res_b)=>{
   
 //       console.log("The response is"+res_b.data)
   
@@ -288,7 +288,7 @@ function BookingPage() {
 
   const data = { username:email, password: phone_no };
 
-  axios.post("http://localhost:3001/users/login", data).then((rense) => {
+  axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((rense) => {
     if (rense.data.error) {
       alert(rense.data.error);
       setLoading(false);

@@ -181,6 +181,11 @@ function AccountSetting(props) {
   const [notifications, setNotifications] = useState([]);
 
 
+  const [showUpdateButton, setShowUpdateButton] = useState(false);
+
+
+
+
 
     
 
@@ -517,14 +522,18 @@ const buss_data={
       // localStorage.setItem("business_set", true);
 
        setbusiness_name(response.data.business_name)
+
+       setlocation(response.data.location)
+       setLatitude(response.data.latitude)
+       setLongitude(response.data.longitude)
     
         console.log("The response is"+response.data)
 
 
-        console.log("START tIME"+openTime)
+      //  console.log("START tIME"+openTime)
 
 
-        console.log("END TIME"+closeTime)
+       // console.log("END TIME"+closeTime)
 
 
         console.log("THE BUSINESS ID IS "+response.data.id)
@@ -532,14 +541,10 @@ const buss_data={
         setbusinessId(response.data.id)
 
 
-       
-
-
        // console.log("THE NEW BUSINESS OBJECT AFTER SETTING UP MY BUSS IS "+businessDetails)
 
 
 
-    
            
             setTimeout(() => {
                 setLoading(false);
@@ -616,6 +621,16 @@ const buss_data={
     
     // setCloudinaryUrl(data.cloudinary_url)
     setUploding(false);
+
+
+
+    //setPosts(posts.map(post => post.id === id ? { ...response.data } : post));
+
+    //setBusinessDetails.my_buss(businessDetails.my_buss.map(post => businessDetails.my_buss.id === businessId ? { ...data.data.my_buss } : businessDetails));
+
+    //const customer = customersList.find(post => (post.id).toString() === selectedOption);
+
+    setCloudinaryUrl(data.cloudinaryUrl)
 
    
 
@@ -972,6 +987,69 @@ const openSelectedStaff=(sId)=>{
 }
 
 
+const initiateEdit=()=>{
+
+  
+
+  setIsBusinessSet(false)
+
+  setShowErrorAlert(false)
+  setShowServicesDiv(false)
+  setShowServicesDiv(false)
+  setShowBusinessSetupDiv(true)
+  setShowBusinessSetupDiv(true)
+  setShowUpdateButton(true)
+
+ 
+
+  }
+
+
+
+  const updateBusinessInfor = ()  => {
+    setLoading(true);
+
+     //axios.post("https://yoteorder-server.herokuapp.com/business",buss_data).then((response)=>{
+    
+    axios.put(`https://yoteorder-server.herokuapp.com/business/updateBuss/${businessId}`,buss_data).then((response)=>{
+
+    console.log("The response is"+response.data)
+
+
+    console.log("START tIME"+openTime)
+
+
+    console.log("END TIME"+closeTime)
+
+
+    console.log("THE BUSINESS ID IS "+response.data.id)
+
+    setbusinessId(response.data.id)
+
+
+    setbusiness_name(response.data.business_name)
+
+    setlocation(response.data.location)
+    setLatitude(response.data.latitude)
+    setLongitude(response.data.longitude)
+
+
+       
+        setTimeout(() => {
+            setLoading(false);
+            toast.success('Saved');
+            setIsBusinessSet(true)
+        }, 500);
+     
+       //  history("/dashboard");
+      
+       
+    })
+
+}
+
+
+
 
 
   return (
@@ -1106,9 +1184,10 @@ const openSelectedStaff=(sId)=>{
                                       <span class=""><i class="fe fe-more-vertical"></i></span>
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-end">
-                                      <a class="dropdown-item" href="javascript:void(0)">Edit Post</a>
-                                      <a class="dropdown-item" href="javascript:void(0)">Delete Post</a>
-                                      <a class="dropdown-item" href="javascript:void(0)">Personal Settings</a>
+                                     <a onClick={initiateEdit} class="btn dropdown-item" href="javascript:void(0)">Edit Details</a>
+                                     
+                                      <a class="dropdown-item" onClick={initiateEdit} href="javascript:void(0)">Add Profile</a>
+                                      <a class="dropdown-item" onClick={initiateEdit} href="javascript:void(0)">Personal Settings</a>
                                   </div>
                               </div>
                           </div>
@@ -1260,6 +1339,8 @@ const openSelectedStaff=(sId)=>{
                         <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
                         <div class="col-sm-9">
                           <input type="text" id="formtabs-buss-name" class="form-control" 
+
+                          value={business_name}
                           
                           onChange={(event) => {
                               setbusiness_name(event.target.value);
@@ -1410,12 +1491,18 @@ const openSelectedStaff=(sId)=>{
 
               {!isBusinessSet && 
 
-                <div>
+  <div>
   <div id='googleMaps'>
 
   <Suspense fallback={<div>Loading...</div>}>
 
   {/**<SearchPlaces></SearchPlaces> */}
+
+
+  {navigator.onLine? 'You are online':'Offline'}
+
+
+  
 
 
   {position &&      <PlacesAutocomplete
@@ -1427,7 +1514,7 @@ const openSelectedStaff=(sId)=>{
       <div>
         <input
           {...getInputProps({
-            placeholder: 'Search Places ...',
+            placeholder: 'Search Your location ...',
             className: 'multisteps-form__input form-control',
           })}
         />
@@ -1563,7 +1650,7 @@ const openSelectedStaff=(sId)=>{
 
     </Suspense>
 
-   <div class="col" style={{height:"400px"}}>
+   <div class="card" style={{height:"350px",marginTop:'20px'}}>
 
     <Map 
     google={props.google}
@@ -2251,9 +2338,13 @@ const openSelectedStaff=(sId)=>{
                     <button class="btn btn-danger btn-space mb-0">Cancel</button>
 
                     
-                    {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary btn-space mb-0">Save</button>
+                    {!isLoading && !showUpdateButton && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary btn-space mb-0">Save</button>
           
                   } 
+
+
+             {!isLoading && showUpdateButton &&  <button type="button" onClick={updateBusinessInfor} class="btn btn-success"><i class="fe fe-check me-2"></i>Update</button> }    
+
                   {isLoading &&
                       <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow text-success me-2" role="status">
                       <span class="visually-hidden">Loading...</span>

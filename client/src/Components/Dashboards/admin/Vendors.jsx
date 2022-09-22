@@ -148,7 +148,7 @@ else{
 const openSelectedBuss=(bId)=>{
 
 
-    history('/edit-business-setting/'+bId)
+    history('/vendors/'+bId)
 
 
  
@@ -308,12 +308,9 @@ const loadVendorsContant=(
   return (
     
     <div>
+    
     <div class="app sidebar-mini ltr light-mode">
 
-
-    <div id="global-loader">
-<img src="assets/images/loader.svg" class="loader-img" alt="Loader"/>
-</div>
 
 
 

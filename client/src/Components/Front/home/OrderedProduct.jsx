@@ -936,7 +936,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 const backHome=()=>{
 
-    history('/get-started')
+    history('/')
 }
 
 

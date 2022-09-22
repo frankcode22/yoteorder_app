@@ -31,7 +31,7 @@ export const OrderDetailsDataProvider = ({ children }) => {
 
         
        
-         axios.get('https://yoteorder-server.herokuapp.com/order/myorders', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('http://localhost:3001/order/myorders', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
          
 

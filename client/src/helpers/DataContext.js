@@ -64,6 +64,11 @@ export const DataProvider = ({ children }) => {
             console.log("MY BUSINESS DETAILS FROM THE CONTEXT"+response.data)
 
 
+        if (response.data.error) {
+            console.log("BACKEND ERROR HERE:"+response.data.error)
+              }
+
+
             if(response.data.my_buss!=null){
 
             localStorage.setItem("business_set", true);

@@ -19,11 +19,14 @@ import API from '../../../services';
 import { Progress } from 'reactstrap';
 
 
+
+
 import { SingleUploader, MultiUploader, SingleUploaderUpdateProduct, Dropzone } from './Uploaders/Uploaders';
 
 import ContentLoader from '../../../utils/ContentLoader';
 
-import { Container, Form, Button } from 'react-bootstrap'
+import { Container, Form,Modal, Button } from 'react-bootstrap'
+
 
 
 
@@ -187,6 +190,10 @@ function ProductSetting(props) {
   const [successMsg, setSuccessMsg] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
+  const [show, setShow] = useState(false);
+
+ const [showErrorModal, setShowErrorModal] = useState(false);
+
 
 
 
@@ -212,7 +219,7 @@ function ProductSetting(props) {
 
        axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
-        if(response.data.my_buss!=null){
+        if(response.data.my_buss){
     
           setbusinessId(response.data.my_buss.id);
 
@@ -302,6 +309,33 @@ function ProductSetting(props) {
 
 
 },[productsList1]);
+
+
+
+
+   
+    const handleShow = () =>{
+
+     
+
+      setShow(true);
+    
+    
+
+
+    }
+
+
+    const handleClose = () =>{
+       
+         setShow(false);
+         
+        
+         
+           };
+    
+
+
 
 
 
@@ -1144,7 +1178,7 @@ const openSelectedProduct=(pId,e)=>{
                                                     </div>
                                                     <div class="col-xl-3 col-lg-12">
                                                    
-                                                        <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo8"><i class="fa fa-plus-square me-2"></i>New Product</a>
+                                                        <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" onClick={handleShow}><i class="fa fa-plus-square me-2"></i>New Product</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1567,6 +1601,347 @@ const openSelectedProduct=(pId,e)=>{
 
 
 
+                            <Modal show={show}>
+
+                            <Modal.Header>
+                                <Modal.Title>Initiating your Search</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+
+                            <div class="card-body">
+                            {/*<label htmlFor={idx} className="text-primary font-weight-bold">{label}</label> */}
+                            
+                            
+
+                            {showSuccessAlert &&
+
+                              <div>
+                  
+                              <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+                              <h4 class="text-success mb-4">Product saved successfully!</h4>
+                  
+                              </div>
+                  
+                  
+                          }
+                             
+                        
+                          {!showSuccessAlert && 
+                              <div>
+
+                              
+
+                              
+                              <div class="form-group ">
+                  
+                              <label for="nameWithTitle" class="form-label">Product Name</label>
+  
+  
+                              <input type="hidden" id="nameWithTitle" class="form-control"
+  
+                                  value={businessId}
+  
+                                  onChange={(event) => {
+                                      setbusinessId(event.target.value);
+                                  }}
+  
+                              />
+  
+                              <input type="hidden" id="price" class="form-control" value={userId}
+  
+                                  onChange={(event) => {
+                                      setUserId(event.target.value);
+                                  }}
+                              />
+                            
+                              <input type="text" id="product_name" class="form-control" placeholder="Eg.pro gas"
+  
+                                  onChange={(event) => {
+                                      setName(event.target.value);
+                                  }}
+  
+                              />
+                            {nameinvalid && <div class="invalid-feedback-p">Please provide a product name.</div> }  
+                            
+                          </div>
+                          <div class="form-group ">
+  
+                              <label class="form-label" for="multicol-country">Type</label>
+                              <select id="multicol-country" class="form-control select2 form-select"
+                                  onChange={(event) => {
+                                      setType(event.target.value);
+                                  }}
+  
+                                  data-allow-clear="true">
+                                  <option value="">Select Category</option>
+                                  <option value="General-use">General use</option>
+                                  <option value="Household-Product">Household Product</option>
+
+                                  <option value="Drinking-Liquor">Drinking/Liquor</option>
+
+                                  <option value="Agricultural">Agricultural</option>
+                                  <option value="Ready-Meal">Ready Meal</option>
+
+                                  <option value="Domestic-Products">Domestic Use</option>
+                                  
+
+                                 
+                                  <option value="Livestock">Livestock</option>
+                                  <option value="Electronic">Electronic</option>
+                                  <option value="Automotive">Automotive</option>
+                                  
+  
+                                  <option value="Contruction">Contruction</option>
+  
+                                 
+                                  <option value="Clothing">Clothing</option>
+                                  <option value="Computing">Computing</option>
+  
+  
+                                
+                                  <option value="Home-Based">Home-Based</option>
+                                  <option value="Beauty">Beauty</option>
+  
+                                  <option value="Aquatic">Aquatic</option>
+                                  <option value="Others">Others</option>
+  
+  
+                              </select>
+  
+  
+                          </div>
+  
+  
+                          <div class="form-row">
+  
+                              <label for="description" class="form-label">Description</label>
+  
+  
+                              <textarea name="address" class="form-control" onChange={(event) => {
+                                  setProduct_description(event.target.value);
+                              }} id="address" rows="2" placeholder="Please provide a short desciption of your product"></textarea>
+  
+                          </div>
+
+
+
+
+
+                          <div class="form-row">
+                          <div class="form-group col-md-6 mb-0">
+                       
+  
+                          <label class="form-label" for="multicol-country">Unit Of Measure</label>
+                          <select id="multicol-country" class="form-control select2 form-select"
+                              value={unit_of_measure}
+                              onChange={(event) => {
+                                  setunit_of_measure(event.target.value);
+                              }}
+
+
+
+                              data-allow-clear="true">
+                              <option value="">Select Unit Of Measure</option>
+                              <option value="Kgs">Kgs</option>
+                              <option value="Item">Item</option>
+                            
+
+                              <option value="Piece">Piece</option>
+                              <option value="Litre">Litres</option>
+                              <option value="Package">Package</option>
+                              <option value="Order">Order</option>
+                              
+                            
+                              <option value="Plate">Plates</option>
+
+                              <option value="foot">foot</option>
+
+                              <option value="mitre">mitre</option>
+
+                             
+
+                              <option value="Agreement">Agreement</option>
+
+
+
+
+
+                          </select>
+
+
+                      
+                          </div>
+                          <div class="form-group col-md-6 mb-0">
+                              <div class="form-group">
+                              <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
+                              <input type="number" id="price" class="form-control"
+
+                                  onChange={(event) => {
+                                      setPrice(event.target.value);
+                                  }}
+
+
+                              />
+                             {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
+                              </div>
+                          </div>
+                      </div>
+  
+  
+  
+  
+  
+  
+                        
+  
+                          <div class="form-row">
+                              <div class="form-group col-md-6 mb-0">
+                                  <div class="form-group ">
+  
+                                  <label for="dobWithTitle" class="form-label">Quantity</label>
+                                  <input type="number" class="form-control"
+
+                                      onChange={(event) => {
+                                          setQuantity(event.target.value);
+                                      }}
+                                      id="quantity" placeholder="eg.7" />
+  
+  
+                                  </div>
+                              </div>
+                              <div class="form-group col-md-6 mb-0">
+                                  <div class="form-group">
+                                      <label for="dobWithTitle" class="form-label">Availability</label>
+                                      <div class="col-xl-2 px-3 px-xl-1">
+                                          <div class="form-group">
+                                              <label class="custom-switch form-switch mb-0">
+                                                  <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" />
+                                                  <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                                  <span class="custom-switch-description">Set Availability</span>
+                                              </label>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+  
+  
+                          </div>
+  
+  
+  
+  
+                      
+  
+                     
+                    
+                 
+  
+  {/** <div class="form-group">
+                      <label class="form-label mt-0">Default file input example</label>
+                      <input class="form-control" type="file" id={idx} onChange={handleChange}/>
+                      </div>
+  
+  
+                      
+  
+                      
+               
+                  {
+                      isUploding ? (
+                          <div className="flex-grow-1 px-2">
+                              <div className="text-center">{uploadProgress}%</div>
+                              <Progress value={uploadProgress} />
+                          </div>
+                      ) : null
+                  }
+                  {
+                      uploadedImg && !isUploding ? (
+                          <img
+                              src={uploadedImg}
+                              alt="UploadedImage"
+                              className="img-thumbnail img-fluid uploaded-img ml-3"
+                          />
+                      ) : null
+                  }
+               */}
+                     
+
+
+                  <div class="form-group">
+                  <label class="form-label mt-0">Upload Product Photo</label>
+                  <input class="form-control" type="file"
+                  name="image"
+                  onChange={handleFileInputChange}
+                  value={fileInputState}
+                 
+              /> 
+              
+              <input type="hidden" value={businessId}  onChange={(event) => {
+                  setbusinessId(event.target.value);
+                }} placeholder="bussId"/>
+                  </div>
+
+
+                  {previewSource && (
+                      <img
+                          src={previewSource}
+                          alt="chosen"
+                          style={{ height: '300px' }}
+                      />
+                  )}
+                              
+                              
+                              
+                              
+                              </div>
+                          
+                          
+                          }
+                  
+                  
+                            
+                  
+                              </div>
+
+
+
+
+                              
+
+
+
+
+
+
+                            </Modal.Body>
+                            <Modal.Footer>
+
+
+                            
+                            {!isLoading && showActionBtn && <button type="submit" onClick={saveDetails}  class="btn btn-primary">Save</button>
+                                      
+                        } 
+                        {isLoading &&
+                            <button type="submit" class="btn btn-primary" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+                        }
+
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Close
+                                </Button>
+
+                           
+                              
+
+                            </Modal.Footer>
+                        </Modal>
+
+
+
+                            
+
+
+
+
                             <div class="modal fade" id="modaldemo8">
                             <div class="modal-dialog modal-dialog-centered text-center" role="document">
                                 <div class="modal-content modal-content-demo">
@@ -1846,7 +2221,7 @@ const openSelectedProduct=(pId,e)=>{
                            
                         /> 
                         
-                        <input type="hidden" value={businessId}  onChange={(event) => {
+                        <input type="text" value={businessId}  onChange={(event) => {
                             setbusinessId(event.target.value);
                           }} placeholder="bussId"/>
                             </div>

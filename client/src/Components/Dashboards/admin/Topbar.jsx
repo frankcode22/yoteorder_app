@@ -23,8 +23,8 @@ function Topbar() {
         <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="javascript:void(0)"></a>
  
         <a class="logo-horizontal " href="/dashboard">
-        <img src="assets/images/brand/logo_pink.png" class="header-brand-img desktop-logo" alt="logo"/>
-        <img src="assets/images/brand/logo_pink.png" class="header-brand-img light-logo1"
+        <img src="/assets/images/brand/logo_pink.png" class="header-brand-img desktop-logo" alt="logo"/>
+        <img src="/assets/images/brand/logo_pink.png" class="header-brand-img light-logo1"
             alt="logo"/>
        
         </a>
@@ -105,7 +105,7 @@ function Topbar() {
                                         <a href="#" class="open-file"></a>
                                         <span
                                             class="avatar avatar-xl br-5 me-3 align-self-center cover-image"
-                                            data-bs-image-src="../assets/images/pngs/4.jpg"></span>
+                                            data-bs-image-src="/assets/images/pngs/4.jpg"></span>
                                         <div class="wd-50p">
                                             <h5 class="mb-1">Flower Pot for Home Decor</h5>
                                             <span>Status: <span class="text-success">In Stock</span></span>
