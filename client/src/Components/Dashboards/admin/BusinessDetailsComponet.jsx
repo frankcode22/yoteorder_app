@@ -29,40 +29,52 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import ContentLoader from '../../../utils/ContentLoader';
 import LocationDataContext from '../../../helpers/LocationDataContext';
+import DataContext from '../../../helpers/DataContext';
 
 function BusinessDetailsComponet({id,google}) {
 
     // let { id } = useParams();
 
 
-    const {userPos, setUserPos} = useContext(LocationDataContextInit);
-  
-    const {position, setPosition} = useContext(LocationDataContext);
     
+  const {businessDetails,setBusinessDetails} = useContext(DataContext);
+
+  const {userPos, setUserPos} = useContext(LocationDataContextInit);
+
+  const {position, setPosition} = useContext(LocationDataContext);
+
+  const [isLoadingT,setLoadingT]=useState(false);
+  const [category, setcategory] = useState("");
+
+ // const { posts, setPosts } = useContext(DataContext);
+
     const [name, setName] = useState("");
     const [type, setType] = useState("");
     const [product_description, setProduct_description] = useState("");
     const [price, setPrice] = useState("");
-  
+
     const [email, setEmail] = useState("");
     const [phone_no, setPhone_no] = useState("");
-  
+
     const [buss_contacts, setbuss_contacts] = useState("");
-  
-  
-    //let { idx, label, uploadUrl } = props;
-  
+
+
+   // let { idx, label, uploadUrl } = props;
+
     const [isUploding, setUploding] = useState(false);
     const [uploadedImg, setUplodedImg] = useState("");
     const [uploadProgress, setProgress] = useState(0);
-  
+
     const [image, setImage] = useState('')
-  
-  
-  
-  
-  
+
+    const [productId, setProductId] = useState("");
+
+
+
+
+
     const [business_name, setbusiness_name] = useState("");
     const [business_type, setbusiness_type] = useState("");
   
@@ -70,139 +82,172 @@ function BusinessDetailsComponet({id,google}) {
   
     const [industry, setindustry] = useState("");
     const [location, setlocation] = useState("");
-  
+
     const [quantity, setQuantity] = useState("");
-  
+
     const [geo_location, setGeo_location] = useState("");
-  
+
     const [userId, setUserId] = useState("");
-  
+
     const [unit_of_measure, setunit_of_measure] = useState("");
-  
-  
+
+
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
   
     const [country, setCountry] = useState("");
-  
-  
+
+
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
     const [address_line_1, setaddress_line_1] = useState("");
+   
+
     const [address_line_2, setaddress_line_2] = useState("");
-  
-  
-  
-  
+
+
+    const {productsList1, setProductsList1 } = useContext(DataContext);
+
     const [businessId, setbusinessId] = useState('');
-  
+
     const[openTime,setOpenTime]=useState('')
-  
+
     const[closeTime,setCloseTime]=useState('')
-  
+
     const[serviceId,setServiceId]=useState('')
-  
-  
+
+
     const [servicesList, setServicesList] = useState([]);
-  
+
     const [staffList, setStaffList] = useState([]);
-  
-  
+
+
     const[staffId,setStaffId]=useState('')
     const [staff_name, SetStaff_name] = useState("");
-  
-  
-  
+
+
+
     const [service_name, set_service_name] = useState("");
     const [service_type, set_service_type] = useState("");
     const [service_cost, set_service_cost] = useState("");
-  
+
     const [description, set_description] = useState("");
   
-  
+
     const [postal_code, setPostal_code] = useState("");
-  
-  
+
+
   
       const [showingInfoWindow, setShowingInfoWindow] = useState(false);
-  
+
       const [activeMarker, setActiveMarker] = useState({});
       const [selectedPlace, setSelectedPlace] = useState({});
-  
+
       const [lat, setLat] = useState(null);
       const [lng, setLng] = useState(null);
-  
+
       const [loclat, setLoclat] = useState(null);
       const [status, setStatus] = useState(null);
+
+
+      const [nameinvalid,setnameinvalid]=useState(false);
+
+      const [priceinvalid,setpriceinvalid]=useState(false);
+  
+      const [showActionBtn,setShowActionBtn]=useState(true);
+
+      const [showSuccessAlert,setShowSucessAlert]=useState(false);
   
   
     const [address, setAddress] = React.useState("");
-  
+
     
     const [showErrorAlert,setShowErrorAlert] = useState(false);
-  
-  
+
+
     const [isBusinessSet,setIsBusinessSet] = useState(false);
-  
-  
-  
+
+
+    const [productStatus,setProductStatus]=useState('available');
+
+
     const [customersList, setCustomersList] = useState([]);
-  
+
   
     const [productsList, setProductsList] = useState([]);
-  
+
     const [errorMessage, setErrorMessage] = useState("");
-  
+
     const [isDivLoading, setIsDivLoading] = useState(false);
-  
-  
+
+
     const [imagePath, setImagePath] = useState("");
-  
+
     const [profile_photo, setprofile_photo] = useState("");
-  
-  
+
+    const [customersCount, setCustomersCount] = useState(0);
+
+
     const [fileInputState, setFileInputState] = useState('');
-    const [previewSource, setPreviewSource] = useState('');
-    const [selectedFile, setSelectedFile] = useState();
-    const [successMsg, setSuccessMsg] = useState('');
-    const [errMsg, setErrMsg] = useState('');
+  const [previewSource, setPreviewSource] = useState('');
+  const [selectedFile, setSelectedFile] = useState();
+  const [successMsg, setSuccessMsg] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+
+  const [notifications, setNotifications] = useState([]);
+
+
+  const [showUpdateButton, setShowUpdateButton] = useState(false);
+
+
+  const [showOrderConfirmed, setShowOrderConfirmed] = useState(false);
+
+
+
+
+
+    
+
+    const [isLoading,setLoading]=useState(false);
+
+
+    
+    
+
+     
+    const [mapCenter, setMapCenter] = useState({
+      lat: userPos.lat,
+      lng: userPos.long
+  });
+
+
+
+
+
+
+
+
+
+  const [bussSetup,setBussSetup]=useState(false);
+  const [showServicesDiv,setShowServicesDiv]=useState(false);
+
+
+  const [showProductsDiv,setShowProductsDiv]=useState(false);
+
+  const [showBusinessSetupDiv,setShowBusinessSetupDiv]=useState(true);
+
+
+  const [cloudinaryUrl, setCloudinaryUrl] = useState("");
+  //const [service_type, set_service_type] = useState("");
+
+
+ 
+  
+  
+  
   
   
     
-  
-    const [isLoading,setLoading]=useState(false);
-  
-    const [cloudinaryUrl, setCloudinaryUrl] = useState("");
-  
-  
-  //   const [mapCenter, setMapCenter] = useState({
-  //     lat: 0,
-  //     lng: 0
-  
-  // });
-  
-  const [mapCenter, setMapCenter] = useState({
-    lat: userPos.lat,
-    lng: userPos.long
-  });
-  
-  
-  
-  let history = useNavigate();
-  
-  
-  const [bussSetup,setBussSetup]=useState(false);
-  
-  const [showSetUpError,setShowSetUpError]=useState(false);
-  
-  const [showServicesDiv,setShowServicesDiv]=useState(false);
-  
-  
-  const [showOrderConfirmed, setShowOrderConfirmed] = useState(false);
-  
-  const [showBusinessSetupDiv,setShowBusinessSetupDiv]=useState(true);
-  
-  
   const [message, setMessage] = useState("");
   
   const [show, setShow] = useState(false);
@@ -233,6 +278,8 @@ function BusinessDetailsComponet({id,google}) {
           setlocation(response.data.location)
   
           setServicesList(response.data.Services);
+
+          setProductsList(response.data.Products)
   
           setStaffList(response.data.Staffs);
   
@@ -300,7 +347,7 @@ function BusinessDetailsComponet({id,google}) {
   
   
   
-  },[userPos,position]);
+  },[userPos,position,cloudinaryUrl]);
   
   
   
@@ -398,7 +445,7 @@ function BusinessDetailsComponet({id,google}) {
     business_name:business_name,
     business_type:industry,
     industry:industry,
-    location:location,
+    location:address,
     contacts:buss_contacts,
   
     address_line_1:address_line_1,
@@ -442,6 +489,7 @@ function BusinessDetailsComponet({id,google}) {
         setlocation(response.data.location)
         setLatitude(response.data.latitude)
         setLongitude(response.data.longitude)
+       // setlocation(address)
   
     
            
@@ -513,6 +561,8 @@ function BusinessDetailsComponet({id,google}) {
     console.log("tTHE IMAGE NAME IS "+data.imagePath)
     console.log("THE FILE NAME IS "+data.ImageName)
     console.log("THE BUSS ID IS "+data.businessId)
+
+    setCloudinaryUrl(data.cloudinaryUrl)
   
     setUploding(false);
   
@@ -642,24 +692,301 @@ function BusinessDetailsComponet({id,google}) {
     setShowBusinessSetupDiv(true)
   
     }
+
+    
+
+const openSelectedProduct=(pId,e)=>{
+
+  //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+   axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
+
+       console.log("THE PRODUCT NAME IS "+response.data.name)
+
+       setProductId(pId)
+       setPrice(response.data.price)
+       setQuantity(response.data.quantity)
+
+       setName(response.data.name)
+       setunit_of_measure(response.data.unit_of_measure)
+
+       setcategory(response.data.category)
+
+       setType(response.data.category)
+       setbusinessId(response.data.BusinessId)
+
+
+       
+
+    
+       
+
+
+      
+
+
+       setProduct_description(response.data.product_description)
+           
+
+           })
+
+
+
+   }
+
+   
+  const updateAvailability=(pId)=>{
+
+      
+
+      setLoading(true);
+
+     // setLoadingT(false)
+
+      //setProductStatus('avalilable')
+
+      const p_details={
+          product_status:'available',
+        
+        }
+
+    
+
+
+      axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
+  
+         // console.log("THE ACTUAL ID IS "+actualId)
+          
+          //setProductId(res_b.data.id)
+          getAllMyProducts()
+         
+          setTimeout(() => {
+              setLoading(false);
+              // handleShow()
+              toast.warning("Available Status updated")
+          }, 1000);
+          
+          })
+
+
+      
+  }
+
+
+
+  
+  const updateAvailabilityN=(pId)=>{
+
+      setLoadingT(true);
+     // setLoading(false)
+
+      setProductStatus('unavailable')
+
+      const p_details={
+          product_status:'unavailable',
+        
+        }
+
+    
+
+
+      axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
+  
+         // console.log("THE ACTUAL ID IS "+actualId)
+          
+          //setProductId(res_b.data.id)
+
+          getAllMyProducts()
+          
+         
+          setTimeout(() => {
+              setLoadingT(false);
+              // handleShow()
+              toast.warning("Status updated")
+          }, 1000);
+          
+          })
+
+
+      
+  }
+
+
+
+
+    const showProductsSection=()=>{
+
+     
+      setShowProductsDiv(true)
+  
+      setShowErrorAlert(false)
+      setShowBusinessSetupDiv(false)
+      setShowServicesDiv(false)
+      //showErrorAlert(false)
+     
+    }
+    const saveDetails = async e => {
+      setLoading(true)
+  
+      if(name==""){
+          setnameinvalid(true)
+          setLoading(false)
+  
+          setTimeout(() => {
+              setnameinvalid(false)
+             
+           }, 2000);
+          return
+      }
+  
+      if(price==""){
+          setpriceinvalid(true)
+          setLoading(false)
+  
+          setTimeout(() => {
+              setpriceinvalid(false)
+             
+           }, 2000);
+          return
+      }
+  
+  
+    
+      
+      let formData = new FormData();
+      formData.append('businessId', businessId);
+      formData.append('file',selectedFile);
+      formData.append('name', name);
+  
+  
+      formData.append('product_description', product_description);
+      formData.append('price',price);
+      formData.append('quantity', quantity);
+  
+      formData.append('type',type);
+      // formData.append('address_line_2', address_line_2);
+  
+      formData.append('unit_of_measure',unit_of_measure);
+      formData.append('latitude', lat);
+  
+      formData.append('longitude', lng);
+  
+      formData.append('UserId', userId);
+  
+  
+  
+      setUploding(true);
+      let { data } = await API.post('images/save-product', formData, {
+          onUploadProgress: ({ loaded, total }) => {
+              let progress = ((loaded / total) * 100).toFixed(2);
+              setProgress(progress);
+             
+          }
+      });
+      setUplodedImg(data.imagePath);
+  
+     // localStorage.setItem('product_photo', JSON.stringify(data.imagePath));
+      console.log("tTHE IMAGE NAME IS "+data.imagePath)
+      console.log("THE FILE NAME IS "+data.ImageName)
+      console.log("THE BUSS ID IS "+data.businessId)
+  
+      setUploding(false);
+  
+  
+      setProductsList([
+          ...productsList,
+          {
+              name:name,
+              type:type,
+              product_description:product_description,
+              price: price,
+              quantity:quantity,
+              geo_location:address_line_2,
+              unit_of_measure:unit_of_measure,
+              latitude:lat,
+              longitude:lng,
+              //cloudinary_url:data.cloudinary_url,
+              cloudinary_url:data.imagePath,
+              UserId:userId,
+              BusinessId:businessId,
+          },
+        ]); 
+  
+  
+      
+  
+  
+  
+      
+  
+  
+      setTimeout(() => {
+  
+        
+  
+          
+          setLoading(false);
+          setShowActionBtn(false)
+          setShowSucessAlert(true)
+          
+          toast.success('Product saved successfully');
+      }, 2000);
+      
+  }
   
   
   
   const showStaffSection=()=>{
   
-  setShowErrorAlert(true)
-  setShowServicesDiv(false)
-  setShowBusinessSetupDiv(false)
+    setShowErrorAlert(true)
+    setShowServicesDiv(false)
+    setShowBusinessSetupDiv(false)
+    setShowProductsDiv(false)
   }
   
   
   
   const showServicesSection=()=>{
   
-  setShowErrorAlert(false)
-  setShowBusinessSetupDiv(false)
-  setShowServicesDiv(true)
+    setShowServicesDiv(true)
+
+    setShowErrorAlert(false)
+    setShowBusinessSetupDiv(false)
+    setShowProductsDiv(false)
   }
+
+
+
+  const getAllMyProducts=()=>{
+
+    //setIsDivLoading(true)
+
+
+    axios.get('https://yoteorder-server.herokuapp.com/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+      
+  
+  
+        setTimeout(() => {
+
+          setProductsList(response.data.products)
+  
+          setImagePath(response.data.imagePath)
+  
+         // setSeller_name(response.data.Users);
+         // setIsDivLoading(false)   // Hide loading screen 
+         // toast.info('Product saved successfully');
+      }, 1000);
+  
+      //setSeller_name(response.data.Users.first_name)
+      
+  }).catch(() => {
+      setErrorMessage("Unable to fetch your PRODUCTS.Kindly check your internet connection!!");
+      setIsDivLoading(false);
+   });
+      
+}
+
+
   
   
   
@@ -668,6 +995,7 @@ function BusinessDetailsComponet({id,google}) {
   setShowErrorAlert(false)
   setShowBusinessSetupDiv(true)
   setShowServicesDiv(false)
+  setShowProductsDiv(false)
   
   }
   
@@ -927,6 +1255,146 @@ function BusinessDetailsComponet({id,google}) {
   
   
   }
+
+  const loadProductsContent=(
+
+
+
+    <div class="row">
+
+    {showErrorAlert &&   <div class="alert alert-danger" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+    <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">You must have a business</a>and try submitting again.
+</div>} 
+    
+  
+
+     {productsList.map((value, key) => {
+         return (
+         <div class="col-md-6 col-xl-4 col-sm-6">
+             <div class="card">
+                 <div class="product-grid6">
+                     <div class="product-image6 p-5">
+                         <ul class="icons">
+                             <li>
+                             
+                                 <a  class="btn btn-primary mb-1"
+             
+             
+                                 onClick={() => {
+                                     openSelectedProduct(value.id);
+                                       }}
+                                 
+                             
+                                       data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9"> <i class="fe fe-eye">  </i> </a>
+                             </li>
+                             <li><a class="btn btn-success"
+             
+             
+                             onClick={() => {
+                                 openSelectedProduct(value.id);
+                                   }}
+                             
+                         
+                                   data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9"><i  class="fe fe-edit"></i></a></li>
+                             <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
+                         </ul>
+                         <a href="#" >
+
+                         {/*<img class="img-fluid br-7 w-100" src={imagePath+"/uploads/"+value.BusinessId+"/"+value.product_image}  alt="img"/> */}
+
+                             <img class="img-fluid br-7 w-100" src={value.cloudinary_url}  alt="img"/>
+                         </a>
+                     </div>
+                     <div class="card-body pt-0">
+                         <div class="product-content text-center">
+                             <h1 class="title fw-bold fs-20"><a href="#">{value.name}</a></h1>
+                             <div class="mb-2 text-warning">
+                                 <i class="fa fa-star text-warning"></i>
+                                 <i class="fa fa-star text-warning"></i>
+                                 <i class="fa fa-star text-warning"></i>
+                                 <i class="fa fa-star-half-o text-warning"></i>
+                                 <i class="fa fa-star-o text-warning"></i>
+                             </div>
+                             <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="card-footer text-center">
+
+                    
+                     
+             <button  type="submit" class="btn btn-primary mb-1"
+             
+             
+             onClick={() => {
+                 openSelectedProduct(value.id);
+                   }}
+             
+         
+                   data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9">Edit</button>
+
+                
+            
+
+                        {value.status=='available' && !isLoading && <button type="submit" onClick={() => {
+                         updateAvailabilityN(value.id);
+                           }}   class="btn btn-success"><i  class="fe fe-edit"></i>Available</button>}
+
+
+                           {isLoading &&
+                             <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating Status...</button>
+                            }
+
+
+                        {value.status=='unavailable' && !isLoadingT &&<button type="submit" onClick={() => {
+                         updateAvailability(value.id);
+                           }}  class="btn btn-danger"><i  class="fe fe-edit"></i>Unavalilable</button>
+                     
+                     
+                       }
+
+                     
+
+                      {isLoadingT &&
+                         <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating Status...</button>
+                        }
+
+
+                       
+                         
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+         )
+     })}
+
+       
+         <div class="mb-5">
+             <div class="float-end">
+                 <ul class="pagination ">
+                     <li class="page-item page-prev disabled">
+                         <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
+                     </li>
+                     <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                     <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                     <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                     <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                     <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                     <li class="page-item page-next">
+                         <a class="page-link" href="javascript:void(0)">Next</a>
+                     </li>
+                 </ul>
+             </div>
+         </div>
+     </div>
+
+
+
+
+)
   return (
 
     
@@ -984,10 +1452,19 @@ function BusinessDetailsComponet({id,google}) {
                               <a href="#" class="btn btn-primary btn-lg d-grid">Business</a>
                               
                           </div>
-                          <a href="#" onClick={showBusinessSetUpSection}   class="list-group-item d-flex align-items-center active mx-4">
-                              <span class="icons"><i class="side-menu__icon fe fe-home"></i></span> My Business <span class="ms-auto badge bg-secondary bradius">14</span>
+                          <a onClick={showBusinessSetUpSection}   class="btn list-group-item d-flex align-items-center active mx-4">
+                              <span class="icons"><i class="side-menu__icon fe fe-home"></i></span> My Business 
                              
                           </a>
+
+                        
+
+
+                      <a  class="list-group-item d-flex align-items-center mx-4"  href="javascript:void(0);" onClick={showProductsSection}>
+                          <span> <i class="fa fa-product-hunt" data-bs-toggle="tooltip" title="fa fa-product-hunt"></i></span>Products <span class="ms-auto badge bg-secondary bradius">{productsList.length?productsList.length:'0'}</span>
+                          
+                           </a>
+
     
                           <a class="list-group-item d-flex align-items-center mx-4" href='#' onClick={showServicesSection}>
                           <span><i class="fe fe-calendar me-1"></i></span>Services
@@ -999,14 +1476,7 @@ function BusinessDetailsComponet({id,google}) {
                            <span><i  class="fe fe-user me-1"></i></span>Staff
                            
                             </a>
-                          <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                              <span class="icons"><i class="ri-mail-open-line"></i></span> Drafts
-                          </a>
-    
-                          
-                          <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                              <span class="icons"><i class="ri-star-line"></i></span> Starred <span class="ms-auto badge bg-success bradius">03</span>
-                          </a>
+                        
     
                       </div>
                      
@@ -1029,16 +1499,16 @@ function BusinessDetailsComponet({id,google}) {
    
                 <div class="col-xl-3 col-lg-12">
                          
-                <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo01"><i class="fa fa-plus-square me-2"></i>Add Business Profile</a>
+                <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo01"><i class="fa fa-plus-square me-2"></i>Business Profile</a>
             </div>
+
+
+          
    
             
        
    
-        <div class="col-xl-3 col-lg-12">
-                         
-        <a onClick={openMessageDialog} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" ><i class="ri-mail-line"></i>Send Msg</a>
-    </div>
+       
             </div>
    
            <div class="card-body">
@@ -1067,7 +1537,7 @@ function BusinessDetailsComponet({id,google}) {
                               <div class="dropdown-menu dropdown-menu-end">
                               
                                   <a onClick={initiateEdit} class="btn dropdown-item" href="javascript:void(0)">Edit Details</a>
-                                  <a class="dropdown-item" href="javascript:void(0)">Delete Post</a>
+                                  <a onClick={openMessageDialog}  class="btn dropdown-item" href="javascript:void(0)"><i class="ri-mail-line"></i>Send Msg</a>
                                   <a class="dropdown-item" href="javascript:void(0)">Personal Settings</a>
                               </div>
                           </div>
@@ -1584,7 +2054,9 @@ function BusinessDetailsComponet({id,google}) {
           </div>
    
             }
-          
+
+
+
    
             <Modal class="modal fade" id="modaldemo8" show={show}>
    
@@ -1956,6 +2428,134 @@ function BusinessDetailsComponet({id,google}) {
           </div>
           
           }
+
+
+          
+        {showProductsDiv &&
+
+          <div class="col-xl-9 col-lg-8">
+          <div class="row">
+              <div class="col-xl-12">
+                  <div class="card p-0">
+                      <div class="card-body p-4">
+                          <div class="row">
+                              <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
+                                  <div class="input-group d-flex w-100 float-start">
+                                      <input type="text" class="form-control border-end-0 my-2" placeholder="Search ..."/>
+                                      <button class="btn input-group-text bg-transparent border-start-0 text-muted my-2">
+                                          <i class="fe fe-search text-muted" aria-hidden="true"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                  <ul class="nav item2-gl-menu float-end my-2">
+                                      <li class="border-end"><a href="#tab-11" class="show active" data-bs-toggle="tab" title="List style"><i class="fa fa-th"></i></a></li>
+                                      <li><a href="#tab-12" data-bs-toggle="tab" class="" title="Grid"><i class="fa fa-list"></i></a></li>
+                                  </ul>
+                              </div>
+                              <div class="col-xl-3 col-lg-12">
+                             
+                                  <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo801"><i class="fa fa-plus-square me-2"></i>New Product</a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="tab-content">
+              <div class="tab-pane" id="tab-12">
+                  <div class="row">
+        
+                 {showErrorAlert &&   <div class="alert alert-danger" role="alert">
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+                 <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">You must have a business</a>and try submitting again.
+             </div>} 
+                 
+               
+        
+                  {productsList.map((value, key) => {
+                      return (
+                      <div class="col-md-6 col-xl-4 col-sm-6">
+                          <div class="card">
+                              <div class="product-grid6">
+                                  <div class="product-image6 p-5">
+                                      <ul class="icons">
+                                          <li>
+                                              <a href="#" class="btn btn-primary"> <i class="fe fe-eye">  </i> </a>
+                                          </li>
+                                          <li><a href="#" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
+                                          <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
+                                      </ul>
+                                      <a href="#" >
+                                          <img class="img-fluid br-7 w-100" src="../assets/images/pngs/9.jpg" alt="img"/>
+                                      </a>
+                                  </div>
+                                  <div class="card-body pt-0">
+                                      <div class="product-content text-center">
+                                          <h1 class="title fw-bold fs-20"><a href="#">{value.name}</a></h1>
+                                          <div class="mb-2 text-warning">
+                                              <i class="fa fa-star text-warning"></i>
+                                              <i class="fa fa-star text-warning"></i>
+                                              <i class="fa fa-star text-warning"></i>
+                                              <i class="fa fa-star-half-o text-warning"></i>
+                                              <i class="fa fa-star-o text-warning"></i>
+                                          </div>
+                                          <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="card-footer text-center">
+                                      <a href="#" class="btn btn-primary mb-1"><i class="fe fe-edit mx-2"></i>Edit</a>
+                                      <a href="#" class="btn btn-outline-primary mb-1"><i class="fe fe-heart mx-2"></i>Add to wishlist</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+        
+                      )
+                  })}
+        
+                    
+                      <div class="mb-5">
+                          <div class="float-end">
+                              <ul class="pagination ">
+                                  <li class="page-item page-prev disabled">
+                                      <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
+                                  </li>
+                                  <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                                  <li class="page-item page-next">
+                                      <a class="page-link" href="javascript:void(0)">Next</a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="tab-pane active" id="tab-11">
+              {isDivLoading ? <ContentLoader/>: loadProductsContent}
+
+              {errorMessage && 
+
+
+
+
+                  <div class="col-sm-12 border">
+                  <h3 class="card-title">{errorMessage}</h3>
+              
+                  
+                  
+                  
+             </div>}
+              </div>
+          </div>
+        
+        </div>
+        
+        }
               
     
     
@@ -2187,6 +2787,236 @@ function BusinessDetailsComponet({id,google}) {
     </div>
     
     }
+
+
+
+    
+    <div class="modal fade" id="modaldemo801">
+    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">Add Product</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+    
+    
+          
+    
+            {showSuccessAlert &&
+    
+              <div>
+    
+              <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+              <h4 class="text-success mb-4">Product saved successfully!</h4>
+    
+              </div>
+          }
+    
+    
+          {!showSuccessAlert &&  <div>
+    
+            <div class="row">
+            <div class="col mb-3">
+              <label for="nameWithTitle" class="form-label">Product Name</label>
+              <input type="text" id="service_name" class="form-control" placeholder="eg.USB cable Type-C"
+              
+              onChange={(event) => {
+                  setName(event.target.value);
+                }}
+                 
+              />
+            </div>
+          </div>
+    
+          <div class="row">
+          <div class="col mb-3">
+            <label for="nameWithTitle" class="form-label">Description</label>
+    
+    
+            <textarea id="basic-icon-default-message" class="form-control" placeholder="Eg.Im only reliable type-c cable seller around!" aria-label="Hi, My business deals with beauty services?" 
+                                      
+            onChange={(event) => {
+              setProduct_description(event.target.value);
+            }}
+    
+            aria-describedby="basic-icon-default-message2"></textarea> 
+            
+          </div>
+        </div>
+    
+    
+        
+          <div class="row g-2">
+    
+    
+          
+            <div class="col mb-3">
+    
+    
+    
+          
+    
+            <label class="form-label" for="multicol-country">Type</label>
+            <select id="multicol-country" class="form-control select2 form-select"
+                onChange={(event) => {
+                    setType(event.target.value);
+                }}
+    
+                data-allow-clear="true">
+                <option value="">Select Category</option>
+                <option value="General-use">General use</option>
+                <option value="Household-Product">Household Product</option>
+    
+                <option value="Drinking-Liquor">Drinking/Liquor</option>
+    
+                <option value="Agricultural">Agricultural</option>
+                <option value="Ready-Meal">Ready Meal</option>
+    
+                <option value="Domestic-Products">Domestic Use</option>
+                
+    
+               
+                <option value="Livestock">Livestock</option>
+                <option value="Electronic">Electronic</option>
+                <option value="Automotive">Automotive</option>
+                
+    
+                <option value="Contruction">Contruction</option>
+    
+               
+                <option value="Clothing">Clothing</option>
+                <option value="Computing">Computing</option>
+    
+    
+              
+                <option value="Home-Based">Home-Based</option>
+                <option value="Beauty">Beauty</option>
+    
+                <option value="Aquatic">Aquatic</option>
+                <option value="Others">Others</option>
+    
+    
+            </select>
+    
+    
+    
+    
+    
+    
+    
+             
+            </div>
+            
+    
+            <div class="form-row">
+            <div class="form-group col-md-6 mb-0">
+         
+    
+            <label class="form-label" for="multicol-country">Unit Of Measure</label>
+            <select id="multicol-country" class="form-control select2 form-select"
+                value={unit_of_measure}
+                onChange={(event) => {
+                    setunit_of_measure(event.target.value);
+                }}
+    
+    
+    
+                data-allow-clear="true">
+                <option value="">Select Unit Of Measure</option>
+                <option value="Kgs">Kgs</option>
+                <option value="Item">Item</option>
+              
+    
+                <option value="Piece">Piece</option>
+                <option value="Litre">Litres</option>
+                <option value="Package">Package</option>
+                <option value="Order">Order</option>
+                
+              
+                <option value="Plate">Plates</option>
+    
+                <option value="foot">foot</option>
+    
+                <option value="mitre">mitre</option>
+    
+               
+    
+                <option value="Agreement">Agreement</option>
+    
+    
+    
+    
+    
+            </select>
+    
+    
+        
+            </div>
+            <div class="form-group col-md-6 mb-0">
+                <div class="form-group">
+                <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
+                <input type="number" id="price" class="form-control"
+    
+                    onChange={(event) => {
+                        setPrice(event.target.value);
+                    }}
+    
+    
+                />
+               {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
+                </div>
+            </div>
+        </div>
+    
+            <div class="form-group">
+            <label class="form-label mt-0">Upload Product Photo</label>
+            <input class="form-control" type="file"
+            name="image"
+            onChange={handleFileInputChange}
+            value={fileInputState}
+           
+        /> 
+        
+        <input type="hidden" value={businessId}  onChange={(event) => {
+            setbusinessId(event.target.value);
+          }} placeholder="bussId"/>
+            </div>
+    
+    
+            {previewSource && (
+                <img
+                    src={previewSource}
+                    alt="chosen"
+                    style={{ height: '300px' }}
+                />
+            )}
+          </div>
+            
+            
+            </div> }
+         
+          </div>
+            <div class="modal-footer">
+              
+    
+    
+                {!isLoading && <button type="submit" onClick={saveDetails} class="btn btn-primary">Save</button>
+    
+            } 
+            {isLoading &&
+              <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>Saving Infor</button>
+            }
+        
+                
+                
+                <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+    </div>
+              
     
              
     

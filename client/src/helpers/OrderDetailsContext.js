@@ -31,7 +31,7 @@ export const OrderDetailsDataProvider = ({ children }) => {
 
         
        
-         axios.get('http://localhost:3001/order/myorders', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         axios.get('https://yoteorder-server.herokuapp.com/order/myorders', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
          
 
@@ -43,13 +43,15 @@ export const OrderDetailsDataProvider = ({ children }) => {
 
             console.log("LOCAL STORAGE ORDERS LIST FROM THE CONTEXT "+my_orders)
 
-           
-            setTimeout(() => {
+            setCustomerOrders(response.data)
 
-                setCustomerOrders(response.data)
+           
+            // setTimeout(() => {
+
+            //     setCustomerOrders(response.data)
 
              
-            }, 1000);
+            // }, 1000);
 
             //setSeller_name(response.data.Users.first_name)
             

@@ -21,7 +21,7 @@ function SideBar() {
 <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
 <div class="app-sidebar">
     <div class="side-header">
-    <a class="header-brand1" href="/dashboard-vendor">
+    <a class="header-brand1" href="/dashboard">
     <img src="/assets/images/brand/logo_pink.png" class="header-brand-img desktop-logo" alt="logo"/>
     <img src="/assets/images/brand/logo_pink.png" class="header-brand-img light-logo1"
         alt="logo"/>

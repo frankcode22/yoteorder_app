@@ -34,6 +34,7 @@ import { LocationDataDataProvider } from "./helpers/LocationDataContext";
 import { LocationDataContextInitProvider } from "./helpers/LocationDataContextInit";
 import EmailCompose from './Components/Dashboards/admin/EmailCompose';
 import MailBox from './Components/Dashboards/seller/MailBox';
+import Features from './Components/Front/home/Features';
 
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 //const Products = lazy(() => import('./Products'));
@@ -194,6 +195,8 @@ function App() {
         <Route path="/" element={ <Homepage/>} />
 
         <Route path="/signin" element={ <SignIn/>} />
+
+        <Route path="/features" element={ <Features/>} />
 
 
         <Route path="/get-started" element={ <SignUp/>} />

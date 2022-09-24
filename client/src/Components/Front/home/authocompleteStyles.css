@@ -11,6 +11,11 @@
   outline: none;
 }
 
+.textInput{
+  border: 'orange';
+  font-size: 20;
+}
+
 .autocomplete-dropdown-container {
   border-bottom: honeydew;
   border-left: honeydew;

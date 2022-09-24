@@ -1365,6 +1365,15 @@ const backHome=()=>{
 
   )
 
+  const getStarted=()=>{
+    history('/get-started')
+ }
+
+ const signIn=()=>{
+    history('/signin')
+ }
+
+
 
     
   return (
@@ -1470,49 +1479,72 @@ const backHome=()=>{
     <div class="app-sidebar bg-transparent horizontal-main">
         <div class="container">
             <div class="row">
-                <div class="main-sidemenu navbar px-0">
-                   {/* <a class="navbar-brand ps-0 d-none d-lg-block" href="/">
-                        <img alt="" class="logo-2" src="assets/images/brand/logo-3.png"/>
-                        <img src="assets/images/brand/logo.png" class="logo-3" alt="logo"/>
-                    </a> */}
+            <div class="main-sidemenu navbar px-0">
+            <a class="navbar-brand ps-0 d-none d-lg-block" href="/">
+            <img alt="" class="logo-2" src="/assets/images/brand/logo_pink.png"/>
+            <img src="/assets/images/brand/logo_pink.png" class="logo-3" alt="logo"/>
+            </a>
+            <ul class="side-menu">
+                <li class="slide">
+                    <a class="side-menu__item active" data-bs-toggle="slide" href="/"><span
+                            class="side-menu__label">Home</span></a>
+                </li>
+                <li class="slide">
+                    <Link class="side-menu__item" data-bs-toggle="slide" to="/features"><span
+                            class="side-menu__label">Features</span></Link>
+                </li>
 
-                    <a class="navbar-brand ps-0 d-none d-lg-block" href="/">
-                    <img alt="" class="logo-2" src="/assets/images/brand/logo_pink.png"/>
-                    <img src="/assets/images/brand/logo_pink.png" class="logo-3" alt="logo"/>
-                </a>
-                    <ul class="side-menu">
-                        <li class="slide">
-                            <a class="side-menu__item active" data-bs-toggle="slide" href="/"><span
-                                    class="side-menu__label">Home</span></a>
-                        </li>
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Features"><span
-                                    class="side-menu__label">Features</span></a>
-                        </li>
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#About"><span
-                                    class="side-menu__label">Services</span></a>
-                        </li>
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Faqs"><span
-                                    class="side-menu__label">Help Centre</span></a>
-                        </li>
-                       
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Contact"><span
-                                    class="side-menu__label">Contact</span></a>
-                        </li>
-                    </ul>
-                    <div class="header-nav-right d-none d-lg-flex">
-                    <Link to='/get-started'
+                <li class="slide">
+                <a class="side-menu__item" data-bs-toggle="slide" href="#Features"><span
+                        class="side-menu__label">Services</span></a>
+            </li>
+               
+               
+               
+                <li class="slide">
+                    <a class="side-menu__item" data-bs-toggle="slide" href="#Clients"><span
+                            class="side-menu__label">Help Centre</span></a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item" data-bs-toggle="slide" href="#Contact"><span
+                            class="side-menu__label">Contact</span></a>
+
+
+                </li>
+
+                <li class="slide onmobile">
+
+                
+                <div class=" btn-list side-menu__item" data-bs-toggle="slide">
+                                                        <button type="button" onClick={getStarted} class="btn btn-success btn-sm mb-1"><i class="fa fa-registered" data-bs-toggle="tooltip" title="fa fa-registered"></i>Get Started</button>
+                                                        <button type="button"  onClick={signIn} class="btn btn-primary btn-sm mb-1"><i class="icon icon-login"></i>Login</button>
+                                                    </div>
+                
+            </li>
+
+
+
+
+
+                <li class="slide onmobile">
+                    <Link class="side-menu__item" data-bs-toggle="slide" to="/get-started"><span
+                            class="side-menu__label"><i class="icon icon-login" data-bs-toggle="tooltip" title="" data-bs-original-title="icon-login" aria-label="icon-login" aria-describedby="tooltip377007"></i>Sign up</span></Link>
+                </li>
+
+                
+            </ul>
+
+           
+            <div class="header-nav-right d-none d-lg-flex">
+                <Link to='/get-started'
                     class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
                    >Get Started
-                   </Link>
-                        <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
-                           >Login
-                        </a>
-                    </div>
-                </div>
+                </Link>
+                <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
+                   >Login
+                </a>
+            </div>
+        </div>
             </div>
         </div>
     </div>

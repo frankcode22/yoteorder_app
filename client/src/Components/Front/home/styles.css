@@ -5,3 +5,11 @@
     font-size: .875em;
     color: #dc3545;
 }
+
+@media screen and (min-width: 600px) {
+    .onmobile {
+      display: none;
+    }
+  }
+
+

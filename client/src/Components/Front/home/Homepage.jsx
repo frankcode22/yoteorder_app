@@ -27,6 +27,8 @@ import { Modal, Button } from "react-bootstrap";
 
 import 'react-toastify/dist/ReactToastify.css';
 
+import './styles.css'
+
 import SearchBar from "./SearchBar";
 import BookData from "../../../Data.json";
 import SearchModal from './SearchModal';
@@ -600,6 +602,17 @@ const searchItem1 = () => {
          }
 
 
+         const getStarted=()=>{
+            history('/get-started')
+         }
+
+         const signIn=()=>{
+            history('/signin')
+         }
+
+
+
+
 
 
   return (
@@ -683,8 +696,8 @@ const searchItem1 = () => {
                                     class="side-menu__label">Home</span></a>
                         </li>
                         <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Features"><span
-                                    class="side-menu__label">Features</span></a>
+                            <Link class="side-menu__item" data-bs-toggle="slide" to="/features"><span
+                                    class="side-menu__label">Features</span></Link>
                         </li>
 
                         <li class="slide">
@@ -701,8 +714,33 @@ const searchItem1 = () => {
                         <li class="slide">
                             <a class="side-menu__item" data-bs-toggle="slide" href="#Contact"><span
                                     class="side-menu__label">Contact</span></a>
+
+
                         </li>
+
+                        <li class="slide onmobile">
+
+                        
+                        <div class=" btn-list side-menu__item" data-bs-toggle="slide">
+                                                                <button type="button" onClick={getStarted} class="btn btn-success btn-sm mb-1"><i class="fa fa-registered" data-bs-toggle="tooltip" title="fa fa-registered"></i>Get Started</button>
+                                                                <button type="button"  onClick={signIn} class="btn btn-primary btn-sm mb-1"><i class="icon icon-login"></i>Login</button>
+                                                            </div>
+                        
+                    </li>
+
+
+
+
+
+                        <li class="slide onmobile">
+                            <Link class="side-menu__item" data-bs-toggle="slide" to="/get-started"><span
+                                    class="side-menu__label"><i class="icon icon-login" data-bs-toggle="tooltip" title="" data-bs-original-title="icon-login" aria-label="icon-login" aria-describedby="tooltip377007"></i>Sign up</span></Link>
+                        </li>
+
+                        
                     </ul>
+
+                   
                     <div class="header-nav-right d-none d-lg-flex">
                         <Link to='/get-started'
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
@@ -736,7 +774,7 @@ const searchItem1 = () => {
        }}>
         <div class="row mb-5 justify-content-center text-center">
             <div class="col">
-                <h1 class="font-weight-bold mb-0">Sell, Buy and Order anything mtaani!</h1>
+                <h1 class="font-weight-bold mb-0">Sell, Buy,Order and do bizz  mtaani!</h1>
                 <p>All your needs are catered by PataMtaani</p>
             </div>
         </div>
@@ -825,7 +863,11 @@ const searchItem1 = () => {
 
 
 
-
+    <div class="card-body text-center">
+    <span class=""><svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 24 24"><path fill="#fad383" d="M15.728,22H8.272a1.00014,1.00014,0,0,1-.707-.293l-5.272-5.272A1.00014,1.00014,0,0,1,2,15.728V8.272a1.00014,1.00014,0,0,1,.293-.707l5.272-5.272A1.00014,1.00014,0,0,1,8.272,2H15.728a1.00014,1.00014,0,0,1,.707.293l5.272,5.272A1.00014,1.00014,0,0,1,22,8.272V15.728a1.00014,1.00014,0,0,1-.293.707l-5.272,5.272A1.00014,1.00014,0,0,1,15.728,22Z"></path><circle cx="12" cy="16" r="1" fill="#f7b731"></circle><path fill="#f7b731" d="M12,13a1,1,0,0,1-1-1V8a1,1,0,0,1,2,0v4A1,1,0,0,1,12,13Z"></path></svg></span>
+    <h4 class="h4 mb-0 mt-3">Alert</h4>
+    <p class="card-text">Are you sure you want to end current services</p>
+</div>
 
 
     <i class="icon icon-close fs-70 text-danger lh-1 my-4 d-inline-block"></i>
@@ -867,7 +909,7 @@ Save Changes
 
 <SearchModal setLat1={setLat1} setLng1={setLng1} userPos={userPos} show={showManualSearchModal} closeModal={closeModal} searchItem1={searchItem1}/>
  
-<p class="mb-4 mx-4">{lat1} : {lng1}</p>
+{/**<p class="mb-4 mx-4">{lat1} : {lng1}</p> */}
 
 {/**<SearchModal latitude={latitude} longitude={longitude} show={show} searchItem={searchItem}/> */}
 
@@ -886,14 +928,26 @@ Save Changes
                                                       </div>
 
 
-                                                      <p class="text-center"> <div class="me-4 text-center text-primary">
+                                                      
+                                                      <h4 class="h4 mb-0 mt-3"></h4>
+
+                                                     
+
+                                                      <div class="card text-info bg-info-transparent card-transparent">
+                                                      <div class="card-body border border-secondary">
+                                                          <h4 class="card-title">Processing..</h4>
+
+                                                          <p class="card-text">Please wait..we are making a search for you....</p>
+
+                                                          <span class="badge bg-secondary fs-14 me-2">{pname}</span>
+                                                          <p class="text-center"> <div class="me-4 text-center text-primary">
                                                           <span><i class="fe fe-map-pin fs-20"></i></span>
                                                       </div>{latitude?latitude:lat1} ::{longitude?longitude:lng1}</p>
-                                                      <h4 class="h4 mb-0 mt-3">Processing..</h4>
-
-                                                      <p class="card-text">Your search for  <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>{pname} <a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span> currently in progress</p>
-
-
+                                                          
+                                                      
+                                                         
+                                                          </div>
+                                                  </div>
 
 
 

@@ -235,7 +235,7 @@ const loadVendorsContant=(
                                                                                     class="mt-0 mt-sm-3 d-block">
                                                                                     <h6
                                                                                         class="mb-0 fs-14 fw-semibold">
-                                                                                        {value.business_type}</h6>
+                                                                                        {value.location}</h6>
                                                                                 </div>
                                                                             </div>
                                                                         </td>
@@ -272,7 +272,7 @@ const loadVendorsContant=(
                                                                                           }} class="btn text-primary btn-sm"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-original-title="Edit"><span
-                                                                                            class="fe fe-edit fs-14"></span></a>
+                                                                                            class="fe fe-eye fs-14"></span></a>
                                                                                     <a class="btn text-danger btn-sm"
                                                                                         data-bs-toggle="tooltip"
                                                                                         data-bs-original-title="Delete"><span
