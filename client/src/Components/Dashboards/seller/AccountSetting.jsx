@@ -41,6 +41,8 @@ function AccountSetting(props) {
 
   const {businessDetails,setBusinessDetails} = useContext(DataContext);
 
+  // const {bussinessList, setBussinessList} = useContext(DataContext);
+
   const {userPos, setUserPos} = useContext(LocationDataContextInit);
 
   const {position, setPosition} = useContext(LocationDataContext);
@@ -153,6 +155,10 @@ function AccountSetting(props) {
 
     const [isBusinessSet,setIsBusinessSet] = useState(false);
 
+    const [contacts,setcontacts] = useState('');
+
+    
+
 
 
     const [customersList, setCustomersList] = useState([]);
@@ -230,7 +236,7 @@ function AccountSetting(props) {
  
 
  
-
+ // const post = bussinessList.find(post => (post.id).toString() === businessId);
 
 
 
@@ -294,6 +300,9 @@ function AccountSetting(props) {
            setlocation(businessDetails.my_buss.location)
            setLatitude(businessDetails.my_buss.latitude)
            setLongitude(businessDetails.my_buss.longitude)
+
+
+           setcontacts(businessDetails.my_buss.contacts)
           
  
            
@@ -382,7 +391,6 @@ function AccountSetting(props) {
     
 
        
-
 
 
 
@@ -515,6 +523,7 @@ const buss_data={
 
        const newDetails = response.data;
        setBusinessDetails(newDetails ?{ ...response.data } : businessDetails);
+
 
 
        setBussSetup(true)
@@ -1016,13 +1025,30 @@ const initiateEdit=()=>{
     console.log("The response is"+response.data)
 
 
-    console.log("START tIME"+openTime)
+    // console.log("START tIME"+openTime)
 
 
-    console.log("END TIME"+closeTime)
+    // console.log("END TIME"+closeTime)
 
 
     console.log("THE BUSINESS ID IS "+response.data.id)
+
+
+   // setBussinessList(bussinessList.map(post => post.id === response.data.id ? { ...response.data } : post));
+
+
+    setBusinessDetails({...businessDetails, [response.data.id]: businessDetails});
+
+
+  
+
+
+
+
+   
+
+
+    //setBusinessDetails({ location: 'Advika' })
 
     setbusinessId(response.data.id)
 
@@ -1032,10 +1058,21 @@ const initiateEdit=()=>{
     setlocation(response.data.location)
     setLatitude(response.data.latitude)
     setLongitude(response.data.longitude)
+    setAddress(response.data.location)
+
+
+   
+    setBusinessDetails({...businessDetails, business_name: 'Denmark'})
+
+    
+    // if (obj.id === 2) {
+    //   return {...obj, country: 'Denmark'};
+    // }
 
 
        
         setTimeout(() => {
+        
             setLoading(false);
             toast.success('Saved');
             setIsBusinessSet(true)
@@ -1371,6 +1408,8 @@ const initiateEdit=()=>{
                         <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
                         <div class="col-sm-9">
                           <select id="formtabs-country" class="select2 form-select"
+
+                          value={city}
                           
                           onChange={(event) => {
                               setCity(event.target.value);
@@ -1470,6 +1509,8 @@ const initiateEdit=()=>{
                         <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
                         <div class="col-sm-9">
                           <input type="text" id="buss-contacts" class="form-control phone-mask"
+
+                          value={contacts}
                           
                           onChange={(event) => {
                               setbuss_contacts(event.target.value);

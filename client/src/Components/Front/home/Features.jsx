@@ -707,16 +707,11 @@ const searchItem1 = () => {
                        
                        
                        
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Clients"><span
-                                    class="side-menu__label">Help Centre</span></a>
-                        </li>
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Contact"><span
-                                    class="side-menu__label">Contact</span></a>
-
-
-                        </li>
+                    <li class="slide">
+                    <Link class="side-menu__item" data-bs-toggle="slide" to="/helpcentre"><span
+                            class="side-menu__label">Help Centre</span></Link>
+                   </li>
+                        
 
                         <li class="slide onmobile">
 

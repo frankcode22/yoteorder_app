@@ -164,7 +164,7 @@ const loadVendorsContant=(
                                                                     <thead class="border-top">
                                                                         <tr>
                                                                             <th class="bg-transparent border-bottom-0"
-                                                                                style={{width: '5%'}}>Business Id</th>
+                                                                                style={{width: '5%'}}>Id</th>
                                                                             <th
                                                                                 class="bg-transparent border-bottom-0">
                                                                                 Business Name</th>
@@ -173,10 +173,10 @@ const loadVendorsContant=(
                                                                                 class="bg-transparent border-bottom-0">
                                                                                 Owner</th>
                                                                           
-                                                                           
-                                                                            <th
+                                                                           {/**   <th
                                                                                 class="bg-transparent border-bottom-0">
-                                                                                Location</th>
+                                                                                Location</th>*/}
+                                                                          
 
                                                                                 <th
                                                                                 class="bg-transparent border-bottom-0">
@@ -185,11 +185,14 @@ const loadVendorsContant=(
                                                                                 <th
                                                                                 class="bg-transparent border-bottom-0">
                                                                                 Longitude</th>
-                                                                            <th
-                                                                                class="bg-transparent border-bottom-0">
-                                                                               Owner Contacts</th>
-                                                                            <th class="bg-transparent border-bottom-0"
-                                                                                style={{width: '10%'}}>Status</th>
+                                                                           
+                                                                               <th
+                                                                               class="bg-transparent border-bottom-0">
+                                                                              Owner Tel</th>
+
+
+                                                                               
+                                                                          
                                                                             <th class="bg-transparent border-bottom-0"
                                                                                 style={{width: '5%'}}>Action</th>
                                                                         </tr>
@@ -229,16 +232,17 @@ const loadVendorsContant=(
                                                                                 </div>
                                                                             </td>
 
-                                                                            <td>
-                                                                            <div class="d-flex">
+                                                                                  {/**     <td>
+                                                                   <div class="d-flex">
                                                                                 <div
                                                                                     class="mt-0 mt-sm-3 d-block">
                                                                                     <h6
                                                                                         class="mb-0 fs-14 fw-semibold">
                                                                                         {value.location}</h6>
                                                                                 </div>
-                                                                            </div>
-                                                                        </td>
+                                                                            </div> 
+                                                                          
+                                                                        </td>*/}
                                                                          
                                                                           
 
@@ -259,14 +263,9 @@ const loadVendorsContant=(
                                                                                     </div>
                                                                                 </div>
                                                                             </td>
+                                                                           
                                                                             <td>
-                                                                                <div class="mt-sm-1 d-block">
-                                                                                    <span
-                                                                                        class="badge bg-success-transparent rounded-pill text-success p-2 px-3">active</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="g-2">
+                                                                                <div class="d-flex">
                                                                                     <a onClick={() => {
                                                                                         openSelectedBuss(value.id);
                                                                                           }} class="btn text-primary btn-sm"
@@ -423,7 +422,10 @@ const loadVendorsContant=(
                                                                 
                                                             </div>
                                                         </div>
-                                                        <div class="tab-pane" id="tab6">
+                                                     
+
+
+                                                        {/**   <div class="tab-pane" id="tab6">
                                                             <div class="table-responsive">
                                                                 <table
                                                                     class="table table-bordered text-nowrap mb-0">
@@ -777,7 +779,7 @@ const loadVendorsContant=(
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                 </div>
                                             </div>

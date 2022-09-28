@@ -442,6 +442,9 @@ function BusinessDetailsComponet({id,google}) {
         setlocation(response.data.location)
         setLatitude(response.data.latitude)
         setLongitude(response.data.longitude)
+
+
+       
   
     
            

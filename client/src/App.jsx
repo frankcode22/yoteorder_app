@@ -35,6 +35,9 @@ import { LocationDataContextInitProvider } from "./helpers/LocationDataContextIn
 import EmailCompose from './Components/Dashboards/admin/EmailCompose';
 import MailBox from './Components/Dashboards/seller/MailBox';
 import Features from './Components/Front/home/Features';
+import HomepageWithModal from './Components/Front/home/HomepageWithModal';
+import HelpCentre from './Components/Front/home/HelpCentre';
+import UserDetails from './Components/Dashboards/admin/UserDetails';
 
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 //const Products = lazy(() => import('./Products'));
@@ -59,7 +62,7 @@ function App() {
   useEffect(() => {
     axios
    .get("https://yoteorder-server.herokuapp.com/users/auth", {
-     // .get("http://localhost:3001/users/auth",{
+    //  .get("http://localhost:3001/users/auth",{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -132,7 +135,9 @@ function App() {
         <Route path="/account-setting" element={ <AccountSetting/>}/>
 
 
-        <Route path="/users" element={ <Users/>}/>
+        <Route exact path="/users" element={ <Users/>}/>
+
+        <Route path="/users/:id" element={ <UserDetails/>}/>
 
         <Route path="/products" element={ <Products/>}/>
 
@@ -194,9 +199,13 @@ function App() {
    
         <Route path="/" element={ <Homepage/>} />
 
+        <Route path="/manual-search" element={ <HomepageWithModal/>} />
+
         <Route path="/signin" element={ <SignIn/>} />
 
         <Route path="/features" element={ <Features/>} />
+
+        <Route path="/helpcentre" element={ <HelpCentre/>} />
 
 
         <Route path="/get-started" element={ <SignUp/>} />

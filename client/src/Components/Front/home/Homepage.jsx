@@ -31,7 +31,7 @@ import './styles.css'
 
 import SearchBar from "./SearchBar";
 import BookData from "../../../Data.json";
-import SearchModal from './SearchModal';
+//import SearchModal from './SearchModal';
 
 import { ChildComponent } from './ChildComponent ';
 
@@ -394,11 +394,14 @@ function Homepage(props) {
       
          setShowErrorModal(false)
 
-         setShowManualSearchModal(true)
+        // setShowManualSearchModal(true)
+
+        history('/manual-search')
          
         
          
            };
+
 
 
 
@@ -563,10 +566,11 @@ const searchItem1 = () => {
     setTimeout(() => {
 
       
-
+      //  localStorage.setItem('pname', JSON.stringify(pname));
+       
     setLoading(false)
     //history('/ordered-product/'+pname+'/'+search_lat+'/'+search_lng);
-
+    localStorage.setItem('ordered_item', JSON.stringify(pname));
     history('/ordered-product/'+pname+'/'+lat1+'/'+lng1);
 
     setShow(false)
@@ -593,7 +597,7 @@ const searchItem1 = () => {
 
 
 
-          localStorage.setItem('ordered_item', JSON.stringify(pname));
+        
 
 
     
@@ -708,15 +712,10 @@ const searchItem1 = () => {
                        
                        
                         <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Clients"><span
-                                    class="side-menu__label">Help Centre</span></a>
+                            <Link class="side-menu__item" data-bs-toggle="slide" to="/helpcentre"><span
+                                    class="side-menu__label">Help Centre</span></Link>
                         </li>
-                        <li class="slide">
-                            <a class="side-menu__item" data-bs-toggle="slide" href="#Contact"><span
-                                    class="side-menu__label">Contact</span></a>
-
-
-                        </li>
+                       
 
                         <li class="slide onmobile">
 
@@ -759,7 +758,7 @@ const searchItem1 = () => {
 {/* <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal" id="home">*/}
 <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden" id="home" style={{ width: '100%',
     height: 'auto',
-    background: 'url("assets/images/hero-bg.jpg") top center',
+    background: 'url("assets/images/brand/help_centre.jpg") top center',
     backgroundSize: 'cover'
    }}>
     <div class="container px-sm-0">
@@ -775,7 +774,7 @@ const searchItem1 = () => {
         <div class="row mb-5 justify-content-center text-center">
             <div class="col">
                 <h1 class="font-weight-bold mb-0">Sell, Buy,Order and do bizz  mtaani!</h1>
-                <p>All your needs are catered by PataMtaani</p>
+                <p style={{color:'white'}}>All your needs are catered by PataMtaani</p>
             </div>
         </div>
 
@@ -865,18 +864,11 @@ const searchItem1 = () => {
 
     <div class="card-body text-center">
     <span class=""><svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 24 24"><path fill="#fad383" d="M15.728,22H8.272a1.00014,1.00014,0,0,1-.707-.293l-5.272-5.272A1.00014,1.00014,0,0,1,2,15.728V8.272a1.00014,1.00014,0,0,1,.293-.707l5.272-5.272A1.00014,1.00014,0,0,1,8.272,2H15.728a1.00014,1.00014,0,0,1,.707.293l5.272,5.272A1.00014,1.00014,0,0,1,22,8.272V15.728a1.00014,1.00014,0,0,1-.293.707l-5.272,5.272A1.00014,1.00014,0,0,1,15.728,22Z"></path><circle cx="12" cy="16" r="1" fill="#f7b731"></circle><path fill="#f7b731" d="M12,13a1,1,0,0,1-1-1V8a1,1,0,0,1,2,0v4A1,1,0,0,1,12,13Z"></path></svg></span>
-    <h4 class="h4 mb-0 mt-3">Alert</h4>
-    <p class="card-text">Are you sure you want to end current services</p>
+    <h4 class="h4 mb-0 mt-3">Can't access your location! Allow location access please</h4>
+   
 </div>
 
 
-    <i class="icon icon-close fs-70 text-danger lh-1 my-4 d-inline-block"></i>
-       
-
-    <h4 class="text-danger mb-20">Error: Cannot access your location!</h4>
-
-
-    <p class="mb-4 mx-4">Enable your location setting to use this app</p>
 
     <h4 class="text-center">OR</h4>
 
@@ -906,8 +898,8 @@ Save Changes
 </Modal>
 
 
+{/**<SearchModal setLat1={setLat1} setLng1={setLng1} userPos={userPos} show={showManualSearchModal} closeModal={closeModal} searchItem1={searchItem1}/> */}
 
-<SearchModal setLat1={setLat1} setLng1={setLng1} userPos={userPos} show={showManualSearchModal} closeModal={closeModal} searchItem1={searchItem1}/>
  
 {/**<p class="mb-4 mx-4">{lat1} : {lng1}</p> */}
 

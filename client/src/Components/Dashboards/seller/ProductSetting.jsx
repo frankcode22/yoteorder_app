@@ -158,6 +158,8 @@ function ProductSetting(props) {
       const [showActionBtn,setShowActionBtn]=useState(true);
 
       const [showSuccessAlert,setShowSucessAlert]=useState(false);
+
+      const [hidesavebtn,sethidesavebtn]=useState(false);
   
   
     const [address, setAddress] = React.useState("");
@@ -939,6 +941,7 @@ const showProductsSection=()=>{
     }
 
 
+
   
     
     let formData = new FormData();
@@ -1016,6 +1019,7 @@ const showProductsSection=()=>{
         setLoading(false);
         setShowActionBtn(false)
         setShowSucessAlert(true)
+        sethidesavebtn(true)
         
         toast.success('Product saved successfully');
     }, 2000);
@@ -1538,11 +1542,7 @@ const loadProductsContent=(
                             </a>
                         </div>
 
-                        <div>
-                        <a href="javascript:void(0);"  onClick={showServicesSection} class="list-group-item  d-flex align-items-center px-0">
-                            <i class="fe fe-calendar fs-18 me-2 text-secondary p-2"></i>Services
-                        </a>
-                       </div> 
+                        
 
                        <div>
                        <a href="javascript:void(0);"  onClick={showProductsSection} class="list-group-item  d-flex align-items-center px-0">
@@ -1550,11 +1550,7 @@ const loadProductsContent=(
                        </a>
                       </div> 
 
-                       <div>
-                       <a href="javascript:void(0);" onClick={showStaffSection} class="list-group-item  d-flex align-items-center px-0">
-                           <i class="fe fe-user fs-18 me-2 text-secondary p-2"></i> Staff
-                       </a>
-                   </div>
+                       
 
                         
                     </div>
@@ -1563,15 +1559,7 @@ const loadProductsContent=(
             </div>
             {showBusinessSetupDiv && <div class="col-xl-9">
             <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Set up your business profile</h3>
-
-
-                    <div class="col-xl-3 col-lg-12">
-                             
-                    <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo01"><i class="fa fa-plus-square me-2"></i>Add Business Profile</a>
-                </div>
-                </div>
+                
 
                <div class="card-body">
 
@@ -2659,26 +2647,7 @@ const loadProductsContent=(
                         <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Photos"><span class="ri-image-line"></span></a>
                         <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"><span class="ri-delete-bin-line"></span></a>
                     </div>
-                    <div class="btn-list ms-auto my-auto">
-
-                    <button class="btn btn-danger btn-space mb-0">Cancel</button>
-
-                    
-                    {!isLoading && !showUpdateButton && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary btn-space mb-0">Save</button>
-          
-                  } 
-
-
-             {!isLoading && showUpdateButton &&  <button type="button" onClick={updateBusinessInfor} class="btn btn-success"><i class="fe fe-check me-2"></i>Update</button> }    
-
-                  {isLoading &&
-                      <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow text-success me-2" role="status">
-                      <span class="visually-hidden">Loading...</span>
-                  </div>Saving Infor</button>
-                  }
-                       
-                    
-                    </div>
+                   
                 </div>
             </div>
         </div>}
@@ -3293,7 +3262,7 @@ const loadProductsContent=(
         <div class="row">
         <div class="col mb-3">
           <label for="nameWithTitle" class="form-label">Product Name</label>
-          <input type="text" id="service_name" class="form-control" placeholder="eg.USB cable Type-C"
+          <input type="text" id="service_name" class="form-control" placeholder="Eg.Pro Gas"
           
           onChange={(event) => {
               setName(event.target.value);
@@ -3475,7 +3444,7 @@ const loadProductsContent=(
           
 
 
-            {!isLoading && <button type="submit" onClick={saveDetails} class="btn btn-primary">Save</button>
+            {!isLoading && !hidesavebtn &&<button type="submit" onClick={saveDetails} class="btn btn-primary">Save</button>
 
         } 
         {isLoading &&

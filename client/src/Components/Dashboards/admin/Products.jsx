@@ -79,7 +79,18 @@ useEffect(()=>{
 
      axios.get("https://yoteorder-server.herokuapp.com/product/allproducts",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
        
+
+     if(response.data){
+
         setProductsList(response.data)
+
+     }
+     else{
+        setProductsList([])
+
+     }
+      
+
        console.log("THE Products LIST DATA "+response.data)
        })
 
@@ -205,10 +216,12 @@ useEffect(()=>{
                                             <td class="align-middle text-center"><img alt="image" class="avatar avatar-md br-7" src="assets/images/users/16.jpg"/></td>
                                             <td class="text-nowrap align-middle">{value.name}</td>
                                             <td class="text-nowrap align-middle">{value.price}</td>
-                                            <td class="text-nowrap align-middle">{value.Business.business_name}</td>
+                                            {/** <td class="text-nowrap align-middle">{!value.Business.business_name && ''}</td> */}
+                                           
 
                                             <td class="text-nowrap align-middle">{value.latitude}</td>
-                                            <td class="text-nowrap align-middle">{value.Business.longitude}</td>
+                                             {/** <td class="text-nowrap align-middle">{value.Business.longitude?value.Business.longitude:'no bizz'}</td> */}
+                                            
 
                                             <td class="text-nowrap align-middle"><span>{value.createdAt}</span></td>
 

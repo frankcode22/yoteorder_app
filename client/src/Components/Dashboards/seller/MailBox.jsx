@@ -103,7 +103,7 @@ const [isLoading,setLoading]=useState(false);
        
     
     
-    },[businessDetails])
+    },[businessDetails,notifications])
 
 
 
@@ -255,27 +255,20 @@ const payload={
                                     <a href="javascript:void(0)" onClick={activateInbox} class="list-group-item d-flex align-items-center active mx-4">
                                         <span class="icons"><i class="ri-mail-line"></i></span> Inbox <span class="ms-auto badge bg-secondary bradius">14</span>
                                     </a>
-                                    <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                                        <span class="icons"><i class="ri-mail-open-line"></i></span> Drafts
-                                    </a>
-                                    <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                                        <span class="icons"><i class="ri-star-line"></i></span> Starred <span class="ms-auto badge bg-success bradius">03</span>
-                                    </a>
-                                    <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                                        <span class="icons"><i class="ri-price-tag-3-line"></i></span> Tags
-                                    </a>
+                                   
+                                    
                                     <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
                                         <span class="icons"><i class="ri-mail-send-line"></i></span> Sent Mail
                                     </a>
-                                    <a href="javascript:void(0)" class="list-group-item d-flex align-items-center mx-4">
-                                        <span class="icons"><i class="ri-delete-bin-line"></i></span> Trash
-                                    </a>
+                                    
                                 </div>
                               
                             </div>
                         </div>
                     </div>
 
+
+  <Suspense fallback={<div>Loading...</div>}>
                     {showInbox &&   <div class="col-xl-9">
                     <div class="card">
                         <div class="card-body p-6">
@@ -366,6 +359,9 @@ const payload={
                         </li>
                     </ul>
                 </div> }
+
+
+    </Suspense>
                             
                   
 

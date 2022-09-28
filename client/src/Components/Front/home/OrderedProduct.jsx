@@ -35,6 +35,13 @@ function randomNumberInRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  
+function truncate(number, index = 2) {
+    // cutting the number
+  return +number.toString().slice(0, (number.toString().indexOf(".")) + (index + 1));
+}
+
+
 
 function OrderedProduct() {
 
@@ -133,7 +140,7 @@ function OrderedProduct() {
 
       
 
-      
+      const[lng_new,setlng_new]=useState('')
 
 
       
@@ -168,6 +175,8 @@ function OrderedProduct() {
       const [show, setShow] = useState(false);
 
       const [showP, setShowP] = useState(false);
+
+
 
 
       const [showBuyerDetailsModal, setShowBuyerDetailsModal] = useState(false);
@@ -266,35 +275,42 @@ function OrderedProduct() {
         console.log("YOUR NEW POSITION IS "+position)
 
 
-       
 
-  
+
+
+ 
    
 
   // axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
   
     axios.get(`https://yoteorder-server.herokuapp.com/product/search_geoloc/${pname}/${lat}/${lng}`).then((response) => {
 
-       // setShowP(true);
+      // setShowP(true);
+
+      
 
        
+  //console.log("THIS IS YOUR SEARCH DETAILS "+response.data.item_list)
 
-       
+  
 
 
          
             setTimeout(() => {
+                if(response.data.notfound){
+                    setProductFound(true)
+                    
+                     console.log(response.data.notfound)
+            
+                    }
                 setProductsList(response.data.item_list);
 
-                console.log("THIS IS YOUR SEARCH DETAILS "+response.data.item_list)
+               // console.log("THIS IS YOUR SEARCH DETAILS "+response.data.item_list)
 
                 setImagePath(response.data.imagePath)
 
 
-                if( response.data.item_list==''){
-                    setProductFound(true)
-                    //setShowP(false);
-                }
+             
 
                // setShowP(false);
 
@@ -955,7 +971,7 @@ const backHome=()=>{
         <div class="row">
             
 
-        {productsList.map((value, key) => {
+        {productsList?.map((value, key) => {
             return (
 
 

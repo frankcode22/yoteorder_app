@@ -103,26 +103,7 @@ function SideBar() {
                 class="side-menu__icon fe fe-users"></i><span
                 class="side-menu__label">Users</span><i
                 class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu">
-            <li class="side-menu-label1"><a href="javascript:void(0)">Authentication</a></li>
-            <li><a href="login.html" class="slide-item"> Login</a></li>
-            <li><a href="register.html" class="slide-item"> Register</a></li>
-            <li><a href="forgot-password.html" class="slide-item"> Forgot Password</a></li>
-            <li><a href="lockscreen.html" class="slide-item"> Lock screen</a></li>
-            <li class="sub-slide">
-                <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)"><span
-                        class="sub-side-menu__label">Error Pages</span><i
-                        class="sub-angle fe fe-chevron-right"></i></a>
-                <ul class="sub-slide-menu">
-                    <li><a href="400.html" class="sub-slide-item"> 400</a></li>
-                    <li><a href="401.html" class="sub-slide-item"> 401</a></li>
-                    <li><a href="403.html" class="sub-slide-item"> 403</a></li>
-                    <li><a href="404.html" class="sub-slide-item"> 404</a></li>
-                    <li><a href="500.html" class="sub-slide-item"> 500</a></li>
-                    <li><a href="503.html" class="sub-slide-item"> 503</a></li>
-                </ul>
-            </li>
-        </ul>
+       
     </li>
    
     <a type="submit" class="side-menu__item" data-bs-toggle="slide" onClick={logout}>

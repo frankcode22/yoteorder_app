@@ -50,6 +50,8 @@ const [business_name, setbusiness_name] = useState("");
 
 const [dateJoined, setdateJoined] = useState('');
 
+let history = useNavigate();
+
 
 
 useEffect(()=>{
@@ -90,6 +92,14 @@ useEffect(()=>{
 
 
 },[]);
+
+
+
+const viewSelectedUser=(id)=>{
+
+    history('/users/'+id)
+
+}
 
 
 
@@ -212,6 +222,9 @@ useEffect(()=>{
 
                                             <td class="text-center align-middle">
                                                 <div class="btn-group align-top">
+                                                <button class="btn btn-sm btn-primary badge" onClick={() => {
+                                                    viewSelectedUser(value.id);
+                                                      }} type="button">View</button>
                                                     <button class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" type="button">Edit</button> <button class="btn btn-sm btn-primary badge" type="button"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </td>
