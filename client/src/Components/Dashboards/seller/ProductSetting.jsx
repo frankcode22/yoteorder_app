@@ -1344,6 +1344,64 @@ const initiateEdit=()=>{
 }
 
 
+
+const updateProductNew = async e => {
+  setLoading(true)
+  
+  let formData = new FormData();
+  formData.append('businessId', businessId);
+  formData.append('file',image);
+  formData.append('name', name);
+
+
+  formData.append('product_description', product_description);
+  formData.append('price',price);
+  formData.append('quantity', quantity);
+
+  formData.append('type',type);
+  // formData.append('address_line_2', address_line_2);
+
+  formData.append('unit_of_measure',unit_of_measure);
+  formData.append('latitude', lat);
+
+  formData.append('longitude', lng);
+
+  formData.append('UserId', userId);
+
+
+
+  setUploding(true);
+  let { data } = await API.put('product/update-product/'+productId, formData, {
+      onUploadProgress: ({ loaded, total }) => {
+          let progress = ((loaded / total) * 100).toFixed(2);
+          setProgress(progress);
+         
+      }
+  });
+  setUplodedImg(data.imagePath);
+
+ // localStorage.setItem('product_photo', JSON.stringify(data.imagePath));
+  console.log("tTHE IMAGE NAME IS "+data.imagePath)
+  console.log("THE FILE NAME IS "+data.ImageName)
+  console.log("THE BUSS ID IS "+data.businessId)
+
+  setUploding(false);
+
+  getAllMyProducts();
+
+
+  setTimeout(() => {
+      setLoading(false);
+      setShowActionBtn(false)
+      setShowSucessAlert(true)
+      
+      toast.success('Product update successfully');
+  }, 2000);
+  
+}
+
+
+
 const loadProductsContent=(
 
 
@@ -3701,71 +3759,316 @@ const loadProductsContent=(
 
 
 
-
-
-        <div class="modal fade" id="modaldemo9">
-        <div class="modal-dialog modal-dialog-centered text-center" role="document">
-          <div class="modal-content">
+    <div class="modal fade" id="modaldemo9">
+    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+        <div class="modal-content modal-content-demo">
             <div class="modal-header">
-              <h5 class="modal-title" id="modalCenterTitle">Add Staff</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h6 class="modal-title">Product Details</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-              <div class="row">
-                <div class="col mb-3">
-                  <label for="nameWithTitle" class="form-label">Name</label>
-                  <input type="text" id="staff_name" class="form-control" placeholder="Enter Name"
-                  
-                  onChange={(event) => {
-                      SetStaff_name(event.target.value);
-                    }}
-                     
-                  />
+          
+          
+            <div class="card-body">
+            {/*<label htmlFor={idx} className="text-primary font-weight-bold">{label}</label> */}  
+
+
+            {showSuccessAlert &&
+
+                <div>
+    
+                <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+                <h4 class="text-success mb-4">Product updated successfully!</h4>
+    
                 </div>
-              </div>
-              <div class="row g-2">
-                <div class="col mb-0">
-                  <label for="emailWithTitle" class="form-label">Email</label>
-                  <input type="text" id="emailWithTitle" class="form-control" placeholder="xxxx@xxx.xx"
-                  
-                  
-                  onChange={(event) => {
-                      setEmail(event.target.value);
+    
+    
+            }
+
+
+            {!showSuccessAlert && 
+                <div>
+
+                <div class="form-group ">
+  
+                <label for="nameWithTitle" class="form-label">Product Name</label>
+
+
+                <input type="hidden" id="nameWithTitle" class="form-control" placeholder="Enter Name"
+
+                    value={businessId}
+
+                    onChange={(event) => {
+                        setbusinessId(event.target.value);
                     }}
-                     />
-                </div>
-                <div class="col mb-0">
-                  <label for="dobWithTitle" class="form-label">Phone No.</label>
-                  <input type="text" id="phoneno" class="form-control"
-      
-                  onChange={(event) => {
-                      setPhone_no(event.target.value);
+
+                />
+
+                <input type="hidden" id="price" class="form-control" value={userId}
+
+                    onChange={(event) => {
+                        setUserId(event.target.value);
                     }}
-                     
-                  
-                  />
-                </div>
-              </div>
+                />
+
+                <input type="text" id="product_name" class="form-control" placeholder="Enter Name"
+
+                value={name}
+
+                    onChange={(event) => {
+                        setName(event.target.value);
+                    }}
+
+                />
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
-      
-      
-              
-              {!isLoading && <button type="submit" onClick={addStaff} class="btn btn-primary"  style={{backgroundColor:"#085781"}}>Save</button>
-      
-          } 
-          {isLoading &&
-              <button type="submit" class="btn btn-primary btn-md btn-block mt-3 waves-effect" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
-          }
-      
-      
-              
+            <div class="form-group ">
+
+                <label class="form-label" for="multicol-country">Type</label>
+                <select id="multicol-country" class="form-control select2 form-select"
+                    onChange={(event) => {
+                        setType(event.target.value);
+                    }}
+
+                    value={type}
+
+                    data-allow-clear="true">
+                    <option value="">Select Category</option>
+                    <option value="General-use">General use</option>
+                    <option value="Household-Product">Household Product</option>
+
+                    <option value="Drinking-Liquor">Drinking/Liquor</option>
+
+                    <option value="Agricultural">Agricultural</option>
+                    <option value="Ready-Meal">Ready Meal</option>
+
+                    <option value="Domestic-Products">Domestic Use</option>
+                    
+
+                   
+                    <option value="Livestock">Livestock</option>
+                    <option value="Electronic">Electronic</option>
+                    <option value="Automotive">Automotive</option>
+                    
+
+                    <option value="Contruction">Contruction</option>
+
+                   
+                    <option value="Clothing">Clothing</option>
+                    <option value="Computing">Computing</option>
+
+
+                  
+                    <option value="Home-Based">Home-Based</option>
+                    <option value="Beauty">Beauty</option>
+
+                    <option value="Aquatic">Aquatic</option>
+                    <option value="Others">Others</option>
+
+
+                </select>
+
+
             </div>
+
+
+            <div class="form-row">
+
+                <label for="description" class="form-label">Description</label>
+
+
+                <textarea name="address" class="form-control" value={product_description} onChange={(event) => {
+                    setProduct_description(event.target.value);
+                }} id="address" rows="2" placeholder="Your Product desciption"></textarea>
+
+            </div>
+
+
+
             
-          </div>
+            <div class="form-row">
+            <div class="form-group col-md-6 mb-0">
+         
+
+            <label class="form-label" for="multicol-country">Unit Of Measure</label>
+            <select id="multicol-country" class="form-control select2 form-select"
+                value={unit_of_measure}
+                onChange={(event) => {
+                    setunit_of_measure(event.target.value);
+                }}
+
+
+
+                data-allow-clear="true">
+                <option value="">Select Unit Of Measure</option>
+                <option value="Kgs">Kgs</option>
+                <option value="Litre">Litres</option>
+                <option value="Plate">Plates</option>
+
+                <option value="Item">Item</option>
+
+                <option value="Piece">Piece</option>
+                <option value="Package">Package</option>
+                <option value="Order">Order</option>
+
+                <option value="Agreement">Agreement</option>
+
+
+
+
+
+            </select>
+
+
+        
+            </div>
+            <div class="form-group col-md-6 mb-0">
+                <div class="form-group">
+                <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
+                <input type="number" id="price" class="form-control"
+
+                    value={price}
+
+                    onChange={(event) => {
+                        setPrice(event.target.value);
+                    }}
+
+
+                />
+                </div>
+            </div>
         </div>
-      </div>
+
+
+
+
+
+
+          
+
+            <div class="form-row">
+                <div class="form-group col-md-6 mb-0">
+                    <div class="form-group ">
+
+                    <label for="dobWithTitle" class="form-label">Quantity</label>
+                    <input type="number" class="form-control"
+
+                       value={quantity}
+
+                        onChange={(event) => {
+                            setQuantity(event.target.value);
+                        }}
+                        id="quantity" placeholder="eg.7" />
+
+
+                    </div>
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    <div class="form-group">
+                        <label for="dobWithTitle" class="form-label">Availability</label>
+                        <div class="col-xl-2 px-3 px-xl-1">
+                            <div class="form-group">
+                                <label class="custom-switch form-switch mb-0">
+                                    <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" />
+                                    <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                    <span class="custom-switch-description">Set Availability</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        
+
+
+
+
+
+
+      
+
+       
+
+
+
+
+        
+      <div class="form-group">
+        <label class="form-label mt-0">Default file input example</label>
+        <input class="form-control" type="file" id={idx} onChange={handleChange}/>
+        </div>
+
+
+        <input type="hidden" value={businessId}  onChange={(event) => {
+            setbusinessId(event.target.value);
+          }} placeholder="bedrooms"/>
+
+        
+ 
+    {
+        isUploding ? (
+            <div className="flex-grow-1 px-2">
+                <div className="text-center">{uploadProgress}%</div>
+                <Progress value={uploadProgress} />
+            </div>
+        ) : null
+    }
+    {
+        uploadedImg && !isUploding ? (
+            <img
+                src={uploadedImg}
+                alt="UploadedImage"
+                className="img-thumbnail img-fluid uploaded-img ml-3"
+            />
+        ) : null
+    }
+
+
+      
+
+
+
+
+
+                </div>
+
+
+            }
+
+
+
+            
+  
+              </div>
+  
+  
+  
+              <div class="modal-footer">
+  
+  
+              {!isLoading && showActionBtn &&  <button type="submit" onClick={updateProductNew} class="btn btn-primary">Save</button>
+            
+                  } 
+                  {isLoading &&
+                      <button type="submit" class="btn btn-primary" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+                  }
+  
+  
+                   <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+              </div>
+  
+              <ToastContainer/>
+      
+            </div>
+          
+        </div>
+    </div>
+</div>
+
+      
 
 
       <div class="modal fade" id="modaldemo90">
