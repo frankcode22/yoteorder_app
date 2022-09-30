@@ -402,10 +402,13 @@ function ProductSetting(props) {
 
 
 const handleFileInputChange = (e) => {
+  e.preventDefault();
+  //const { file } = e.target.files[0];
   const file = e.target.files[0];
   previewFile(file);
   setSelectedFile(file);
   setFileInputState(e.target.value);
+  
 };
 
 
@@ -942,7 +945,7 @@ const showProductsSection=()=>{
 
 
 
-  
+   
     
     let formData = new FormData();
     formData.append('businessId', businessId);
@@ -3416,7 +3419,11 @@ const loadProductsContent=(
         <label class="form-label mt-0">Upload Product Photo</label>
         <input class="form-control" type="file"
         name="image"
-        onChange={handleFileInputChange}
+
+        onChange={(e) => {
+          handleFileInputChange(e)
+        }}
+       
         value={fileInputState}
        
     /> 

@@ -38,6 +38,8 @@ import Features from './Components/Front/home/Features';
 import HomepageWithModal from './Components/Front/home/HomepageWithModal';
 import HelpCentre from './Components/Front/home/HelpCentre';
 import UserDetails from './Components/Dashboards/admin/UserDetails';
+import Services from './Components/Front/home/Services';
+import ProductDetails from './Components/Dashboards/admin/ProductDetails';
 
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 //const Products = lazy(() => import('./Products'));
@@ -139,7 +141,11 @@ function App() {
 
         <Route path="/users/:id" element={ <UserDetails/>}/>
 
-        <Route path="/products" element={ <Products/>}/>
+        <Route exact path="/products" element={ <Products/>}/>
+
+        <Route path="/products/:id" element={ <ProductDetails/>}/>
+
+        
 
         {/** <Route path="/vendors" element={ <Vendors/>}/>
 
@@ -204,6 +210,9 @@ function App() {
         <Route path="/signin" element={ <SignIn/>} />
 
         <Route path="/features" element={ <Features/>} />
+
+
+        <Route path="/services" element={ <Services/>} />
 
         <Route path="/helpcentre" element={ <HelpCentre/>} />
 

@@ -50,6 +50,8 @@ const [business_name, setbusiness_name] = useState("");
 
 const [dateJoined, setdateJoined] = useState('');
 
+let history = useNavigate();
+
 
 
 useEffect(()=>{
@@ -103,6 +105,13 @@ useEffect(()=>{
 },[]);
 
 
+const viewSelectedProduct=(id)=>{
+
+    history('/products/'+id)
+
+}
+
+
 
 
   return (
@@ -152,7 +161,7 @@ useEffect(()=>{
 
               
                 <div class="page-header">
-                    <h1 class="page-title">Customer Home</h1>
+                    <h1 class="page-title">ADMIN HOME</h1>
                     <div>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
@@ -196,8 +205,8 @@ useEffect(()=>{
                                             <th>Business</th>
                                             <th>Latitude</th>
                                             <th>Longitude</th>
-                                            <th>Date Added</th>
-                                            <th>Status</th>
+                                           
+                                         
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
@@ -216,21 +225,29 @@ useEffect(()=>{
                                             <td class="align-middle text-center"><img alt="image" class="avatar avatar-md br-7" src="assets/images/users/16.jpg"/></td>
                                             <td class="text-nowrap align-middle">{value.name}</td>
                                             <td class="text-nowrap align-middle">{value.price}</td>
+                                            <td class="text-nowrap align-middle">{value.Business.business_name?value.Business.business_name:''}</td>
+
+                                            
                                             {/** <td class="text-nowrap align-middle">{!value.Business.business_name && ''}</td> */}
                                            
 
                                             <td class="text-nowrap align-middle">{value.latitude}</td>
+                                            <td class="text-nowrap align-middle">{value.longitude}</td>
                                              {/** <td class="text-nowrap align-middle">{value.Business.longitude?value.Business.longitude:'no bizz'}</td> */}
                                             
 
-                                            <td class="text-nowrap align-middle"><span>{value.createdAt}</span></td>
+                                            
 
-                                            <td class="text-nowrap align-middle"> <span class="tag tag-green">{value.status}</span></td>
+                                          
 
                                            
 
                                             <td class="text-center align-middle">
                                                 <div class="btn-group align-top">
+                                                <button class="btn btn-sm btn-primary badge" onClick={() => {
+                                                    viewSelectedProduct(value.id);
+                                                      }} type="button">View</button>
+                                                
                                                     <button class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" type="button">Edit</button> <button class="btn btn-sm btn-primary badge" type="button"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </td>
