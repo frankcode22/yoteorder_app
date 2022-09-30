@@ -102,7 +102,7 @@ useEffect(()=>{
 
 
 
-},[]);
+},[productsList]);
 
 
 const viewSelectedProduct=(id)=>{
