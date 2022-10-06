@@ -5,7 +5,9 @@ import {useEffect,useState,useContext} from 'react';
 import {useParams} from "react-router-dom"
 
 
-import axios from 'axios';
+//import axios from 'axios';
+
+import API from '../../../services';
 
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
@@ -58,7 +60,7 @@ useEffect(()=>{
 
    
     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-    axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
        setUserId(response.data.id)
 
@@ -79,7 +81,7 @@ useEffect(()=>{
    //   })
 
 
-     axios.get("https://yoteorder-server.herokuapp.com/users/allusers",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+   API.get("users/allusers",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
        
         setUserList(response.data)
        console.log("THE USER LIST DATA "+response.data)

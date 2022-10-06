@@ -3,7 +3,9 @@ import {useEffect,useState,useContext} from 'react';
 
 
 
-import axios from 'axios';
+//import axios from 'axios';
+
+import API from '../../../services';
 
 
 
@@ -107,8 +109,8 @@ function CustomerDashboard() {
     useEffect(()=>{
 
        
-         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         //API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             setUserId(response.data.id)
 
@@ -117,8 +119,8 @@ function CustomerDashboard() {
       
            })
     
-        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+        //    //API.get("customer/mycustomers").then((response) => {
+        //   API.get("order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
         setIsDivLoading(true);
@@ -160,7 +162,7 @@ function CustomerDashboard() {
 
 
 
-        {/** axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        {/** API.get("order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
             
           if(response.data!=null){
             setOrdersList(response.data);
@@ -210,7 +212,7 @@ function CustomerDashboard() {
     const genAccessToken=()=>{
 
 
-        axios.get('https://yoteorder-server.herokuapp.com/mpesa/get_token').then((response) => {
+        API.get('mpesa/get_token').then((response) => {
 
             if (response.data.error) {
 
@@ -235,8 +237,8 @@ function CustomerDashboard() {
 
     const openSelectedOrder=(oId)=>{
 
-   //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-    axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+   //API.get("customer/mycustomers").then((response) => {
+    API.get('order/orderById/'+oId).then((response) => {
 
         console.log("THE PRODUCT NAME IS "+response.data.name)
 
@@ -261,8 +263,8 @@ function CustomerDashboard() {
 
     const openOrderToPay=(oId,price)=>{
 
-        //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-         axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+        //API.get("customer/mycustomers").then((response) => {
+         API.get('order/orderById/'+oId).then((response) => {
 
             genAccessToken()
      
@@ -306,7 +308,7 @@ function CustomerDashboard() {
             order_description:order_description,
           
           }
-    axios.put('https://yoteorder-server.herokuapp.com/order/updateorder/'+actualId,order_details).then((res_b)=>{
+    API.put('order/updateorder/'+actualId,order_details).then((res_b)=>{
     
     console.log("THE ACTUAL ID IS "+actualId)
     
@@ -338,7 +340,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+actualId,order_details).then((res_b)=>{
+        API.put('order/updatestatus/'+actualId,order_details).then((res_b)=>{
     
             console.log("THE ACTUAL ID IS "+actualId)
             
@@ -373,7 +375,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        API.put('order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -402,7 +404,7 @@ function CustomerDashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        API.put('order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -434,7 +436,7 @@ function CustomerDashboard() {
       
 
 
-        axios.post('https://yoteorder-server.herokuapp.com/mpesa/pay',order_details).then((response)=>{
+        API.post('mpesa/pay',order_details).then((response)=>{
     
             console.log("THE MPESA RESPONSE IS"+response.data)
 
@@ -480,7 +482,7 @@ function CustomerDashboard() {
       
 
 
-        axios.post('https://yoteorder-server.herokuapp.com/mpesa/pay',order_details).then((response)=>{
+        API.post('mpesa/pay',order_details).then((response)=>{
 
             if (response.data.error) {
                 //alert(JSON.stringify(response.data.error));

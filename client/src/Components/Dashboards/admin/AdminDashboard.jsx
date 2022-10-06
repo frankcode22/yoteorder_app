@@ -2,7 +2,9 @@ import React from 'react'
 import {useEffect,useState,useContext} from 'react';
 
 
-import axios from 'axios';
+//import API from 'API';
+
+import API from '../../../services';
 
 import{useNavigate} from 'react-router-dom'
 import SideBar from './SideBar';
@@ -81,8 +83,8 @@ function AdminDashboard() {
 
 
 
- axios.get('https://yoteorder-server.herokuapp.com/users/customers').then((response) => {
-     // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+ API.get('users/customers').then((response) => {
+     // API.get('business/bestRated').then((response) => {
 
     
 
@@ -109,8 +111,8 @@ function AdminDashboard() {
 
 
 
-    axios.get('https://yoteorder-server.herokuapp.com/product/allproducts',{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-        // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+    API.get('product/allproducts',{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        // API.get('business/bestRated').then((response) => {
    
        
    
@@ -135,8 +137,8 @@ function AdminDashboard() {
         
        });
 
-       axios.get('https://yoteorder-server.herokuapp.com/order/allorders',{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-        // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+       API.get('order/allorders',{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        // API.get('business/bestRated').then((response) => {
    
        
    

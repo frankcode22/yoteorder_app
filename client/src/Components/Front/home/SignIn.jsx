@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../../helpers/AuthContext";
 
+import API from '../../../services';
+
 
 function SignIn() {
 
@@ -25,7 +27,7 @@ function SignIn() {
         const data = { username: username, password: password };
     
         setLoading(true);
-       axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((response) => {
+        API.post("users/login", data).then((response) => {
         //axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((response) => {
           if (response.data.error) {
             alert(response.data.error);
@@ -129,8 +131,9 @@ function SignIn() {
                                 <div class="tabs-menu1">
                                   
                                     <ul class="nav panel-tabs">
-                                        <li class="mx-0"><a href="#tab5" class="active" data-bs-toggle="tab">Email</a></li>
-                                        <li class="mx-0"><a href="#tab6" data-bs-toggle="tab">Mobile</a></li>
+                                     {/** <li class="mx-0"><a href="#tab5" class="active" data-bs-toggle="tab">Email/Username</a></li> */}
+                                       
+                                        {/**<li class="mx-0"><a href="#tab6" data-bs-toggle="tab">Mobile</a></li> */}
                                     </ul>
                                 </div>
                             </div>
@@ -162,7 +165,7 @@ function SignIn() {
                                             placeholder="Password"/>
                                         </div>
                                         <div class="text-end pt-4">
-                                            <p class="mb-0"><a href="forgot-password.html" class="text-primary ms-1">Forgot Password?</a></p>
+                                            <p class="mb-0"><Link to="/forgot-password" class="text-primary ms-1">Forgot Password?</Link></p>
                                         </div>
                                               <div class="container-login100-form-btn">
 
@@ -206,7 +209,8 @@ function SignIn() {
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="tab6">
+
+                                    {/** <div class="tab-pane" id="tab6">
                                         <div id="mobile-num" class="wrap-input100 validate-input input-group mb-4">
                                             <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                                 <span>+91</span>
@@ -225,7 +229,8 @@ function SignIn() {
                                                 Proceed
                                             </a>
                                         </div>
-                                    </div>
+                                    </div> */}
+                                   
                                 </div>
                             </div>
                         </div>

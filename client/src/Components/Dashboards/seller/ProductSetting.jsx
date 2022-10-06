@@ -6,7 +6,7 @@ import { useEffect,useState,useContext,useCallback} from 'react';
 
 
 
-import axios from 'axios';
+//import axios from 'axios';
 
 import { Helmet } from "react-helmet";
 
@@ -18,7 +18,7 @@ import { AuthContext } from '../../../helpers/AuthContext'
 import SidebarS from './SidebarS'
 import TopbarS from './TopbarS'
 
-import { useNavigate } from "react-router-dom"
+import { useNavigate,Link} from "react-router-dom"
 
 import API from '../../../services';
 import { Progress } from 'reactstrap';
@@ -274,7 +274,7 @@ function ProductSetting(props) {
 
 
      //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
   
@@ -287,7 +287,9 @@ function ProductSetting(props) {
 
 
 
-       if(businessDetails.my_buss!=null){
+
+
+       {/** if(businessDetails.my_buss!=null){
 
            setIsBusinessSet(true)
      
@@ -345,11 +347,81 @@ function ProductSetting(props) {
            setBussSetup(false);
            setbusiness_name('nobuzz')
            //setOrdersList([])
-         }
+         } */}
 
 
 
-         console.log("YOUR PRODUCT LIST DETAILS  IS ",productsList1);
+      
+
+
+
+
+
+
+         API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+          if(response.data.my_buss!=null){
+  
+            setIsBusinessSet(true)
+      
+            setbusinessId(response.data.my_buss.id);
+  
+            setlocation(response.data.my_buss.location)
+  
+            setServicesList(response.data.my_buss.Services);
+  
+            setStaffList(response.data.my_buss.Staffs);
+
+            // setProductsList(response.data.my_buss.Products);
+
+
+  
+            setbusiness_name(response.data.my_buss.business_name);
+  
+            setbusiness_type(response.data.my_buss.business_type);
+  
+            setbusiness_description(response.data.my_buss.business_description);
+  
+  
+            setImagePath(response.data.imagePath)
+            
+            setprofile_photo(response.data.my_buss.profile_photo)
+  
+           
+  
+            
+  
+            setbuss_contacts(response.data.my_buss.contacts)
+  
+            setBussSetup(true);
+        
+          
+        
+          }
+          else{
+        
+            setIsBusinessSet(false)
+            setbusinessId(0)
+            setBussSetup(false);
+            setbusiness_name('nobuzz')
+          }
+      
+          
+           })
+
+
+
+
+
+
+
+
+
+
+
+
+
+       console.log("YOUR PRODUCT LIST DETAILS  IS ",productsList1);
 
 
          if(productsList1!=null){
@@ -376,7 +448,9 @@ function ProductSetting(props) {
             setErrorMessage("Unable to fetch your products list.Kindly check your internet connection!!");
             setIsDivLoading(false);
           }
+ 
 
+      
 
 
        
@@ -387,7 +461,7 @@ function ProductSetting(props) {
     
     
            //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-          axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
+          API.get("customer/mycustomers").then((response) => {
           setCustomersList(response.data);
           })
     
@@ -522,7 +596,7 @@ const buss_data={
 
           try {
         
-        axios.post("https://yoteorder-server.herokuapp.com/business/bussinfor",buss_data).then((response)=>{
+        API.post("business/bussinfor",buss_data).then((response)=>{
 
 
        // setBusinessDetails(b.map(post => post.id === id ? { ...response.data } : post));
@@ -681,7 +755,7 @@ const buss_data={
 
  //axios.post("https://kilimomazaoapi-dmi-cyber.herokuapp.com/product",data).then((response)=>{
     
-  axios.post("https://yoteorder-server.herokuapp.com/product",data).then((response)=>{
+  API.post("product",data).then((response)=>{
      
 
     console.log("The response is"+response.data)
@@ -730,7 +804,7 @@ const service_data={
 
      
     
-    axios.post("https://yoteorder-server.herokuapp.com/service",service_data).then((response)=>{
+    API.post("service",service_data).then((response)=>{
 
       console.log("The response is"+response.data)
 
@@ -791,7 +865,7 @@ const showServicesSection=()=>{
 const openSelectedProduct=(pId,e)=>{
 
     //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-     axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
+     API.get('product/byId/'+pId).then((response) => {
  
          console.log("THE PRODUCT NAME IS "+response.data.name)
  
@@ -845,7 +919,7 @@ const openSelectedProduct=(pId,e)=>{
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
+        API.put('product/updatestatus/'+pId,p_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -882,7 +956,7 @@ const openSelectedProduct=(pId,e)=>{
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/product/updatestatus/'+pId,p_details).then((res_b)=>{
+        API.put('product/updatestatus/'+pId,p_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -1036,7 +1110,7 @@ const getAllMyProducts=()=>{
     //setIsDivLoading(true)
 
 
-    axios.get('https://yoteorder-server.herokuapp.com/images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    API.get('images/myproducts', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
       
   
@@ -1093,7 +1167,7 @@ const addStaff = ()  => {
  
   //  axios.post("https://yoteorder-server.herokuapp.com/staff",staff_data).then((response)=>{
 
-      axios.post("https://yoteorder-server.herokuapp.com/staff",staff_data).then((response)=>{
+      API.post("staff",staff_data).then((response)=>{
 
 
       setStaffList([
@@ -1127,7 +1201,7 @@ const addStaff = ()  => {
 const openSelectedService=(sId)=>{
 
   //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-   axios.get('https://yoteorder-server.herokuapp.com/service/getbyId/'+sId).then((response) => {
+   API.get('service/getbyId/'+sId).then((response) => {
 
       // console.log("THE SERVICE NAME IS "+response.data.service_name)
 
@@ -1163,7 +1237,7 @@ const openSelectedService=(sId)=>{
       }
 
      
-    axios.put('https://yoteorder-server.herokuapp.com/service/update_service/'+serviceId,data).then((res_b)=>{
+    API.put('service/update_service/'+serviceId,data).then((res_b)=>{
 
         //console.log("THE ACTUAL ID IS "+actualId)
         
@@ -1177,7 +1251,7 @@ const openSelectedService=(sId)=>{
 
 
 
-       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
 
@@ -1206,7 +1280,7 @@ const openSelectedService=(sId)=>{
 const openSelectedStaff=(sId)=>{
 
   //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-   axios.get('https://yoteorder-server.herokuapp.com/staff/getbyId/'+sId).then((response) => {
+   API.get('staff/getbyId/'+sId).then((response) => {
 
        console.log("THE Staff NAME IS "+response.data.service_name)
 
@@ -1243,7 +1317,7 @@ const openSelectedStaff=(sId)=>{
       }
 
      
-    axios.put('https://yoteorder-server.herokuapp.com/staff/updatestaff/'+staffId,staff_data).then((res_b)=>{
+    API.put('staff/updatestaff/'+staffId,staff_data).then((res_b)=>{
 
         //console.log("THE ACTUAL ID IS "+actualId)
         
@@ -1256,7 +1330,7 @@ const openSelectedStaff=(sId)=>{
        // console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
-       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data!=null){
 
@@ -1306,7 +1380,7 @@ const initiateEdit=()=>{
 
      //axios.post("https://yoteorder-server.herokuapp.com/business",buss_data).then((response)=>{
     
-    axios.put(`https://yoteorder-server.herokuapp.com/business/updateBuss/${businessId}`,buss_data).then((response)=>{
+    API.put(`business/updateBuss/${businessId}`,buss_data).then((response)=>{
 
     console.log("The response is"+response.data)
 
@@ -1587,6 +1661,8 @@ const loadProductsContent=(
                     
           <div class="alert alert-danger" role="alert">
           You need to set up your business profile and location.Kindly do so!
+
+          <Link to="/video-demos">Click here for assitance</Link>
       </div>
       }
        

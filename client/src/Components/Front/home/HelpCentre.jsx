@@ -59,7 +59,7 @@ function truncate(number, index = 2) {
 
 function HelpCentre(props) {
 
-    const {bussinessList, setBussinessList} = useContext(DataContext);
+    //const {bussinessList, setBussinessList} = useContext(DataContext);
 
     const {userPos, setUserPos} = useContext(LocationDataContextInit);
 
@@ -207,141 +207,7 @@ function HelpCentre(props) {
   
           
   
-          setIsDivLoading(true);
   
-       
-  
-  
-  
-  
-  
-          if(bussinessList!=null){
-  
-  
-              setTimeout(() => {
-  
-               setBestList(bussinessList)
-              setIsDivLoading(false)  
-                  
-               
-              }, 3000);
-  
-             
-  
-  
-          }
-          else{
-  
-              setErrorMessage("Unable to fetch your vendors list");
-              setIsDivLoading(false);
-          }
-  
-  
-      {/** // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
-             axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
-  
-           
-  
-              console.log("BUSSINESS LIST IS"+response.data)
-  
-             
-  
-           
-              setTimeout(() => {
-  
-                  setBestList(response.data)
-  
-                  setIsDivLoading(false)  
-                  
-  
-               
-              }, 3000);
-  
-              //setSeller_name(response.data.Users.first_name)
-              
-          }).catch(() => {
-              setErrorMessage("Unable to fetch your vendors list");
-              setIsDivLoading(false);
-           }); */}
-  
-  
-  
-          // console.log("BUSSINESS LIST IS"+response.data)
-  
-         
-  
-  
-  
-  
-
-
-        
-
-       // setIsDivLoading(true);
-
-
-        {/** if(bussinessList!=null){
-
-
-            setTimeout(() => {
-
-                setBestList(bussinessList)
-            setIsDivLoading(false)  
-                
-             
-            }, 3000);
-
-           
-
-
-        }
-        else{
-
-            setErrorMessage("Unable to fetch your vendors list");
-            setIsDivLoading(false);
-        } */}
-
-     
-
-
-
-
-
-       
-
-
-    {/** // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
-           axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
-
-         
-
-            console.log("BUSSINESS LIST IS"+response.data)
-
-           
-
-         
-            setTimeout(() => {
-
-                setBestList(response.data)
-
-                setIsDivLoading(false)  
-                
-
-             
-            }, 3000);
-
-            //setSeller_name(response.data.Users.first_name)
-            
-        }).catch(() => {
-            setErrorMessage("Unable to fetch your vendors list");
-            setIsDivLoading(false);
-         }); */}
-
-
-
-        // console.log("BUSSINESS LIST IS"+response.data)
-
-       
 
 
         console.log('ON PAGE LOAD EFFECT YOUR LOCATION DATA IS: Lat: ',lat,' :Lng:',lng)
@@ -353,7 +219,7 @@ function HelpCentre(props) {
        
   
  
-  },[bussinessList,userPos,position,latitude,longitude,setLoading,lat1,handleClose]);
+  },[userPos,position,latitude,longitude,setLoading,lat1,handleClose]);
 
 
   
@@ -700,8 +566,9 @@ const searchItem1 = () => {
                     <a class="btn btn-primary" onClick={() => {
                         viewVideo();
                           }}>
-                                <i class="side-menu__icon fe fe-cpu"></i>
-                                <span>View Demo</span><i
+                          
+                                <i class="side-menu__icon fe fe-eye"></i>
+                                <span>View demo video</span><i
                                     class="angle fe fe-chevron-right"></i></a>
                 </div>
             </div>
@@ -765,6 +632,62 @@ const searchItem1 = () => {
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+    
+    <Modal show={showVideoModal}>
+
+    <Modal.Header>
+        <Modal.Title>How to set a vendor account</Modal.Title>
+    </Modal.Header>
+    <Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+    <Player/>
+
+
+
+
+
+
+    </Modal.Body>
+    <Modal.Footer>
+    
+
+ 
+        <Button variant="secondary" onClick={closeDemoVideo}>
+            Close
+        </Button>
+
+   
+        {/* 
+<Button variant="primary" onClick={handleClose}>
+Save Changes
+</Button> */}
+
+    </Modal.Footer>
+</Modal>
+
+
+
+
+
+
+
+
+
+
+
 </div>
     </div>
 

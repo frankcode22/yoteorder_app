@@ -5,7 +5,9 @@ import {useEffect,useState,useContext} from 'react';
 import {useParams} from "react-router-dom"
 
 
-import axios from 'axios';
+//import API from 'API';
+
+import API from '../../../services';
 
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
@@ -281,9 +283,9 @@ function OrderedProduct() {
  
    
 
-  // axios.get(`https://yoteorder-server.herokuapp.com/product/search/${pname}`).then((response) => {
+  // API.get(`product/search/${pname}`).then((response) => {
   
-    axios.get(`https://yoteorder-server.herokuapp.com/product/search_geoloc/${pname}/${lat}/${lng}`).then((response) => {
+    API.get(`product/search_geoloc/${pname}/${lat}/${lng}`).then((response) => {
 
       // setShowP(true);
 
@@ -426,10 +428,10 @@ function OrderedProduct() {
 
   }
   
-   //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
+   //API.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
   
   
-    axios.post('https://yoteorder-server.herokuapp.com/users',user_details).then((response)=>{
+    API.post('users',user_details).then((response)=>{
   
       console.log("THE CUSTOMER DATA IS"+response.data)
   
@@ -462,7 +464,7 @@ function OrderedProduct() {
 
   const data = { username:email, password: phone_no };
 
-  axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((rense) => {
+  API.post("users/login", data).then((rense) => {
     if (rense.data.error) {
       alert(rense.data.error);
       setLoading(false);
@@ -491,7 +493,7 @@ function OrderedProduct() {
        
       }
 
-    axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+    API.post('customer',customer_details).then((res)=>{
     
         console.log("THE CUSTOMER DATA IS->"+res.data)
     
@@ -513,7 +515,7 @@ function OrderedProduct() {
             CustomerId:res.data.id,
             BusinessId:businessId,
           }
-    axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+    API.post('order',order_details).then((res_b)=>{
     
     // console.log("The response is"+res_b.data)
     
@@ -553,7 +555,7 @@ function OrderedProduct() {
         CustomerId:customerId,
         BusinessId:businessId,
       }
-axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+API.post('order',order_details).then((res_b)=>{
 
 // console.log("The response is"+res_b.data)
 
@@ -572,7 +574,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
       if(rense.data.role=="Customer"){
 
 
-        axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") }}).then((res_auth) => {
+        API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") }}).then((res_auth) => {
 
         setUserId(res_auth.data.id)
 
@@ -590,7 +592,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
        
     //   }
 
-    // axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+    // API.post('customer',customer_details).then((res)=>{
     
     //     console.log("The response is"+res.data)
     
@@ -609,7 +611,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 //                         UserId:res_auth.data.id,
 //                         BusinessId:businessId,
 //                       }
-//             axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+//             API.post('order',order_details).then((res_b)=>{
 
 //  // console.log("The response is"+res_b.data)
 
@@ -689,10 +691,10 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   const bookAppointmentExisting = ()  => {
     setLoading(true);
     
-     //axios.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
+     //API.post("https://tunepapi.herokuapp.com/customer",data).then((response)=>{
     
     
-      axios.post('https://yoteorder-server.herokuapp.com/users',user_details).then((response)=>{
+      API.post('users',user_details).then((response)=>{
     
         console.log("THE CUSTOMER DATA IS"+response.data)
     
@@ -733,7 +735,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   
   
   
-        axios.post('https://yoteorder-server.herokuapp.com/customer',customer_details).then((res)=>{
+        API.post('customer',customer_details).then((res)=>{
     
         console.log("The response is"+res.data)
     
@@ -753,7 +755,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   
   
         
-  //       axios.post('https://yoteorder-server.herokuapp.com/booking',appointment).then((res_b)=>{
+  //       API.post('booking',appointment).then((res_b)=>{
     
   //       console.log("The response is"+res_b.data)
     
@@ -776,7 +778,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
   
     const data = { username:email, password: phone_no };
   
-    axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((rense) => {
+    API.post("users/login", data).then((rense) => {
       if (rense.data.error) {
         alert(rense.data.error);
         setLoading(false);
@@ -801,7 +803,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
             
   
   
-              axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((res_auth) => {
+              API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((res_auth) => {
   
                   setUserId(res_auth.data.id)
   
@@ -820,7 +822,7 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
                             }
   
   
-                            axios.post('https://yoteorder-server.herokuapp.com/order',order_details).then((res_b)=>{
+                            API.post('order',order_details).then((res_b)=>{
     
        // console.log("The response is"+res_b.data)
     
@@ -914,8 +916,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     setShowSearchInforContent(false)
 
 
-      //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        axios.get('https://yoteorder-server.herokuapp.com/business/byId/'+bId).then((response) => {
+      //API.get("customer/mycustomers").then((response) => {
+        API.get('business/byId/'+bId).then((response) => {
 
         console.log("THE BUSS NAME IS "+response.data.business_name)
 
@@ -934,8 +936,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
 
 
 
-            //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        axios.get('https://yoteorder-server.herokuapp.com/product/byId/'+pId).then((response) => {
+            //API.get("customer/mycustomers").then((response) => {
+        API.get('product/byId/'+pId).then((response) => {
 
             console.log("THE PRODUCT NAME IS "+response.data.name)
 

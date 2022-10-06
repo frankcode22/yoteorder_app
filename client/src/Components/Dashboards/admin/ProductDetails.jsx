@@ -79,6 +79,8 @@ const [business_type, setbusiness_type] = useState("");
 
 const [business_description, setbusiness_description] = useState("");
 
+const [category, setcategory] = useState("");
+
 const [industry, setindustry] = useState("");
 const [location, setlocation] = useState("");
 
@@ -153,6 +155,8 @@ const [uploadProgress, setProgress] = useState(0);
 
 const [product_image, setProduct_image] = useState('');
 
+const [cloudinaryUrl, setCloudinaryUrl] = useState("");
+
 
 
 
@@ -220,13 +224,17 @@ useEffect(()=>{
         setProduct_description(response.data.product_description)
         setPrice(response.data.price)
 
-        setType(response.data.type)
+        setType(response.data.category)
+
+        setcategory(response.data.category)
 
         setLatitude(response.data.latitude)
 
         setLongitude(response.data.longitude)
 
         setunit_of_measure(response.data.unit_of_measure)
+
+        setCloudinaryUrl(response.data.cloudinary_url)
 
         setbusinessId(response.data.BusinessId)
 
@@ -308,6 +316,22 @@ const handleChange = async e => {
 
   const updateProductNew = async e => {
     setLoading(true)
+
+    if(!image){
+
+       // toast.warn('Please upload product photo')
+
+
+       alert('Please upload product photo')
+
+        setLoading(false)
+
+  
+
+     
+
+        return
+    }
     
     let formData = new FormData();
     formData.append('businessId', businessId);
@@ -319,7 +343,7 @@ const handleChange = async e => {
     formData.append('price',price);
     formData.append('quantity', quantity);
 
-    formData.append('type',type);
+    formData.append('type',category);
     // formData.append('address_line_2', address_line_2);
 
     formData.append('unit_of_measure',unit_of_measure);
@@ -468,7 +492,7 @@ return (
                                                 <div class="profile-cover__action bg-img"></div>
                                                 <div class="profile-cover__img">
                                                     <div class="profile-img-1">
-                                                        <img src="../assets/images/users/21.jpg" alt="img"/>
+                                                        <img src={cloudinaryUrl} alt="img"/>
                                                     </div>
                                                     <div class="profile-img-content text-dark text-start">
                                                         <div class="text-dark">
@@ -626,9 +650,10 @@ return (
                                 <label class="form-label" for="multicol-country">Type</label>
                                 <select id="multicol-country" class="form-control select2 form-select"
 
-                                value={type}
+                                value={category}
+
                                     onChange={(event) => {
-                                        setType(event.target.value);
+                                        setcategory(event.target.value);
                                     }}
                         
                                     data-allow-clear="true">
@@ -821,7 +846,12 @@ return (
                               </div>
 
                            <div class="form-group">
-                      <label class="form-label mt-0">New product photo</label>
+                      <label class="form-label mt-0">Product photo</label>
+                      <img
+                      src={cloudinaryUrl}
+                      alt="UploadedImage"
+                      className="img-thumbnail img-fluid uploaded-img ml-3"
+                  />
                       <input class="form-control" type="file" id={idx} onChange={handleChange}/>
                       </div>
   
@@ -866,7 +896,7 @@ return (
                                                 
                                                 isLoading &&
                                                 
-                                                <button  onClick={updateProductNew} class="btn btn-sm btn-success ms-auto"><i class="fa fa-save ms-1"></i> Share</button>
+                                                <button  onClick={updateProductNew} class="btn btn-sm btn-success ms-auto"><i class="fa fa-save ms-1"></i> Save</button>
                                                
    
                                         } 
@@ -875,7 +905,7 @@ return (
                                         
                                         <button class="btn btn-primary my-1" type="button" disabled="">
                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        Sending....
+                                        Saving....
                                         </button>
                                         }
 
@@ -886,6 +916,8 @@ return (
                                     </form>
                                 </div>
                             </div>
+
+                            <ToastContainer></ToastContainer>
                           
                          
                            

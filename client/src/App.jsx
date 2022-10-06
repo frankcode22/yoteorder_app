@@ -40,6 +40,9 @@ import HelpCentre from './Components/Front/home/HelpCentre';
 import UserDetails from './Components/Dashboards/admin/UserDetails';
 import Services from './Components/Front/home/Services';
 import ProductDetails from './Components/Dashboards/admin/ProductDetails';
+import VideoDemos from './Components/Dashboards/seller/VideoDemos';
+import API from './services';
+import ForgotPassword from './Components/Front/home/ForgotPassword';
 
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 //const Products = lazy(() => import('./Products'));
@@ -62,9 +65,9 @@ function App() {
 
 
   useEffect(() => {
-    axios
-   .get("https://yoteorder-server.herokuapp.com/users/auth", {
-    //  .get("http://localhost:3001/users/auth",{
+    API
+   //.get("https://yoteorder-server.herokuapp.com/users/auth", {
+      .get("users/auth",{
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
@@ -145,6 +148,9 @@ function App() {
 
         <Route path="/products/:id" element={ <ProductDetails/>}/>
 
+
+        <Route path="/video-demos" element={ <VideoDemos/>}/>
+
         
 
         {/** <Route path="/vendors" element={ <Vendors/>}/>
@@ -208,6 +214,8 @@ function App() {
         <Route path="/manual-search" element={ <HomepageWithModal/>} />
 
         <Route path="/signin" element={ <SignIn/>} />
+
+        <Route path="/forgot-password" element={ <ForgotPassword/>} />
 
         <Route path="/features" element={ <Features/>} />
 

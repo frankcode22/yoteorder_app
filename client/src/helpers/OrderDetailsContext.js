@@ -1,6 +1,8 @@
 import { createContext, useState, useEffect } from 'react';
 
-import axios from 'axios';
+//import axios from 'axios';
+
+import API from '../services';
 
 
 const OrderDetailsContext = createContext({});
@@ -31,36 +33,34 @@ export const OrderDetailsDataProvider = ({ children }) => {
 
         
        
-         axios.get('https://yoteorder-server.herokuapp.com/order/myorders', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        API.get('order/myorders', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
          
 
-            console.log("MY ORDER DETAILS FROM THE CONTEXT"+response.data)
+        //     console.log("MY ORDER DETAILS FROM THE CONTEXT"+response.data)
 
           
         
 
+        //     console.log("LOCAL STORAGE ORDERS LIST FROM THE CONTEXT "+my_orders)
 
-            console.log("LOCAL STORAGE ORDERS LIST FROM THE CONTEXT "+my_orders)
-
-            setCustomerOrders(response.data)
+             //setCustomerOrders(response.data)
 
            
-            // setTimeout(() => {
-
-            //     setCustomerOrders(response.data)
+          setTimeout(() => {
+          setCustomerOrders(response.data)
 
              
-            // }, 1000);
+        }, 1000);
 
-            //setSeller_name(response.data.Users.first_name)
+        //     //setSeller_name(response.data.Users.first_name)
             
         }).catch((error) => {
             
 
-            console.log("CONTEXT ERROR OCCURED"+error)
+             console.log("CONTEXT ERROR OCCURED"+error)
           
-         });
+          });
 
 
          

@@ -6,7 +6,9 @@ import { useEffect,useState } from 'react';
 
 
 
-import axios from 'axios';
+//import axios from 'axios';
+
+import API from '../../../services';
 
 import { useNavigate,Link} from "react-router-dom";
 
@@ -99,7 +101,7 @@ function SignUp() {
             return
         }
 
-        axios.post("https://yoteorder-server.herokuapp.com/users",data).then((response)=>{
+        API.post("users",data).then((response)=>{
         
       // axios.post("https://yoteorder-server.herokuapp.com/users",data).then((response)=>{
 
@@ -156,7 +158,7 @@ function SignUp() {
         setLoading(true);
         
      // axios.post("https://yoteorder-server.herokuapp.com/users", data).then((response) => {
-        axios.post("https://yoteorder-server.herokuapp.com/users", data).then((response) => {
+        API.post("users", data).then((response) => {
 
 
             if(response.data.error) {

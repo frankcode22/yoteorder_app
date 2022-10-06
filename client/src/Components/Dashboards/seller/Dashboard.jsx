@@ -5,7 +5,9 @@ import {useEffect,useState,useContext} from 'react';
 import {useParams} from "react-router-dom"
 
 
-import axios from 'axios';
+//import axios from 'axios';
+
+import API from '../../../services';
 
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
@@ -131,37 +133,36 @@ function Dashboard() {
        // setIsBusinessSet(buss_status)
 
        
-         //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         //API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             setUserId(response.data.id)
       
       
            })
     
-        //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-        //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+        //    //API.get("customer/mycustomers").then((response) => {
+        //   API.get("order/getallorders").then((response) => {
         //   setOrdersList(response.data);
         //   })
 
 
-        //   axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        //   API.get("order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
         //     setOrdersList(response.data);
         //     })
 
 
 
-            // axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+            // API.get("order/getallorders").then((response) => {
             //     setOrdersList(response.data);
             //     })
 
             console.log("YOUR VENDOR BUSINESS DETAILS  IS ",businessDetails);
 
-            
 
 
 
-            if(businessDetails.my_buss!=null){
+            {/**  if(businessDetails.my_buss!=null){
 
                 // setIsBusinessSet(true)
           
@@ -196,13 +197,19 @@ function Dashboard() {
                 setBussSetup(false);
                 setbusiness_name('nobuzz')
                 //setOrdersList([])
-              }
+              }*/}
+
+            
 
 
 
-              {/* 
+           
 
-                axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+
+             
+
+                API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
         if(response.data.my_buss!=null){
 
@@ -239,13 +246,13 @@ function Dashboard() {
         
          })
             
-            */}
+            
 
 
       
 
 
-         axios.get('https://yoteorder-server.herokuapp.com/order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         API.get('order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
 
 
@@ -347,7 +354,7 @@ function Dashboard() {
          const custDetailsOrder=(userId)=>{
 
 
-            axios.get('https://yoteorder-server.herokuapp.com/customer/getById/'+userId).then((response) => {
+            API.get('customer/getById/'+userId).then((response) => {
      
                 //console.log("THE PRODUCT NAME IS "+response.data.name)
         
@@ -379,7 +386,7 @@ function Dashboard() {
               
         
         
-                axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+                API.put('order/updatestatus/'+oId,order_details).then((res_b)=>{
             
                    // console.log("THE ACTUAL ID IS "+actualId)
                     
@@ -411,7 +418,7 @@ function Dashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        API.put('order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -440,7 +447,7 @@ function Dashboard() {
       
 
 
-        axios.put('https://yoteorder-server.herokuapp.com/order/updatestatus/'+oId,order_details).then((res_b)=>{
+        API.put('order/updatestatus/'+oId,order_details).then((res_b)=>{
     
            // console.log("THE ACTUAL ID IS "+actualId)
             
@@ -879,7 +886,8 @@ Save Changes
                     {!isBusinessSet &&
                     
                         <div class="alert alert-danger" role="alert">
-                        You need to set up your business profile and location.Kindly do so!
+                        You need to set up your business profile and location.Kindly do so.
+                        <Link to="/video-demos">Click here for assitance</Link>
                     </div>
                     }
 

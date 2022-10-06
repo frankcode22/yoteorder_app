@@ -5,7 +5,9 @@ import {useEffect,useState,useContext} from 'react';
 import {useParams} from "react-router-dom"
 
 
-import axios from 'axios';
+//import axios from 'axios';
+
+import API from '../../../services';
 
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
@@ -58,7 +60,7 @@ useEffect(()=>{
 
    
     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-    axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
        setUserId(response.data.id)
 
@@ -79,7 +81,7 @@ useEffect(()=>{
    //   })
 
 
-     axios.get("https://yoteorder-server.herokuapp.com/product/allproducts",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+   API.get("product/allproducts",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
        
 
      if(response.data){
@@ -225,7 +227,8 @@ const viewSelectedProduct=(id)=>{
                                             <td class="align-middle text-center"><img alt="image" class="avatar avatar-md br-7" src="assets/images/users/16.jpg"/></td>
                                             <td class="text-nowrap align-middle">{value.name}</td>
                                             <td class="text-nowrap align-middle">{value.price}</td>
-                                            <td class="text-nowrap align-middle">{value.Business.business_name?value.Business.business_name:''}</td>
+                                    
+                                            <td class="text-nowrap align-middle">{value.Business && value.Business.business_name?value.Business.business_name:'nobiz'}</td>
 
                                             
                                             {/** <td class="text-nowrap align-middle">{!value.Business.business_name && ''}</td> */}

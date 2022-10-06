@@ -113,6 +113,22 @@ function SidebarS({notifications}) {
                                         class="angle fe fe-chevron-right"></i></Link>
                                
                             </li>
+
+
+                            <li class="sub-category">
+                            <h3>Help Centre</h3>
+                        </li>
+                      
+                        <li class="slide">
+                        <Link class="side-menu__item" data-bs-toggle="slide" to='/video-demos'>
+                                <i class="side-menu__icon fe fe-cpu"></i>
+                                <span class="side-menu__label">Video Demos</span><i
+                                    class="angle fe fe-chevron-right"></i></Link>
+                           
+                        </li>
+
+
+
                             <li class="sub-category">
                                 <h3>Account</h3>
                             </li>
