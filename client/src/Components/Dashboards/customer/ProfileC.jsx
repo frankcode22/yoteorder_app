@@ -4,7 +4,10 @@ import {useEffect,useState,useContext} from 'react';
 import {useParams} from "react-router-dom"
 
 
-import axios from 'axios';
+//import API from 'API';
+
+import API from '../../../services';
+
 
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
@@ -53,8 +56,8 @@ const [dateJoined, setdateJoined] = useState('');
 useEffect(()=>{
 
    
-     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     //API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+     API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
         setUserId(response.data.id)
 
@@ -69,13 +72,13 @@ useEffect(()=>{
   
        })
 
-    //    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-    //   axios.get("https://yoteorder-server.herokuapp.com/order/getallorders").then((response) => {
+    //    //API.get("customer/mycustomers").then((response) => {
+    //   API.get("order/getallorders").then((response) => {
     //   setOrdersList(response.data);
     //   })
 
 
-      axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+      API.get("order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
         setOrdersList(response.data);
         console.log("THE PRODUCT NAME IS "+response.data)
         })
@@ -90,8 +93,8 @@ useEffect(()=>{
 
 const openSelectedOrder=(oId)=>{
 
-//axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+//API.get("customer/mycustomers").then((response) => {
+API.get('order/orderById/'+oId).then((response) => {
 
     console.log("THE PRODUCT NAME IS "+response.data.name)
 

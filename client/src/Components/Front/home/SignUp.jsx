@@ -101,7 +101,7 @@ function SignUp() {
             return
         }
 
-        API.post("users",data).then((response)=>{
+        API.post("users/",data).then((response)=>{
         
       // axios.post("https://yoteorder-server.herokuapp.com/users",data).then((response)=>{
 

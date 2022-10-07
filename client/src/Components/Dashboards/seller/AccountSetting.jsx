@@ -35,6 +35,11 @@ import LocationDataContextInit from '../../../helpers/LocationDataContextInit';
 import LocationDataContext from '../../../helpers/LocationDataContext';
 //import SearchPlaces from './SearchPlaces';
 
+import { Modal, Button } from "react-bootstrap";
+
+
+import {VendorAccount,Player} from '../../../utils/VideoPlayers'
+
 const SearchPlaces = lazy(() => import('./SearchPlaces'));
 
 function AccountSetting(props) {
@@ -191,6 +196,9 @@ function AccountSetting(props) {
   const [showUpdateButton, setShowUpdateButton] = useState(false);
 
 
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
+
 
 
 
@@ -223,6 +231,9 @@ function AccountSetting(props) {
   const [showServicesDiv,setShowServicesDiv]=useState(false);
 
   const [showBusinessSetupDiv,setShowBusinessSetupDiv]=useState(true);
+
+
+  const [showHelpAndSupport,setShowHelpAndSupport]=useState(false);
 
 
   const [cloudinaryUrl, setCloudinaryUrl] = useState("");
@@ -342,7 +353,7 @@ function AccountSetting(props) {
           setIsBusinessSet(true)
     
           setbusinessId(response.data.my_buss.id);
-
+          
           setlocation(response.data.my_buss.location)
 
           setServicesList(response.data.my_buss.Services);
@@ -632,7 +643,8 @@ const buss_data={
     console.log("THE FILE NAME IS "+data.ImageName)
     console.log("THE BUSS ID IS "+data.businessId)
     
-    // setCloudinaryUrl(data.cloudinary_url)
+    //setCloudinaryUrl(data.cloudinary_url)
+    setCloudinaryUrl(data.cloudinaryUrl)
     setUploding(false);
 
 
@@ -643,7 +655,7 @@ const buss_data={
 
     //const customer = customersList.find(post => (post.id).toString() === selectedOption);
 
-    setCloudinaryUrl(data.cloudinaryUrl)
+    //setCloudinaryUrl(data.cloudinaryUrl)
 
    
 
@@ -769,6 +781,7 @@ const showStaffSection=()=>{
   setShowErrorAlert(true)
   setShowServicesDiv(false)
   setShowBusinessSetupDiv(false)
+  setShowHelpAndSupport(false)
 }
 
 
@@ -777,6 +790,7 @@ const showServicesSection=()=>{
 
   setShowErrorAlert(false)
   setShowBusinessSetupDiv(false)
+   setShowHelpAndSupport(false)
   setShowServicesDiv(true)
 }
 
@@ -786,6 +800,19 @@ const showBusinessSetUpSection=()=>{
 
   setShowErrorAlert(false)
   setShowBusinessSetupDiv(true)
+  setShowServicesDiv(false)
+  setShowHelpAndSupport(false)
+  
+}
+
+
+const showHelpAndSupportSection=()=>{
+
+
+  setShowHelpAndSupport(true)
+  setShowBusinessSetupDiv(false)
+  setShowErrorAlert(false)
+
   setShowServicesDiv(false)
   
 }
@@ -1091,6 +1118,30 @@ const initiateEdit=()=>{
 
 
 
+const closeDemoVideo = () =>{
+  // setLoading(false)
+ // e.preventDefault();
+  //handleClose();
+   setShowVideoModal(false);
+   
+  
+   
+     };
+
+
+
+     const viewVideo = () =>{
+    
+        
+ 
+      setShowVideoModal(true)
+      
+     
+      
+        };
+
+
+
 
 
   return (
@@ -1129,6 +1180,47 @@ const initiateEdit=()=>{
             </div>
         </div>
 
+        <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Upper Navigation</h3>
+        </div>
+        <div class="card-body">
+            <ul class="nav nav-pills nav-pills-circle" id="tabs_2" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link border active py-1 px-1 m-1" href="javascript:void(0);" onClick={showBusinessSetUpSection} id="tab1" data-bs-toggle="tab" role="tab" aria-selected="false">
+                        <span class="nav-link-icon d-block"><i class="fe fe-home"></i> Account</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);"  onClick={showServicesSection} class="nav-link border py-1 px-1 m-1" id="tab2" data-bs-toggle="tab" role="tab" aria-selected="false">
+                        <span class="nav-link-icon d-block"><i class="fe fe-unlock"></i> Services </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onClick={showStaffSection} class="nav-link border py-1 px-1 m-1" id="tab3" data-bs-toggle="tab" role="tab" aria-selected="true">
+                        <span class="nav-link-icon d-block"><i class="fe fe-user"></i> Staff</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link border py-1 px-1 m-1" id="tab4" data-bs-toggle="tab" href="#tabs_2_3" role="tab" aria-selected="false">
+                        <span class="nav-link-icon d-block"><i class="fe fe-bell"></i> Notifications</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onClick={showHelpAndSupportSection} class="nav-link border py-1 px-1 m-1" id="tab5" data-bs-toggle="tab" role="tab" aria-selected="false">
+                        <span class="nav-link-icon d-block"><i class="fe fe-headphones text-info"></i> Help & Support </span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link border py-1 px-1 m-1" id="tab5" data-bs-toggle="tab" href="#tabs_2_4" role="tab" aria-selected="false">
+                        <span class="nav-link-icon d-block"><i class="fe fe-image"></i> Appearance </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
         
         {!isBusinessSet &&
                     
@@ -1140,7 +1232,9 @@ const initiateEdit=()=>{
       }
        
         <div class="row">
-            <div class="col-xl-3">
+
+     
+            <div class="col-xl-3 d-none d-lg-flex">
                 
                 <div class="card">
                 <div class="card-body">
@@ -1176,7 +1270,7 @@ const initiateEdit=()=>{
                         </div>
                        
                         <div>
-                            <a href="javascript:void(0);" class="list-group-item  d-flex align-items-center px-0">
+                            <a href="javascript:void(0);" onClick={showHelpAndSupportSection} class="list-group-item  d-flex align-items-center px-0">
                                 <i class="fe fe-headphones fs-18 me-2 text-info p-2"></i> Help & Support
                             </a>
                         </div>
@@ -1190,10 +1284,11 @@ const initiateEdit=()=>{
                 </div>
             </div>
             </div>
-            {showBusinessSetupDiv && <div class="col-xl-9">
+            {showBusinessSetupDiv &&
+               <div class="col-xl-9">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Set up your business profile</h3>
+                    <h3 class="card-title">Account setup</h3>
 
 
                     <div class="col-xl-3 col-lg-12">
@@ -2402,7 +2497,8 @@ const initiateEdit=()=>{
                     </div>
                 </div>
             </div>
-        </div>}
+        </div>
+         }
 
 
 
@@ -2855,6 +2951,89 @@ const initiateEdit=()=>{
 </div>
 
 }
+
+
+
+{showHelpAndSupport &&
+
+  <div class="col-xl-9">
+  <div class="card">
+      <div class="card-header">
+          <h3 class="card-title">Play the video clips</h3>
+
+
+          
+      </div>
+
+     <div class="card-body">
+
+
+
+      
+      {isBusinessSet &&
+        <div class="card border p-0 shadow-none">
+        <div class="card-body">
+            <div class="row">
+
+
+            <div class="col-xl-6 col-md-12">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Setting your Vendor/Business Account</h5>
+                    <p class="card-text">Click on Setting <span> <i class="fa fa-arrow-right" data-bs-toggle="tooltip" title="fa fa-arrow-right"></i></span> Account <span> <i class="fa fa-arrow-right" data-bs-toggle="tooltip" title="fa fa-arrow-right"></i>(Fill the form)</span></p>
+                    <a href="javascript:void(0)" onClick={() => {
+                        viewVideo();
+                          }} class="btn btn-primary">View Video Demo</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-md-12">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Adding Product</h5>
+                    <p class="card-text">Click on Products menu then click on add new product</p>
+                    <a href="javascript:void(0)" onClick={() => {
+                        viewVideo();
+                          }} class="btn btn-primary">View Video Demo</a>
+                </div>
+            </div>
+        </div>
+                
+              
+            </div>
+           
+        </div>
+       
+    </div>
+      
+      
+      
+      }
+
+    
+
+
+
+
+      </div>
+      <div class="card-footer d-sm-flex">
+          <div class="mt-2 mb-2">
+              <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Attach"><span class="ri-attachment-2"></span></a>
+              <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Link"><span class="ri-link"></span></a>
+              <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Photos"><span class="ri-image-line"></span></a>
+              <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"><span class="ri-delete-bin-line"></span></a>
+          </div>
+         
+      </div>
+  </div>
+</div>
+
+
+
+}
+
+
+
 
            
 
@@ -3384,6 +3563,49 @@ const initiateEdit=()=>{
         </div>
       </div>
     </div>
+
+
+
+    <Modal show={showVideoModal}>
+
+    <Modal.Header>
+        <Modal.Title>How to set a vendor account</Modal.Title>
+    </Modal.Header>
+    <Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+  
+
+    <VendorAccount></VendorAccount>
+
+ 
+
+   
+
+
+
+
+
+
+    </Modal.Body>
+    <Modal.Footer>
+    
+
+ 
+        <Button variant="secondary" onClick={closeDemoVideo}>
+            Close
+        </Button>
+
+   
+        {/* 
+<Button variant="primary" onClick={handleClose}>
+Save Changes
+</Button> */}
+
+    </Modal.Footer>
+</Modal>
+
 
 
 

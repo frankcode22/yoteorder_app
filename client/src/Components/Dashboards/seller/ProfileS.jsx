@@ -408,12 +408,7 @@ return (
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">Work & Education</div>
-                                </div>
-                               
-                            </div>
+                            
                         </div>
                         <div class="col-xl-6">
                             <div class="card">
@@ -439,7 +434,7 @@ return (
                                                 <div class=""><img alt="" class="rounded-circle avatar avatar-md" src="../assets/images/users/16.jpg"/></div>
                                             </div>
                                             <div class="media-body">
-                                                <h6 class="mb-0 mt-1">Peter Hill</h6>
+                                                <h6 class="mb-0 mt-1">PataMtaani</h6>
                                                 <small class="text-muted">just now</small>
                                             </div>
                                         </div>
@@ -483,75 +478,20 @@ return (
                                     </div>
                                 </div>
                             </div>
-                            <div class="card border p-0 shadow-none">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="media mt-0">
-                                            <div class="media-user me-2">
-                                                <div class=""><img alt="" class="rounded-circle avatar avatar-md" src="../assets/images/users/16.jpg"/></div>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="mb-0 mt-1">Peter Hill</h6>
-                                                <small class="text-muted">Sep 26 2019, 10:14am</small>
-                                            </div>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="dropdown show">
-                                                <a class="new option-dots" href="JavaScript:void(0);" data-bs-toggle="dropdown">
-                                                    <span class=""><i class="fe fe-more-vertical"></i></span>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="javascript:void(0)">Edit Post</a>
-                                                    <a class="dropdown-item" href="javascript:void(0)">Delete Post</a>
-                                                    <a class="dropdown-item" href="javascript:void(0)">Personal Settings</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4">
-                                        <div class="d-flex">
-                                            <a href="gallery.html" class="w-30 m-2"><img src="../assets/images/media/22.jpg" alt="img" class="br-5"/></a>
-                                            <a href="gallery.html" class="w-30 m-2"><img src="../assets/images//media/24.jpg" alt="img" class="br-5"/></a>
-                                        </div>
-                                        <h4 class="fw-semibold mt-3">There is nothing more beautiful.</h4>
-                                        <p class="mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="card-footer user-pro-2">
-                                    <div class="media mt-0">
-                                        <div class="media-user me-2">
-                                            <div class="avatar-list avatar-list-stacked">
-                                               
-                                                <span class="avatar brround text-primary">+28</span>
-                                            </div>
-                                        </div>
-                                        <div class="media-body">
-                                            <h6 class="mb-0 mt-2 ms-2">28 people like your photo</h6>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <div class="d-flex mt-1">
-                                                <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-heart"></i></span></a>
-                                                <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-message-square"></i></span></a>
-                                                <a class="new text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-share-2"></i></span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                           
                            
                         </div>
                         <div class="col-xl-3">
                             <div class="card">
                                 <div class="card-header">
-                                    <div class="card-title">Followers</div>
+                                    <div class="card-title">Customers</div>
                                 </div>
                                 <div class="card-body">
                                     <div class="">
                                         <div class="media overflow-visible">
                                             <img class="avatar brround avatar-md me-3" src="../assets/images/users/18.jpg" alt="avatar-img"/>
                                             <div class="media-body valign-middle mt-2">
-                                                <a href="javascript:void(0)" class=" fw-semibold text-dark">John Paige</a>
+                                                <a href="javascript:void(0)" class=" fw-semibold text-dark">John Ngungi</a>
                                                 <p class="text-muted mb-0">johan@gmail.com</p>
                                             </div>
                                             <div class="media-body valign-middle text-end overflow-visible mt-2">
@@ -561,8 +501,8 @@ return (
                                         <div class="media overflow-visible mt-sm-5">
                                             <span class="avatar cover-image avatar-md brround bg-pink me-3">LQ</span>
                                             <div class="media-body valign-middle mt-2">
-                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Quinn</a>
-                                                <p class="text-muted mb-0">lilliangore</p>
+                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Nyakwaka</a>
+                                                <p class="text-muted mb-0">lili</p>
                                             </div>
                                             <div class="media-body valign-middle text-end overflow-visible mt-1">
                                                 <button class="btn btn-sm btn-secondary" type="button">Follow</button>
@@ -571,23 +511,14 @@ return (
                                         <div class="media overflow-visible mt-sm-5">
                                             <img class="avatar brround avatar-md me-3" src="../assets/images/users/2.jpg" alt="avatar-img"/>
                                             <div class="media-body valign-middle mt-2">
-                                                <a href="javascript:void(0)" class="text-dark fw-semibold">Harry Fisher</a>
-                                                <p class="text-muted mb-0">harryuqt</p>
+                                                <a href="javascript:void(0)" class="text-dark fw-semibold">Johnstone Mbatha</a>
+                                                <p class="text-muted mb-0">jmm</p>
                                             </div>
                                             <div class="media-body valign-middle text-end overflow-visible mt-1">
                                                 <button class="btn btn-sm btn-danger" type="button">Follow</button>
                                             </div>
                                         </div>
-                                        <div class="media overflow-visible mt-sm-5">
-                                            <span class="avatar cover-image avatar-md brround me-3 bg-primary">IH</span>
-                                            <div class="media-body valign-middle mt-2">
-                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Irene Harris</a>
-                                                <p class="text-muted mb-0">harris@gmail.com</p>
-                                            </div>
-                                            <div class="media-body valign-middle text-end overflow-visible mt-1">
-                                                <button class="btn btn-sm btn-success" type="button">Follow</button>
-                                            </div>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -600,99 +531,23 @@ return (
                                         <div class="media media-xs overflow-visible">
                                             <img class="avatar bradius avatar-xl me-3" src="assets/images/users/12.jpg" alt="avatar-img"/>
                                             <div class="media-body valign-middle">
-                                                <a href="javascript:void(0)" class="fw-semibold text-dark">John Paige</a>
-                                                <p class="text-muted mb-0">There are many variations of passages of Lorem Ipsum available ...</p>
+                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Patamtaani</a>
+                                                <p class="text-muted mb-0">We are providing market analysis ...</p>
                                             </div>
                                         </div>
                                         <div class="media media-xs overflow-visible mt-5">
                                             <img class="avatar bradius avatar-xl me-3" src="assets/images/users/2.jpg" alt="avatar-img"/>
                                             <div class="media-body valign-middle">
-                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Peter Hill</a>
-                                                <p class="text-muted mb-0">There are many variations of passages of Lorem Ipsum available ...</p>
+                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Patamtaani</a>
+                                                <p class="text-muted mb-0">Expanding to upcountry ...</p>
                                             </div>
                                         </div>
-                                        <div class="media media-xs overflow-visible mt-5">
-                                            <img class="avatar bradius avatar-xl me-3" src="../assets/images/users/9.jpg" alt="avatar-img"/>
-                                            <div class="media-body valign-middle">
-                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Irene Harris</a>
-                                                <p class="text-muted mb-0">There are many variations of passages of Lorem Ipsum available ...</p>
-                                            </div>
-                                        </div>
-                                        <div class="media media-xs overflow-visible mt-5">
-                                            <img class="avatar bradius avatar-xl me-3" src="../assets/images/users/4.jpg" alt="avatar-img"/>
-                                            <div class="media-body valign-middle">
-                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Harry Fisher</a>
-                                                <p class="text-muted mb-0">There are many variations of passages of Lorem Ipsum available ...</p>
-                                            </div>
-                                        </div>
+                                      
+                                       
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">Friends</div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="user-pro-1">
-                                        <div class="media media-xs overflow-visible">
-                                            <img class="avatar brround avatar-md me-3" src="../assets/images/users/18.jpg" alt="avatar-img"/>
-                                            <div class="media-body valign-middle">
-                                                <a href="javascript:void(0)" class=" fw-semibold text-dark">John Paige</a>
-                                                <p class="text-muted mb-0">Web Designer</p>
-                                            </div>
-                                            <div class="">
-                                                <div class="social social-profile-buttons float-end">
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-linkedin"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="media media-xs overflow-visible mt-5">
-                                            <span class="avatar cover-image avatar-md brround bg-pink me-3">LQ</span>
-                                            <div class="media-body valign-middle mt-0">
-                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Quinn</a>
-                                                <p class="text-muted mb-0">Web Designer</p>
-                                            </div>
-                                            <div class="">
-                                                <div class="social social-profile-buttons float-end">
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-linkedin"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="media media-xs overflow-visible mt-5">
-                                            <img class="avatar brround avatar-md me-3" src="../assets/images/users/2.jpg" alt="avatar-img"/>
-                                            <div class="media-body valign-middle mt-0">
-                                                <a href="javascript:void(0)" class="text-dark fw-semibold">Harry Fisher</a>
-                                                <p class="text-muted mb-0">Web Designer</p>
-                                            </div>
-                                            <div class="">
-                                                <div class="social social-profile-buttons float-end">
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-linkedin"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="media media-xs overflow-visible mt-5">
-                                            <span class="avatar cover-image avatar-md brround me-3 bg-primary">IH</span>
-                                            <div class="media-body valign-middle mt-0">
-                                                <a href="javascript:void(0)" class="fw-semibold text-dark">Irene Harris</a>
-                                                <p class="text-muted mb-0">Web Designer</p>
-                                            </div>
-                                            <div class="">
-                                                <div class="social social-profile-buttons float-end">
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-facebook"></i></a>
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-twitter"></i></a>
-                                                    <a class="social-icon bg-white" href="javascript:void(0)"><i class="fa fa-linkedin"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>

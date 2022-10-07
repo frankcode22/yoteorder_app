@@ -3,7 +3,8 @@ import {useEffect,useState,useContext} from 'react';
 
 
 
-import axios from 'axios';
+// import API from 'API';
+import API from '../../../services';
 
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
@@ -22,7 +23,7 @@ import LocationDataContext from '../../../helpers/LocationDataContext';
 
 
 
-import API from '../../../services';
+
 import { Progress } from 'reactstrap';
 
 
@@ -219,7 +220,7 @@ useEffect(()=>{
    
     
 
-      axios.get(`https://yoteorder-server.herokuapp.com/product/byId/${id}`).then((response) => {
+      API.get(`product/byId/${id}`).then((response) => {
         setName(response.data.name)
         setProduct_description(response.data.product_description)
         setPrice(response.data.price)
@@ -260,8 +261,8 @@ useEffect(()=>{
 
 const openSelectedOrder=(oId)=>{
 
-//axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+//API.get("customer/mycustomers").then((response) => {
+API.get('order/orderById/'+oId).then((response) => {
 
     console.log("THE PRODUCT NAME IS "+response.data.name)
 

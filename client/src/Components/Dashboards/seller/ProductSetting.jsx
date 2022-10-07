@@ -1634,6 +1634,9 @@ const loadProductsContent=(
 <TopbarS></TopbarS>
 
 
+         
+
+
 <SidebarS notifications={notifications}></SidebarS>
 
 
@@ -1656,6 +1659,28 @@ const loadProductsContent=(
             </div>
         </div>
 
+
+        <div class="card onmobile">
+        <div class="card-header">
+          
+        </div>
+        <div class="card-body">
+            <ul class="nav nav-pills nav-pills-circle" id="tabs_2" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link border py-3 px-4 m-2"  onClick={showBusinessSetUpSection} id="tab1" data-bs-toggle="tab" href="#" role="tab" aria-selected="false">
+                        <span class="nav-link-icon d-block"><i class="fe fe-user"></i> Account</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link border py-3 px-4 m-2"  onClick={showProductsSection} id="tab2" data-bs-toggle="tab" href="#" role="tab" aria-selected="false">
+                        <span class="nav-link-icon d-block">Products </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+
         
         {!isBusinessSet &&
                     
@@ -1667,7 +1692,7 @@ const loadProductsContent=(
       }
        
         <div class="row">
-            <div class="col-xl-3">
+            <div class="col-xl-3 d-none d-lg-flex">
                 
                 <div class="card">
                 <div class="card-body">

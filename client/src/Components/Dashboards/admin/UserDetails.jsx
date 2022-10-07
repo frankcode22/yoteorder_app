@@ -3,7 +3,10 @@ import {useEffect,useState,useContext} from 'react';
 
 
 
-import axios from 'axios';
+//import API from 'API';
+
+
+import API from '../../../services';
 
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
@@ -109,9 +112,9 @@ useEffect(()=>{
        
 
 
-       axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
        
-      //axios.get('https://yoteorder-server.herokuapp.com/users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+      //API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
   
         if(response.data!=null){
     
@@ -140,13 +143,13 @@ useEffect(()=>{
          })
 
 
-      axios.get("https://yoteorder-server.herokuapp.com/order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+      API.get("order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
         setOrdersList(response.data);
         console.log("THE PRODUCT NAME IS "+response.data)
         })
 
 
-        axios.get(`https://yoteorder-server.herokuapp.com/users/getuser/${id}`).then((response) => {
+        API.get(`users/getuser/${id}`).then((response) => {
 
             setUserId(response.data.id)
 
@@ -170,8 +173,8 @@ useEffect(()=>{
 
 const openSelectedOrder=(oId)=>{
 
-//axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-axios.get('https://yoteorder-server.herokuapp.com/order/orderById/'+oId).then((response) => {
+//API.get("customer/mycustomers").then((response) => {
+API.get('order/orderById/'+oId).then((response) => {
 
     console.log("THE PRODUCT NAME IS "+response.data.name)
 
@@ -201,7 +204,7 @@ const sendMsg=()=>{
     }
     setLoading(true)
   
-    axios.post(`https://yoteorder-server.herokuapp.com/users/send_msg/${id}`,msg_payload, { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    API.post(`users/send_msg/${id}`,msg_payload, { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
   
        console.log("THE RESPONSE IS "+JSON.stringify(response.data))
   
