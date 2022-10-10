@@ -56,6 +56,16 @@ function SideBar() {
                     class="side-menu__label">Products</span><span class="badge bg-green br-5 side-badge blink-text pb-1">New</span></a>
         </li>
 
+
+        <li class="slide">
+            <a class="side-menu__item has-link" href="/servicetypes">
+
+          
+            
+            <i class="side-menu__icon fa fa-product-hunt" data-bs-toggle="tooltip" title="fa fa-product-hunt"></i><span
+                    class="side-menu__label">Service types</span><span class="badge bg-green br-5 side-badge blink-text pb-1">New</span></a>
+        </li>
+
            
           
           

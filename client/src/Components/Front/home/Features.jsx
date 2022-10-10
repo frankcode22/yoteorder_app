@@ -1138,7 +1138,7 @@ const searchItem1 = () => {
                         <div class="col-md-12 col-sm-12">
                             Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>.
                             Developed By<a
-                                href="javascript:void(0)"> FrankCode Ent </a> All rights reserved.
+                                href="javascript:void(0)">FrankCode Ltd</a> All rights reserved.
                         </div>
                     </div>
                 </footer>

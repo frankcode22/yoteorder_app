@@ -30,10 +30,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles.css'
 
 import SearchBar from "./SearchBar";
+
+import API from '../../../services';
+
 import BookData from "../../../Data.json";
 //import SearchModal from './SearchModal';
 
 import { ChildComponent } from './ChildComponent ';
+import SearchService from './SearchService';
 
 const CampaignBadge = lazy(() => import('./CampaignBadge'));
 
@@ -99,6 +103,9 @@ function HeaderPtaMtaani() {
     const [showServicesSearch,setShowServicesSearch]=useState(false);
 
 
+    const [servicesList, setServicesList] = useState([]);
+
+
 
 
     const [show, setShow] = useState(false);
@@ -152,6 +159,20 @@ function HeaderPtaMtaani() {
   
    
      };
+
+
+     const [contacts, setContacts] = useState([]);
+
+     //RetrieveContacts
+  const retrieveContacts = async () => {
+    const response = await API.get("servicetype/bestRated");
+    return response.data;
+  };
+
+
+
+
+     
 
 
 
@@ -332,6 +353,35 @@ function HeaderPtaMtaani() {
 
         // console.log("BUSSINESS LIST IS"+response.data)
 
+
+
+        API.get('servicetype/bestRated').then((response) => {
+
+            // setShowP(true);
+      
+      
+         
+               
+                  setTimeout(() => {
+                    
+                      setContacts(response.data);
+      
+                    
+                      setIsDivLoading(false)  
+                  
+                   
+                  }, 1000);
+      
+                  //setSeller_name(response.data.Users.first_name)
+                  
+              }).catch(() => {
+                  setErrorMessage("Unable to fetch your search.Make sure you have internet connection.");
+                  setIsDivLoading(false);
+               });
+
+
+        
+
        
 
 
@@ -344,7 +394,13 @@ function HeaderPtaMtaani() {
        
   
  
-  },[bussinessList,userPos,position,latitude,longitude,setLoading,lat1,handleClose]);
+  },[]);
+
+
+
+
+ 
+
 
 
   
@@ -800,11 +856,22 @@ const searchItem1 = () => {
         {showServicesSearch && 
             
              <div class="col-xl-6">
+
+           
+
+
+
+    <SearchBar placeholder="Enter a Service Name..." lat={latitude} lng={longitude} data={contacts} />
+          
+
+
+        
+
+
            
 
      
-        <SearchBar placeholder="Enter a Service Name..." data={BookData} />
-
+    
 
       
        

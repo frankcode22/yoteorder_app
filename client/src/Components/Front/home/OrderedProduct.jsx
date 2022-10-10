@@ -101,6 +101,8 @@ function OrderedProduct() {
 
     
       const [productsList, setProductsList] = useState([]);
+
+      const [productsListWide, setProductsListWide] = useState([]);
   
       const [seller_name, setSeller_name] = useState("");
   
@@ -139,6 +141,10 @@ function OrderedProduct() {
 
 
       const [productFound, setProductFound] = useState(false);
+
+      const [foundRelated, setFoundRelated] = useState(false);
+
+      
 
       
 
@@ -289,14 +295,8 @@ function OrderedProduct() {
 
       // setShowP(true);
 
-      
 
-       
-  //console.log("THIS IS YOUR SEARCH DETAILS "+response.data.item_list)
-
-  
-
-
+   
          
             setTimeout(() => {
                 if(response.data.notfound){
@@ -325,7 +325,7 @@ function OrderedProduct() {
               // history(`/ordered-product/${pname}/${lat}/${lng}/#Features`)
             
              
-            }, 4000);
+            }, 2000);
 
             //setSeller_name(response.data.Users.first_name)
             
@@ -333,9 +333,50 @@ function OrderedProduct() {
             setErrorMessage("Unable to fetch your search.Make sure you have internet connection.");
             setIsDivLoading(false);
          });
+
+
+         loadGlobalSellers(pname)
+
+
+        
   
   
   },[position]);
+
+
+
+
+  const loadGlobalSellers = (pname_)  => {
+
+    API.get(`product/search_geoloc_wide/${pname_}/${lat}/${lng}`).then((response) => {
+
+
+
+        // if(response.data.notfound){
+        //     setProductFound(true)
+            
+        //      console.log(response.data.notfound)
+    
+        //     }
+
+        if(response.data){
+            setFoundRelated(true)
+        }
+        setProductsListWide(response.data.item_list);
+
+       // console.log("THIS IS YOUR SEARCH DETAILS "+response.data.item_list)
+
+        setImagePath(response.data.imagePath)
+
+
+    }).catch(() => {
+        setErrorMessage("Unable to fetch your search.Make sure you have internet connection.");
+        //setIsDivLoading(false);
+     });
+   
+  
+
+}
 
 
 
@@ -914,6 +955,8 @@ console.log("THE  ORDER ID TWO IS "+randomNo)
     setShowProductCardInfor(true)
 
     setShowSearchInforContent(false)
+    setFoundRelated(false)
+    setProductFound(false)
 
 
       //API.get("customer/mycustomers").then((response) => {
@@ -1037,6 +1080,73 @@ const backHome=()=>{
        
             )
             })}
+
+
+
+            {productsListWide?.map((value, key) => {
+                return (
+    
+    
+    
+    
+                    <div class="col-md-6 col-xl-4 col-sm-6">
+                    <div class="card">
+                        <div class="product-grid6 thumbnail">
+                            <div class="product-image6 p-5">
+                                <ul class="icons">
+                                    <li>
+                                        <a href="#" class="btn btn-primary"> <i class="fe fe-eye">  </i> </a>
+                                    </li>
+                                    <li><a href="#" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
+                                    <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
+                                </ul>
+                                <a href="#" >
+                                {/*  <img class="img-fluid br-7 w-100"  src={imagePath+"/uploads/"+value.BusinessId+"/"+value.product_image} alt="img"/> */}
+                                   
+                                
+                                <img class="img-fluid br-7 w-100"  src={value.cloudinary_url} alt="img"/>
+                                   
+                                
+                                    </a>
+                            </div>
+                            <div class="card-body pt-0">
+    
+    
+                         
+    
+    
+                             
+                                <div class="product-content text-center">
+                                    <h1 class="title fw-bold fs-20"><a   onClick={() => {
+                                        proceedToBooking(value.id,value.Business.id);
+                                          }} href='#home'>{value.name}</a></h1>
+                                    <div class="mb-2 text-warning">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star-half-o text-warning"></i>
+                                        <i class="fa fa-star-o text-warning"></i>
+                                    </div>
+                                    <div class="price">Ksh {value.price}/ {value.unit_of_measure}<span class="ms-4">Ksh  {value.price}</span>
+                                  
+                                    </div>
+                                    <span class="tag tag-radius tag-round tag-teal">{value.status}</span>
+                                   
+                                </div>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a  onClick={() => {
+                                    proceedToBooking(value.id,value.Business.id);
+                                      }} class="btn btn-primary" href='#home'><i class="fe fe-shopping-cart mx-2"></i>Order Now</a>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          
+           
+                )
+                })}
 
 
 
@@ -1673,7 +1783,9 @@ const backHome=()=>{
             <h3 class="card-title">Best Sellers Around You!!</h3>
         </div>
 
-      {productFound &&
+      {productFound && !foundRelated &&
+
+      
 
         <div class="col-md-12  col-xl-12">
         <div class="card border">
@@ -1687,13 +1799,48 @@ const backHome=()=>{
             
             <div class="card-body">
                 Sorry no vendor selling  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{pname}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
-                 in your area. However, your search has been captured and our team will enroll vendors on your area within 72 hours.
+                 in your area.However, your search has been captured and our team will enroll vendors on your area within 72 hours.
                  <br/>
                
 
                  <div class="text-center">
                             <a class="btn btn-secondary mt-5 mb-5" onClick={backHome}> <i class="fa fa-long-arrow-left"></i> Back to Home </a>
                         </div>
+
+             
+            </div>
+        </div>
+    </div>
+
+    }
+
+
+
+    {!productFound && foundRelated &&
+
+      
+
+        <div class="col-md-12  col-xl-12">
+        <div class="card border">
+            <div class="card-header">
+                <h3 class="card-title card-alert alert alert-success mb-0 ">Found universal sellers</h3>
+                <div class="card-options">
+                    <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                    <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                Your search for  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{pname}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
+                found universal sellers.
+                 <br/>
+               
+
+                 <div class="text-center">
+                            <a class="btn btn-secondary mt-5 mb-5" onClick={backHome}> <i class="fa fa-long-arrow-left"></i> Back to Home </a>
+                        </div>
+
+             
             </div>
         </div>
     </div>
@@ -1702,17 +1849,6 @@ const backHome=()=>{
         
 
         
-
-    
-
-
-   
-
-
-
- 
-       
-
 
         
        
@@ -2482,7 +2618,7 @@ const backHome=()=>{
                     <div class="col-md-12 col-sm-12">
                         Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>.
                         Designed by <a
-                            href="javascript:void(0)"> Frankcode20 Ent </a> All rights reserved.
+                            href="javascript:void(0)">FrankCode Ltd</a> All rights reserved.
                     </div>
                 </div>
             </footer>

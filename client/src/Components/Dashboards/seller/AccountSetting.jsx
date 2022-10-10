@@ -198,6 +198,8 @@ function AccountSetting(props) {
 
   const [showVideoModal, setShowVideoModal] = useState(false);
 
+  const [showSuccessAlert,setShowSucessAlert]=useState(false);
+
 
 
 
@@ -236,7 +238,8 @@ function AccountSetting(props) {
   const [showHelpAndSupport,setShowHelpAndSupport]=useState(false);
 
 
-  const [cloudinaryUrl, setCloudinaryUrl] = useState("");
+  const [cloudinary_url, setCloudinaryUrl] = useState("");
+ 
   //const [service_type, set_service_type] = useState("");
 
 
@@ -369,7 +372,9 @@ function AccountSetting(props) {
 
           setImagePath(response.data.imagePath)
           
-          setprofile_photo(response.data.my_buss.profile_photo)
+         // setprofile_photo(response.data.my_buss.profile_photo)
+
+          setCloudinaryUrl(response.data.my_buss.cloudinary_url)
 
          
 
@@ -409,7 +414,7 @@ function AccountSetting(props) {
 
 
 
-},[businessDetails,position,userPos]);
+},[position,userPos,cloudinary_url]);
 
 
 
@@ -643,27 +648,18 @@ const buss_data={
     console.log("THE FILE NAME IS "+data.ImageName)
     console.log("THE BUSS ID IS "+data.businessId)
     
-    //setCloudinaryUrl(data.cloudinary_url)
-    setCloudinaryUrl(data.cloudinaryUrl)
+    setCloudinaryUrl(data.cloudinary_url)
+  
     setUploding(false);
 
 
-
-    //setPosts(posts.map(post => post.id === id ? { ...response.data } : post));
-
-    //setBusinessDetails.my_buss(businessDetails.my_buss.map(post => businessDetails.my_buss.id === businessId ? { ...data.data.my_buss } : businessDetails));
-
-    //const customer = customersList.find(post => (post.id).toString() === selectedOption);
-
-    //setCloudinaryUrl(data.cloudinaryUrl)
 
    
 
     setTimeout(() => {
     
         setLoading(false);
-
-        
+        setShowSucessAlert(true)
         toast.success('Profile set successfully');
     }, 2000);
     
@@ -717,6 +713,12 @@ const service_data={
     description:description,
     service_cost:service_cost,
     BusinessId:businessId,
+    latitude:mapCenter.lat,
+    longitude:mapCenter.lng,
+    city:city,
+    state:state,
+    country:country,
+    cloudinary_url:cloudinary_url,
     
       
   }
@@ -1090,10 +1092,12 @@ const initiateEdit=()=>{
     setLatitude(response.data.latitude)
     setLongitude(response.data.longitude)
     setAddress(response.data.location)
+    setbuss_contacts(response.data.buss_contacts)
+    
 
 
    
-    setBusinessDetails({...businessDetails, business_name: 'Denmark'})
+   // setBusinessDetails({...businessDetails, business_name: 'Denmark'})
 
     
     // if (obj.id === 2) {
@@ -1309,7 +1313,7 @@ const closeDemoVideo = () =>{
                           <div class="media mt-0">
                               <div class="media-user me-2">
                               {/** <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={imagePath+"/uploads/vendors/"+businessId+"/"+profile_photo} /></div> */}
-                                  <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={cloudinaryUrl} /></div>
+                                  <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={cloudinary_url} /></div>
                               </div>
                               <div class="media-body">
                                   <h6 class="mb-0 mt-1">{business_name}</h6>
@@ -1494,7 +1498,7 @@ const closeDemoVideo = () =>{
                       
                         <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
                         <div class="col-sm-9">
-                        <textarea id="basic-icon-default-message" class="form-control" placeholder="Eg. my business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
+                        <textarea id="basic-icon-default-message" class="form-control" value={business_description} placeholder="Eg. my business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
                         
                         onChange={(event) => {
                           setbusiness_description(event.target.value);
@@ -3091,18 +3095,27 @@ const closeDemoVideo = () =>{
                         
                         data-allow-clear="true">
                           <option value="">Select</option>
+                          <option value="Repair">Repair</option>
                           <option value="Beauty">Beauty</option>
                           <option value="Barbershop">Barbershop</option>
-                          <option value=">Health & Fitness">Health & Fitness</option>
+                          <option value="Health & Fitness">Health & Fitness</option>
                           <option value="Education">Education</option>
+                          
+                          <option value="Transport">Transport</option>
                           <option value="Automotive">Automotive</option>
+                          <option value="Garden">Garden</option>
                           <option value="Home Care">Home Care</option>
 
                           <option value="Laundry">Laundry</option>
+                          <option value="Cleaning">Cleaning</option>
                           <option value="Construction">Construction</option>
 
                           <option value="Entertainment">Entertainment</option>
                           <option value="Events">Events</option>
+                          <option value="Security">Security</option>
+                          <option value="Computing">Computing</option>
+
+                          <option value="Others">Others</option>
                           
                         
                           
@@ -3274,6 +3287,20 @@ const closeDemoVideo = () =>{
             </div>
             <div class="modal-body">
             <div class="row">
+
+            {showSuccessAlert &&
+
+              <div>
+    
+              <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+              <h4 class="text-success mb-4">Profile Updated!</h4>
+    
+              </div>
+          }
+
+
+          {!showSuccessAlert && 
+
               <div class="col mb-3">
 
 
@@ -3335,6 +3362,7 @@ const closeDemoVideo = () =>{
 
               
               </div>
+            }
             </div>
     
             
@@ -3344,13 +3372,16 @@ const closeDemoVideo = () =>{
               
 
 
-                {!isLoading && <button type="submit" onClick={updateBusinessProfile} class="btn btn-primary">Update Now</button>
+                {!isLoading && !showSuccessAlert &&  <button type="submit" onClick={updateBusinessProfile} class="btn btn-primary">Update</button>
 
             } 
+
             {isLoading &&
-                <button type="submit" class="btn btn-primary" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Updating profile</button>
-            }
-        
+              <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow text-success me-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+          </div>Updating profile...</button>
+          }
+           
                 
                 
                 <button class="btn btn-light" data-bs-dismiss="modal">Close</button>

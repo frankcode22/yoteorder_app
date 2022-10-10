@@ -1259,7 +1259,7 @@ const searchItem1 = () => {
                         <div class="col-lg-4 col-sm-12 col-md-12 revealleft">
                             <h6>About</h6>
                             <p>
-                            Pata Mtaani is a platfom developed to make it easy for residents to buy and sell any products within their area of residents.
+                            Pata Mtaani is a platfom developed to makes it easy for residents to buy and sell any products within their area of residents.
                             </p>
                             <p class="mb-5 mb-lg-2">Pata Mtaani enables services prividers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
                             to the local population.
@@ -1318,7 +1318,7 @@ const searchItem1 = () => {
                         <div class="col-md-12 col-sm-12">
                             Copyright © <span id="year"></span> <a href="javascript:void(0)">PataMtaani</a>.
                             Developed By<a
-                                href="javascript:void(0)"> FrankCode Ent </a> All rights reserved.
+                                href="javascript:void(0)"> FrankCode Ltd</a> All rights reserved.
                         </div>
                     </div>
                 </footer>

@@ -10,13 +10,13 @@
       "year": 1958
     },
     {
-      "author": "Loundary",
+      "author": "laundry",
       "country": "Denmark",
       "imageLink": "images/fairy-tales.jpg",
       "language": "Danish",
       "link": "https://en.wikipedia.org/wiki/Fairy_Tales_Told_for_Children._First_Collection.\n",
       "pages": 784,
-      "title": "Loundary",
+      "title": "laundry",
       "year": 1836
     },
     {
@@ -37,6 +37,27 @@
       "link": "https://en.wikipedia.org/wiki/Fairy_Tales_Told_for_Children._First_Collection.\n",
       "pages": 784,
       "title": "Repair",
+      "year": 1836
+    },
+
+    {
+      "author": "Automotive",
+      "country": "Automotive",
+      "imageLink": "images/fairy-tales.jpg",
+      "language": "Danish",
+      "link": "https://en.wikipedia.org/wiki/Fairy_Tales_Told_for_Children._First_Collection.\n",
+      "pages": 784,
+      "title": "Automotive",
+      "year": 1836
+    },
+    {
+      "author": "Beauty",
+      "country": "Beauty",
+      "imageLink": "images/fairy-tales.jpg",
+      "language": "Danish",
+      "link": "https://en.wikipedia.org/wiki/Fairy_Tales_Told_for_Children._First_Collection.\n",
+      "pages": 784,
+      "title": "Beauty",
       "year": 1836
     }
   ]

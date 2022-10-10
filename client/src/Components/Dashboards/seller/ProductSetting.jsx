@@ -232,13 +232,15 @@ function ProductSetting(props) {
   const [showServicesDiv,setShowServicesDiv]=useState(false);
 
 
-  const [showProductsDiv,setShowProductsDiv]=useState(false);
+  const [showProductsDiv,setShowProductsDiv]=useState(true);
 
-  const [showBusinessSetupDiv,setShowBusinessSetupDiv]=useState(true);
+  const [showBusinessSetupDiv,setShowBusinessSetupDiv]=useState(false);
 
 
   const [cloudinaryUrl, setCloudinaryUrl] = useState("");
   //const [service_type, set_service_type] = useState("");
+
+  const [accountProfile, setAccountProfile] = useState("");
 
 
   let history = useNavigate();
@@ -383,9 +385,11 @@ function ProductSetting(props) {
             setbusiness_description(response.data.my_buss.business_description);
   
   
-            setImagePath(response.data.imagePath)
+           // setImagePath(response.data.imagePath)
             
-            setprofile_photo(response.data.my_buss.profile_photo)
+            //setprofile_photo(response.data.my_buss.profile_photo)
+
+            setAccountProfile(response.data.my_buss.cloudinary_url)
   
            
   
@@ -1073,8 +1077,8 @@ const showProductsSection=()=>{
             unit_of_measure:unit_of_measure,
             latitude:lat,
             longitude:lng,
-            //cloudinary_url:data.cloudinary_url,
-            cloudinary_url:data.imagePath,
+            cloudinary_url:data.cloudinary_url,
+            //cloudinary_url:data.imagePath,
             UserId:userId,
             BusinessId:businessId,
         },
@@ -1666,16 +1670,19 @@ const loadProductsContent=(
         </div>
         <div class="card-body">
             <ul class="nav nav-pills nav-pills-circle" id="tabs_2" role="tablist">
+
+               <li class="nav-item">
+                    <a class="nav-link border py-3 px-4 m-2"  onClick={showProductsSection} id="tab2" data-bs-toggle="tab" href="#" role="tab" aria-selected="false">
+                        <span class="nav-link-icon d-block"> <i class="fa fa-product-hunt"></i>Products </span>
+                    </a>
+                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link border py-3 px-4 m-2"  onClick={showBusinessSetUpSection} id="tab1" data-bs-toggle="tab" href="#" role="tab" aria-selected="false">
                         <span class="nav-link-icon d-block"><i class="fe fe-user"></i> Account</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link border py-3 px-4 m-2"  onClick={showProductsSection} id="tab2" data-bs-toggle="tab" href="#" role="tab" aria-selected="false">
-                        <span class="nav-link-icon d-block">Products </span>
-                    </a>
-                </li>
+                
                 
             </ul>
         </div>
@@ -1697,1346 +1704,36 @@ const loadProductsContent=(
                 <div class="card">
                 <div class="card-body">
                     <div class="list-group list-group-transparent mb-0 file-manager file-manager-border">
-                        <h4>General</h4>
+                        <h4>Manage Products</h4>
+
+                        <div>
+                        <a href="javascript:void(0);"  onClick={showProductsSection} class="list-group-item  d-flex align-items-center px-0">
+                            <i class="fa fa-product-hunt fs-18 me-2 text-secondary p-2"></i>Products
+                        </a>
+                       </div> 
+
+
                         <div>
                             <a href="javascript:void(0);" onClick={showBusinessSetUpSection} class="list-group-item  d-flex align-items-center px-0 border-top">
-                                <i class="fe fe-user fs-18 me-2 text-success p-2"></i>Account
+                                <i class="fe fe-user fs-18 me-2 text-success p-2"></i>My Account
                             </a>
                         </div>
 
                         
-
-                       <div>
-                       <a href="javascript:void(0);"  onClick={showProductsSection} class="list-group-item  d-flex align-items-center px-0">
-                           <i class="fe fe-calendar fs-18 me-2 text-secondary p-2"></i>Products
-                       </a>
-                      </div> 
-
-                       
-
-                        
-                    </div>
-                </div>
-            </div>
-            </div>
-            {showBusinessSetupDiv && <div class="col-xl-9">
-            <div class="card">
-                
-
-               <div class="card-body">
-
-
-
-                
-                {isBusinessSet &&
-                  <div class="card border p-0 shadow-none">
-                  <div class="card-body">
-                      <div class="d-flex">
-                          <div class="media mt-0">
-                              <div class="media-user me-2">
-                              {/** <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={imagePath+"/uploads/vendors/"+businessId+"/"+profile_photo} /></div> */}
-                                  <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={cloudinaryUrl} /></div>
-                              </div>
-                              <div class="media-body">
-                                  <h6 class="mb-0 mt-1">{business_name}</h6>
-                                  <small class="text-muted">just now</small>
-                              </div>
-                          </div>
-                          <div class="ms-auto">
-                              <div class="dropdown show">
-                                  <a class="new option-dots" href="JavaScript:void(0);" data-bs-toggle="dropdown">
-                                      <span class=""><i class="fe fe-more-vertical"></i></span>
-                                  </a>
-                                  <div class="dropdown-menu dropdown-menu-end">
-                                     <a onClick={initiateEdit} class="btn dropdown-item" href="javascript:void(0)">Edit Details</a>
-                                     
-                                      <a class="dropdown-item" onClick={initiateEdit} href="javascript:void(0)">Add Profile</a>
-                                      <a class="dropdown-item" onClick={initiateEdit} href="javascript:void(0)">Personal Settings</a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="mt-4">
-                          <h4 class="fw-semibold mt-3">{business_type}</h4>
-                          <p class="mb-0">{business_description}
-                          </p>
-                      </div>
-                  </div>
-                  <div class="card-footer user-pro-2">
-                      <div class="media mt-0">
-                         
-                          <div class="media-body">
-                              <h6 class="mb-0 mt-2 ms-2">10 customers like your business</h6>
-                          </div>
-                          <div class="ms-auto">
-                              <div class="d-flex mt-1">
-                                  <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-heart"></i></span></a>
-                                  <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-message-square"></i></span></a>
-                                  <a class="new text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-share-2"></i></span></a>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-                
-                
-                
-                }
-
-                {isBusinessSet &&
-                  <div class="row">
-
-
-                  <div class="col-xl-6 col-md-12">
-                  <div class="card m-b-20 border p-0 shadow-none">
-                      <div class="card-header">
-                          <h3 class="card-title">Business Contacts</h3>
-                          <div class="card-options">
-                              <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                              <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                          </div>
-                      </div>
-                      <div class="card-body">
-                      <div class="d-flex align-items-center mb-3 mt-3">
-                      <div class="me-4 text-center text-primary">
-                          <span><i class="fe fe-briefcase fs-20"></i></span>
-                      </div>
-                      <div>
-                          <strong>{business_name} </strong>
-                      </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3 mt-3">
-                      <div class="me-4 text-center text-primary">
-                          <span><i class="fe fe-map-pin fs-20"></i></span>
-                      </div>
-                      <div>
-                          <strong>{location} Lat:{latitude} Long:{longitude}</strong>
-                      </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3 mt-3">
-                      <div class="me-4 text-center text-primary">
-                          <span><i class="fe fe-phone fs-20"></i></span>
-                      </div>
-                      <div>
-                          <strong>{buss_contacts} </strong>
-                      </div>
-                  </div>
-                  <div class="d-flex align-items-center mb-3 mt-3">
-                      <div class="me-4 text-center text-primary">
-                          <span><i class="fe fe-mail fs-20"></i></span>
-                      </div>
-                      <div>
-                          <strong>{email}</strong>
-                      </div>
-                  </div>
-                      </div>
-                  </div>
-              </div>
-
-
-
-              
-
-
-              
-              <div class="col-xl-6 col-md-12">
-              <div class="card d-flex m-b-20 border p-0 shadow-none">
-                  <div class="card-header">
-                      <h3 class="card-title">Customers</h3>
-                      <div class="card-options">
-                          <a class="text-gray" href="javascript:void(0)">
-                              <i class="mdi mdi-refresh"></i>
-                          </a>
-                          <a class="text-gray" href="javascript:void(0)">
-                              <i class="mdi mdi-bookmark-outline"></i>
-                          </a>
-                          <a class="text-gray" href="javascript:void(0)">
-                              <i class="mdi mdi-dots-vertical"></i>
-                          </a>
-                      </div>
-                  </div>
-                  <div class="card-body">
-                  <div class="">
-                  <div class="media overflow-visible">
-                      <img class="avatar brround avatar-md me-3" src="../assets/images/users/18.jpg" alt="avatar-img"/>
-                      <div class="media-body valign-middle mt-2">
-                          <a href="javascript:void(0)" class=" fw-semibold text-dark">John Munene</a>
-                          <p class="text-muted mb-0">johan@gmail.com</p>
-                      </div>
-                      <div class="media-body valign-middle text-end overflow-visible mt-2">
-                          <button class="btn btn-sm btn-primary" type="button">Follow</button>
-                      </div>
-                  </div>
-                  <div class="media overflow-visible mt-sm-5">
-                      <span class="avatar cover-image avatar-md brround bg-pink me-3">LQ</span>
-                      <div class="media-body valign-middle mt-2">
-                          <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Kisilu</a>
-                          <p class="text-muted mb-0">lilika</p>
-                      </div>
-                      <div class="media-body valign-middle text-end overflow-visible mt-1">
-                          <button class="btn btn-sm btn-secondary" type="button">Follow</button>
-                      </div>
-                  </div>
-                
-               
-              </div>
-                  </div>
-              </div>
-          </div>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  </div>}
-
-
-
-                  
-                 {!isBusinessSet && 
-                  <form>
-                  <div class="row g-3">
-                    <div class="col-md-6">
-                      <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
-                        <div class="col-sm-9">
-                          <input type="text" id="formtabs-buss-name" class="form-control" 
-
-                          value={business_name}
-                          
-                          onChange={(event) => {
-                              setbusiness_name(event.target.value);
-                            }}
-                          
-                          
-                          placeholder="Eg. Wanjiku Shop" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="row">
-                      
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
-                        <div class="col-sm-9">
-                        <textarea id="basic-icon-default-message" class="form-control" placeholder="Eg. my business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
-                        
-                        onChange={(event) => {
-                          setbusiness_description(event.target.value);
-                        }}
-          
-                        aria-describedby="basic-icon-default-message2"></textarea>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
-                        <div class="col-sm-9">
-                          <select id="formtabs-country" class="select2 form-select"
-                          
-                          onChange={(event) => {
-                              setCity(event.target.value);
-                            }}
-          
-                          
-                          data-allow-clear="true">
-                            <option value="">Select</option>
-                            <option value="Nairobi">Nairobi</option>
-                            <option value="Kiambu">Kiambu</option>
-                            <option value="Machakos">Machakos</option>
-                            <option value="Kakuru">Kakuru</option>
-                            <option value="Murang'a">Murang'a</option>
-                            <option value="Kericho">Makueni</option>
-                            <option value="Embu">Embu</option>
-                            <option value="Meru">Meru</option>
-                            <option value="Kakuru">Kericho</option>
-                            <option value="Uasin-gishu">Uasin-gishu</option>
-                            <option value="Nyeri">Nyeri</option>
-                            
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6 select2-primary">
-                      <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-language">Industry</label>
-                        <div class="col-sm-9">
-                          <select id="formtabs-language" class="select2 form-select"
-          
-          
-                          onChange={(event) => {
-                              setindustry(event.target.value);
-                            }}
-                          
-                          
-                          multiple>
-                            <option value="Domestic-Products" selected>Household Products</option>
-                           
-
-                            <option value="Domestic-Products" selected>Domestic Products</option>
-
-                            <option value="Wines-Spirits">Drinks/Wines/Spirts/Alcohol</option>
-
-                            <option value="Drinks">Drinks</option>
-                            <option value="Ready Made Meals">Ready Made Meals</option>
-                         
-                            <option value="Beauty">Beauty</option>
-                            <option value="Education">Education</option>
-                            <option value="Automotive">Wellbeing</option>
-                            <option value="pt">Automotive</option>
-                            <option value="home care">Home Care</option>
-                            <option value="Maintenance">Maintenance</option>
-                            <option value="Electronics">Electronics</option>
-                         
-                            <option value="Automotive">Automotive</option>
-
-                            <option value="Contruction">Contruction</option>
-                  
-                            
-                            <option value="Clothing">Clothing</option>
-                            <option value="Computing">Computing</option>
-                  
-                  
-                            <option value="Domestic">Domestic Use</option>
-                            <option value="Home-Based">Home-Based</option>
-                            <option value="Beauty">Beauty</option>
-                  
-                            <option value="Agricultural">Agricultural</option>
-                            <option value="Livestock">Livestock</option>
-                            <option value="Poultry">Poultry</option>
-                            <option value="Aquatic">Aquatic</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    {/** <div class="col-md-6">
-                      <div class="row">
-                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
-                      <div class="col-sm-9">
-                        <input type="text" id="location" class="form-control"
-                        
-                        
-                        onChange={(event) => {
-                          setlocation(event.target.value);
-                        }}
-                        
-                        placeholder="Eg.Njogoo Road" />
-                      </div>
-          
-                 
-                      </div>
-                    </div> */}
-                   
-                    <div class="col-md-6">
-                      <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
-                        <div class="col-sm-9">
-                          <input type="text" id="buss-contacts" class="form-control phone-mask"
-                          
-                          onChange={(event) => {
-                              setbuss_contacts(event.target.value);
-                            }}
-                          placeholder="eg.0718XXXXXX" aria-label="0714639773" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mt-4">
-                   
-                  </div>
-                </form>
-
-              
-              }
-
-
-
-              {!isBusinessSet && 
-
-  <div>
-  <div id='googleMaps'>
-
-  <Suspense fallback={<div>Loading...</div>}>
-
-  {/**<SearchPlaces></SearchPlaces> */}
-
-
-  {navigator.onLine? 'You are online':'Offline'}
-
-
-
-
-
-
-
-    {/** {!userPos.lat==null &&      <PlacesAutocomplete
-    value={address}
-    onChange={handleAddressChange}
-    onSelect={handleSelect}
-  >
-    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-      <div>
-        <input
-          {...getInputProps({
-            placeholder: 'Search Places ...',
-            className: 'multisteps-form__input form-control',
-          })}
-        />
-
-      
-
-        
-        <div className="autocomplete-dropdown-container">
-          {loading && <div>Loading...</div>}
-          {suggestions.map(suggestion => {
-            const className = suggestion.active
-              ? 'suggestion-item--active'
-              : 'suggestion-item';
-            // inline style for demonstration purpose
-            const style = suggestion.active
-              ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-              : { backgroundColor: '#ffffff', cursor: 'pointer' };
-            return (
-              <div
-                {...getSuggestionItemProps(suggestion, {
-                  className,
-                  style,
-                })}
-              >
-                <span>{suggestion.description}</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    )}
-  </PlacesAutocomplete>} */}
-
-
-
-
- 
-
-
-
-
-
-
-    </Suspense>
-
-   <div class="card" style={{height:"350px",marginTop:'20px'}}>
-
-    <Map 
-    google={props.google}
-      initialCenter={{
-        lat: mapCenter.lat,
-        lng: mapCenter.lng
-      }}
-      center={{
-        lat: mapCenter.lat,
-        lng: mapCenter.lng
-      }}
-    >
-      <Marker 
-        position={{
-          lat: mapCenter.lat,
-          lng: mapCenter.lng
-        }} />
-    </Map>
- </div>
-  </div>
-
-
-  <div class="row g-3">
-
-  <div class="col-md-6">
-  <div class="row">
-    <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Latitude</label>
-    <div class="col-sm-9">
-      <input type="text" id="formtabs-buss-name" class="form-control" 
-      
-      value={mapCenter.lat}
-
-      onChange={(event) => {
-        setLatitude(event.target.value);
-      }}
-      
-      
-      placeholder="Latidude" />
-    </div>
-  </div>
-</div>
-<div class="col-md-6">
-  <div class="row">
-  
-    <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Logitude</label>
-    <div class="col-sm-9">
-    <input type="text" id="formtabs-buss-name" class="form-control" 
-      
-    value={mapCenter.lng}
-
-    onChange={(event) => {
-      setLongitude(event.target.value);
-    }}
-    
-    placeholder="Eg. Logitude" />
-    </div>
-  </div>
-</div>
-
-
-<div class="col-md-6">
-<div class="row">
-  <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">City</label>
-  <div class="col-sm-9">
-    <input type="text" id="formtabs-buss-name" class="form-control" 
-    
-    value={address}
-
-    onChange={(event) => {
-      setCity(event.target.value);
-    }}
-    
-    
-    placeholder="Latidude" />
-  </div>
-</div>
-</div>
-<div class="col-md-6">
-<div class="row">
-
-  <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">State</label>
-  <div class="col-sm-9">
-  <input type="text" id="formtabs-buss-name" class="form-control" 
-    
-  value={state}
-
-  onChange={(event) => {
-    setState(event.target.value);
-  }}
-  
-  placeholder="Eg. Logitude" />
-  </div>
-</div>
-</div>
-
-</div>
-
-  
-
-
-</div>
-
-
-
-
-
-              }
-
-               
-{/*  <div class="panel panel-primary">
-                <div class="tab-menu-heading">
-                    <div class="tabs-menu">
-                        
-                        <ul class="nav panel-tabs panel-info">
-                            <li><a href="#tab21" class="active" data-bs-toggle="tab"><span><i class="fe fe-settings me-1"></i></span>Business Infor</a></li>
-                            <li><a href="#tab22" data-bs-toggle="tab"><span><i class="fe fe-calendar me-1"></i></span>Services</a></li>
-                            <li><a href="#tab23" data-bs-toggle="tab"><span><i class="fe fe-user me-1"></i></span>Staff</a></li>
-                            <li><a href="#tab24" data-bs-toggle="tab"><span><i class="fe fe-bell me-1"></i></span>Tab 4</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel-body tabs-menu-body">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab21">
-
-
-                        
-                         {isBusinessSet &&
-                          <div class="card border p-0 shadow-none">
-                          <div class="card-body">
-                              <div class="d-flex">
-                                  <div class="media mt-0">
-                                      <div class="media-user me-2">
-                                          <div class=""><img alt="" class="rounded-circle avatar avatar-md" src="assets/images/users/16.jpg"/></div>
-                                      </div>
-                                      <div class="media-body">
-                                          <h6 class="mb-0 mt-1">{business_name}</h6>
-                                          <small class="text-muted">just now</small>
-                                      </div>
-                                  </div>
-                                  <div class="ms-auto">
-                                      <div class="dropdown show">
-                                          <a class="new option-dots" href="JavaScript:void(0);" data-bs-toggle="dropdown">
-                                              <span class=""><i class="fe fe-more-vertical"></i></span>
-                                          </a>
-                                          <div class="dropdown-menu dropdown-menu-end">
-                                              <a class="dropdown-item" href="javascript:void(0)">Edit Post</a>
-                                              <a class="dropdown-item" href="javascript:void(0)">Delete Post</a>
-                                              <a class="dropdown-item" href="javascript:void(0)">Personal Settings</a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="mt-4">
-                                  <h4 class="fw-semibold mt-3">There is nothing more beautiful.</h4>
-                                  <p class="mb-0">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form.
-                                  </p>
-                              </div>
-                          </div>
-                          <div class="card-footer user-pro-2">
-                              <div class="media mt-0">
-                                  <div class="media-user me-2">
-                                      <div class="avatar-list avatar-list-stacked">
-                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/12.jpg)'}}></span>
-                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
-                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/9.jpg)'}}></span>
-                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users/2.jpg)'}}></span>
-                                          <span class="avatar brround" style={{backgroundImage: 'url(assets/images/users//4.jpg)'}}></span>
-                                          <span class="avatar brround text-primary">+28</span>
-                                      </div>
-                                  </div>
-                                  <div class="media-body">
-                                      <h6 class="mb-0 mt-2 ms-2">10 buyers like your business</h6>
-                                  </div>
-                                  <div class="ms-auto">
-                                      <div class="d-flex mt-1">
-                                          <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-heart"></i></span></a>
-                                          <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-message-square"></i></span></a>
-                                          <a class="new text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-share-2"></i></span></a>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                        
-                        
-                        
-                        }
-                       
-
-                        {isBusinessSet &&
-                    <div class="row">
-
-
-                    <div class="col-xl-6 col-md-12">
-                    <div class="card m-b-20 border p-0 shadow-none">
-                        <div class="card-header">
-                            <h3 class="card-title">Business Contacts</h3>
-                            <div class="card-options">
-                                <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                                <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                        <div class="d-flex align-items-center mb-3 mt-3">
-                        <div class="me-4 text-center text-primary">
-                            <span><i class="fe fe-briefcase fs-20"></i></span>
-                        </div>
-                        <div>
-                            <strong>{business_name} </strong>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center mb-3 mt-3">
-                        <div class="me-4 text-center text-primary">
-                            <span><i class="fe fe-map-pin fs-20"></i></span>
-                        </div>
-                        <div>
-                            <strong>{location}</strong>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center mb-3 mt-3">
-                        <div class="me-4 text-center text-primary">
-                            <span><i class="fe fe-phone fs-20"></i></span>
-                        </div>
-                        <div>
-                            <strong>{buss_contacts} </strong>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center mb-3 mt-3">
-                        <div class="me-4 text-center text-primary">
-                            <span><i class="fe fe-mail fs-20"></i></span>
-                        </div>
-                        <div>
-                            <strong>{email}</strong>
-                        </div>
-                    </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                
-
-
-                
-                <div class="col-xl-6 col-md-12">
-                <div class="card d-flex m-b-20 border p-0 shadow-none">
-                    <div class="card-header">
-                        <h3 class="card-title">Customers</h3>
-                        <div class="card-options">
-                            <a class="text-gray" href="javascript:void(0)">
-                                <i class="mdi mdi-refresh"></i>
-                            </a>
-                            <a class="text-gray" href="javascript:void(0)">
-                                <i class="mdi mdi-bookmark-outline"></i>
-                            </a>
-                            <a class="text-gray" href="javascript:void(0)">
-                                <i class="mdi mdi-dots-vertical"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                    <div class="">
-                    <div class="media overflow-visible">
-                        <img class="avatar brround avatar-md me-3" src="../assets/images/users/18.jpg" alt="avatar-img"/>
-                        <div class="media-body valign-middle mt-2">
-                            <a href="javascript:void(0)" class=" fw-semibold text-dark">John Paige</a>
-                            <p class="text-muted mb-0">johan@gmail.com</p>
-                        </div>
-                        <div class="media-body valign-middle text-end overflow-visible mt-2">
-                            <button class="btn btn-sm btn-primary" type="button">Follow</button>
-                        </div>
-                    </div>
-                    <div class="media overflow-visible mt-sm-5">
-                        <span class="avatar cover-image avatar-md brround bg-pink me-3">LQ</span>
-                        <div class="media-body valign-middle mt-2">
-                            <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Quinn</a>
-                            <p class="text-muted mb-0">lilliangore</p>
-                        </div>
-                        <div class="media-body valign-middle text-end overflow-visible mt-1">
-                            <button class="btn btn-sm btn-secondary" type="button">Follow</button>
-                        </div>
-                    </div>
-                    <div class="media overflow-visible mt-sm-5">
-                        <img class="avatar brround avatar-md me-3" src="../assets/images/users/2.jpg" alt="avatar-img"/>
-                        <div class="media-body valign-middle mt-2">
-                            <a href="javascript:void(0)" class="text-dark fw-semibold">Harry Fisher</a>
-                            <p class="text-muted mb-0">harryuqt</p>
-                        </div>
-                        <div class="media-body valign-middle text-end overflow-visible mt-1">
-                            <button class="btn btn-sm btn-danger" type="button">Follow</button>
-                        </div>
-                    </div>
-                 
-                </div>
-                    </div>
-                </div>
-            </div>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    </div>}
-
-                   
-
-
-
-
-
-
-
-
-
-                 {!isBusinessSet && 
-                  <form>
-                  <div class="row g-3">
-                    <div class="col-md-6">
-                      <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
-                        <div class="col-sm-9">
-                          <input type="text" id="formtabs-first-name" class="form-control" 
-                          
-                          onChange={(event) => {
-                              setbusiness_name(event.target.value);
-                            }}
-                          
-                          
-                          placeholder="Eg. Edith Salon" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="row">
-                      
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
-                        <div class="col-sm-9">
-                        <textarea id="basic-icon-default-message" class="form-control" placeholder="My business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
-                        
-                        onChange={(event) => {
-                          setbusiness_description(event.target.value);
-                        }}
-          
-                        aria-describedby="basic-icon-default-message2"></textarea>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
-                        <div class="col-sm-9">
-                          <select id="formtabs-country" class="select2 form-select"
-                          
-                          onChange={(event) => {
-                              setCity(event.target.value);
-                            }}
-          
-                          
-                          data-allow-clear="true">
-                            <option value="">Select</option>
-                            <option value="Nairobi">Nairobi</option>
-                            <option value="Kiambu">Kiambu</option>
-                            <option value="Machakos">Machakos</option>
-                            <option value="Kakuru">Kakuru</option>
-                            <option value="Makueni">Makueni</option>
-                            <option value="Nyeri">Nyeri</option>
-                            
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6 select2-primary">
-                      <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-language">Industry</label>
-                        <div class="col-sm-9">
-                          <select id="formtabs-language" class="select2 form-select"
-          
-          
-                          onChange={(event) => {
-                              setindustry(event.target.value);
-                            }}
-                          
-                          
-                          multiple>
-                            <option value="Eateries" selected>Eateries</option>
-
-                            <option value="Domestic-Products" selected>Domestic Products</option>
-
-                            <option value="Wines-Spirits">Drinks/Wines/Spirts/Alcohol</option>
-
-                            <option value="Drinks">Drinks</option>
-                         
-                            <option value="Beauty">Beauty</option>
-                            <option value="Education">Education</option>
-                            <option value="Automotive">Wellbeing</option>
-                            <option value="pt">Automotive</option>
-                            <option value="home care">Home Care</option>
-                            <option value="Maintenance">Maintenance</option>
-                            <option value="Electronics">Electronics</option>
-                         
-                            <option value="Automotive">Automotive</option>
-
-                            <option value="Contruction">Contruction</option>
-                  
-                            
-                            <option value="Clothing">Clothing</option>
-                            <option value="Computing">Computing</option>
-                  
-                  
-                            <option value="Domestic">Domestic Use</option>
-                            <option value="Home-Based">Home-Based</option>
-                            <option value="Beauty">Beauty</option>
-                  
-                            <option value="Agricultural">Agricultural</option>
-                            <option value="Livestock">Livestock</option>
-                            <option value="Poultry">Poultry</option>
-                            <option value="Aquatic">Aquatic</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="row">
-                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
-                      <div class="col-sm-9">
-                        <input type="text" id="location" class="form-control"
-                        
-                        
-                        onChange={(event) => {
-                          setlocation(event.target.value);
-                        }}
-                        
-                        placeholder="Eg.Njogoo Road" />
-                      </div>
-          
-                 
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="row">
-                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
-                        <div class="col-sm-9">
-                          <input type="text" id="buss-contacts" class="form-control phone-mask"
-                          
-                          onChange={(event) => {
-                              setbuss_contacts(event.target.value);
-                            }}
-                          placeholder="0714639773" aria-label="0714639773" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mt-4">
-                    <div class="col-md-6">
-                      <div class="row justify-content-end">
-                        <div class="col-sm-9">
-                          
-          
-                          {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary me-sm-3 me-1">Submit</button>
-          
-                      } 
-                      {isLoading &&
-                          <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
-                      }
-                          <button type="reset" class="btn btn-label-secondary">Cancel</button>
-          
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form> }
-
-                        </div>
-                        <div class="tab-pane" id="tab22">
-
 
                      
-                        <div class="row mb-5">
-                        {servicesList.map((value, key) => {
-                          return (
-                        <div class="col-md-6">
-                          <div class="card mb-3">
-                            <div class="row g-0">
-                              <div class="col-md-4">
-                             
-                                <img class="card-img card-img-left" src="/assets/images/media/22.jpg" alt="Card image" />
-                              </div>
-                              <div class="col-md-8">
-                                <div class="card-body">
-                                  <h5 class="card-title">{value.service_name}</h5>
-                                  <span class="badge bg-info">Price: {value.service_cost}</span>
-                                  <p class="card-text">
-                                   {value.service_description}
-                                  </p>
-                                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                
-                                  <div class="demo-inline-spacing">
-                
-                                  <button type="button" class="btn btn-success">Edit</button>
-                                  <button type="button" class="btn btn-danger">Remove</button>
-                                 
-                
-                              </div>
-                                                
-                                </div>
-                                
-                                
-                              </div>
-                              
-                            </div>
-                          </div>
-                        </div>
-                        );
-                      })}
+
                        
-                      </div>
-                            
-                        </div>
-                        <div class="tab-pane" id="tab23">
 
-                        <form>
-                        <div class="row g-3">
-                          <div class="col-md-6">
-                            <div class="row">
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
-                              <div class="col-sm-9">
-                                <input type="text" id="formtabs-first-name" class="form-control" 
-                                
-                                onChange={(event) => {
-                                    setbusiness_name(event.target.value);
-                                  }}
-                                
-                                
-                                placeholder="Eg. Edith Salon" />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="row">
-                            
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
-                              <div class="col-sm-9">
-                              <textarea id="basic-icon-default-message" class="form-control" placeholder="Hi, Do you have a moment to talk Joe?" aria-label="Hi, My business deals with beauty services?" 
-                              
-                              onChange={(event) => {
-                                setbusiness_description(event.target.value);
-                              }}
-                
-                              aria-describedby="basic-icon-default-message2"></textarea>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="row">
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
-                              <div class="col-sm-9">
-                                <select id="formtabs-country" class="select2 form-select"
-                                
-                                onChange={(event) => {
-                                    setCity(event.target.value);
-                                  }}
-                
-                                
-                                data-allow-clear="true">
-                                  <option value="">Select</option>
-                                  <option value="Nairobi">Nairobi</option>
-                                  <option value="Kiambu">Kiambu</option>
-                                  <option value="Machakos">Machakos</option>
-                                  <option value="Kakuru">Kakuru</option>
-                                  <option value="Makueni">Makueni</option>
-                                  <option value="Nyeri">Nyeri</option>
-                                  
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6 select2-primary">
-                            <div class="row">
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-language">Industry</label>
-                              <div class="col-sm-9">
-                                <select id="formtabs-language" class="select2 form-select"
-                
-                
-                                onChange={(event) => {
-                                    setindustry(event.target.value);
-                                  }}
-                                
-                                
-                                multiple>
-
-                                <option value="Eateries" selected>Eateries</option>
-
-                                  
-
-
-                                 
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="row">
-                            <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
-                            <div class="col-sm-9">
-                              <input type="text" id="formtabs-first-name" class="form-control"
-                              
-                              
-                              onChange={(event) => {
-                                setlocation(event.target.value);
-                              }}
-                              
-                              placeholder="Eg.Ruai By Pass" />
-                            </div>
-                
-                       
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="row">
-                              <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
-                              <div class="col-sm-9">
-                                <input type="text" id="formtabs-phone" class="form-control phone-mask"
-                                
-                                onChange={(event) => {
-                                    setPhone_no(event.target.value);
-                                  }}
-                                placeholder="0714639773" aria-label="0714639773" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row mt-4">
-                          <div class="col-md-6">
-                            <div class="row justify-content-end">
-                              <div class="col-sm-9">
-                                
-                
-                                {!isLoading && <button type="submit" onClick={saveBusinessInfor} class="btn btn-primary me-sm-3 me-1">Submit</button>
-                
-                            } 
-                            {isLoading &&
-                                <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
-                            }
-                                <button type="reset" class="btn btn-label-secondary">Cancel</button>
-                
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                           
-                        </div>
-                        <div class="tab-pane" id="tab24">
-                            <p>page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes
-                                by accident, sometimes on purpose (injected humour and the like</p>
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et</p>
-                        </div>
+                        
                     </div>
-                </div>
-            </div>*/}
-
-
-               
-
-
-            <ToastContainer></ToastContainer>
-
-
-
-
-                </div>
-                <div class="card-footer d-sm-flex">
-                    <div class="mt-2 mb-2">
-                        <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Attach"><span class="ri-attachment-2"></span></a>
-                        <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Link"><span class="ri-link"></span></a>
-                        <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Photos"><span class="ri-image-line"></span></a>
-                        <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"><span class="ri-delete-bin-line"></span></a>
-                    </div>
-                   
                 </div>
             </div>
-        </div>}
+            </div>
 
 
 
-
-
-        {showServicesDiv &&
-
-          <div class="col-xl-9 col-lg-8">
-          <div class="row">
-              <div class="col-xl-12">
-                  <div class="card p-0">
-                      <div class="card-body p-4">
-                          <div class="row">
-                              <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
-                                  <div class="input-group d-flex w-100 float-start">
-                                      <input type="text" class="form-control border-end-0 my-2" placeholder="Search ..."/>
-                                      <button class="btn input-group-text bg-transparent border-start-0 text-muted my-2">
-                                          <i class="fe fe-search text-muted" aria-hidden="true"></i>
-                                      </button>
-                                  </div>
-                              </div>
-                              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                                  <ul class="nav item2-gl-menu float-end my-2">
-                                      <li class="border-end"><a href="#tab-11" class="show active" data-bs-toggle="tab" title="List style"><i class="fa fa-th"></i></a></li>
-                                      <li><a href="#tab-12" data-bs-toggle="tab" class="" title="Grid"><i class="fa fa-list"></i></a></li>
-                                  </ul>
-                              </div>
-                              <div class="col-xl-3 col-lg-12">
-                             
-                                  <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo8"><i class="fa fa-plus-square me-2"></i>New Service</a>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="tab-content">
-              <div class="tab-pane" id="tab-12">
-                  <div class="row">
-        
-                 {showErrorAlert &&   <div class="alert alert-danger" role="alert">
-                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
-                 <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">You must have a business</a>and try submitting again.
-             </div>} 
-                 
-               
-        
-                  {productsList.map((value, key) => {
-                      return (
-                      <div class="col-md-6 col-xl-4 col-sm-6">
-                          <div class="card">
-                              <div class="product-grid6">
-                                  <div class="product-image6 p-5">
-                                      <ul class="icons">
-                                          <li>
-                                              <a href="#" class="btn btn-primary"> <i class="fe fe-eye">  </i> </a>
-                                          </li>
-                                          <li><a href="#" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
-                                          <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
-                                      </ul>
-                                      <a href="#" >
-                                          <img class="img-fluid br-7 w-100" src="../assets/images/pngs/9.jpg" alt="img"/>
-                                      </a>
-                                  </div>
-                                  <div class="card-body pt-0">
-                                      <div class="product-content text-center">
-                                          <h1 class="title fw-bold fs-20"><a href="#">{value.name}</a></h1>
-                                          <div class="mb-2 text-warning">
-                                              <i class="fa fa-star text-warning"></i>
-                                              <i class="fa fa-star text-warning"></i>
-                                              <i class="fa fa-star text-warning"></i>
-                                              <i class="fa fa-star-half-o text-warning"></i>
-                                              <i class="fa fa-star-o text-warning"></i>
-                                          </div>
-                                          <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="card-footer text-center">
-                                      <a href="#" class="btn btn-primary mb-1"><i class="fe fe-edit mx-2"></i>Edit</a>
-                                      <a href="#" class="btn btn-outline-primary mb-1"><i class="fe fe-heart mx-2"></i>Add to wishlist</a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-        
-                      )
-                  })}
-        
-                    
-                      <div class="mb-5">
-                          <div class="float-end">
-                              <ul class="pagination ">
-                                  <li class="page-item page-prev disabled">
-                                      <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
-                                  </li>
-                                  <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
-                                  <li class="page-item page-next">
-                                      <a class="page-link" href="javascript:void(0)">Next</a>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="tab-pane active" id="tab-11">
-                  <div class="row">
-                  {servicesList.map((value, key) => {
-                    return (
-                      <div class="col-xl-12 col-lg-12 col-md-12">
-                          <div class="card overflow-hidden">
-                              <div class="card-body">
-                                  <div class="row g-0">
-                                      <div class="col-xl-3 col-lg-12 col-md-12">
-                                          <div class="product-list">
-                                              <div class="product-image">
-                                                  <ul class="icons">
-                                                      <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
-                                                      <li><a href="#" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
-                                                      <li><a href="#" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
-                                                  </ul>
-                                              </div>
-                                              <div class="br-be-0 br-te-0">
-                                                  <a href="#" class="">
-                                                      <img src="../assets/images/pngs/9.jpg" alt="img" class="cover-image br-7 w-100"/>
-                                                  </a>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
-                                          <div class="card-body">
-                                              <div class="mb-3">
-                                                  <a href="#" class="">
-                                                      <h3 class="fw-bold fs-30 mb-3">{value.service_name}</h3>
-                                                      <div class="mb-2 text-warning">
-                                                          <i class="fa fa-star fs-18 text-warning"></i>
-                                                          <i class="fa fa-star fs-18 text-warning"></i>
-                                                          <i class="fa fa-star fs-18 text-warning"></i>
-                                                          <i class="fa fa-star-half-o fs-18 text-warning"></i>
-                                                          <i class="fa fa-star-o fs-18 text-warning"></i>
-                                                      </div>
-                                                  </a>
-                                                  <p class="fs-16">{value.description} </p>
-                                                  
-                                                  
-                                                  
-                                                  <form class="shop__filter">
-                                                      <div class="row gutters-xs">
-                                                          <div class="col-auto">
-                                                              <label class="colorinput">
-                                                                  <input type="checkbox" name="color" value="azure" class="colorinput-input" checked/>
-                                                                  <span class="colorinput-color bg-azure"></span>
-                                                              </label>
-                                                          </div>
-                                                          <div class="col-auto">
-                                                              <label class="colorinput">
-                                                                  <input type="checkbox" name="color" value="indigo" class="colorinput-input"/>
-                                                                  <span class="colorinput-color bg-indigo"></span>
-                                                              </label>
-                                                          </div>
-                                                          <div class="col-auto">
-                                                              <label class="colorinput">
-                                                                  <input type="checkbox" name="color" value="purple" class="colorinput-input"/>
-                                                                  <span class="colorinput-color bg-purple"></span>
-                                                              </label>
-                                                          </div>
-                                                      </div>
-                                                  </form>
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
-                                          <div class="card-body p-0">
-                                              <div class="price h3 text-center mb-5 fw-bold">{value.service_cost}</div>
-                                              
-                                              <a onClick={() => {
-                                                openSelectedService(value.id);
-                                                  }}
-                                            
-                                        
-                                                  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo80" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Edit Details</a>
-                                              <a href="#" class="btn btn-outline-primary btn-block mt-2"><i class="fe fe-add"></i>Assign Staff</a>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-          )})}
-                      
-                      
-                    
-                     
-                      <div class="mb-5">
-                          <div class="float-end">
-                              <ul class="pagination ">
-                                  <li class="page-item page-prev disabled">
-                                      <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
-                                  </li>
-                                  <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
-                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
-                                  <li class="page-item page-next">
-                                      <a class="page-link" href="javascript:void(0)">Next</a>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        
-        </div>
-        
-        }
-
-
-        {showProductsDiv &&
+              {showProductsDiv &&
 
             <div class="col-xl-9 col-lg-8">
             <div class="row">
@@ -3392,6 +2089,724 @@ const loadProductsContent=(
 </div>
 
 }
+
+
+
+
+
+
+            {showBusinessSetupDiv && <div class="col-xl-9">
+            <div class="card">
+                
+
+               <div class="card-body">
+
+
+
+                
+                {isBusinessSet &&
+                  <div class="card border p-0 shadow-none">
+                  <div class="card-body">
+                      <div class="d-flex">
+                          <div class="media mt-0">
+                              <div class="media-user me-2">
+                              {/** <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={imagePath+"/uploads/vendors/"+businessId+"/"+profile_photo} /></div> */}
+                                  <div class=""><img alt="" class="rounded-circle avatar avatar-md"  src={accountProfile} /></div>
+                              </div>
+                              <div class="media-body">
+                                  <h6 class="mb-0 mt-1">{business_name}</h6>
+                                  <small class="text-muted">just now</small>
+                              </div>
+                          </div>
+                          <div class="ms-auto">
+                              <div class="dropdown show">
+                                  <a class="new option-dots" href="JavaScript:void(0);" data-bs-toggle="dropdown">
+                                      <span class=""><i class="fe fe-more-vertical"></i></span>
+                                  </a>
+                                  <div class="dropdown-menu dropdown-menu-end">
+                                     <a onClick={initiateEdit} class="btn dropdown-item" href="javascript:void(0)">Edit Details</a>
+                                     
+                                      <a class="dropdown-item" onClick={initiateEdit} href="javascript:void(0)">Add Profile</a>
+                                      <a class="dropdown-item" onClick={initiateEdit} href="javascript:void(0)">Personal Settings</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="mt-4">
+                          <h4 class="fw-semibold mt-3">{business_type}</h4>
+                          <p class="mb-0">{business_description}
+                          </p>
+                      </div>
+                  </div>
+                  <div class="card-footer user-pro-2">
+                      <div class="media mt-0">
+                         
+                          <div class="media-body">
+                              <h6 class="mb-0 mt-2 ms-2">10 customers like your business</h6>
+                          </div>
+                          <div class="ms-auto">
+                              <div class="d-flex mt-1">
+                                  <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-heart"></i></span></a>
+                                  <a class="new me-2 text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-message-square"></i></span></a>
+                                  <a class="new text-muted fs-16" href="JavaScript:void(0);"><span class=""><i class="fe fe-share-2"></i></span></a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                
+                
+                
+                }
+
+                {isBusinessSet &&
+                  <div class="row">
+
+
+                  <div class="col-xl-6 col-md-12">
+                  <div class="card m-b-20 border p-0 shadow-none">
+                      <div class="card-header">
+                          <h3 class="card-title">Business Contacts</h3>
+                          <div class="card-options">
+                              <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                              <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                      <div class="d-flex align-items-center mb-3 mt-3">
+                      <div class="me-4 text-center text-primary">
+                          <span><i class="fe fe-briefcase fs-20"></i></span>
+                      </div>
+                      <div>
+                          <strong>{business_name} </strong>
+                      </div>
+                  </div>
+                  <div class="d-flex align-items-center mb-3 mt-3">
+                      <div class="me-4 text-center text-primary">
+                          <span><i class="fe fe-map-pin fs-20"></i></span>
+                      </div>
+                      <div>
+                          <strong>{location} Lat:{latitude} Long:{longitude}</strong>
+                      </div>
+                  </div>
+                  <div class="d-flex align-items-center mb-3 mt-3">
+                      <div class="me-4 text-center text-primary">
+                          <span><i class="fe fe-phone fs-20"></i></span>
+                      </div>
+                      <div>
+                          <strong>{buss_contacts} </strong>
+                      </div>
+                  </div>
+                  <div class="d-flex align-items-center mb-3 mt-3">
+                      <div class="me-4 text-center text-primary">
+                          <span><i class="fe fe-mail fs-20"></i></span>
+                      </div>
+                      <div>
+                          <strong>{email}</strong>
+                      </div>
+                  </div>
+                      </div>
+                  </div>
+              </div>
+
+
+
+              
+
+
+              
+              <div class="col-xl-6 col-md-12">
+              <div class="card d-flex m-b-20 border p-0 shadow-none">
+                  <div class="card-header">
+                      <h3 class="card-title">Customers</h3>
+                      <div class="card-options">
+                          <a class="text-gray" href="javascript:void(0)">
+                              <i class="mdi mdi-refresh"></i>
+                          </a>
+                          <a class="text-gray" href="javascript:void(0)">
+                              <i class="mdi mdi-bookmark-outline"></i>
+                          </a>
+                          <a class="text-gray" href="javascript:void(0)">
+                              <i class="mdi mdi-dots-vertical"></i>
+                          </a>
+                      </div>
+                  </div>
+                  <div class="card-body">
+                  <div class="">
+                  <div class="media overflow-visible">
+                      <img class="avatar brround avatar-md me-3" src="../assets/images/users/18.jpg" alt="avatar-img"/>
+                      <div class="media-body valign-middle mt-2">
+                          <a href="javascript:void(0)" class=" fw-semibold text-dark">John Munene</a>
+                          <p class="text-muted mb-0">johan@gmail.com</p>
+                      </div>
+                      <div class="media-body valign-middle text-end overflow-visible mt-2">
+                          <button class="btn btn-sm btn-primary" type="button">Follow</button>
+                      </div>
+                  </div>
+                  <div class="media overflow-visible mt-sm-5">
+                      <span class="avatar cover-image avatar-md brround bg-pink me-3">LQ</span>
+                      <div class="media-body valign-middle mt-2">
+                          <a href="javascript:void(0)" class="fw-semibold text-dark">Lillian Kisilu</a>
+                          <p class="text-muted mb-0">lilika</p>
+                      </div>
+                      <div class="media-body valign-middle text-end overflow-visible mt-1">
+                          <button class="btn btn-sm btn-secondary" type="button">Follow</button>
+                      </div>
+                  </div>
+                
+               
+              </div>
+                  </div>
+              </div>
+          </div>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  </div>}
+
+
+
+                  
+                 {!isBusinessSet && 
+                  <form>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" id="formtabs-buss-name" class="form-control" 
+
+                          value={business_name}
+                          
+                          onChange={(event) => {
+                              setbusiness_name(event.target.value);
+                            }}
+                          
+                          
+                          placeholder="Eg. Wanjiku Shop" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                      
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Business Description</label>
+                        <div class="col-sm-9">
+                        <textarea id="basic-icon-default-message" class="form-control" placeholder="Eg. my business deals with all household items" aria-label="Hi, My business deals with beauty services?" 
+                        
+                        onChange={(event) => {
+                          setbusiness_description(event.target.value);
+                        }}
+          
+                        aria-describedby="basic-icon-default-message2"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-country">County</label>
+                        <div class="col-sm-9">
+                          <select id="formtabs-country" class="select2 form-select"
+                          
+                          onChange={(event) => {
+                              setCity(event.target.value);
+                            }}
+          
+                          
+                          data-allow-clear="true">
+                            <option value="">Select</option>
+                            <option value="Nairobi">Nairobi</option>
+                            <option value="Kiambu">Kiambu</option>
+                            <option value="Machakos">Machakos</option>
+                            <option value="Kakuru">Kakuru</option>
+                            <option value="Murang'a">Murang'a</option>
+                            <option value="Kericho">Makueni</option>
+                            <option value="Embu">Embu</option>
+                            <option value="Meru">Meru</option>
+                            <option value="Kakuru">Kericho</option>
+                            <option value="Uasin-gishu">Uasin-gishu</option>
+                            <option value="Nyeri">Nyeri</option>
+                            
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 select2-primary">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-language">Industry</label>
+                        <div class="col-sm-9">
+                          <select id="formtabs-language" class="select2 form-select"
+          
+          
+                          onChange={(event) => {
+                              setindustry(event.target.value);
+                            }}
+                          
+                          
+                          multiple>
+                            <option value="Domestic-Products" selected>Household Products</option>
+                           
+
+                            <option value="Domestic-Products" selected>Domestic Products</option>
+
+                            <option value="Wines-Spirits">Drinks/Wines/Spirts/Alcohol</option>
+
+                            <option value="Drinks">Drinks</option>
+                            <option value="Ready Made Meals">Ready Made Meals</option>
+                         
+                            <option value="Beauty">Beauty</option>
+                            <option value="Education">Education</option>
+                            <option value="Automotive">Wellbeing</option>
+                            <option value="pt">Automotive</option>
+                            <option value="home care">Home Care</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Electronics">Electronics</option>
+                         
+                            <option value="Automotive">Automotive</option>
+
+                            <option value="Contruction">Contruction</option>
+                  
+                            
+                            <option value="Clothing">Clothing</option>
+                            <option value="Computing">Computing</option>
+                  
+                  
+                            <option value="Domestic">Domestic Use</option>
+                            <option value="Home-Based">Home-Based</option>
+                            <option value="Beauty">Beauty</option>
+                  
+                            <option value="Agricultural">Agricultural</option>
+                            <option value="Livestock">Livestock</option>
+                            <option value="Poultry">Poultry</option>
+                            <option value="Aquatic">Aquatic</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    {/** <div class="col-md-6">
+                      <div class="row">
+                      <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Location</label>
+                      <div class="col-sm-9">
+                        <input type="text" id="location" class="form-control"
+                        
+                        
+                        onChange={(event) => {
+                          setlocation(event.target.value);
+                        }}
+                        
+                        placeholder="Eg.Njogoo Road" />
+                      </div>
+          
+                 
+                      </div>
+                    </div> */}
+                   
+                    <div class="col-md-6">
+                      <div class="row">
+                        <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
+                        <div class="col-sm-9">
+                          <input type="text" id="buss-contacts" class="form-control phone-mask"
+                          
+                          onChange={(event) => {
+                              setbuss_contacts(event.target.value);
+                            }}
+                          placeholder="eg.0718XXXXXX" aria-label="0714639773" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-4">
+                   
+                  </div>
+                </form>
+
+              
+              }
+
+
+
+              {!isBusinessSet && 
+
+  <div>
+  <div id='googleMaps'>
+
+  <Suspense fallback={<div>Loading...</div>}>
+
+  {/**<SearchPlaces></SearchPlaces> */}
+
+
+  
+
+
+
+
+ 
+
+
+
+
+
+
+    </Suspense>
+
+   <div class="card" style={{height:"350px",marginTop:'20px'}}>
+
+    <Map 
+    google={props.google}
+      initialCenter={{
+        lat: mapCenter.lat,
+        lng: mapCenter.lng
+      }}
+      center={{
+        lat: mapCenter.lat,
+        lng: mapCenter.lng
+      }}
+    >
+      <Marker 
+        position={{
+          lat: mapCenter.lat,
+          lng: mapCenter.lng
+        }} />
+    </Map>
+ </div>
+  </div>
+
+
+  <div class="row g-3">
+
+  <div class="col-md-6">
+  <div class="row">
+    <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Latitude</label>
+    <div class="col-sm-9">
+      <input type="text" id="formtabs-buss-name" class="form-control" 
+      
+      value={mapCenter.lat}
+
+      onChange={(event) => {
+        setLatitude(event.target.value);
+      }}
+      
+      
+      placeholder="Latidude" />
+    </div>
+  </div>
+</div>
+<div class="col-md-6">
+  <div class="row">
+  
+    <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Logitude</label>
+    <div class="col-sm-9">
+    <input type="text" id="formtabs-buss-name" class="form-control" 
+      
+    value={mapCenter.lng}
+
+    onChange={(event) => {
+      setLongitude(event.target.value);
+    }}
+    
+    placeholder="Eg. Logitude" />
+    </div>
+  </div>
+</div>
+
+
+<div class="col-md-6">
+<div class="row">
+  <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">City</label>
+  <div class="col-sm-9">
+    <input type="text" id="formtabs-buss-name" class="form-control" 
+    
+    value={address}
+
+    onChange={(event) => {
+      setCity(event.target.value);
+    }}
+    
+    
+    placeholder="Latidude" />
+  </div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="row">
+
+  <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">State</label>
+  <div class="col-sm-9">
+  <input type="text" id="formtabs-buss-name" class="form-control" 
+    
+  value={state}
+
+  onChange={(event) => {
+    setState(event.target.value);
+  }}
+  
+  placeholder="Eg. Logitude" />
+  </div>
+</div>
+</div>
+
+</div>
+
+  
+
+
+</div>
+
+
+
+
+
+              }
+
+               
+
+
+
+            <ToastContainer></ToastContainer>
+
+
+
+
+                </div>
+                <div class="card-footer d-sm-flex">
+                    <div class="mt-2 mb-2">
+                        <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Attach"><span class="ri-attachment-2"></span></a>
+                        <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Link"><span class="ri-link"></span></a>
+                        <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Photos"><span class="ri-image-line"></span></a>
+                        <a href="javascript:void(0)" class="btn btn-icon btn-white btn-svg" data-bs-toggle="tooltip" title="" data-bs-original-title="Delete"><span class="ri-delete-bin-line"></span></a>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>}
+
+
+
+
+
+        {showServicesDiv &&
+
+          <div class="col-xl-9 col-lg-8">
+          <div class="row">
+              <div class="col-xl-12">
+                  <div class="card p-0">
+                      <div class="card-body p-4">
+                          <div class="row">
+                              <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
+                                  <div class="input-group d-flex w-100 float-start">
+                                      <input type="text" class="form-control border-end-0 my-2" placeholder="Search ..."/>
+                                      <button class="btn input-group-text bg-transparent border-start-0 text-muted my-2">
+                                          <i class="fe fe-search text-muted" aria-hidden="true"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                                  <ul class="nav item2-gl-menu float-end my-2">
+                                      <li class="border-end"><a href="#tab-11" class="show active" data-bs-toggle="tab" title="List style"><i class="fa fa-th"></i></a></li>
+                                      <li><a href="#tab-12" data-bs-toggle="tab" class="" title="Grid"><i class="fa fa-list"></i></a></li>
+                                  </ul>
+                              </div>
+                              <div class="col-xl-3 col-lg-12">
+                             
+                                  <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo8"><i class="fa fa-plus-square me-2"></i>New Service</a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="tab-content">
+              <div class="tab-pane" id="tab-12">
+                  <div class="row">
+        
+                 {showErrorAlert &&   <div class="alert alert-danger" role="alert">
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+                 <strong>Oh snap!</strong> <a href="javascript:void(0)" class="alert-link">You must have a business</a>and try submitting again.
+             </div>} 
+                 
+               
+        
+                  {productsList.map((value, key) => {
+                      return (
+                      <div class="col-md-6 col-xl-4 col-sm-6">
+                          <div class="card">
+                              <div class="product-grid6">
+                                  <div class="product-image6 p-5">
+                                      <ul class="icons">
+                                          <li>
+                                              <a href="#" class="btn btn-primary"> <i class="fe fe-eye">  </i> </a>
+                                          </li>
+                                          <li><a href="#" class="btn btn-success"><i  class="fe fe-edit"></i></a></li>
+                                          <li><a href="javascript:void(0)" class="btn btn-danger"><i class="fe fe-x"></i></a></li>
+                                      </ul>
+                                      <a href="#" >
+                                          <img class="img-fluid br-7 w-100" src="../assets/images/pngs/9.jpg" alt="img"/>
+                                      </a>
+                                  </div>
+                                  <div class="card-body pt-0">
+                                      <div class="product-content text-center">
+                                          <h1 class="title fw-bold fs-20"><a href="#">{value.name}</a></h1>
+                                          <div class="mb-2 text-warning">
+                                              <i class="fa fa-star text-warning"></i>
+                                              <i class="fa fa-star text-warning"></i>
+                                              <i class="fa fa-star text-warning"></i>
+                                              <i class="fa fa-star-half-o text-warning"></i>
+                                              <i class="fa fa-star-o text-warning"></i>
+                                          </div>
+                                          <div class="price">Ksh {value.price}<span class="ms-4">Ksh  {value.price}</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="card-footer text-center">
+                                      <a href="#" class="btn btn-primary mb-1"><i class="fe fe-edit mx-2"></i>Edit</a>
+                                      <a href="#" class="btn btn-outline-primary mb-1"><i class="fe fe-heart mx-2"></i>Add to wishlist</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+        
+                      )
+                  })}
+        
+                    
+                      <div class="mb-5">
+                          <div class="float-end">
+                              <ul class="pagination ">
+                                  <li class="page-item page-prev disabled">
+                                      <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
+                                  </li>
+                                  <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                                  <li class="page-item page-next">
+                                      <a class="page-link" href="javascript:void(0)">Next</a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="tab-pane active" id="tab-11">
+                  <div class="row">
+                  {servicesList.map((value, key) => {
+                    return (
+                      <div class="col-xl-12 col-lg-12 col-md-12">
+                          <div class="card overflow-hidden">
+                              <div class="card-body">
+                                  <div class="row g-0">
+                                      <div class="col-xl-3 col-lg-12 col-md-12">
+                                          <div class="product-list">
+                                              <div class="product-image">
+                                                  <ul class="icons">
+                                                      <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
+                                                      <li><a href="#" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
+                                                      <li><a href="#" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
+                                                  </ul>
+                                              </div>
+                                              <div class="br-be-0 br-te-0">
+                                                  <a href="#" class="">
+                                                      <img src="../assets/images/pngs/9.jpg" alt="img" class="cover-image br-7 w-100"/>
+                                                  </a>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
+                                          <div class="card-body">
+                                              <div class="mb-3">
+                                                  <a href="#" class="">
+                                                      <h3 class="fw-bold fs-30 mb-3">{value.service_name}</h3>
+                                                      <div class="mb-2 text-warning">
+                                                          <i class="fa fa-star fs-18 text-warning"></i>
+                                                          <i class="fa fa-star fs-18 text-warning"></i>
+                                                          <i class="fa fa-star fs-18 text-warning"></i>
+                                                          <i class="fa fa-star-half-o fs-18 text-warning"></i>
+                                                          <i class="fa fa-star-o fs-18 text-warning"></i>
+                                                      </div>
+                                                  </a>
+                                                  <p class="fs-16">{value.description} </p>
+                                                  
+                                                  
+                                                  
+                                                  <form class="shop__filter">
+                                                      <div class="row gutters-xs">
+                                                          <div class="col-auto">
+                                                              <label class="colorinput">
+                                                                  <input type="checkbox" name="color" value="azure" class="colorinput-input" checked/>
+                                                                  <span class="colorinput-color bg-azure"></span>
+                                                              </label>
+                                                          </div>
+                                                          <div class="col-auto">
+                                                              <label class="colorinput">
+                                                                  <input type="checkbox" name="color" value="indigo" class="colorinput-input"/>
+                                                                  <span class="colorinput-color bg-indigo"></span>
+                                                              </label>
+                                                          </div>
+                                                          <div class="col-auto">
+                                                              <label class="colorinput">
+                                                                  <input type="checkbox" name="color" value="purple" class="colorinput-input"/>
+                                                                  <span class="colorinput-color bg-purple"></span>
+                                                              </label>
+                                                          </div>
+                                                      </div>
+                                                  </form>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
+                                          <div class="card-body p-0">
+                                              <div class="price h3 text-center mb-5 fw-bold">{value.service_cost}</div>
+                                              
+                                              <a onClick={() => {
+                                                openSelectedService(value.id);
+                                                  }}
+                                            
+                                        
+                                                  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo80" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Edit Details</a>
+                                              <a href="#" class="btn btn-outline-primary btn-block mt-2"><i class="fe fe-add"></i>Assign Staff</a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+          )})}
+                      
+                      
+                    
+                     
+                      <div class="mb-5">
+                          <div class="float-end">
+                              <ul class="pagination ">
+                                  <li class="page-item page-prev disabled">
+                                      <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
+                                  </li>
+                                  <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                                  <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                                  <li class="page-item page-next">
+                                      <a class="page-link" href="javascript:void(0)">Next</a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        
+        </div>
+        
+        }
+
+
+      
 
 
 

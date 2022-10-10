@@ -282,6 +282,31 @@ API.get('order/orderById/'+oId).then((response) => {
 }
 
 
+const widenSearch=()=>{
+
+    setLoading(true)
+
+    //API.get("customer/mycustomers").then((response) => {
+    API.put(`product/widensearch/${id}`).then((response) => {
+
+
+        setTimeout(() => {
+
+            setLoading(false)
+            
+            toast.success('Search Widened');
+        }, 1000);
+    
+       
+            
+    
+            })
+    
+    
+    
+    }
+
+
   
 
 const handleChange = async e => {
@@ -504,8 +529,32 @@ return (
                                                     </div>
                                                 </div>
                                                 <div class="btn-profile">
-                                                    <button class="btn btn-primary mt-1 mb-1"> <i class="fa fa-rss"></i> <span>Follow</span></button>
-                                                    <button class="btn btn-secondary mt-1 mb-1"> <i class="fa fa-envelope"></i> <span>Message</span></button>
+                                                    <button class="btn btn-primary mt-1 mb-1"> <i class="fa fa-envelope"></i> <span>Follow</span></button>
+
+                                                    {!
+
+
+                                                
+                                                
+                                                        isLoading &&
+
+                                                        <button onClick={widenSearch} class="btn btn-secondary mt-1 mb-1"> <i class=" fa fa-rss"></i> <span>Widen search</span></button>
+                                                        
+                                                       
+                                                       
+           
+                                                } 
+                                                {isLoading &&
+                                                
+                                                
+                                                <button class="btn btn-secondary my-1" type="button" disabled="">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Widening search...
+                                                </button>
+                                                }
+        
+                                                    
+                                                 
                                                 </div>
                                             </div>
                                         </div>
