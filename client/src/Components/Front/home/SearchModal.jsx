@@ -439,7 +439,7 @@ function SearchModal({userPos,lat,lng,lat1,lng1,setLat,setLat1,setLng1,setLng,sh
 
  
 
-   {/**   <h1> {online?'uko online':'offline'}</h1> */} 
+     <h1> {online?'uko online':'offline'}</h1>  
 
    {/**    <h1> {isOnline?'uko online':'offline'}</h1>  */} 
 

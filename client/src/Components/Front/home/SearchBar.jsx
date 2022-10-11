@@ -48,11 +48,16 @@ function SearchBar({ placeholder, lat,lng, data }) {
 
   const [show, setShow] = useState(false);
 
+  const [hideSearchBtn, setHideSearchBtn] = useState(false);
+
   const [isLoading,setLoading]=useState(false);
 
   const [isDivLoading, setIsDivLoading] = useState(false);
 
   const [productFound, setProductFound] = useState(false);
+
+
+  const [serviceCatNotAvailable, setServiceCatNotAvailable] = useState(false);
 
 
   const [subcategoryList, setSubcategoryList] = useState([]);
@@ -85,6 +90,7 @@ function SearchBar({ placeholder, lat,lng, data }) {
   const clearInput = () => {
     setFilteredData([]);
     setWordEntered("");
+    setHideSearchBtn(false)
   };
 
 
@@ -295,7 +301,7 @@ const handleCustomerSelect= async (event) => {
 
   setCatId(customer.id)
 
-  setsubcategory_name(wordEntered)
+  // setsubcategory_name(wordEntered)
   
 
 
@@ -305,7 +311,15 @@ const handleCustomerSelect= async (event) => {
 
  const searchProviders= () => {
 
+  if(!catId){
 
+    setServiceCatNotAvailable(true)
+
+    return
+
+  }
+
+  localStorage.setItem('subcategory_name', JSON.stringify(subcategory_name));
  
   history('/searchresults/'+catId+'/'+lat+'/'+lng);
   
@@ -329,7 +343,7 @@ const handleCustomerSelect= async (event) => {
           value={wordEntered}
           onChange={handleFilter} type="text"/>
 
-          {!isLoading && <span class="input-group-text btn btn-primary" onClick={searchService}><i class="fe fe-search"></i>Search</span>}
+          {!isLoading && hideSearchBtn && <span class="input-group-text btn btn-primary" onClick={searchService}><i class="fe fe-search"></i>Search</span>}
 
           {isLoading &&
             <span class="btn btn-primary my-1" type="button" disabled="">
@@ -358,21 +372,53 @@ const handleCustomerSelect= async (event) => {
      
       </div>
 
-      {filteredData.length != 0 && (
-        <div className="dataResult">
-          {filteredData.slice(0, 15).map((value, key) => {
-            return (
-              <a href="javascript:void(0)" className="dataItem" onClick={() => {
-                setWordEntered(value.name)
-                setServiceId(value.id)
-                setFilteredData([]);
-              }}>
-                <p>{value.name} </p>
-              </a>
-            );
-          })}
-        </div>
-      )}
+    
+          {filteredData.length != 0 && (
+
+           <div class="dataResult dropdown-menu-end dropdown-menu-arrow">
+                                                <div class="drop-heading border-bottom">
+                                                    <div class="d-flex">
+                                                        <h6 class="mt-1 mb-0 text-center fw-semibold fs-16">We have over 200
+                                                            Services for you</h6>
+                                                        
+                                                    </div>
+                                                </div>
+                                                {filteredData.slice(0, 15).map((value, key) => {
+                                                  return (
+                                                <div class="message-menu message-menu-scroll">
+                                                   
+                                                <div class="dropdown-divider m-0"></div>
+                                                    <a class="dropdown-item d-flex" href="javascript:void(0)" className="dataItem" onClick={() => {
+                                                      setWordEntered(value.name)
+                                                      setServiceId(value.id)
+                                                    
+                                                      setFilteredData([]);
+                                                      setHideSearchBtn(true);
+                                                    }}>
+                                                        <span><i class="fe fe-check"></i></span>
+                                                        <label class="colorinput">
+                                                                                        <input type="checkbox" name="color" value="azure" class="colorinput-input" checked=""/>
+                                                                                        <span class="colorinput-color bg-azure"></span>
+                                                                                    </label>
+                                                        <div class="wd-90p">
+                                                            <div class="d-flex">
+                                                                <h5 class="mb-1">{value.name}</h5>
+                                                               
+                                                            </div>
+                                                           
+                                                        </div>
+                                                    </a>
+
+                                                </div>
+                                                );
+                                              })}
+                                                <div class="dropdown-divider m-0"></div>
+                                                <a href="javascript:void(0)" class="dropdown-item text-center p-3 text-muted">See all
+                                                    Services</a>
+                                            </div>
+
+                                            )}
+      
 
 
       <Modal class="modal fade" id="modaldemo8" show={show}>
@@ -381,6 +427,16 @@ const handleCustomerSelect= async (event) => {
           <Modal.Title>Initiating your Search</Modal.Title>
       </Modal.Header>
       <Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+
+{serviceCatNotAvailable && <div class="card-body text-center">
+<span class=""><svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 24 24"><path fill="#fad383" d="M15.728,22H8.272a1.00014,1.00014,0,0,1-.707-.293l-5.272-5.272A1.00014,1.00014,0,0,1,2,15.728V8.272a1.00014,1.00014,0,0,1,.293-.707l5.272-5.272A1.00014,1.00014,0,0,1,8.272,2H15.728a1.00014,1.00014,0,0,1,.707.293l5.272,5.272A1.00014,1.00014,0,0,1,22,8.272V15.728a1.00014,1.00014,0,0,1-.293.707l-5.272,5.272A1.00014,1.00014,0,0,1,15.728,22Z"></path><circle cx="12" cy="16" r="1" fill="#f7b731"></circle><path fill="#f7b731" d="M12,13a1,1,0,0,1-1-1V8a1,1,0,0,1,2,0v4A1,1,0,0,1,12,13Z"></path></svg></span>
+<h4 class="h4 mb-0 mt-3">Service not available in your location</h4>
+
+</div>}
+      
 
 
 

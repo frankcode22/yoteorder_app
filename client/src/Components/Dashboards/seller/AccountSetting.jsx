@@ -193,8 +193,20 @@ function AccountSetting(props) {
 
 
     const [fileInputState, setFileInputState] = useState('');
-  const [previewSource, setPreviewSource] = useState('');
+
+    const [previewSource, setPreviewSource] = useState('');
+
+
+
+   const [serviceIconInputState, setServiceIconInputState] = useState('');
+   const [previewIconSource, setPreviewIconSource] = useState('');
+
+
+
   const [selectedFile, setSelectedFile] = useState();
+
+  const [selectedIconFile, setSelectedIconFile] = useState();
+
   const [successMsg, setSuccessMsg] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
@@ -461,6 +473,24 @@ const previewFile = (file) => {
 
 
 
+const handleServiceIconInputChange = (e) => {
+  const file = e.target.files[0];
+  previewServiceIconFile(file);
+  setSelectedIconFile(file);
+  setServiceIconInputState(e.target.value);
+};
+
+
+const previewServiceIconFile = (file) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onloadend = () => {
+    setPreviewIconSource(reader.result);
+  };
+};
+
+
+
 
 
 const handleAddressChange = address => {
@@ -648,6 +678,36 @@ const buss_data={
   }
 
 
+  const handleChangeServiceIcon = async e => {
+    let formData = new FormData();
+
+  
+    setImage(e.target.files[0]);
+
+    formData.append('businessId',businessId);
+
+    formData.append('file', e.target.files[0]);
+   
+    setUploding(true);
+    let { data } = await API.post('service/single-upload', formData,{headers: {
+        "Content-Type": "multipart/form-data",
+    }}, {
+        onUploadProgress: ({ loaded, total }) => {
+            let progress = ((loaded / total) * 100).toFixed(2);
+            setProgress(progress);
+           
+        }
+    });
+    setUplodedImg(data.imagePath);
+
+   // localStorage.setItem('product_photo', JSON.stringify(data.imagePath));
+    console.log("tTHE IMAGE NAME IS "+data.imagePath)
+    console.log("THE FILE NAME IS "+data.ImageName)
+    console.log("THE BUSS ID IS "+businessId)
+    setUploding(false);
+}
+
+
 
   
   const updateBusinessProfile= async e => {
@@ -752,7 +812,7 @@ const service_data={
 
 
 
-  const addService = ()  => {
+  const addService = async e => {
     setLoading(true);
 
     if(businessId==0){
@@ -765,13 +825,44 @@ const service_data={
     }
     else{
 
-    // API.post("service",service_data).then((response)=>{
 
-     
+
+      let formData = new FormData();
+      formData.append('businessId', businessId);
+      formData.append('file',selectedIconFile);
+      formData.append('service_name', service_name);
     
-    API.post("service",service_data).then((response)=>{
+    
+      formData.append('description', description);
+      formData.append('service_cost',service_cost);
+      formData.append('quantity', quantity);
+    
+      formData.append('service_type',service_type);
+      // formData.append('address_line_2', address_line_2);
+    
+      formData.append('latitude',mapCenter.lat);
+    
+      formData.append('longitude',mapCenter.lng);
 
-      console.log("The response is"+response.data)
+      formData.append('city',state);
+    
+      formData.append('state',state);
+
+      formData.append('subcatId', subcatId);
+    
+    
+      setUploding(true);
+      let { data } = await API.post('service/addservice', formData, {
+          onUploadProgress: ({ loaded, total }) => {
+              let progress = ((loaded / total) * 100).toFixed(2);
+              setProgress(progress);
+             
+          }
+      });
+     // setUplodedImg(data.imagePath);
+
+      setUploding(false);
+
 
       setServicesList([
         ...servicesList,
@@ -780,27 +871,108 @@ const service_data={
     service_type:service_type,
     description:description,
     service_cost:service_cost,
+    cloudinary_url:data.cloudinary_url,
     BusinessId:businessId,
   
         },
       ]);
 
-  
+    
 
-       
+  
         setTimeout(() => {
             setLoading(false);
             toast.info('Service saved');
         }, 1000);
      
        //  history("/dashboard");
-      
-       
-    })
-
+    
   }
 
 }
+
+
+const updateServiceNew = async e => {
+  setLoading(true);
+
+  if(businessId==0){
+
+    setTimeout(() => {
+      setLoading(false);
+      toast.error('You must Have a business');
+  }, 1000);
+  
+  }
+  else{
+
+
+    let formData = new FormData();
+    formData.append('businessId', businessId);
+    formData.append('file',image);
+    formData.append('service_name', service_name);
+  
+  
+    formData.append('description', description);
+    formData.append('service_cost',service_cost);
+ 
+    formData.append('service_type',service_type);
+    // formData.append('address_line_2', address_line_2);
+  
+    formData.append('latitude',mapCenter.lat);
+  
+    formData.append('longitude',mapCenter.lng);
+
+    formData.append('city',state);
+  
+    formData.append('state',state);
+
+    formData.append('subcatId', subcatId);
+  
+  
+    setUploding(true);
+    let { data } = await API.put('service/update-service/'+serviceId, formData, {
+        onUploadProgress: ({ loaded, total }) => {
+            let progress = ((loaded / total) * 100).toFixed(2);
+            setProgress(progress);
+           
+        }
+    });
+   // setUplodedImg(data.imagePath);
+
+    setUploding(false);
+
+
+    setServicesList([
+      ...servicesList,
+      {
+  service_name:service_name,
+  service_type:service_type,
+  description:description,
+  service_cost:service_cost,
+  cloudinary_url:data.cloudinary_url,
+  BusinessId:businessId,
+
+      },
+    ]);
+
+  
+
+
+      setTimeout(() => {
+          setLoading(false);
+          toast.info('Service updated');
+      }, 2000);
+   
+     //  history("/dashboard");
+  
+}
+
+}
+
+
+
+
+
 
 
 
@@ -905,6 +1077,7 @@ const openSelectedService=(sId)=>{
       // console.log("THE SERVICE NAME IS "+response.data.service_name)
 
        setServiceId(sId)
+       setSubcatId(sId)
        set_service_name(response.data.service_name)
        set_service_type(response.data.service_type)
 
@@ -1711,7 +1884,7 @@ const closeDemoVideo = () =>{
 
 {/**UNCOMMENT FROM HERE */}
 
-  {/**  {position &&      <PlacesAutocomplete
+ {position &&      <PlacesAutocomplete
     value={address}
     onChange={handleAddressChange}
     onSelect={handleSelect}
@@ -1752,12 +1925,12 @@ const closeDemoVideo = () =>{
         </div>
       </div>
     )}
-  </PlacesAutocomplete>}*/}
+  </PlacesAutocomplete>}
 
 
   
 
-{/**  {!position &&   
+  {!position &&   
     <PlacesAutocomplete
       value={address}
       onChange={handleAddressChange}
@@ -1799,7 +1972,7 @@ const closeDemoVideo = () =>{
           </div>
         </div>
       )}
-    </PlacesAutocomplete>} */}
+    </PlacesAutocomplete>} 
  
 
 
@@ -2697,7 +2870,7 @@ const closeDemoVideo = () =>{
                                               </div>
                                               <div class="br-be-0 br-te-0">
                                                   <a href="#" class="">
-                                                      <img src="../assets/images/pngs/9.jpg" alt="img" class="cover-image br-7 w-100"/>
+                                                      <img src={value.cloudinary_url} alt="img" class="cover-image br-7 w-100"/>
                                                   </a>
                                               </div>
                                           </div>
@@ -3115,7 +3288,7 @@ const closeDemoVideo = () =>{
             <div class="modal-dialog modal-dialog-centered text-center" role="document">
                 <div class="modal-content modal-content-demo">
                     <div class="modal-header">
-                        <h6 class="modal-title">Message Preview</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                        <h6 class="modal-title">New service</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
                     <div class="row">
@@ -3228,16 +3401,59 @@ const closeDemoVideo = () =>{
                         />
                       </div>
                     </div>
+
+
+                    <div class="row">
+                    <div class="col mb-3">
+
+                    <div class="form-group">
+                    <label class="form-label mt-0">Upload Product Photo</label>
+                    <input class="form-control" type="file"
+                    name="image"
+            
+                    onChange={(e) => {
+                      handleServiceIconInputChange(e)
+                    }}
+                   
+                    value={serviceIconInputState}
+                   
+                /> 
+                
+                <input type="hidden" value={businessId}  onChange={(event) => {
+                    setbusinessId(event.target.value);
+                  }} placeholder="bussId"/>
+                    </div>
+
+
+                    {previewIconSource && (
+                      <img
+                          src={previewIconSource}
+                          alt="chosen"
+                          style={{ height: '300px' }}
+                      />
+                  )}
+            
+                     
+                      
+                    </div>
+                  </div>
+
+
+
                   </div>
                     <div class="modal-footer">
-                      
 
 
-                        {!isLoading && <button type="submit" onClick={addService} class="btn btn-primary">Save changes</button>
+                  
+
+
+                        {!isLoading && <button type="submit" onClick={addService} class="btn btn-primary">Save</button>
 
                     } 
                     {isLoading &&
-                        <button type="submit" class="btn btn-primary" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+                      <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>Wait...saving</button>
                     }
                 
                         
@@ -3254,7 +3470,7 @@ const closeDemoVideo = () =>{
         <div class="modal-dialog modal-dialog-centered text-center" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">Message Preview</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h6 class="modal-title">Edit Service</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                 <div class="row">
@@ -3287,74 +3503,156 @@ const closeDemoVideo = () =>{
                   
                 </div>
               </div>
-                <div class="row g-2">
-        
-        
-                
-                  <div class="col mb-0">
-                    <label for="emailWithTitle" class="form-label">Service Type</label>
-                    <select id="formtabs-country" class="select2 form-select"
-                  
-                    onChange={(event) => {
-                        set_service_type(event.target.value);
-                      }}
-        
-                      value={service_type}
-                    data-allow-clear="true">
-                      <option value="">Select</option>
-                      <option value="Beauty">Beauty</option>
-                      <option value="Barbershop">Barbershop</option>
-                      <option value=">Health & Fitness">Health & Fitness</option>
-                      <option value="Education">Education</option>
-                      <option value="Automotive">Automotive</option>
-                      <option value="Home Care">Home Care</option>
+              <div class="row g-2">
 
-                      <option value="Laundry">Laundry</option>
-                      <option value="Construction">Construction</option>
-
-                      <option value="Entertainment">Entertainment</option>
-                      <option value="Events">Events</option>
-                      
                     
-                      
-                    </select>
-                  </div>
-                  <div class="col mb-0">
-                    <label for="dobWithTitle" class="form-label">Service Cost</label>
-                    <input type="number" id="cost" class="form-control"
-
-                    value={service_cost}
-        
-                    onChange={(event) => {
-                        set_service_cost(event.target.value);
-                      }}
-                       
-                    
-                    />
-                    <input type="hidden" id="nameWithTitle" class="form-control" placeholder="Enter Name"
-        
-                    value={businessId}
-                    
-                    onChange={(event) => {
-                        setbusinessId(event.target.value);
-                      }}
-                       
-                    />
-                  </div>
-                </div>
-              </div>
-                <div class="modal-footer">
-                  
-
-
-                    {!isLoading && <button type="submit" onClick={updateService} class="btn btn-primary">Save changes</button>
-
-                } 
-                {isLoading &&
-                    <button type="submit" class="btn btn-primary" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor...</button>
-                }
+            
             
                     
+              <div class="col mb-0">
+                <label for="emailWithTitle" class="form-label">Service Type</label>
+                      <select id="formtabs-country" class="select2 form-select"
+
+                      onChange={handleServiceSelect}
+
+                       
+
+                        data-allow-clear="true">
+                        <option value="">Select</option>
+
+
+
+                        {serviceTypeList.map((value, key) => {
+                          return (
+
+                            <option value={value.id}>{value.name}</option>
+
+                          )
+                        })}
+
+
+
+
+                      </select>
+              </div>
+              <div class="col mb-0">
+                <label for="dobWithTitle" class="form-label">Service Subcategory</label>
+                <select id="formtabs-country" class="select2 form-select"
+
+                        value={subcatId}
+
+                        onChange={(event) => {
+                          setSubcatId(event.target.value);
+                        }}
+
+
+                        data-allow-clear="true">
+                        <option value="">Select</option>
+
+
+
+                        {subcategoryList.map((value, key) => {
+                          return (
+
+                            <option value={value.id}>{value.name}</option>
+
+                          )
+                        })}
+
+
+
+
+                      </select>
+                <input type="hidden" id="nameWithTitle" class="form-control" placeholder="Enter Name"
+    
+                value={businessId}
+                
+                onChange={(event) => {
+                    setbusinessId(event.target.value);
+                  }}
+                   
+                />
+              </div>
+            </div>
+
+
+            <div class="row">
+            <div class="col mb-3">
+              <label for="nameWithTitle" class="form-label">Service Cost</label>
+              <input type="number" id="cost" class="form-control"
+
+              value={service_cost}
+              
+              onChange={(event) => {
+                set_service_cost(event.target.value);
+              }}
+                 
+              />
+            </div>
+          </div>
+
+
+          <div class="row">
+          <div class="col mb-3">
+
+          <div class="form-group">
+          <label class="form-label mt-0">Service icon</label>
+          <input class="form-control" type="file"
+          name="image"
+  
+          id={idx} onChange={handleChangeServiceIcon}
+         
+      /> 
+      
+      <input type="hidden" value={businessId}  onChange={(event) => {
+          setbusinessId(event.target.value);
+        }} placeholder="bussId"/>
+          </div>
+
+
+          {
+            isUploding ? (
+                <div className="flex-grow-1 px-2">
+                    <div className="text-center">{uploadProgress}%</div>
+                    <Progress value={uploadProgress} />
+                </div>
+            ) : null
+        }
+        {
+            uploadedImg && !isUploding ? (
+                <img
+                    src={uploadedImg}
+                    alt="UploadedImage"
+                    className="img-thumbnail img-fluid uploaded-img ml-3"
+                />
+            ) : null
+        }
+  
+           
+            
+          </div>
+        </div>
+
+
+
+              </div>
+                <div class="modal-footer">
+
+
+                
+                {!isLoading && <button type="submit" onClick={updateServiceNew} class="btn btn-primary">Save changes</button>
+
+              } 
+              {isLoading &&
+                <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>Wait...saving</button>
+              }
+          
+                  
+
+
+                  
                     
                     <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -3420,7 +3718,7 @@ const closeDemoVideo = () =>{
 
 
             <div class="form-group">
-            <label class="form-label mt-0">Upload Product Photo</label>
+            <label class="form-label mt-0">Upload Photo</label>
             <input class="form-control" type="file"
             name="image"
             onChange={handleFileInputChange}
@@ -3444,9 +3742,7 @@ const closeDemoVideo = () =>{
         
 
 
-
-
-              
+   
               </div>
             }
             </div>

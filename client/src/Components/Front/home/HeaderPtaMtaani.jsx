@@ -106,6 +106,12 @@ function HeaderPtaMtaani() {
     const [servicesList, setServicesList] = useState([]);
 
 
+  const [online, setOnline] = useState(true);
+  const [isOnline, setIsOnline] = useState(true);
+
+  const [showOfflineAlert, setshowOfflineAlert] = useState(false);
+
+
 
 
     const [show, setShow] = useState(false);
@@ -388,13 +394,19 @@ function HeaderPtaMtaani() {
         console.log('ON PAGE LOAD EFFECT YOUR LOCATION DATA IS: Lat: ',lat,' :Lng:',lng)
 
 
-     
+        const interval = setInterval(() => {
+            fetch('https://www.google.com/', {
+              mode: 'no-cors',
+            })
+              .then(() => !isOnline && setIsOnline(true))
+              .catch(() => isOnline && setIsOnline(false));
+          }, 500);
+      
+          return () => clearInterval(interval);
 
-             
-       
-  
- 
-  },[userPos,position,latitude,longitude]);
+
+
+  },[userPos,position,latitude,longitude,isOnline]);
 
 
 
@@ -444,12 +456,28 @@ function HeaderPtaMtaani() {
 
 
        const searchManually = () =>{
+
+       
+
+        if(isOnline==true){
+
+            setShowErrorModal(false)
+
+            // setShowManualSearchModal(true)
+            history('/manual-search')
+
+        }
+
+        else{
+
+          toast.warn('You are offline!! Please connect to the internet')
+
+            return
+
+        }
+       
       
-         setShowErrorModal(false)
-
-        // setShowManualSearchModal(true)
-
-        history('/manual-search')
+        
          
         
          
@@ -467,6 +495,14 @@ function HeaderPtaMtaani() {
 
     console.log("MAP CENTRE VALUES IS"+lat)
 
+
+    if(isOnline==false){
+        setshowOfflineAlert(true)
+        return
+    }
+
+
+   
    
     // if(!latitude  || !longitude){
 
@@ -778,7 +814,8 @@ const searchItem1 = () => {
 {/* <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal" id="home">*/}
 <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden" id="home" style={{ width: '100%',
     height: 'auto',
-    background: 'url("assets/images/brand/help_centre.jpg") top center',
+   
+    background: 'url("assets/images/brand/bg_img.jpg") top center',
     backgroundSize: 'cover'
    }}>
     <div class="container px-sm-0">
@@ -793,18 +830,33 @@ const searchItem1 = () => {
        }}>
         <div class="row mb-5 justify-content-center text-center">
             <div class="col">
-                <h1 class="fw-semibold text-white mb-0">Sell, Buy,Order and do bizz  mtaani!</h1>
+                <h1 class="fw-semibold text-black mb-0">Sell, Buy,Order and do bizz  mtaani!</h1>
                
-                <p style={{color:'white'}}>All your needs are catered by PataMtaani</p>
+                <p style={{color:'grey'}}>All your needs are catered by PataMtaani</p>
+
+                
+    {showOfflineAlert && <div class="card-body text-center">
+
+    
+    <span class=""><svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 24 24">
+    <path fill="#f07f8f" d="M20.05713,22H3.94287A3.02288,3.02288,0,0,1,1.3252,17.46631L9.38232,3.51123a3.02272,3.02272,0,0,1,5.23536,0L22.6748,17.46631A3.02288,3.02288,0,0,1,20.05713,22Z"></path><circle cx="12" cy="17" r="1" fill="#e62a45"></circle><path fill="#e62a45" d="M12,14a1,1,0,0,1-1-1V9a1,1,0,0,1,2,0v4A1,1,0,0,1,12,14Z"></path></svg></span>
+
+  <div class="alert alert-danger" role="alert">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-hidden="true">×</button>
+  <i class="fa fa-frown-o me-2" aria-hidden="true"></i>Oh!You are offline.You need internet connection.
+</div>
+   
+  </div>}
+
             </div>
         </div>
 
 
-        <div class="row mb-5 text-white justify-content-center">
+        <div class="row mb-5 text-black justify-content-center">
 
 
         <div class="row p-0 m-0">
-        <div class="form-label mt-4 p-xl-0">What do you need?</div>
+        <div class="form-label mt-4 p-xl-0 mb-0 fw-semibold fs-16">What do you need?</div>
 
 
         
@@ -893,12 +945,15 @@ const searchItem1 = () => {
     <Modal.Body class="modal-body text-center p-4 pb-5">
 
 
+    
+
+
 
     <div class="card-body text-center">
     <span class=""><svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 24 24"><path fill="#fad383" d="M15.728,22H8.272a1.00014,1.00014,0,0,1-.707-.293l-5.272-5.272A1.00014,1.00014,0,0,1,2,15.728V8.272a1.00014,1.00014,0,0,1,.293-.707l5.272-5.272A1.00014,1.00014,0,0,1,8.272,2H15.728a1.00014,1.00014,0,0,1,.707.293l5.272,5.272A1.00014,1.00014,0,0,1,22,8.272V15.728a1.00014,1.00014,0,0,1-.293.707l-5.272,5.272A1.00014,1.00014,0,0,1,15.728,22Z"></path><circle cx="12" cy="16" r="1" fill="#f7b731"></circle><path fill="#f7b731" d="M12,13a1,1,0,0,1-1-1V8a1,1,0,0,1,2,0v4A1,1,0,0,1,12,13Z"></path></svg></span>
     <h4 class="h4 mb-0 mt-3">Can't access your location! Allow location access please</h4>
    
-</div>
+  </div>
 
 
 

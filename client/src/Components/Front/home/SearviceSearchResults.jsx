@@ -217,7 +217,7 @@ function SearviceSearchResults() {
       
 
         
-    }, 5000);
+    }, 4000);
 
 
       }
@@ -269,6 +269,10 @@ function SearviceSearchResults() {
 
       let ordered_item=localStorage.getItem('ordered_item')
       ordered_item=JSON.parse(ordered_item)
+
+
+      let subcategory_name=localStorage.getItem('subcategory_name')
+      subcategory_name=JSON.parse(subcategory_name)
 
 
       
@@ -346,6 +350,7 @@ function SearviceSearchResults() {
 
 
         // loadGlobalSellers(catId)
+
 
 
         
@@ -1233,7 +1238,7 @@ const backHome=()=>{
                      
                       <div class="mb-5">
                           <div class="float-end">
-                              <ul class="pagination ">
+                              <ul class="pagination">
                                   <li class="page-item page-prev disabled">
                                       <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
                                   </li>
@@ -1248,7 +1253,9 @@ const backHome=()=>{
                               </ul>
                           </div>
                       </div>
-                  </div>
+
+                      </div>
+                  
               </div>
 
 
@@ -1780,6 +1787,7 @@ const backHome=()=>{
     </div>
     
 </div>
+
 {/* <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden reveal" id="home">*/}
 <div class="demo-screen-headline main-demo main-demo-1 spacing-top overflow-hidden" id="home" style={{ width: '100%',
     height: 'auto',
@@ -1892,7 +1900,7 @@ const backHome=()=>{
         <div class="col-md-12  col-xl-12">
         <div class="card border">
             <div class="card-header">
-                <h3 class="card-title card-alert alert alert-danger mb-0 ">Product not found</h3>
+                <h3 class="card-title card-alert alert alert-danger mb-0 ">Service not found</h3>
                 <div class="card-options">
                     <a href="javascript:void(0)" class="card-options-collapse" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
                     <a href="javascript:void(0)" class="card-options-remove" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a>
@@ -1900,7 +1908,7 @@ const backHome=()=>{
             </div>
             
             <div class="card-body">
-                Sorry no vendor selling  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{catId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
+                Sorry,currently we don't have a Provider for  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{subcategory_name}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
                  in your area.However, your search has been captured and our team will enroll vendors on your area within 72 hours.
                  <br/>
                
