@@ -30,6 +30,12 @@ function SearchBar({ placeholder, lat,lng, data }) {
 
     const [description, set_description] = useState("");
 
+
+    
+
+    const [catId, setCatId] = useState("");
+
+
     const [subcategory_name, setsubcategory_name] = useState("");
 
 
@@ -120,7 +126,9 @@ function SearchBar({ placeholder, lat,lng, data }) {
 
     //loadServiceProviders(wordEntered)
 
-    loadServiceProvidersGeoLoc(wordEntered)
+   // loadServiceProvidersGeoLoc(wordEntered)
+
+    loadServiceSubCat(serviceId)
 
     setShow(true);
 
@@ -143,14 +151,14 @@ function SearchBar({ placeholder, lat,lng, data }) {
 
 } 
 
-const loadServiceProviders = (service_type)  => {
+const loadServiceSubCat = (sId)  => {
 
-  API.get(`service/search_gategory/${service_type}`).then((response) => {
+  API.get(`servicetype/getbyId/${sId}`).then((response) => {
 
 
-
+    setSubcategoryList(response.data.ServiceTypeSubcategories)
      
-      setServicesList(response.data);
+      //setServicesList(response.data);
 
 
 
@@ -251,7 +259,7 @@ const handleCustomerSelect= async (event) => {
     // console.log("THE SERVICE NAME IS "+response.data.service_name)
    
 
-     setSubcategoryList(response.data.ServiceTypeSubcategories)
+     //setSubcategoryList(response.data.ServiceTypeSubcategories)
 
      
 
@@ -272,7 +280,7 @@ const handleCustomerSelect= async (event) => {
  }
 
 
- const handleSubCalegorySelect= async (event) => {
+ const handleSubCategorySelect= async (event) => {
 
   const selectedOption=event.target.value
 
@@ -283,7 +291,9 @@ const handleCustomerSelect= async (event) => {
 
   setsubcategory_name(customer.name)
 
-  setsubcategoryId(customer.id)
+  //setsubcategoryId(customer.id)
+
+  setCatId(customer.id)
 
   setsubcategory_name(wordEntered)
   
@@ -293,13 +303,11 @@ const handleCustomerSelect= async (event) => {
 
 
 
- const searchProviders= (subcategory_name) => {
-
- 
+ const searchProviders= () => {
 
 
  
-  history('/searchresults/'+subcategory_name+'/'+lat+'/'+lng);
+  history('/searchresults/'+catId+'/'+lat+'/'+lng);
   
   
 
@@ -426,16 +434,26 @@ const handleCustomerSelect= async (event) => {
           <div>{lat} :: {lng}</div>
 
 
+               <div class="row">
+                      <div class="col mb-3">
+                        <label for="nameWithTitle" class="form-label">Service Name</label>
+                        <input type="text" id="service_name" class="form-control" placeholder="eg.laundry/cleaning services"
+
+                        value={wordEntered}
+                        
+                        onChange={(event) => {
+                            setWordEntered(event.target.value);
+                          }}
+                           
+                        />
+                      </div>
+                    </div>
+
+
+
+                    {/**
           <select id="buss_email" class="form-control form-select"
-
-
           onChange={handleCustomerSelect}
-
-      
-      
-         //  onChange={(event) => {
-         //      setreceiver_email(event.target.value);
-         //    }}
 
           
           data-allow-clear="true">
@@ -450,6 +468,8 @@ const handleCustomerSelect= async (event) => {
             
             
           </select>
+ */}
+
 
 
 
@@ -457,7 +477,7 @@ const handleCustomerSelect= async (event) => {
           <select id="buss_email" class="form-control form-select"
 
 
-          onChange={handleSubCalegorySelect}
+          onChange={handleSubCategorySelect}
 
       
       
@@ -485,7 +505,7 @@ const handleCustomerSelect= async (event) => {
 
           <div class="text-center">
           <a class="btn btn-secondary mt-5 mb-5" onClick={() => {
-            searchProviders(wordEntered)
+            searchProviders(subcategoryId)
            
           }}> <i class="fa fa-long-arrow-right"></i>Get Providers</a>
       </div>

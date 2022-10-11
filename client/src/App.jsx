@@ -45,6 +45,7 @@ import API from './services';
 import ForgotPassword from './Components/Front/home/ForgotPassword';
 import ServiceTypes from './Components/Dashboards/admin/ServiceTypes';
 import SearviceSearchResults from './Components/Front/home/SearviceSearchResults';
+import Bookings from './Components/Dashboards/seller/Bookings';
 
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 //const Products = lazy(() => import('./Products'));
@@ -150,6 +151,8 @@ function App() {
 
         <Route exact path="/products" element={ <Products/>}/>
 
+        <Route  path="/bookings" element={ <Bookings/>}/>
+
         <Route path="/products/:id" element={ <ProductDetails/>}/>
 
 
@@ -239,7 +242,7 @@ function App() {
         <Route  path="/ordered-product/:pname/:lat/:lng"  element={ <OrderedProduct/>} />
 
 
-        <Route  path="/searchresults/:subcategory_name/:lat/:lng"  element={ <SearviceSearchResults/>} />
+        <Route  path="/searchresults/:catId/:lat/:lng"  element={ <SearviceSearchResults/>} />
 
         {/** <Route path="/ordered-product/:pname" element={ <OrderedProduct/>} />*/}
 

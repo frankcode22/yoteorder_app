@@ -39,6 +39,8 @@ function CustomerDashboard() {
   
     const [ordersList, setOrdersList] = useState([]);
 
+    const [bookingList, setBookingList] = useState([]);
+
     const [item_name, setitem_name] = useState('');
 
     const [orderId, setorderId] = useState('');
@@ -61,6 +63,12 @@ function CustomerDashboard() {
     const [amount, setAmount] = useState("");
 
     const [randomNo, setRandomNo] = useState(0);
+
+    const [showOrderConfirmed, setShowOrderConfirmed] = useState(false);
+
+    const [customer_contacts, setcustomer_contacts] = useState('');
+
+    const [confirmationMessage, setConfirmationMessage] = useState("");
 
 
     const [accessToken, setAccessToken] = useState("");
@@ -162,15 +170,15 @@ function CustomerDashboard() {
 
 
 
-        {/** API.get("order/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+       API.get("bookings/myorders",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
             
           if(response.data!=null){
-            setOrdersList(response.data);
-            console.log("THE PRODUCT NAME IS "+response.data)
+            setBookingList(response.data);
+            //console.log("THE PRODUCT NAME IS "+response.data)
 
           }
           else{
-            setOrdersList([]);
+            setBookingList([]);
 
             console.log("Pleas login ")
 
@@ -192,7 +200,7 @@ function CustomerDashboard() {
                 setErrorMessage("Unable to fetch your Orders list.Kindly check your internet connection!!");
                 setIsDivLoading(false);
              });
- */}
+ 
 
          
 
@@ -361,7 +369,36 @@ function CustomerDashboard() {
 
         
     }
+    const confirmOrder=(oId)=>{
 
+        setLoading(true);
+
+        const order_details={
+            order_status:'confirmed',
+            confirmationMessage:confirmationMessage,
+          
+          }
+
+      
+
+
+        API.put('order/updatestatus/'+oId,order_details).then((res_b)=>{
+    
+           // console.log("THE ACTUAL ID IS "+actualId)
+            
+            setorderId(res_b.data.id)
+            
+           
+            setTimeout(() => {
+                setLoading(false);
+                setShowOrderConfirmed(true)
+                setShow(false)
+                //handleShow()
+               // toast.warning("Cancel Cancelled")
+            }, 1000);
+            
+            })
+    }
 
     const completeOrder=(oId)=>{
 
@@ -521,6 +558,333 @@ function CustomerDashboard() {
 
         
     }
+
+    const loadServicesBookedContent=(
+
+
+        <div class="row">
+        {bookingList.map((value, key) => {
+          return (
+            <div class="col-xl-12 col-lg-12 col-md-12">
+                <div class="card overflow-hidden border p-0 shadow-none">
+                    <div class="card-body">
+                        <div class="row g-0">
+                            <div class="col-xl-3 col-lg-12 col-md-12">
+                                <div class="product-list">
+                                    <div class="product-image">
+                                        <ul class="icons">
+                                            <li><a href="#" class="btn btn-primary"><i class="fe fe-eye text-white "></i></a></li>
+                                            <li><a href="#" class="btn btn-success"><i class="fe fe-edit text-white "></i></a></li>
+                                            <li><a href="#" class="btn btn-danger"><i class="fe fe-x text-white"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="br-be-0 br-te-0">
+                                        <a href="#" class="">
+                                            <img src="assets/images/pngs/9.jpg" alt="img" class="cover-image br-7 w-100"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-12 col-md-12 border-end my-auto">
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <a href="#" class="">
+                                            <h3 class="fw-bold fs-30 mb-3">{value.item_name}</h3>
+                                            <div class="mb-2 text-warning">
+                                                <i class="fa fa-star fs-18 text-warning"></i>
+                                                <i class="fa fa-star fs-18 text-warning"></i>
+                                                <i class="fa fa-star fs-18 text-warning"></i>
+                                                <i class="fa fa-star-half-o fs-18 text-warning"></i>
+                                                <i class="fa fa-star-o fs-18 text-warning"></i>
+                                            </div>
+                                        </a>
+                                        <div class="d-flex align-items-center mb-3 mt-3">
+                                        <span class="tag tag-radius tag-round tag-primary">Price {value.Service.service_cost}</span>
+
+
+                                
+
+                                        <span class="tag tag-radius tag-round tag-orange">Items Ordered {value.quantity_ordered}</span>
+
+
+                                      
+                                    <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-calendar"></i>Order Id:{value.orderId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3 mt-3">
+                                        <div class="me-4 text-center text-primary">
+                                            <span><i class="fe fe-mail fs-20"></i></span>
+                                        </div>
+                                        <div>
+                                            <strong>Customer Email:<a  href="#" class="mb-3">{value.User.email}</a></strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center mb-3 mt-3">
+                                        <div class="me-4 text-center text-primary">
+
+                                            <span><i class="fe fe-phone fs-20"></i></span>
+                                        </div>
+                                        <div>
+                                            <strong>Provide Phone No:<a  href="#" class="mb-3">{value.Business.phone_no}</a> </strong>
+                                        </div>
+                                    </div>
+
+                                    <div><i class="task-icon bg-primary"></i><h6 class="fw-semibold">The order is  <a href="javascript:void(0)" class="fw-semibold tag-green">{value.order_status}</a> .Made on <span class="text-muted fs-11 mx-2 fw-normal">{value.createdAt}</span></h6><p class="text-muted fs-12"> By <a href="javascript:void(0)" class="fw-semibold">{value.User.name}</a></p></div>
+
+                                        
+
+                                        <div class="border br-7">
+
+                                        <p class="fs-16">{value.order_description} </p>
+
+
+                                        </div>
+
+
+                                        
+                                    
+                                        
+                                        <form class="shop__filter">
+                                            <div class="row gutters-xs">
+                                                <div class="col-auto">
+                                                    <label class="colorinput">
+                                                        <input type="checkbox" name="color" value="azure" class="colorinput-input" checked/>
+                                                        <span class="colorinput-color bg-azure"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <label class="colorinput">
+                                                        <input type="checkbox" name="color" value="indigo" class="colorinput-input"/>
+                                                        <span class="colorinput-color bg-indigo"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <label class="colorinput">
+                                                        <input type="checkbox" name="color" value="purple" class="colorinput-input"/>
+                                                        <span class="colorinput-color bg-purple"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-12 col-md-12 my-auto">
+                                <div class="card-body p-0">
+                                    <div class="price h3 text-center mb-5 fw-bold">Total:Ksh {value.Service.service_cost} </div>
+
+                                 
+                                    <button type="submit"  onClick={() => {
+                                        openSelectedOrder(value.id,value.orderId,value.User.phone_no);
+                                          }} class="btn btn-primary btn-block" data-bs-toggle="modal" href="#modaldemo80"><i class="fe fe-check"></i>Confirm Order</button>
+                                 
+                                 
+                                 
+                                    {!isLoading && <button type="submit" onClick={() => {
+                                        completeOrder(value.id);
+                                          }} class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Complete Order</button>
+          
+                                } 
+                                {isLoading &&
+                                    <button type="submit" class="btn btn-primary btn-block" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Completing Order...</button>
+                                }
+
+
+
+                                {!isLoading && <button type="submit" onClick={() => {
+                                    cancelOrder(value.id);
+                                      }} class="btn btn-danger btn-block mt-2"><i class="fe fe-x text-white"></i>Cancel Order</button>
+      
+                            } 
+                            {isLoading &&
+                                <button type="submit" class="btn btn-danger btn-block mt-2" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Processing...</button>
+                            }
+                                   
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+)})}
+
+
+
+
+               
+<div class="modal fade" id="modaldemo80">
+<div class="modal-dialog modal-dialog-centered text-center" role="document">
+    <div class="modal-content modal-content-demo">
+        <div class="modal-header">
+            <h6 class="modal-title">Confirm Order Now</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+
+      
+
+        {showOrderConfirmed &&
+
+            <div>
+
+            <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+            <h4 class="text-success mb-4">Order Confirmed Successfully!</h4>
+
+            </div>
+
+
+        }
+       
+        <h6>{orderId}</h6>
+
+        {!showOrderConfirmed &&
+
+            <div class="form-row">
+
+
+
+            <div class="form-group col-md-12 mb-0">
+            <label class="form-label">Order ID</label>
+               
+    
+            <input type="text" class="form-control" id="order_id"
+            
+            onChange={(event) => {
+                setorderId(event.target.value);
+              }} 
+            
+            value={orderId} disabled/>
+            </div>
+    
+    
+    
+            <div class="form-group col-md-12 mb-0">
+    
+          
+                <div class="form-group">
+                <label class="form-label">Customer Contact</label>
+                    <input type="text" class="form-control" id="customer_contacts" value={customer_contacts}
+                    
+                    onChange={(event) => {
+                        setcustomer_contacts(event.target.value);
+                      }} 
+                    
+                    placeholder="customer_contacts" disabled/>
+                </div>
+            </div>
+         
+    
+            
+           
+            <div class="form-group col-md-12 mb-0">
+            <label class="form-label">Any Message to Customer</label>
+               
+            
+    
+                <textarea class="form-control"  onChange={(event) => {
+                    setConfirmationMessage(event.target.value);
+                    
+                  }}  placeholder="Enter any message to customer" id="floatingTextarea2" style={{height: '100px'}}></textarea>
+            </div>
+           
+        </div>
+
+
+        }
+       
+      
+
+    <div class="form-footer mt-2">
+   
+</div>
+        
+        </div>
+        <div class="modal-footer">
+
+        {!isLoading &&  <button  onClick={() => {
+
+            confirmOrder(actualId);
+   
+        }} class="btn btn-primary"><i class="fe fe-check"></i>Confirm Now</button>
+
+        
+
+    } 
+    {isLoading &&
+
+        <button class="btn btn-primary my-1" type="button" disabled="">
+                                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                                Confirming order...
+                                            </button>
+       
+    }
+           
+            
+            
+            <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+<ToastContainer></ToastContainer>
+
+            <Modal class="modal fade" id="modaldemo8" show={show}>
+
+<Modal.Header>
+<Modal.Title>Completing Order</Modal.Title>
+</Modal.Header>
+<Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+
+<i class="icon icon-check fs-70 text-success lh-1 my-5 d-inline-block"></i>
+<h4 class="text-success tx-semibold">Order Completed!</h4>
+
+
+
+
+
+</Modal.Body>
+<Modal.Footer>
+
+{/* <Button variant="secondary" onClick={handleClose}>
+Close
+</Button>
+<Button variant="primary" onClick={handleClose}>
+Save Changes
+</Button> */}
+
+</Modal.Footer>
+</Modal>
+            
+          
+           
+            <div class="mb-5">
+                <div class="float-end">
+                    <ul class="pagination ">
+                        <li class="page-item page-prev disabled">
+                            <a class="page-link" href="javascript:void(0)" tabindex="-1">Prev</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                        <li class="page-item"><a class="page-link" href="javascript:void(0)">5</a></li>
+                        <li class="page-item page-next">
+                            <a class="page-link" href="javascript:void(0)">Next</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+    )
 
 
     const loadCutomerOrderContent=(
@@ -813,6 +1177,294 @@ function CustomerDashboard() {
 
 
 
+{/**Booking data starts here */}
+
+                    
+                    <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Logged In As  <span class="tag tag-rounded tag-icon tag-green"><i class="fe fe-user"></i>{authState.first_name}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-green"><i class="fe fe-x text-white m-1"></i></a></span></h3>
+                            </div>
+
+
+
+                            {isDivLoading ? <ContentLoader/>: loadServicesBookedContent}
+
+                            {errorMessage && 
+
+
+
+
+                                <div class="col-sm-12 border">
+                                <h3 class="card-title">{errorMessage}</h3>
+                            
+                                
+                                
+                                
+                           </div>}
+
+
+
+
+                           
+                        </div>
+                    </div>
+                  
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                        <div class="card overflow-hidden">
+                            <div class="card-body pb-0 bg-recentorder">
+                                <h3 class="card-title text-white">Recent Orders</h3>
+                                <div class="chartjs-wrapper-demo">
+                                    <canvas id="recentorders" class="chart-dropshadow"></canvas>
+                                </div>
+                            </div>
+                            <div id="flotback-chart" class="flot-background"></div>
+                            <div class="card-body">
+                                <div class="d-flex mb-4 mt-3">
+                                    <div
+                                        class="avatar avatar-md bg-secondary-transparent text-secondary bradius me-3">
+                                        <i class="fe fe-check"></i>
+                                    </div>
+                                    <div class="">
+                                        <h6 class="mb-1 fw-semibold">Delivered Orders</h6>
+                                        <p class="fw-normal fs-12"> <span class="text-success">3.5%</span>
+                                            increased </p>
+                                    </div>
+                                    <div class=" ms-auto my-auto">
+                                        <p class="fw-bold fs-20"> 1,768 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="avatar  avatar-md bg-pink-transparent text-pink bradius me-3">
+                                        <i class="fe fe-x"></i>
+                                    </div>
+                                    <div class="">
+                                        <h6 class="mb-1 fw-semibold">Cancelled Orders</h6>
+                                        <p class="fw-normal fs-12"> <span class="text-success">1.2%</span>
+                                            increased </p>
+                                    </div>
+                                    <div class=" ms-auto my-auto">
+                                        <p class="fw-bold fs-20 mb-0"> 3,675 </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    
+                    <div class="modal fade" id="modaldemo90">
+                    <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                        <div class="modal-content modal-content-demo">
+                            <div class="modal-header">
+                                <h6 class="modal-title">Pay Your Order</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                            <img class="img-fluid" src="assets/images/brand/mpesa.png" alt="img"/>
+                            <h6>{orderId}</h6>
+                           
+                            <div class="form-row">
+            
+            
+            
+                            <div class="form-group col-md-12 mb-0">
+                            <label class="form-label">Your Phone No</label>
+                               
+                    
+                            <input type="text" class="form-control" id="customerPhoneNo"
+            
+                            value={customerPhoneNo}
+                            
+                            onChange={(event) => {
+                                setCustomerPhoneNo(event.target.value);
+                              }} 
+                            
+                            />
+                            </div>
+            
+            
+            
+                          
+                            <div class="form-group col-md-12 mb-0">
+                                <div class="form-group">
+                                <label class="form-label">Seller Till No</label>
+                                    <input type="text" class="form-control" id="till_no" value={sellerTillNo}
+                                    
+                                    onChange={(event) => {
+                                        setsellerTillNo(event.target.value);
+                                      }} 
+
+                                      disabled
+                                    
+                                   />
+                                </div>
+                            </div>
+            
+            
+                            <div class="form-group col-md-12 mb-0">
+                            <div class="form-group">
+                            <label class="form-label">Amount</label>
+
+                            <span class="tag tag-radius tag-round tag-primary">Ksh.{amount}</span>
+                               
+                            </div>
+                        </div>
+                    
+                            
+                           
+                          
+                           
+                        </div>
+                    
+                        <div class="form-footer mt-2">
+                       
+                    </div>
+                            
+                            </div>
+                            <div class="modal-footer">
+            
+                            {!isLoading &&  <button  onClick={() => {
+            
+                                payOrderTest();
+                       
+                            }} class="btn btn-primary">Pay Now</button>
+            
+            
+                          
+            
+                        } 
+                        {isLoading &&
+                            <button type="submit" class="btn btn-primary" disabled> <i class="spinner-border text-success me-2"></i>Initiating Payment....</button>
+                        }
+                               
+                                
+                                
+                                <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                    
+        <div class="modal fade" id="modaldemo8">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Message Preview</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                <h6>{orderId}</h6>
+               
+                <div class="form-row">
+
+
+
+                <div class="form-group col-md-12 mb-0">
+                <label class="form-label">Order ID</label>
+                   
+        
+                <input type="text" class="form-control" id="order_id"
+                
+                onChange={(event) => {
+                    setorderId(event.target.value);
+                  }} 
+                
+                value={orderId} disabled/>
+
+                </div>
+
+
+
+                <div class="form-group col-md-6 mb-0">
+        
+               {/* <p>Product Id {productId} Seller Id {businessId}  </p>*/} 
+                    <div class="form-group">
+                    <label class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="item_name" value={item_name}
+                        
+                        onChange={(event) => {
+                            setitem_name(event.target.value);
+                          }} 
+                        
+                        placeholder="Item name"/>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    <div class="form-group">
+                    <label class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="name2" value={quantity_ordered}
+                        
+                        onChange={(event) => {
+                            setquantity_ordered(event.target.value);
+                          }} 
+                        
+                        placeholder="Quantity"/>
+                    </div>
+                </div>
+        
+                
+               
+                <div class="form-group col-md-12 mb-0">
+                <label class="form-label">Additional Infor</label>
+                   
+        
+                    <textarea class="form-control" value={order_description}  onChange={(event) => {
+                        setorder_description(event.target.value);
+                      }}  placeholder="Comments" id="floatingTextarea2" style={{height: '100px'}}></textarea>
+                </div>
+               
+            </div>
+        
+            <div class="form-footer mt-2">
+           
+        </div>
+                
+                </div>
+                <div class="modal-footer">
+
+                {!isLoading &&  <button  onClick={() => {
+
+                    editOrder()
+           
+                }} class="btn btn-primary">Save changes</button>
+
+            } 
+            {isLoading &&
+                <button type="submit" class="btn btn-primary" disabled> <i class="fas fa-sync fa-spin"></i>Saving Changes....</button>
+            }
+                   
+                    
+                    
+                    <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                  
+ 
+
+
+<ToastContainer/>
+
+
+
+
+
+
+
+                   
+                </div>
+
+
+
                     <div class="row">
                     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
                         <div class="card">
@@ -1095,6 +1747,10 @@ function CustomerDashboard() {
 
                    
                 </div>
+
+
+
+                
                     
                   
                     

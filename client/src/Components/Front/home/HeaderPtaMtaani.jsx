@@ -394,7 +394,7 @@ function HeaderPtaMtaani() {
        
   
  
-  },[]);
+  },[userPos,position,latitude,longitude]);
 
 
 
@@ -861,7 +861,7 @@ const searchItem1 = () => {
 
 
 
-    <SearchBar placeholder="Enter a Service Name..." lat={latitude} lng={longitude} data={contacts} />
+    <SearchBar placeholder="Enter a Service Name..." lat={lat} lng={lng} data={contacts} />
           
 
 

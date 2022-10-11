@@ -122,6 +122,10 @@ function AccountSetting(props) {
 
     const [servicesList, setServicesList] = useState([]);
 
+    const [serviceTypeList, setServiceTypeList] = useState([]);
+
+    const [subcategoryList, setSubcategoryList] = useState([]);
+
     const [staffList, setStaffList] = useState([]);
 
 
@@ -132,6 +136,10 @@ function AccountSetting(props) {
 
     const [service_name, set_service_name] = useState("");
     const [service_type, set_service_type] = useState("");
+
+    const [subcatId, setSubcatId] = useState("");
+
+    
     const [service_cost, set_service_cost] = useState("");
 
     const [description, set_description] = useState("");
@@ -408,6 +416,23 @@ function AccountSetting(props) {
           API.get("customer/mycustomers").then((response) => {
           setCustomersList(response.data);
           })
+
+
+
+          API.get("servicetype/alltypes").then((response) => {
+       
+
+            if(response.data){
+       
+               setServiceTypeList(response.data)
+       
+            }
+            else{
+              setServiceTypeList([])
+       
+            }
+             
+              })
     
 
        
@@ -719,6 +744,7 @@ const service_data={
     state:state,
     country:country,
     cloudinary_url:cloudinary_url,
+    subcatId:subcatId,
     
       
   }
@@ -948,6 +974,42 @@ const openSelectedService=(sId)=>{
         })
 
 }
+
+
+
+const handleServiceSelect= async (event) => {
+
+  const selectedOption=event.target.value
+
+
+  const customer = serviceTypeList.find(post => (post.id).toString() === selectedOption);
+
+  // setUserId(JSON.stringify(customer))
+
+  set_service_type(customer.name)
+  //set_description(customer.description)
+
+ 
+
+
+
+
+  API.get('servicetype/getbyId/'+customer.id).then((response) => {
+  
+    // console.log("THE SERVICE NAME IS "+response.data.service_name)
+   
+
+    setSubcategoryList(response.data.ServiceTypeSubcategories)
+
+     
+
+         })
+
+
+  //console.log("THE SELECT OPTION IS "+JSON.stringify(customer))
+
+
+ }
 
 
 const openSelectedStaff=(sId)=>{
@@ -1647,11 +1709,9 @@ const closeDemoVideo = () =>{
 
   {navigator.onLine? 'You are online':'Offline'}
 
+{/**UNCOMMENT FROM HERE */}
 
-  
-
-
-  {position &&      <PlacesAutocomplete
+  {/**  {position &&      <PlacesAutocomplete
     value={address}
     onChange={handleAddressChange}
     onSelect={handleSelect}
@@ -1692,11 +1752,12 @@ const closeDemoVideo = () =>{
         </div>
       </div>
     )}
-  </PlacesAutocomplete>}
+  </PlacesAutocomplete>}*/}
 
 
+  
 
-  {!position &&   
+{/**  {!position &&   
     <PlacesAutocomplete
       value={address}
       onChange={handleAddressChange}
@@ -1738,7 +1799,12 @@ const closeDemoVideo = () =>{
           </div>
         </div>
       )}
-    </PlacesAutocomplete>}
+    </PlacesAutocomplete>} */}
+ 
+
+
+
+
 
 
     {/** {!userPos.lat==null &&      <PlacesAutocomplete
@@ -3081,56 +3147,63 @@ const closeDemoVideo = () =>{
                     </div>
                   </div>
                     <div class="row g-2">
+
+                    
             
             
                     
                       <div class="col mb-0">
                         <label for="emailWithTitle" class="form-label">Service Type</label>
-                        <select id="formtabs-country" class="select2 form-select"
-                      
-                        onChange={(event) => {
-                            set_service_type(event.target.value);
-                          }}
-            
-                        
-                        data-allow-clear="true">
-                          <option value="">Select</option>
-                          <option value="Repair">Repair</option>
-                          <option value="Beauty">Beauty</option>
-                          <option value="Barbershop">Barbershop</option>
-                          <option value="Health & Fitness">Health & Fitness</option>
-                          <option value="Education">Education</option>
-                          
-                          <option value="Transport">Transport</option>
-                          <option value="Automotive">Automotive</option>
-                          <option value="Garden">Garden</option>
-                          <option value="Home Care">Home Care</option>
+                              <select id="formtabs-country" class="select2 form-select"
 
-                          <option value="Laundry">Laundry</option>
-                          <option value="Cleaning">Cleaning</option>
-                          <option value="Construction">Construction</option>
+                              onChange={handleServiceSelect}
 
-                          <option value="Entertainment">Entertainment</option>
-                          <option value="Events">Events</option>
-                          <option value="Security">Security</option>
-                          <option value="Computing">Computing</option>
+                               
 
-                          <option value="Others">Others</option>
-                          
-                        
-                          
-                        </select>
+                                data-allow-clear="true">
+                                <option value="">Select</option>
+
+
+
+                                {serviceTypeList.map((value, key) => {
+                                  return (
+
+                                    <option value={value.id}>{value.name}</option>
+
+                                  )
+                                })}
+
+
+
+
+                              </select>
                       </div>
                       <div class="col mb-0">
-                        <label for="dobWithTitle" class="form-label">Service Cost</label>
-                        <input type="number" id="cost" class="form-control"
-            
-                        onChange={(event) => {
-                            set_service_cost(event.target.value);
-                          }}
-                           
-                        
-                        />
+                        <label for="dobWithTitle" class="form-label">Service Subcategory</label>
+                        <select id="formtabs-country" class="select2 form-select"
+
+                                onChange={(event) => {
+                                  setSubcatId(event.target.value);
+                                }}
+
+
+                                data-allow-clear="true">
+                                <option value="">Select</option>
+
+
+
+                                {subcategoryList.map((value, key) => {
+                                  return (
+
+                                    <option value={value.id}>{value.name}</option>
+
+                                  )
+                                })}
+
+
+
+
+                              </select>
                         <input type="hidden" id="nameWithTitle" class="form-control" placeholder="Enter Name"
             
                         value={businessId}
@@ -3138,6 +3211,19 @@ const closeDemoVideo = () =>{
                         onChange={(event) => {
                             setbusinessId(event.target.value);
                           }}
+                           
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col mb-3">
+                        <label for="nameWithTitle" class="form-label">Service Cost</label>
+                        <input type="number" id="cost" class="form-control"
+                        
+                        onChange={(event) => {
+                          set_service_cost(event.target.value);
+                        }}
                            
                         />
                       </div>

@@ -77,6 +77,34 @@ function SidebarS({notifications}) {
 
                                    
                         </li>
+
+
+                        
+                        <li class="sub-category">
+                        <h3>Booking</h3>
+                    </li>
+
+                    <li class="slide">
+
+                 
+
+
+                    <Link class="side-menu__item" data-bs-toggle="slide" to='/bookings'>
+                    <i class="side-menu__icon fe fe-calendar"></i> Bookings
+                    
+                </Link>
+               
+             
+
+
+
+
+
+                    </li>
+                   
+
+
+
                             <li class="sub-category">
                                 <h3>UI Kit</h3>
                             </li>

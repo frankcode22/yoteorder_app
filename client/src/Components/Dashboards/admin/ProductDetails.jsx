@@ -656,7 +656,33 @@ return (
                               {!showSuccessAlert &&  <div>
                         
                                 <div class="row">
+
+                                
                                 <div class="col mb-3">
+
+                                {!
+
+
+                                                
+                                                
+                                    isLoading &&
+
+                                    <button onClick={widenSearch} class="btn btn-sm btn-success ms-auto"> <i class=" fa fa-rss"></i> <span>Widen search</span></button>
+                                    
+                                   
+                                   
+
+                            } 
+                            {isLoading &&
+                            
+                            
+                            <button class="btn btn-secondary my-1" type="button" disabled="">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Widening search...
+                            </button>
+                            }
+
+
                                   <label for="nameWithTitle" class="form-label">Product Name</label>
                                   <input type="text" id="service_name" class="form-control" placeholder="Eg.Pro Gas"
 

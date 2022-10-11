@@ -47,7 +47,10 @@ function truncate(number, index = 2) {
 
 function SearviceSearchResults() {
 
-    let { subcategory_name } = useParams();
+    //let { subcategory_name } = useParams();
+
+
+    let { catId } = useParams();
 
     let { lat } = useParams();
 
@@ -112,6 +115,8 @@ function SearviceSearchResults() {
 
 
       const [cloudinary_url, setcloudinary_url] = useState("");
+
+      const[serviceId,setServiceId]=useState('')
 
 
 
@@ -244,12 +249,12 @@ function SearviceSearchResults() {
     
     
     
-      const [serviceId, setServiceId] = useState('');
+    
   
   
   
   
-      localStorage.setItem('itemsearched', JSON.stringify(subcategory_name));
+      localStorage.setItem('itemsearched', JSON.stringify(catId));
 
       const [initiateOrderProcessing,setInitiateOrderProcessing]=useState(false);
 
@@ -294,7 +299,7 @@ function SearviceSearchResults() {
 
   // API.get(`product/search/${pname}`).then((response) => {
   
-    API.get(`service/search_geoloc/${subcategory_name}/${lat}/${lng}`).then((response) => {
+    API.get(`service/searchgeoloc_catid/${catId}/${lat}/${lng}`).then((response) => {
 
       // setShowP(true);
 
@@ -306,6 +311,8 @@ function SearviceSearchResults() {
                     setProductFound(true)
                     
                      console.log(response.data.notfound)
+
+                     setProductsList({})
             
                     }
                 setProductsList(response.data);
@@ -338,7 +345,7 @@ function SearviceSearchResults() {
          });
 
 
-         loadGlobalSellers(subcategory_name)
+        // loadGlobalSellers(catId)
 
 
         
@@ -347,11 +354,10 @@ function SearviceSearchResults() {
   },[position]);
 
 
-
-
+{/**
   const loadGlobalSellers = (pname_)  => {
 
-    API.get(`service/search_geoloc/${pname_}/${lat}/${lng}`).then((response) => {
+    API.get(`service/searchgeoloc_catid/${pname_}/${lat}/${lng}`).then((response) => {
 
 
 
@@ -381,6 +387,7 @@ function SearviceSearchResults() {
 
 }
 
+ */}
 
 
 
@@ -405,11 +412,13 @@ function SearviceSearchResults() {
   }
   
   
-  const checkOutAndBook=()=>{
+  const checkOutAndBook=(bId,sId)=>{
 
     setLoading(true);
+
+    setbusinessId(bId)
+    setServiceId(sId)
   
-   
 
     setTimeout(() => {
         setLoading(false);
@@ -425,7 +434,7 @@ function SearviceSearchResults() {
 
         handleBuyerDetailsModal()
       
-    }, 3000);
+    }, 1000);
   
   }
   
@@ -554,12 +563,12 @@ function SearviceSearchResults() {
             order_description:order_description,
             order_status:'pending',
             orderId:randomNo,
-            ProductId:productId,
+            ServiceId:serviceId,
             UserId:rense.data.id,
             CustomerId:res.data.id,
             BusinessId:businessId,
           }
-    API.post('order',order_details).then((res_b)=>{
+    API.post('bookings',order_details).then((res_b)=>{
     
     // console.log("The response is"+res_b.data)
     
@@ -1014,7 +1023,7 @@ const backHome=()=>{
     <div class="card-body bg-primary-transparent card-transparent">
     <div class="">
 
-    {showSearchInforContent &&
+    {showSearchInforContent && !productFound &&
 
         <div class="row">
             
@@ -1060,31 +1069,35 @@ const backHome=()=>{
                                             </div>
                                         </a>
                                         <p class="fs-16">{value.description} </p>
+
+                                        <div class="d-flex align-items-center mb-3 mt-3">
+                                        <div class="me-4 text-center text-primary">
+                                        <span class="colorinput-color bg-azure"></span>
+                                        </div>
+                                        <div>
+                                            <strong>{value.Business.business_name} </strong>
+                                        </div>
+                                       </div>
+
+                                        <div class="d-flex align-items-center mb-3 mt-3">
+                                        <div class="me-4 text-center text-primary">
+                                            <span><i class="fe fe-phone fs-20"></i></span>
+                                        </div>
+                                        <div>
+                                            <strong>{value.Business.contacts} </strong>
+                                        </div>
+                                       </div>
+                                    <div class="d-flex align-items-center mb-3 mt-3">
+                                        <div class="me-4 text-center text-primary">
+                                            <span><i class="fe fe-mail fs-20"></i></span>
+                                        </div>
+                                        <div>
+                                            <strong>{value.email}</strong>
+                                        </div>
+                                    </div>
                                         
                                         
-                                        
-                                        <form class="shop__filter">
-                                            <div class="row gutters-xs">
-                                                <div class="col-auto">
-                                                    <label class="colorinput">
-                                                        <input type="checkbox" name="color" value="azure" class="colorinput-input" checked/>
-                                                        <span class="colorinput-color bg-azure"></span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <label class="colorinput">
-                                                        <input type="checkbox" name="color" value="indigo" class="colorinput-input"/>
-                                                        <span class="colorinput-color bg-indigo"></span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <label class="colorinput">
-                                                        <input type="checkbox" name="color" value="purple" class="colorinput-input"/>
-                                                        <span class="colorinput-color bg-purple"></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </form>
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -1094,9 +1107,10 @@ const backHome=()=>{
                                     
                                     <a 
                                   
-                              
-                                        data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>Edit Details</a>
-                                    <a href="#" class="btn btn-outline-primary btn-block mt-2"><i class="fe fe-add"></i>Book Service</a>
+                                        data-bs-effect="effect-slide-in-bottom" href="#" class="btn btn-primary btn-block"><i class="fe fe-eye mx-2"></i>View More</a>
+                                    <a  href="#" onClick={() => {
+                                        checkOutAndBook(value.BusinessId,value.id)
+                                      }} class="btn btn-outline-primary btn-block mt-2"><i class="fe fe-add"></i>Book Service</a>
                                 </div>
                             </div>
                         </div>
@@ -1153,32 +1167,45 @@ const backHome=()=>{
                                                           <i class="fa fa-star-o fs-18 text-warning"></i>
                                                       </div>
                                                   </a>
+
+
                                                   <p class="fs-16">{value.description} </p>
+
+
+                                                
+
+
+
+                                                  <div class="d-flex align-items-center mb-3 mt-3">
+                                                  <div class="me-4 text-center text-primary">
+                                                  <span class="colorinput-color bg-azure"></span>
+                                                  </div>
+                                                  <div>
+                                                      <strong>{value.Business.business_name} </strong>
+                                                  </div>
+                                                 </div>
+
+                                                  <div class="d-flex align-items-center mb-3 mt-3">
+                                                  <div class="me-4 text-center text-primary">
+                                                      <span><i class="fe fe-phone fs-20"></i></span>
+                                                  </div>
+                                                  <div>
+                                                      <strong>{value.Business.contacts} </strong>
+                                                  </div>
+                                                 </div>
+                                              <div class="d-flex align-items-center mb-3 mt-3">
+                                                  <div class="me-4 text-center text-primary">
+                                                      <span><i class="fe fe-mail fs-20"></i></span>
+                                                  </div>
+                                                  <div>
+                                                      <strong>{value.email}</strong>
+                                                  </div>
+                                              </div>
+                                                
                                                   
                                                   
                                                   
-                                                  <form class="shop__filter">
-                                                      <div class="row gutters-xs">
-                                                          <div class="col-auto">
-                                                              <label class="colorinput">
-                                                                  <input type="checkbox" name="color" value="azure" class="colorinput-input" checked/>
-                                                                  <span class="colorinput-color bg-azure"></span>
-                                                              </label>
-                                                          </div>
-                                                          <div class="col-auto">
-                                                              <label class="colorinput">
-                                                                  <input type="checkbox" name="color" value="indigo" class="colorinput-input"/>
-                                                                  <span class="colorinput-color bg-indigo"></span>
-                                                              </label>
-                                                          </div>
-                                                          <div class="col-auto">
-                                                              <label class="colorinput">
-                                                                  <input type="checkbox" name="color" value="purple" class="colorinput-input"/>
-                                                                  <span class="colorinput-color bg-purple"></span>
-                                                              </label>
-                                                          </div>
-                                                      </div>
-                                                  </form>
+                                                  
                                               </div>
                                           </div>
                                       </div>
@@ -1189,8 +1216,10 @@ const backHome=()=>{
                                               <a 
                                             
                                         
-                                                  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#" class="btn btn-primary btn-block"><i class="fe fe-edit mx-2"></i>View Vdetails</a>
-                                              <a href="#" class="btn btn-outline-primary btn-block mt-2"><i class="fe fe-add"></i>Book Service</a>
+                                                  data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#" class="btn btn-primary btn-block"><i class="fe fe-eye mx-2"></i>View More</a>
+                                              <a href="#" onClick={() => {
+                                                checkOutAndBook(value.BusinessId,value.id)
+                                              }} class="btn btn-outline-primary btn-block mt-2"><i class="fe fe-add"></i>Book Service</a>
                                           </div>
                                       </div>
                                   </div>
@@ -1871,7 +1900,7 @@ const backHome=()=>{
             </div>
             
             <div class="card-body">
-                Sorry no vendor selling  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{subcategory_name}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
+                Sorry no vendor selling  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{catId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
                  in your area.However, your search has been captured and our team will enroll vendors on your area within 72 hours.
                  <br/>
                
@@ -1904,7 +1933,7 @@ const backHome=()=>{
             </div>
             
             <div class="card-body">
-                Your search for  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{subcategory_name}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
+                Your search for  <span class="tag tag-rounded tag-icon tag-orange"><i class="fe fe-product"></i>{catId}<a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
                 found universal sellers.
                  <br/>
                
@@ -2022,6 +2051,7 @@ const backHome=()=>{
 
   <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Your Name</label>
   <div class="col-sm-10">
+  {businessId} {serviceId}
     <div class="input-group input-group-merge">
       <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
       <input type="text" class="form-control" id="basic-icon-default-fullname"  
@@ -2030,7 +2060,7 @@ const backHome=()=>{
         setName(event.target.value);
       }} 
 
-      placeholder='eg. Jane Masinde'
+      placeholder='your names'
       
       aria-describedby="basic-icon-default-fullname2"/>
     </div>
@@ -2047,12 +2077,10 @@ const backHome=()=>{
         setEmail(event.target.value);
       }}
 
-      placeholder='eg. jane@gmail.com'
-      
-      aria-describedby="Eg.mike20@gmail.com"/>
+      placeholder='eg.jane@gmail.com'/>
      
     </div>
-    <div class="form-text"> You can use letters, numbers &amp; periods </div>
+    
   </div>
 </div>
 <div class="row mb-3">
