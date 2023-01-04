@@ -6,6 +6,7 @@ $(function() {
     initialRating: 4.0,
     starSize: 35,
     strokeWidth: 0,
+    useGradient: false
   });
 
   $(".my-rating-2").starRating({

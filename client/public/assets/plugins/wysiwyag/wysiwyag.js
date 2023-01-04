@@ -1,4 +1,4 @@
 $(function(e) {
-	$('.content').richText();
+	$('.content5').richText();
 	$('.content2').richText();
 });

@@ -74,7 +74,7 @@ function SideBar() {
             
          
             <li class="sub-category">
-                <h3>Misc Pages</h3>
+                <h3>Vendors</h3>
             </li>
           
             <li class="slide">
@@ -88,6 +88,40 @@ function SideBar() {
                    
                 </ul>
             </li>
+
+            <li class="sub-category">
+            <h3>Sellers</h3>
+        </li>
+
+
+        <li class="slide">
+        <Link class="side-menu__item" data-bs-toggle="slide" to="/ptm-retailors">
+            <i class="side-menu__icon fe fe-cpu"></i>
+            <span class="side-menu__label">Retailors</span><i
+                class="angle fe fe-chevron-right"></i></Link>
+        <ul class="slide-menu">
+            <li class="side-menu-label1"><Link to="/vendors">Retailors</Link></li>
+            <li><a href="/ptm-retailors" class="slide-item">All Businness</a></li>
+           
+        </ul>
+    </li>
+
+
+            <li class="sub-category">
+            <h3>Suppliers</h3>
+        </li>
+      
+        <li class="slide">
+            <Link class="side-menu__item" data-bs-toggle="slide" to="/ptm-suppliers">
+                <i class="side-menu__icon fe fe-cpu"></i>
+                <span class="side-menu__label">Suppliers</span><i
+                    class="angle fe fe-chevron-right"></i></Link>
+            <ul class="slide-menu">
+                <li class="side-menu-label1"><Link to="/ptm-suppliers">Suppliers</Link></li>
+                <li><a href="/ptm-suppliers" class="slide-item">All Suppliers</a></li>
+               
+            </ul>
+        </li>
 
             <li class="sub-category">
             <h3>Account</h3>

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect,useContext } from "react";
 
 import {Formik,Form,Field, ErrorMessage} from "formik"
-import { useEffect,useState } from 'react';
+// import { useEffect,useState } from 'react';
 //import './home.css';
 
 
@@ -22,15 +22,27 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import './styles.css'
 
+import { Modal, Button } from "react-bootstrap";
+import { AuthContext } from "../../../helpers/AuthContext";
+
 //import GoogleLogin from "./GoogleLogin";
 
 function SignUp() {
+
+    const { setAuthState } = useContext(AuthContext);
 
     const [first_name, setFirst_name] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [phone_no, setPhone_no] = useState("");
     const [account_type, setAccount_type] = useState(1);
+
+    const [password, setPassword] = useState("");
+
+
+
+    
+    const [show, setShow] = useState(false);
 
 
     const [nameinvalid,setnameinvalid]=useState(false);
@@ -39,8 +51,34 @@ function SignUp() {
 
     const [emailNoInvalid,setEmailNoInvalid]=useState(false);
 
+    
+
     const [isLoading,setLoading]=useState(false);
     // const [password, setPassword] = useState("");
+
+    let history = useNavigate();
+
+
+    const handleShow = () =>{
+
+        setLoading(true)
+
+        setShow(true);
+      
+        setTimeout(() => {
+
+        setLoading(false)
+
+        history("/dashboard-vendor");
+        window.location.reload(false);
+
+      
+
+        
+    }, 4000);
+
+
+      }
 
 
 
@@ -53,7 +91,7 @@ function SignUp() {
         email:email,
         phone_no:phone_no,
         account_type:account_type,
-        password:phone_no,
+        password:password,
         state:'Nairobi',
         city:null,
         role:'Vendor',
@@ -167,13 +205,139 @@ function SignUp() {
                    
                     toast.error(response.data.error);
                     setLoading(false);
-                }, 500);
+                   
+                }, 1000);
 
                 //alert();
                 //setLoading(false);
               }
 
               else{
+
+
+
+
+                
+  //const details = { username:response.username, password: response.password};
+
+  API.post("users/login", data).then((rense) => {
+    if (rense.data.error) {
+      alert(rense.data.error);
+      setLoading(false);
+    } else {
+      localStorage.setItem("accessToken", rense.data.token);
+      setAuthState({
+        username: rense.data.username,
+        role: rense.data.role,
+        first_name: rense.data.first_name,
+        phone_no: rense.data.phone_no,
+        id: rense.data.id,
+        status: true,
+      });
+
+      console.log("Response is",rense.data)
+
+      console.log("THE RETURNED USER ID IS ",rense.data.id)
+
+
+      
+      if(rense.data.role=="Vendor"){
+
+
+        API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") }}).then((res_auth) => {
+
+            //setUserId(res_auth.data.id)
+    
+    
+        console.log("THE USER ID IS "+res_auth.data.id)
+    
+    
+    
+        // const customer_details={
+        //     name:name,
+        //    email:email,
+        //    phone_no:phone_no,
+        //    BusinessId:businessId,
+        //    UserId:res_auth.data.id,
+           
+        //   }
+    
+        // API.post('customer',customer_details).then((res)=>{
+        
+        //     console.log("The response is"+res.data)
+        
+        //     setBookingId(res.data.id)
+        // })
+    
+    
+    
+    
+    //             const order_details={
+    //                         item_name:item_name,
+    //                         quantity_ordered:quantity_ordered,
+    //                         customer_phone_no:rense.data.phone_no,
+    //                         order_description:order_description,
+    //                         orderId:randomNo,
+    //                         UserId:res_auth.data.id,
+    //                         BusinessId:businessId,
+    //                       }
+    //             API.post('order',order_details).then((res_b)=>{
+    
+    //  // console.log("The response is"+res_b.data)
+    
+    //   setorderId(res_b.data.id)
+    
+      
+    
+    //  console.log("THE  ORDER ID IS "+res_b.data.id)
+    
+    //  console.log("THE  ORDER ID TWO IS "+randomNo)
+    
+    //     })
+    
+          
+          
+               })
+    
+            setTimeout(() => {
+              setLoading(false);
+    
+    
+              
+            //   //setLoading(false);
+            //   //toast.info('Appointment saved!');
+            //   setShowSuccessAlert(true)
+      
+            //   setShowCustomerDetailsForm(false)
+    
+            //   setShowAllServicesDiv(true)
+    
+            //   setShowBuyerDetailsModal(false)
+    
+              handleShow()
+    
+    
+            
+          }, 5000);
+    
+          }
+          else{
+            setTimeout(() => {
+              setLoading(false);
+              history("/dashboard");
+          }, 1000);
+      
+
+        }
+    
+
+
+
+     
+    
+    }
+  });
+  
           
 
        // axios.post("https://tunepapi.herokuapp.com/users", data).then(() => {
@@ -183,7 +347,8 @@ function SignUp() {
           setTimeout(() => {
             setLoading(false);
             toast.info('Signed Up successfully');
-        }, 1000);
+            handleShow()
+        }, 1500);
 
     }
 
@@ -427,24 +592,18 @@ function SignUp() {
                     <div class="container-login100-form-btn">
 
 
-                    {!isLoading && 
-                        <button type="submit" class="login100-form-btn btn-primary">
-                                Register
-                            </button>
-                    }
-    
-                    {isLoading &&
-                        <button class="login100-form-btn btn-primary my-1" type="button" disabled="">
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Signing up...
-                    </button>
-                    }
+                    {!isLoading && <button  type="submit" class="login100-form-btn btn-primary">Register</button>
+
+                } 
+                {isLoading &&
+                  <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+                  <span class="visually-hidden">Loading...</span>
+              </div>Signing up...</button>
+                }
 
 
-                   
-          
 
-
+                
 
                       
                     </div>
@@ -475,6 +634,40 @@ function SignUp() {
 
             <ToastContainer></ToastContainer>
         </div> 
+
+
+        <Modal class="modal fade" id="modaldemo8" show={show}>
+
+<Modal.Header>
+  <Modal.Title>Initiating Order</Modal.Title>
+</Modal.Header>
+<Modal.Body class="modal-body text-center p-4 pb-5">
+
+
+
+
+<i class="icon icon-check fs-70 text-success lh-1 my-5 d-inline-block"></i>
+<h4 class="text-success tx-semibold">Welcome to PataMtaani!</h4>
+<p class="mg-b-20 mg-x-20">Redirecting to your account </p>
+
+<div class="progress progress-md mb-3">
+                                                <div class="progress-bar progress-bar-indeterminate bg-blue-1"></div>
+                                            </div>
+
+  
+
+</Modal.Body>
+<Modal.Footer>
+
+{/* <Button variant="secondary" onClick={handleClose}>
+    Close
+  </Button>
+  <Button variant="primary" onClick={handleClose}>
+    Save Changes
+  </Button> */}
+ 
+</Modal.Footer>
+</Modal>
           
         </div>
     </div>

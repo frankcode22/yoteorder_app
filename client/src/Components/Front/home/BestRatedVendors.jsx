@@ -127,16 +127,21 @@ function BestRatedVendors() {
                             </div>
 
                           
-                            <hr/>   
-                          
+                            <hr/> 
+                            
                             <div>
                             <span><i class="fe fe-map-pin fs-20"></i></span><strong>{value.location}</strong>
                             </div>
+                          
+                            
                        
 
                            
                                 <div>
-                                <span><i class="fe fe-phone fs-20"></i></span><strong>{value.contacts} </strong>
+                                <button type="button" class="btn btn-success  mt-1 mb-1 me-3">
+                                <span>{value.industry}</span>
+                                <span class="badge bg-white text-success ms-2">2</span>
+                            </button>
                                 </div>
                             
                         </div>
@@ -159,9 +164,7 @@ function BestRatedVendors() {
             
             
             
-            
-           
-            
+                 
         </div>
 
 

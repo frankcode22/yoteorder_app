@@ -2,9 +2,9 @@
 var calendars = {};
 
 $(function() {
-    // console.info(
-    //     'Welcome to the CLNDR demo. Click around on the calendars and' +
-    //     'the console will log different events that fire.');
+    console.info(
+        'Welcome to the CLNDR demo. Click around on the calendars and' +
+        'the console will log different events that fire.');
 
     // Assuming you've got the appropriate language files,
     // clndr will respect whatever moment's language is set to.

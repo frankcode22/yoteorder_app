@@ -49,7 +49,7 @@ function SignIn() {
     
               setTimeout(() => {
                 setLoading(false);
-                history("/dashboard");
+                history("/home_admin");
                 window.location.reload(false);
             }, 1000);
     

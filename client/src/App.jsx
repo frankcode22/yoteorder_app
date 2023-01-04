@@ -46,8 +46,34 @@ import ForgotPassword from './Components/Front/home/ForgotPassword';
 import ServiceTypes from './Components/Dashboards/admin/ServiceTypes';
 import SearviceSearchResults from './Components/Front/home/SearviceSearchResults';
 import Bookings from './Components/Dashboards/seller/Bookings';
+import Suppliers from './Components/Dashboards/admin/Suppliers';
+import Sellers from './Components/Dashboards/admin/Retailors';
+import Retailers from './Components/Dashboards/admin/Retailers';
+import Retailors from './Components/Dashboards/admin/Retailors';
+import MainDashboard from './Components/Dashboards/seller/MainDashboard';
+import AdminHome from './Components/Dashboards/admin/AdminHome';
+import SignUpNew from './Components/Front/home/SignUpNew';
+import SignInNew from './Components/Front/home/SignInNew';
+import PataMtaaniSuppliers from './Components/Dashboards/admin/PataMtaaniSuppliers';
+import SupplierHome from './Components/Dashboards/supplier/SupplierHome';
+import SellerHome from './Components/Dashboards/seller/SellerHome';
+import ProductInventory from './Components/Dashboards/seller/ProductInventory';
+import PataMtaaniRetailers from './Components/Dashboards/admin/PataMtaaniRetailers';
+import RetailPOS from './Components/Dashboards/seller/RetailPOS';
+import ProductCategories from './Components/Dashboards/seller/ProductCategories';
+
+import CartProvider from "./helpers/CartContext"; 
+import ProductsTabularView from './Components/Dashboards/seller/ProductsTabularView';
+import AccountSettingNew from './Components/Dashboards/seller/AccountSettingNew';
+import SuppliersAvailable from './Components/Dashboards/seller/SuppliersAvailable';
+import HomePatamtaani from './Components/Front/home/HomePatamtaani';
+import StoreInventory from './Components/Dashboards/supplier/StoreInventory';
+import HelpCentrePataMtaani from './Components/Front/home/HelpCentrePataMtaani';
+import RetailerSales from './Components/Dashboards/seller/RetailerSales';
 
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
+
+
 //const Products = lazy(() => import('./Products'));
 
 
@@ -118,6 +144,8 @@ function App() {
     <LocationDataDataProvider>
 
     <LocationDataContextInitProvider>
+
+    <CartProvider>
        
     <Router>
 
@@ -126,6 +154,8 @@ function App() {
     <Routes>
      
         <Route path="/dashboard" element={ <AdminDashboard/>}/>
+
+        <Route path="/home_admin" element={ <AdminHome/>}/>
 
 
         <Route path="/dashboard-vendor" element={ <Dashboard/>}/>
@@ -136,11 +166,35 @@ function App() {
 
         <Route path="/profile-vendor" element={ <ProfileS/>}/>
 
+        <Route path="/home_retailer" element={ <SellerHome/>}/>
+
+        <Route path="/product_inventory" element={ <ProductInventory/>}/>
+
+
+        <Route path="/product_cat" element={ <ProductCategories/>}/>
+
+        <Route path="/products_tabular" element={ <ProductsTabularView/>}/>
+
+        <Route path="/pos" element={ <RetailPOS/>}/>
+
+
+
 
 
         <Route path="/setting-products" element={ <ProductSetting/>}/>
 
         <Route path="/account-setting" element={ <AccountSetting/>}/>
+
+
+        <Route path="/my-account" element={ <AccountSettingNew/>}/>
+
+        <Route path="/suppliers-around" element={ <SuppliersAvailable/>}/>
+
+
+
+        <Route path="/retailers" element={ <PataMtaaniRetailers/>}/>
+
+        <Route path="/sales" element={ <RetailerSales/>}/>
 
 
         <Route exact path="/users" element={ <Users/>}/>
@@ -160,6 +214,18 @@ function App() {
 
 
         <Route path="/video-demos" element={ <VideoDemos/>}/>
+
+
+        <Route exact path="/ptm-suppliers" element={ <Suppliers/>}/>
+
+
+        <Route exact path="/suppliers" element={ <PataMtaaniSuppliers/>}/>
+
+        <Route exact path="/supplier_home" element={ <SupplierHome/>}/>
+
+        <Route exact path="/my_stores" element={ <StoreInventory/>}/>
+
+        <Route exact path="/ptm-retailors" element={ <Retailors/>}/>
 
         
 
@@ -219,11 +285,19 @@ function App() {
       
     <Routes>
    
-        <Route path="/" element={ <Homepage/>} />
+        <Route path="/old" element={ <Homepage/>} />
+
+        <Route path="/" element={ <HomePatamtaani/>} />
+
+        
 
         <Route path="/manual-search" element={ <HomepageWithModal/>} />
 
         <Route path="/signin" element={ <SignIn/>} />
+
+        <Route path="/login" element={ <SignInNew/>} />
+
+        <Route path="/create_account" element={ <SignUpNew/>} />
 
         <Route path="/forgot-password" element={ <ForgotPassword/>} />
 
@@ -232,7 +306,10 @@ function App() {
 
         <Route path="/services" element={ <Services/>} />
 
-        <Route path="/helpcentre" element={ <HelpCentre/>} />
+        <Route path="/helpcentreold" element={ <HelpCentre/>} />
+
+
+        <Route path="/helpcentre" element={ <HelpCentrePataMtaani/>} />
 
 
         <Route path="/get-started" element={ <SignUp/>} />
@@ -257,6 +334,7 @@ function App() {
        
     
       </Router>
+      </CartProvider>
       </LocationDataContextInitProvider>
       </LocationDataDataProvider>
       </OrderDetailsDataProvider>

@@ -1,4 +1,6 @@
-(function (e) {
+jQuery(function(e){
     'use strict';
-    $('#summernote').summernote();
-})();
+    $(document).ready(function() {
+        $('#summernote').summernote();
+    });
+  });

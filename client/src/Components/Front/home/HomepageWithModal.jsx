@@ -232,6 +232,10 @@ function HomepageWithModal(props) {
 
      let ordered_item=localStorage.getItem('ordered_item')
      ordered_item=JSON.parse(ordered_item)
+
+
+     let itemsearched=localStorage.getItem('itemsearched')
+     itemsearched=JSON.parse(itemsearched)
  
 
     useEffect(()=>{
@@ -249,11 +253,13 @@ function HomepageWithModal(props) {
         console.log('YOUR CONTEXT POSITION FROM THE INITALIZING CONTEXT IS',userPos)
       
 
-        setpname(ordered_item)
+        setpname(itemsearched)
 
 
      
-   console.log("THE ORDERED ITEM IS ",ordered_item)
+ 
+
+   console.log("THE ORDERED ITEM IS ",itemsearched)
 
          let lat_val=parseFloat(userPos.lat);
   
@@ -429,7 +435,7 @@ function HomepageWithModal(props) {
        
   
  
-  },[bussinessList,userPos,position,lat1,ordered_item]);
+  },[bussinessList,userPos,position,lat1,itemsearched]);
 
 
   

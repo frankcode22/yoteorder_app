@@ -1,5 +1,4 @@
 $(function(e) {
-    "use strict";
 
     //______Basic Data Table
     $('#basic-datatable').DataTable({
@@ -46,9 +45,19 @@ $(function(e) {
             $(this).addClass('selected');
         }
     });
-    $('#button').on('click', function() {
+    $('#button').click(function() {
         table.row('.selected').remove().draw(false);
     });
+    $('#example2').DataTable({
+		responsive: true,
+		language: {
+			searchPlaceholder: 'Search...',
+			sSearch: '',
+			lengthMenu: '_MENU_ items/page',
+		}
+	});
+	
+	
     $('#example3').DataTable( {
         responsive: {
             details: {
@@ -64,19 +73,11 @@ $(function(e) {
             }
         }
     } );
-    $('#example2').DataTable({
-		responsive: true,
-		language: {
-			searchPlaceholder: 'Search...',
-			sSearch: '',
-			lengthMenu: '_MENU_ items/page',
-		}
-	});
-	
 
     //______Select2 
-    $('.select2').select2({
-        minimumResultsForSearch: Infinity
-    });
+	$('.select2').select2({
+		placeholder: 'Choose one',
+		searchInputPlaceholder: 'Search'
+	});
 
 });

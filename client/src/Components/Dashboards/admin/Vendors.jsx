@@ -66,6 +66,8 @@ const [errorMessage, setErrorMessage] = useState("");
 
 const [vendorsList, setVendorsList] = useState([]);
 
+const [suppliersList, setSuppliersList] = useState([]);
+
 const [isDivLoading, setIsDivLoading] = useState(false);
 const [imagePath, setImagePath] = useState("");
 
@@ -199,7 +201,7 @@ const loadVendorsContant=(
                                                                     </thead>
                                                                     <tbody>
 
-                                                                    {vendorsList.map((value, key) => {
+                                                                    {suppliersList.map((value, key) => {
                                                                         return (
                                                                         <tr class="border-bottom">
                                                                             <td class="text-center">

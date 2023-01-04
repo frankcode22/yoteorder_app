@@ -496,10 +496,10 @@ function HeaderPtaMtaani() {
     console.log("MAP CENTRE VALUES IS"+lat)
 
 
-    if(isOnline==false){
-        setshowOfflineAlert(true)
-        return
-    }
+    // if(isOnline==false){
+    //     setshowOfflineAlert(true)
+    //     return
+    // }
 
 
    
@@ -508,7 +508,7 @@ function HeaderPtaMtaani() {
 
     if(!lat  || !lng){
 
-     
+        localStorage.setItem('itemsearched', JSON.stringify(pname));
 
           setShowErrorModal(true)
 
@@ -572,6 +572,8 @@ function HeaderPtaMtaani() {
 
     setLoading(false)
     //history('/ordered-product/'+pname+'/'+search_lat+'/'+search_lng);
+
+   
 
     history('/ordered-product/'+pname+'/'+lat+'/'+lng);
 
@@ -675,10 +677,6 @@ const searchItem1 = () => {
 
 
 
-
-
-
-
     
          const closeModal=()=>{
             setShowManualSearchModal(false)
@@ -690,7 +688,7 @@ const searchItem1 = () => {
          }
 
          const signIn=()=>{
-            history('/signin')
+            history('/login')
          }
 
   return (
@@ -719,11 +717,11 @@ const searchItem1 = () => {
                 <div class="collapse navbar-collapse bg-white px-0" id="navbarSupportedContent-4">
                     
                     <div class="header-nav-right p-5">
-                        <Link to='/get-started' class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
+                        <Link to='/create_account' class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto"
                             >Get Started
                         </Link>
                         {/*   <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto"> */}
-                        <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto">
+                        <a href="/login" class="btn ripple btn-min w-sm btn-primary me-2 my-auto">
                         Login
                         </a>
                     </div>
@@ -788,7 +786,7 @@ const searchItem1 = () => {
 
 
                         <li class="slide onmobile">
-                            <Link class="side-menu__item" data-bs-toggle="slide" to="/get-started"><span
+                            <Link class="side-menu__item" data-bs-toggle="slide" to="/create_account"><span
                                     class="side-menu__label"><i class="icon icon-login" data-bs-toggle="tooltip" title="" data-bs-original-title="icon-login" aria-label="icon-login" aria-describedby="tooltip377007"></i>Sign up</span></Link>
                         </li>
 
@@ -797,11 +795,11 @@ const searchItem1 = () => {
 
                    
                     <div class="header-nav-right d-none d-lg-flex">
-                        <Link to='/get-started'
+                        <Link to='/create_account'
                             class="btn ripple btn-min w-sm btn-outline-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Get Started
                         </Link>
-                        <a href="/signin" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
+                        <a href="/login" class="btn ripple btn-min w-sm btn-primary me-2 my-auto d-lg-none d-xl-block d-block"
                            >Login
                         </a>
                     </div>
@@ -830,7 +828,7 @@ const searchItem1 = () => {
        }}>
         <div class="row mb-5 justify-content-center text-center">
             <div class="col">
-                <h1 class="fw-semibold text-black mb-0">Sell, Buy,Order and do bizz  mtaani!</h1>
+                <h1 class="fw-semibold text-white mb-0">Sell, Buy,Order and do bizz  mtaani!</h1>
                
                 <p style={{color:'grey'}}>All your needs are catered by PataMtaani</p>
 

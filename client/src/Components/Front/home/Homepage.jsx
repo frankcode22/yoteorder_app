@@ -31,6 +31,8 @@ import './styles.css'
 
 import SearchBar from "./SearchBar";
 import BookData from "../../../Data.json";
+
+import { Helmet } from 'react-helmet';
 //import SearchModal from './SearchModal';
 
 import { ChildComponent } from './ChildComponent ';
@@ -622,6 +624,35 @@ const searchItem1 = () => {
 
   return (
     <div className='app ltr landing-page horizontal'>
+
+    <Helmet>
+
+    <link id="style" href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    
+    <link href="/assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/dark-style.css" rel="stylesheet" />
+
+   
+    <link href="/assets/css/icons.css" rel="stylesheet" />
+
+    
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="assets/colors/color1.css" />
+
+   
+    <link href="/assets/switcher/css/switcher.css" rel="stylesheet" />
+    <link href="/assets/switcher/demo.css" rel="stylesheet" />
+
+
+
+   
+    <link href="assets/css/transparent-style.css" rel="stylesheet"/>
+    <link href="assets/css/skin-modes.css" rel="stylesheet" />
+    
+    
+    
+    
+    </Helmet>
    
 
     

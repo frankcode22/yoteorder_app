@@ -1,8 +1,5 @@
-// QUANTITY CART INCREASE AND DECREASE
-
+// ______________Quantity Cart Increase & Descrease
 $(function () {
-    'use strict'
-	
 	$('.counter-plus').on('click',function(){
 		var $qty=$(this).closest('div').find('.qty');
 		var currentVal = parseInt($qty.val());

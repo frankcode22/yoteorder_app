@@ -1,5 +1,4 @@
-//FULL CALENDAR
-
+//Full Calendar
 document.addEventListener('DOMContentLoaded', function() {
     var containerEl = document.getElementById('external-events');
     new FullCalendar.Draggable(containerEl, {
@@ -21,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
 
-        // defaultView: 'month',
+        defaultView: 'month',
         navLinks: true, // can click day/week names to navigate views
         businessHours: true, // display business hours
         editable: true,
@@ -99,7 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.render();
 });
 
-//LIST FULLCALENDAR
+
+//List FullCalendar
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initialDate: '2021-07-12',
         navLinks: true, // can click day/week names to navigate views
         editable: true,
-        // eventLimit: true, // allow "more" link when too many events
+        eventLimit: true, // allow "more" link when too many events
         dayMaxEvents: true, // allow "more" link when too many events
         events: [{
             title: 'All Day Event',

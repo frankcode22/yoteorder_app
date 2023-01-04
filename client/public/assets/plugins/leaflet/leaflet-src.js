@@ -2030,14 +2030,14 @@ function removePointerListener(obj, type, id) {
 	var handler = obj['_leaflet_' + type + id];
 
 	if (type === 'touchstart') {
-		obj.removeEventListener(POINTER_DOWN, handler, {passive: false});
+		obj.removeEventListener(POINTER_DOWN, handler, false);
 
 	} else if (type === 'touchmove') {
-		obj.removeEventListener(POINTER_MOVE, handler, {passive: false});
+		obj.removeEventListener(POINTER_MOVE, handler, false);
 
 	} else if (type === 'touchend') {
-		obj.removeEventListener(POINTER_UP, handler, {passive: false});
-		obj.removeEventListener(POINTER_CANCEL, handler, {passive: false});
+		obj.removeEventListener(POINTER_UP, handler, false);
+		obj.removeEventListener(POINTER_CANCEL, handler, false);
 	}
 
 	return this;
@@ -2060,15 +2060,15 @@ function _addPointerStart(obj, handler, id) {
 	});
 
 	obj['_leaflet_touchstart' + id] = onDown;
-	obj.addEventListener(POINTER_DOWN, onDown, {passive: false});
+	obj.addEventListener(POINTER_DOWN, onDown, false);
 
 	// need to keep track of what pointers and how many are active to provide e.touches emulation
 	if (!_pointerDocListener) {
 		// we listen documentElement as any drags that end by moving the touch off the screen get fired there
-		document.documentElement.addEventListener(POINTER_DOWN, _globalPointerDown, {passive: true});
-		document.documentElement.addEventListener(POINTER_MOVE, _globalPointerMove, {passive: true});
-		document.documentElement.addEventListener(POINTER_UP, _globalPointerUp, {passive: true});
-		document.documentElement.addEventListener(POINTER_CANCEL, _globalPointerUp, {passive: true});
+		document.documentElement.addEventListener(POINTER_DOWN, _globalPointerDown, true);
+		document.documentElement.addEventListener(POINTER_MOVE, _globalPointerMove, true);
+		document.documentElement.addEventListener(POINTER_UP, _globalPointerUp, true);
+		document.documentElement.addEventListener(POINTER_CANCEL, _globalPointerUp, true);
 
 		_pointerDocListener = true;
 	}
@@ -2109,7 +2109,7 @@ function _addPointerMove(obj, handler, id) {
 	};
 
 	obj['_leaflet_touchmove' + id] = onMove;
-	obj.addEventListener(POINTER_MOVE, onMove, {passive: false});
+	obj.addEventListener(POINTER_MOVE, onMove, false);
 }
 
 function _addPointerEnd(obj, handler, id) {
@@ -2118,8 +2118,8 @@ function _addPointerEnd(obj, handler, id) {
 	};
 
 	obj['_leaflet_touchend' + id] = onUp;
-	obj.addEventListener(POINTER_UP, onUp, {passive: false});
-	obj.addEventListener(POINTER_CANCEL, onUp, {passive: false});
+	obj.addEventListener(POINTER_UP, onUp, false);
+	obj.addEventListener(POINTER_CANCEL, onUp, false);
 }
 
 /*
@@ -2180,14 +2180,14 @@ function addDoubleTapListener(obj, handler, id) {
 	obj[_pre + _touchend + id] = onTouchEnd;
 	obj[_pre + 'dblclick' + id] = handler;
 
-	obj.addEventListener(_touchstart, onTouchStart, {passive: false});
-	obj.addEventListener(_touchend, onTouchEnd, {passive: false});
+	obj.addEventListener(_touchstart, onTouchStart, false);
+	obj.addEventListener(_touchend, onTouchEnd, false);
 
 	// On some platforms (notably, chrome<55 on win10 + touchscreen + mouse),
 	// the browser doesn't fire touchend/pointerup events but does fire
 	// native dblclicks. See #4127.
 	// Edge 14 also fires native dblclicks, but only for pointerType mouse, see #5180.
-	obj.addEventListener('dblclick', handler, {passive: false});
+	obj.addEventListener('dblclick', handler, false);
 
 	return this;
 }
@@ -2197,10 +2197,10 @@ function removeDoubleTapListener(obj, id) {
 	    touchend = obj[_pre + _touchend + id],
 	    dblclick = obj[_pre + 'dblclick' + id];
 
-	obj.removeEventListener(_touchstart, touchstart, {passive: false});
-	obj.removeEventListener(_touchend, touchend, {passive: false});
+	obj.removeEventListener(_touchstart, touchstart, false);
+	obj.removeEventListener(_touchend, touchend, false);
 	if (!edge) {
-		obj.removeEventListener('dblclick', dblclick, {passive: false});
+		obj.removeEventListener('dblclick', dblclick, false);
 	}
 
 	return this;
@@ -2668,7 +2668,7 @@ function addOne(obj, type, fn, context) {
 	} else if ('addEventListener' in obj) {
 
 		if (type === 'mousewheel') {
-			obj.addEventListener('onwheel' in obj ? 'wheel' : 'mousewheel', handler, {passive: false});
+			obj.addEventListener('onwheel' in obj ? 'wheel' : 'mousewheel', handler, false);
 
 		} else if ((type === 'mouseenter') || (type === 'mouseleave')) {
 			handler = function (e) {
@@ -2677,7 +2677,7 @@ function addOne(obj, type, fn, context) {
 					originalHandler(e);
 				}
 			};
-			obj.addEventListener(type === 'mouseenter' ? 'mouseover' : 'mouseout', handler, {passive: false});
+			obj.addEventListener(type === 'mouseenter' ? 'mouseover' : 'mouseout', handler, false);
 
 		} else {
 			if (type === 'click' && android) {
@@ -2685,7 +2685,7 @@ function addOne(obj, type, fn, context) {
 					filterClick(e, originalHandler);
 				};
 			}
-			obj.addEventListener(type, handler, {passive: false});
+			obj.addEventListener(type, handler, false);
 		}
 
 	} else if ('attachEvent' in obj) {
@@ -2713,12 +2713,12 @@ function removeOne(obj, type, fn, context) {
 	} else if ('removeEventListener' in obj) {
 
 		if (type === 'mousewheel') {
-			obj.removeEventListener('onwheel' in obj ? 'wheel' : 'mousewheel', handler, {passive:false});
+			obj.removeEventListener('onwheel' in obj ? 'wheel' : 'mousewheel', handler, false);
 
 		} else {
 			obj.removeEventListener(
 				type === 'mouseenter' ? 'mouseover' :
-				type === 'mouseleave' ? 'mouseout' : type, handler, {passive: false});
+				type === 'mouseleave' ? 'mouseout' : type, handler, false);
 		}
 
 	} else if ('detachEvent' in obj) {
@@ -13867,3 +13867,4 @@ exports.noConflict = function() {
 window.L = exports;
 
 })));
+//# sourceMappingURL=leaflet-src.js.map

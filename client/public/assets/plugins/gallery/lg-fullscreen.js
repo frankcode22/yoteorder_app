@@ -113,10 +113,8 @@
     Fullscreen.prototype.destroy = function () {
 
         // exit from fullscreen if activated
-        if(document.querySelector('.lg-outer').classList.contains('lg-fullscreen-on')){
-            console.log('triggered');
-            this.exitFullscreen();
-        }
+        this.exitFullscreen();
+
         utils.off(document, '.lgfullscreen');
     };
 

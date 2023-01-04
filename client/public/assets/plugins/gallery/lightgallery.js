@@ -130,7 +130,7 @@
                 _id += '&' + utils.Listener.uid;
                 el.setAttribute('lg-event-uid', _id);
                 utils.Listener[event + utils.Listener.uid] = fn;
-                el.addEventListener(event.split('.')[0], fn, {passive:false});
+                el.addEventListener(event.split('.')[0], fn, false);
             });
         },
 
