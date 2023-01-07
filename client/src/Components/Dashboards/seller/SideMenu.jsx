@@ -96,7 +96,7 @@ function SideMenu() {
       
       
         <li class="slide">
-        <a class="side-menu__item" data-bs-toggle="slide"   href="/product_inventory"><i class="side-menu__icon fe fe-layers "></i><span class="side-menu__label">Products</span><i class="angle fe fe-chevron-down"></i></a>
+        <a class="side-menu__item" data-bs-toggle="slide"   href="/product_inventory"><i class="side-menu__icon fe fe-layers "></i><span class="side-menu__label">Stock</span><i class="angle fe fe-chevron-down"></i></a>
       
             <ul class="slide-menu">
                 <li><a class="slide-item" href="products.html">Products</a></li>

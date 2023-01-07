@@ -15,7 +15,11 @@ function CartProduct(props) {
 
     const bId = props.bId;
     //const orderId = props.orderId;
-    const productData = getProductData(id);
+    const productData = cart.getProductData(id);
+
+   // console.log('DATA FETCHED FROM CartProduct Component')
+
+   // console.log(productData)
 
     return (
         <>

@@ -70,6 +70,7 @@ import HomePatamtaani from './Components/Front/home/HomePatamtaani';
 import StoreInventory from './Components/Dashboards/supplier/StoreInventory';
 import HelpCentrePataMtaani from './Components/Front/home/HelpCentrePataMtaani';
 import RetailerSales from './Components/Dashboards/seller/RetailerSales';
+import RetailerOrders from './Components/Dashboards/seller/RetailerOrders';
 
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 
@@ -193,6 +194,8 @@ function App() {
 
 
         <Route path="/retailers" element={ <PataMtaaniRetailers/>}/>
+
+        <Route path="/rorders" element={ <RetailerOrders/>}/>
 
         <Route path="/sales" element={ <RetailerSales/>}/>
 

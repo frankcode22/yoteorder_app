@@ -57,6 +57,10 @@ function POSComponent() {
 
 	const [phone_no, setPhone_no] = useState("");
 
+	const [amountPaid, setAmountPaid] = useState("");
+
+	
+
 	const [purchase_type, setpurchase_type] = useState('');
 
     const [quantity_ordered, setquantity_ordered] = useState('');
@@ -69,7 +73,8 @@ function POSComponent() {
 	
 
 	const [orderNo,setOrderNo] = useState('');
-    const [showUpdateButton, setShowUpdateButton] = useState(false);
+	const [newCustomer,setNewCustomer] = useState(false);
+    const [saveNewCustomerButton, setSaveNewCustomerButton] = useState(false);
 
     const {productsList1, setProductsList1 } = useContext(DataContext);
 
@@ -94,6 +99,26 @@ function POSComponent() {
 
 		setShow(true);
 	} 
+
+
+	const [showCustomerModal, setShowCustomerModal] = useState(false);
+    const handleCloseCustomerModal = () => setShowCustomerModal(false);
+    const handleShowCustomerModal = () =>{
+
+		//setRandomNo(randomNumberInRange(1, 10000));
+
+		setShowCustomerModal(true);
+	} 
+
+
+	const handleNewCustomer = () =>{
+
+		//setRandomNo(randomNumberInRange(1, 10000));
+
+		setNewCustomer(true);
+		setSaveNewCustomerButton(true)
+	} 
+
 
  
 
@@ -134,13 +159,6 @@ function POSComponent() {
    
 
 
-     //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-     API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-
-        //setUserId(response.data.id)
-  
-  
-       })
 
 
 
@@ -148,34 +166,10 @@ function POSComponent() {
 
 
 
-       console.log("YOUR PRODUCT LIST DETAILS  IS ",productsList1);
+      // console.log("YOUR PRODUCT LIST DETAILS  IS ",productsList1);
 
 
-       if(productsList1!=null){
-        
-  
-          setTimeout(() => {
-
-              setProductsList(productsList1)
-             
-
-      
-             // setImagePath(response.data.imagePath)
-      
-             // setSeller_name(response.data.Users);
-              setIsDivLoading(false)   // Hide loading screen 
-             // toast.info('Product saved successfully');
-          }, 1000);
-      
-        
-      
-        }
-        else{
-      
-          setErrorMessage("Unable to fetch your products list.Kindly check your internet connection!!");
-          setIsDivLoading(false);
-        }
-
+    
 
          API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
@@ -184,6 +178,8 @@ function POSComponent() {
            // setIsBusinessSet(true)
       
             setbusinessId(response.data.my_buss.id);
+
+			setCustomersList(response.data.my_buss.Customers);
   
            
             setBussSetup(true);
@@ -206,18 +202,14 @@ function POSComponent() {
 
     
     
-           //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-          API.get("customer/mycustomers").then((response) => {
-          setCustomersList(response.data);
-          })
-    
+         
 
        
 
 
 
 
-},[businessDetails,productsList,setOrderNo])
+},[businessDetails,customerId,setOrderNo])
 
 
 
@@ -262,6 +254,9 @@ const customer_data={
    BusinessId:businessId,
    
 }
+
+
+
 
 
 
@@ -337,6 +332,85 @@ const addDetails = (oId)  => {
     })
  }
 
+
+ const sale_data={
+	name:name,
+	purchase_type:purchase_type,
+    phone_no:phone_no,
+	total:cart.getTotalCost().toFixed(2),
+	amount_paid:amountPaid,
+	orderId:orderNo,
+	customerId:customerId,
+    BusinessId:businessId,
+   
+}
+
+
+ const saleItems=()=>{
+
+	setLoading(true);
+
+	if(!newCustomer){
+
+	
+
+		API.post('sales',sale_data).then((res)=>{
+	   
+		  // console.log("THE CUSTOMER DATA IS->"+res.data)
+   
+	   
+			//setOrderId(res.data.id)
+		   setCustomerId(res.data.id)
+   
+		   setName(res.data.name)
+		   setPhone_no(res.data.phone_no)
+   
+		   
+		   setTimeout(() => {
+			   setLoading(false);
+			   toast.info('Sale Made To Existing Customer');
+		   }, 1000);
+   
+		   
+   
+		   
+   
+	   })
+
+	}
+
+	else{
+
+	
+
+		API.post('sales/newcustomer',sale_data).then((res)=>{
+	   
+		  // console.log("THE CUSTOMER DATA IS->"+res.data)
+   
+	   
+			//setOrderId(res.data.id)
+		   setCustomerId(res.data.id)
+   
+		   setName(res.data.name)
+		   setPhone_no(res.data.phone_no)
+   
+		   
+		   setTimeout(() => {
+			   setLoading(false);
+			   toast.info('Sale Made To New Customer');
+		   }, 1000);
+   
+		   
+   
+		   
+   
+	   })
+
+	}
+
+
+ }
+
 // const saveCustomer=()=>{
 
 	
@@ -363,7 +437,7 @@ const checkout = async () => {
 
 	setLoading(true);
 
-	saveCustomer()
+	//saveCustomer()
 
 
 	await fetch('http://localhost:8080/api/order/checkout', {
@@ -392,7 +466,7 @@ const checkout = async () => {
 			setLoading(false);
 			toast.success('Saved');
 			//setIsBusinessSet(true)
-		}, 1500);
+		}, 1000);
 
 
 		
@@ -404,15 +478,36 @@ const checkout = async () => {
 	});
 
 
-	
-	
-
-	
-
 
 
 
 }
+
+
+const handleSubCategorySelect= async (event) => {
+
+	const selectedOption=event.target.value
+  
+  
+	const customer = customersList.find(post => (post.id).toString() === selectedOption);
+  
+	// setUserId(JSON.stringify(customer))
+  
+	setName(customer.name)
+
+	setCustomerId(customer.id)
+  
+	//setsubcategoryId(customer.id)
+
+	setbusinessId(customer.BusinessId)
+  
+	setPhone_no(customer.phone_no)
+
+  
+	// setsubcategory_name(wordEntered)
+	
+
+   }
 
 const productsCount = cart.items.reduce((sum, product) => sum + product.quantity, 0);
 
@@ -539,63 +634,9 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 							<div class="card-body">
 
 							<Button onClick={handleShow}>Cart ({productsCount} Items)</Button>
-								<div class="form-group mb-4">
-								<div class=" gutters-xs">
-								<p class="mg-b-10">Order Id: {randomNo}</p>
-											<p class="mg-b-10">Customer Name</p>
 
-										
-
-											<div class="form-group mb-0">
-										<div class="form-group">
-											<input type="text" class="form-control" id="postal" onChange={(event) => {
-												setName(event.target.value);
-											  }} placeholder="Customer Name"/>
-										</div>
-									</div>
-
-									<div class="form-group mb-0">
-										<div class="form-group">
-											<input type="text" class="form-control" id="postal" onChange={(event) => {
-												setPhone_no(event.target.value);
-											  }} placeholder="Phone No."/>
-										</div>
-									</div>
-											
-									</div>
+							<Button onClick={handleShowCustomerModal}>+ customer</Button>
 								
-									<label class="form-label mt-4 fs-15">Purchase Type</label>
-									<div class="gutters-xs">
-										<select name="alabama" onChange={(event) => {
-											setpurchase_type(event.target.value);
-										  }} 
-										  class="form-control select2-no-search">
-											<option label="Choose one"></option>
-											<option value="">Cash</option>
-											<option value="Alabama">Mpesa</option>
-											<option value="Alaska">Credit</option>
-											
-											
-										</select>
-									</div>
-									
-								</div>
-								<div class="form-footer mt-2">
-
-								{!isLoading && <button type="submit"
-								onClick={() => {
-									saveCustomer();
-								  }}
-								
-								
-								class="btn btn-primary">Save Customer</button>
-
-							} 
-							{isLoading &&
-								<button type="submit" class="btn btn-primary btn-md btn-block mt-3 waves-effect" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
-							}
-									
-								</div>
 							</div>
 						</div>
 
@@ -645,6 +686,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 							</div>
 						</div>
 					</div>
+					<ToastContainer/>
 					</div>
 				</div>
 
@@ -679,6 +721,148 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
                     }
                 </Modal.Body>
             </Modal>
+
+
+			<Modal show={showCustomerModal} onHide={handleCloseCustomerModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add Customer</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {productsCount > 0 ?
+                        <>
+
+
+						<div class="form-group mb-4">
+								<div class=" gutters-xs">
+								
+								<p class="mg-b-10">Order Id: {orderNo}</p>
+								<Button onClick={handleNewCustomer}>+ New customer</Button>
+											
+                                    {!newCustomer &&
+										<div class="form-group mb-0">
+									<div class="form-group">
+									<label class="form-label mt-4 fs-15">Select Customer</label>
+										<select name="alabama" onChange={handleSubCategorySelect}
+										
+										  class="form-control select2-no-search">
+
+										  
+											<option label="Choose one"></option>
+											{customersList.map((value, key) => {
+												return (
+											<option value={value.id}>{value.name}</option>
+											
+											)})}
+											
+											
+											
+										</select>
+									</div>
+									</div>
+
+
+									
+									}
+									
+
+									<p class="mg-b-10">Customer Name</p>
+
+										
+
+											<div class="form-group mb-0">
+										<div class="form-group">
+											<input type="text" class="form-control" id="postal" value={name} onChange={(event) => {
+												setName(event.target.value);
+											  }} placeholder="Customer Name"/>
+										</div>
+									</div>
+
+									<div class="form-group mb-0">
+										<div class="form-group">
+											<input type="text" class="form-control" id="postal" value={phone_no} onChange={(event) => {
+												setPhone_no(event.target.value);
+											  }} placeholder="Phone No."/>
+										</div>
+									</div>
+
+									
+									<div class="form-group mb-0">
+									<div class="form-group">
+										<input type="text" class="form-control" id="postal" onChange={(event) => {
+											setAmountPaid(event.target.value);
+										  }} placeholder="Amount Paid"/>
+									</div>
+								</div>
+											
+									</div>
+
+									{/**
+									<label class="form-label mt-4 fs-15">Purchase Type</label>
+									<div class="gutters-xs">
+										<select name="alabama" onChange={(event) => {
+											setpurchase_type(event.target.value);
+										  }} 
+										  class="form-control select2-no-search">
+											<option label="Choose one"></option>
+											<option value="">Cash</option>
+											<option value="Alabama">Mpesa</option>
+											<option value="Alaska">Credit</option>
+											
+											
+										</select>
+									</div> */}
+								
+									
+								</div>
+								<div class="form-footer mt-2">
+
+								{!isLoading && !newCustomer && <button type="submit"
+								onClick={() => {
+									saleItems();
+								  }}
+								
+								
+								class="btn btn-primary">Save</button>
+
+							} 
+
+
+							{!isLoading && newCustomer && <button type="submit"
+								onClick={() => {
+									saleItems();
+								  }}
+								
+								
+								class="btn btn-primary">Save Customer</button>
+
+							} 
+
+
+
+
+
+
+							{isLoading &&
+								<button type="submit" class="btn btn-primary btn-md btn-block mt-3 waves-effect" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Saving Infor</button>
+							}
+									
+								</div>
+                           
+                           
+
+                            <h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
+
+						
+
+
+		
+                        </>
+                    :
+                        <h1>There are no items in your cart!</h1>
+                    }
+                </Modal.Body>
+            </Modal>
+
 
 </div>
   )

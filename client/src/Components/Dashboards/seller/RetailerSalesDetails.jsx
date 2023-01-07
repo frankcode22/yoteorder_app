@@ -38,6 +38,8 @@ function RetailerSalesDetails(){
   
     const [ordersList, setOrdersList] = useState([]);
 
+    const [sales, setSales] = useState([]);
+
     const [businessId, setbusinessId] = useState('');
 
     const [business_name, setbusiness_name] = useState("");
@@ -226,6 +228,8 @@ function RetailerSalesDetails(){
 
           //setOrdersList(response.data.Orders)
 
+          setSales(response.data.my_buss.RetailerSales)
+
           setCustomersCount(response.data.my_buss.Customers.length)
 
           //setcustomer_contacts(response.data.Customers.)
@@ -273,6 +277,8 @@ function RetailerSalesDetails(){
                     setBussSetup(true);
           
                     setOrdersList(response.data)
+
+                    
           
                    // setCustomersCount(response.data.Customers.length)
           
@@ -294,7 +300,7 @@ function RetailerSalesDetails(){
                // setSeller_name(response.data.Users);
                 setIsDivLoading(false)   // Hide loading screen 
                // toast.info('Product saved successfully');
-            }, 4000);
+            }, 700);
 
     
         
@@ -471,29 +477,58 @@ function RetailerSalesDetails(){
         <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
         <thead>
             <tr>
+                <th>#</th>
                 <th>Order Id</th>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Order Time</th>
-                <th>Cost</th>
-                <th>Payment Method</th>
+                <th>Total</th>
+                <th>Amount Paid</th>
+                <th>Balance</th>
+                <th>Customer Contacts</th>
+                <th>Date</th>
+                <th>Actions</th>
+               
             </tr>
         </thead>
         <tbody>
 
-        {ordersList.map((value, key) => {
+        {sales.map((value, key) => {
           return (
             <tr>
-                <td>
+            <td>
                     <div class="project-contain">
-                        <h6 class="mb-1 tx-13">{value.id}</h6>
+                        <h6 class="mb-1 tx-13">{key}</h6>
                     </div>
                 </td>
-                <td>{value.item_name}</td>
-                <td>{value.quantity_ordered}</td>
+                <td>
+                    <div class="project-contain">
+                        <h6 class="mb-1 tx-13">{value.orderId}</h6>
+                    </div>
+                </td>
+                <td>{value.total}</td>
+                <td><span class="badge bg-primary-gradient">{value.amount_paid}</span></td>
+               
+                <td><span class="badge bg-warning">{value.balance}</span></td>
+                <td>{value.customer_phone_no}</td>
                 <td>{value.createdAt}</td>
-                <td><span class="badge bg-primary-gradient">250</span></td>
-                <td>Cash</td>
+              
+               
+                <td class="text-center align-middle">
+                <div class="btn-group align-top">
+
+
+                <a data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo80" class="btn btn-primary btn-block"><i class="fa fa-plus-square mx-2"></i>Edit</a>
+
+
+              
+
+
+                      <a 
+                    
+                
+                          data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo801" class="btn btn-danger btn-block"><i class="fa fa-trash mx-2"></i>Cancel</a>
+                
+                   
+                </div>
+            </td>
             </tr>
         )
         })}

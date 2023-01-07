@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import SideMenu from './SideMenu'
 import TopHeader from './TopHeader'
 
@@ -7,11 +7,61 @@ import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductsComponent from './ProductsComponent';
 import POSComponent from './POSComponent';
+import { useNavigate,Link} from "react-router-dom"
 
 import { productsArray } from '../../../helpers/productsStore';
 import Store from './Store';
+import SalesComponent from './SalesComponent';
+import OrdersComponent from "./OrdersComponent";
 
 function RetailPOS() {
+
+
+    const [showPOS, setShowPOS] = useState(true);
+
+    const [showSales, setShowSales] = useState(false);
+
+    const [showOrders, setShowOrders] = useState(false);
+
+    
+  let history = useNavigate();
+
+   
+
+    const displayPOS=()=>{
+
+        setShowPOS(true)
+        setShowOrders(false)
+        setShowSales(false)
+        
+ 
+ 
+ 
+     }
+
+
+     const viewOrders=()=>{
+
+        setShowPOS(false)
+        setShowSales(false)
+        setShowOrders(true)
+        
+ 
+ 
+ 
+     }
+
+    const viewSales=()=>{
+
+       setShowPOS(false)
+       setShowOrders(false)
+       
+       setShowSales(true)
+       
+
+
+
+    }
     return (
       <div class="main-body app sidebar-mini ltr">
       <div class="page custom-index">
@@ -110,11 +160,11 @@ function RetailPOS() {
                               <div class="main-content-left main-content-left-mail card-body pt-0 ">
                                   <div class="main-settings-menu">
                                       <nav class="nav main-nav-column">
-                                          <a class="nav-link thumb active mb-2" href="javascript:void(0);"><i class="fe fe-home"></i> Main </a>
-                                          <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-grid"></i> Web Apps</a>
+                                          <a class="nav-link thumb active mb-2" href="javascript:void(0);" onClick={displayPOS}><i class="fe fe-home"></i> POS </a>
+                                          <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);" onClick={viewOrders}><i class="fe fe-grid"></i>Orders</a>
                                        
                                     
-                                          <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-layers"></i> Tabular</a>
+                                          <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);" onClick={viewSales}><i class="fe fe-layers"></i> Sales</a>
                                           
                                           <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-bell"></i> Notifications</a>
                                       </nav>
@@ -131,7 +181,7 @@ function RetailPOS() {
 
                             
 
-                          <Store></Store>
+                          {showPOS && <Store></Store>}
 
                               
   
@@ -140,7 +190,12 @@ function RetailPOS() {
   
                         
 
-                          <POSComponent></POSComponent>
+                          {showPOS && <POSComponent></POSComponent>}
+
+
+                          {showSales && <SalesComponent></SalesComponent>}
+
+                          {showOrders &&<OrdersComponent></OrdersComponent>}
 
                        
   
@@ -163,7 +218,7 @@ function RetailPOS() {
   
                               
                     
-                          <ToastContainer/>
+                         
                           </div>
                       </div>
                   </div>

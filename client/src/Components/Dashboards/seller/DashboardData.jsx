@@ -294,7 +294,7 @@ function DashboardData() {
                // setSeller_name(response.data.Users);
                 setIsDivLoading(false)   // Hide loading screen 
                // toast.info('Product saved successfully');
-            }, 4000);
+            }, 1000);
 
     
         

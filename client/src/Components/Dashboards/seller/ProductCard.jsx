@@ -25,14 +25,11 @@ function ProductCard(props) { // props.product is the product we are selling
             if(response.data.my_buss!=null){
     
            
-        
+    
                 setbussId(response.data.my_buss.id);
     
              
     
-    
-           
-          
             
           
             }
@@ -48,7 +45,7 @@ function ProductCard(props) { // props.product is the product we are selling
              })
 
 
-    },[businessDetails]);
+    },[bussId]);
 
     return (
        
@@ -76,14 +73,14 @@ function ProductCard(props) { // props.product is the product we are selling
                            
                             
                 
-                            <a class="shop-title fs-18">{product.title}</a>
+                            <a class="shop-title fs-18">{product.name}</a>
                             
                         </div>
                     </div>
                     
                     <div>
                    
-                        <p class="shop-description fs-13 text-muted mt-2 mb-0">Product description here</p>
+                        <p class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-success">In Stock: {product.quantity}</span></p>
                     </div>
                 </div>
             </div>
@@ -100,7 +97,7 @@ function ProductCard(props) { // props.product is the product we are selling
 
                                <Button sm="6" onClick={() => cart.removeOneFromCart(product.id)} className="mx-2">-</Button>
 
-                               <Button sm="6" onClick={() => cart.addOneToCart(product.id,bussId)} className="mx-2">+</Button>
+                               <Button sm="6" onClick={() => cart.addOneToCart(product.id,product.price,bussId)} className="mx-2">+</Button>
                            
 												
 												
@@ -117,7 +114,7 @@ function ProductCard(props) { // props.product is the product we are selling
                     <Button variant="danger" onClick={() => cart.deleteFromCart(product.id)} className="my-2">Remove from cart</Button>
                 </>
                 :
-                <Button variant="primary" onClick={() => cart.addOneToCart(product.id,bussId)}>Add To Cart</Button>
+                <Button variant="primary" onClick={() => cart.addOneToCart(product.id,product.price,bussId)}>Add To Cart</Button>
             }
 
 
