@@ -9,6 +9,8 @@ import { Helmet } from "react-helmet";
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
 
+
+
 import 'react-toastify/dist/ReactToastify.css';
 
 import { AuthContext } from '../../../helpers/AuthContext'
@@ -62,7 +64,9 @@ function SuppliersAvailable() {
 
     const [itemName, setItemName] = useState('');
 
-    const [quantityOrdered, setQuantityOrdered] = useState('');
+    const [counter, setCounter] = useState(1);
+
+    const [quantityOrdered, setQuantityOrdered] = useState(1);
 
     const [order_description, setorder_description] = useState('');
 
@@ -95,6 +99,10 @@ function SuppliersAvailable() {
 
     const [businessId, setbusinessId] = useState('');
 
+    const [retailerName, setRetailerName] = useState('');
+
+    const [retailerContacts, setRetailerContacts] = useState('');
+
 
     const [showGridView,setShowGridView]=useState(false);
 
@@ -121,12 +129,16 @@ function SuppliersAvailable() {
 
 
 
-        API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
       
             if(response.data.my_buss!=null){
     
                 setMyBussinesses(response.data.my_buss)
                 setbusinessId(response.data.my_buss.id);
+
+                setRetailerName(response.data.my_buss.business_name)
+
+                setRetailerContacts(response.data.my_buss.contacts)
         
             
           
@@ -208,6 +220,22 @@ const showInGridView=()=>{
   
     //setShowBusinessSetupDiv(false)
     //setShowHelpAndSupport(false)
+  }
+
+
+  const incrementOrder=(pId)=>{
+
+    setItemId(pId)
+
+    setQuantityOrdered(quantityOrdered+1)
+
+  }
+
+ 
+  const incrementCounter = () => setQuantityOrdered(quantityOrdered + 1);
+  let decrementCounter = () => setQuantityOrdered(quantityOrdered - 1);
+  if(quantityOrdered<=0) {
+    decrementCounter = () => setQuantityOrdered(1);
   }
 
 
@@ -341,13 +369,15 @@ const postOrder=(pId,sId,item)=>{
    const order_data={
 
     item_name:itemName,
+    retailerName:retailerName,
+    retailerContacts:retailerContacts,
+    suppier_name:name,
     order_description:order_description,
     quantityOrdered:quantityOrdered,
+    supplier_contacts:supplier_contacts,
     supplierId:supplierId,
     supplyStoresId:itemId,
     RetailerId:businessId,
-
-    
    
 }
     
@@ -356,7 +386,7 @@ const postOrder=(pId,sId,item)=>{
 
     try {
   
-  API.post("order/orderfromsupplier",order_data).then((response)=>{
+  API.post("order/orderfromretailer",order_data).then((response)=>{
 
 
  // setBusinessDetails(b.map(post => post.id === id ? { ...response.data } : post));
@@ -756,7 +786,7 @@ const sendMsg=()=>{
                     </div>
                 </div>
 
-                <Modal class="modal fade" id="modaldemo8" show={show} onHide={handleClose}>
+                <Modal class="modal fade" id="modaldemo8" show={show}>
 
 <Modal.Header>
 <Modal.Title>Completing Order</Modal.Title>
@@ -804,7 +834,7 @@ const sendMsg=()=>{
     <label class="form-label mt-4 fs-15">Agangement Type</label>
     <div class="gutters-xs">
         <select name="alabama" onChange={(event) => {
-            notificationType(event.target.value);
+            setNotificationType(event.target.value);
           }} 
           class="form-control select2-no-search">
             <option label="Choose one"></option>
@@ -823,7 +853,7 @@ const sendMsg=()=>{
 
 
 
-class="btn btn-primary">Save Details</button>
+class="btn btn-primary">Send</button>
 
 } 
 {isLoading &&
@@ -910,18 +940,26 @@ Save Changes
                     </div>
                 
                     <label class="form-label mt-4 fs-15">Order Quantity</label>
+
+                    <a class="shop-title fs-18">In Cart: {quantityOrdered}</a>
+
+
+                    
+
+
                     <div class="gutters-xs">
-                        <select name="alabama" onChange={(event) => {
-                            setQuantityOrdered(event.target.value);
-                          }} 
-                          class="form-control select2-no-search">
-                            <option label="Choose one"></option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            
-                            
-                        </select>
+
+                    <div class="btn-icon-list">
+
+                               <Button sm="6" onClick={() => decrementCounter()}  className="mx-2">-</Button>
+
+                               <Button sm="6" onClick={() => incrementCounter()}  className="mx-2">+</Button>
+                           
+												
+												
+												
+											</div>
+                       
                     </div>
                     
                 </div>

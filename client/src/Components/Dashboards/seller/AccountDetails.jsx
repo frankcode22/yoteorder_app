@@ -361,7 +361,7 @@ function AccountDetails(props) {
   
   
   
-            API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+            API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
       
           if(response.data.my_buss!=null){
   

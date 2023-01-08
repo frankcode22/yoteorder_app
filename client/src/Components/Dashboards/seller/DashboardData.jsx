@@ -203,110 +203,63 @@ function DashboardData() {
 
 
            
+              API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+                setTimeout(() => {
+   
+                if(response.data.my_buss!=null){
+
+      setIsBusinessSet(true)
+
+      setbusinessId(response.data.my_buss.id);
+
+      //setServicesList(response.data.Services);
+
+      setStaffList(response.data.my_buss.Staffs);
+
+      setbusiness_name(response.data.my_buss.business_name);
+
+      setBussSetup(true);
+
+      setOrdersList(response.data.my_buss.Orders)
+
+      //setSales(response.data.my_buss.RetailerSales)
+
+      setCustomersCount(response.data.my_buss.Customers.length)
+
+      //setcustomer_contacts(response.data.Customers.)
+  
+    
+  
+    }
+    else{
+  
+      setIsBusinessSet(false)
+      setbusinessId(0)
+      setBussSetup(false);
+      setbusiness_name('nobuzz')
+      setOrdersList([])
+    }
+
+    
+      // setSeller_name(response.data.Users);
+      setIsDivLoading(false)   // Hide loading screen 
+      // toast.info('Product saved successfully');
+   }, 1000);
+
+
+
+   
+    }).catch(() => {
+       setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
+       setIsDivLoading(false);
+    });
 
 
 
              
 
-                API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-    
-        if(response.data.my_buss!=null){
-
-          setIsBusinessSet(true)
-    
-          setbusinessId(response.data.my_buss.id);
-
-          //setServicesList(response.data.Services);
-
-          setStaffList(response.data.my_buss.Staffs);
-
-          setbusiness_name(response.data.my_buss.business_name);
-
-          setBussSetup(true);
-
-          //setOrdersList(response.data.Orders)
-
-          setCustomersCount(response.data.my_buss.Customers.length)
-
-          //setcustomer_contacts(response.data.Customers.)
-      
-        
-      
-        }
-        else{
-      
-          setIsBusinessSet(false)
-          setbusinessId(0)
-          setBussSetup(false);
-          setbusiness_name('nobuzz')
-          //setOrdersList([])
-        }
-    
-        
-         })
-            
-            
-
-
-      
-
-
-         API.get('order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-
-
-
-           
-        
-             setTimeout(() => {
-                if(response.data!=null){
-    
-                    setIsBusinessSet(true)
-              
-                    setbusinessId(response.data.BusinessId);
           
-                    //setServicesList(response.data.Services);
-          
-                    //setStaffList(response.data.Staffs);
-          
-                   // setbusiness_name(response.data.business_name);
-          
-                    setBussSetup(true);
-          
-                    setOrdersList(response.data)
-          
-                   // setCustomersCount(response.data.Customers.length)
-          
-                    //setcustomer_contacts(response.data.Customers.)
-                
-                  
-                
-                  }
-                  else{
-                
-                    setIsBusinessSet(false)
-                    setbusinessId(0)
-                    setBussSetup(false);
-                    setbusiness_name('nobuzz')
-                    setOrdersList([])
-                  }
-      
-
-               // setSeller_name(response.data.Users);
-                setIsDivLoading(false)   // Hide loading screen 
-               // toast.info('Product saved successfully');
-            }, 1000);
-
-    
-        
-            
-             }).catch(() => {
-                setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
-                setIsDivLoading(false);
-             });
-      
-
-
-         
     
 
 

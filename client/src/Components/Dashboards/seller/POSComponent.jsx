@@ -171,7 +171,7 @@ function POSComponent() {
 
     
 
-         API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
           if(response.data.my_buss!=null){
   
@@ -440,7 +440,8 @@ const checkout = async () => {
 	//saveCustomer()
 
 
-	await fetch('http://localhost:8080/api/order/checkout', {
+	 await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
+		//await fetch('http://localhost:8080/api/order/checkout', {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/json'

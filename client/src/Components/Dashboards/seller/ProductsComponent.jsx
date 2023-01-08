@@ -120,6 +120,12 @@ function ProductsComponent(props)
 
     const [servicesList, setServicesList] = useState([]);
 
+    const [retailerCatList, setRetailerCatList] = useState([]);
+
+    const[retailerProductCategoryId,setRetailerProductCategoryId]=useState('')
+
+    
+
     const [staffList, setStaffList] = useState([]);
 
 
@@ -247,17 +253,6 @@ function ProductsComponent(props)
   const [showSetUpError,setShowSetUpError]=useState(false);
 
 
-
-
- 
-
- 
-
- 
-
-
-
-
   useEffect(()=>{
 
     setLat(userPos.lat)
@@ -291,7 +286,7 @@ function ProductsComponent(props)
 
 
 
-       {/** if(businessDetails.my_buss!=null){
+     if(businessDetails.my_buss!=null){
 
            setIsBusinessSet(true)
      
@@ -349,7 +344,7 @@ function ProductsComponent(props)
            setBussSetup(false);
            setbusiness_name('nobuzz')
            //setOrdersList([])
-         } */}
+         } 
 
 
 
@@ -360,19 +355,19 @@ function ProductsComponent(props)
 
 
 
-         API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
           if(response.data.my_buss!=null){
   
             setIsBusinessSet(true)
       
-            setbusinessId(response.data.my_buss.id);
+           // setbusinessId(response.data.my_buss.id);
   
             setlocation(response.data.my_buss.location)
   
-            setServicesList(response.data.my_buss.Services);
+           // setServicesList(response.data.my_buss.Services);
   
-            setStaffList(response.data.my_buss.Staffs);
+            //setStaffList(response.data.my_buss.Staffs);
 
             // setProductsList(response.data.my_buss.Products);
 
@@ -405,7 +400,7 @@ function ProductsComponent(props)
           else{
         
             setIsBusinessSet(false)
-            setbusinessId(0)
+            //setbusinessId(0)
             setBussSetup(false);
             setbusiness_name('nobuzz')
           }
@@ -460,11 +455,11 @@ function ProductsComponent(props)
 
             if(response.data){
        
-               setServicesList(response.data)
+              setRetailerCatList(response.data)
        
             }
             else{
-               setServicesList([])
+              setRetailerCatList([])
        
             }
              
@@ -649,7 +644,7 @@ const buss_data={
 
         console.log("THE BUSINESS ID IS "+response.data.id)
 
-        setbusinessId(response.data.id)
+        //setbusinessId(response.data.id)
 
 
        // console.log("THE NEW BUSINESS OBJECT AFTER SETTING UP MY BUSS IS "+businessDetails)
@@ -1064,24 +1059,35 @@ const showProductsSection=()=>{
 
     formData.append('UserId', userId);
 
+    formData.append('retailerProductCategoryId', retailerProductCategoryId);
 
 
-    setUploding(true);
-    let { data } = await API.post('images/save-product', formData, {
-        onUploadProgress: ({ loaded, total }) => {
-            let progress = ((loaded / total) * 100).toFixed(2);
-            setProgress(progress);
+   
+    let { data } = await API.post('product/save_item', formData, {});
+    
+
+
+    
+    
+
+
+
+  //   setUploding(true);
+  //   let { data } = await API.post('images/save-product', formData, {
+  //       onUploadProgress: ({ loaded, total }) => {
+  //           let progress = ((loaded / total) * 100).toFixed(2);
+  //           setProgress(progress);
            
-        }
-    });
-    setUplodedImg(data.imagePath);
+  //       }
+  //   });
+  //   setUplodedImg(data.imagePath);
 
-   // localStorage.setItem('product_photo', JSON.stringify(data.imagePath));
-    console.log("tTHE IMAGE NAME IS "+data.imagePath)
-    console.log("THE FILE NAME IS "+data.ImageName)
-    console.log("THE BUSS ID IS "+data.businessId)
+  //  // localStorage.setItem('product_photo', JSON.stringify(data.imagePath));
+  //   console.log("tTHE IMAGE NAME IS "+data.imagePath)
+  //   console.log("THE FILE NAME IS "+data.ImageName)
+  //   console.log("THE BUSS ID IS "+data.businessId)
 
-    setUploding(false);
+  //   setUploding(false);
 
 
     setProductsList1([
@@ -1096,7 +1102,7 @@ const showProductsSection=()=>{
             unit_of_measure:unit_of_measure,
             latitude:lat,
             longitude:lng,
-            cloudinary_url:data.cloudinary_url,
+           // cloudinary_url:data.cloudinary_url,
             //cloudinary_url:data.imagePath,
             UserId:userId,
             BusinessId:businessId,
@@ -1552,7 +1558,7 @@ const updateProductNew = async e => {
                            <i class="ion ion-md-star-outline text-warning"></i>
                        </span>
                    </div>
-                   <img class="w-100 mt-2 mb-3" src={value.cloudinary_url}   alt="product-image"/>
+                   
 
                    <button  type="submit" class="btn btn-primary mb-1"
              
@@ -1604,7 +1610,7 @@ const updateProductNew = async e => {
         <div class="row">
         <div class="col mb-3">
           <label for="nameWithTitle" class="form-label">Item Name</label>
-          <input type="text" id="service_name" class="form-control" placeholder="Eg.Pro Gas"
+          <input type="text" id="item_name" class="form-control" placeholder="Eg.Chrome Gine"
           
           onChange={(event) => {
               setName(event.target.value);
@@ -1622,7 +1628,7 @@ const updateProductNew = async e => {
         <textarea id="basic-icon-default-message" class="form-control" placeholder="Eg.Im only reliable type-c cable seller around!" aria-label="Hi, My business deals with beauty services?" 
                                   
         onChange={(event) => {
-          setProduct_description(event.target.value);
+          setProduct_description(event.target.value)
         }}
 
         aria-describedby="basic-icon-default-message2"></textarea> 
@@ -1640,13 +1646,13 @@ const updateProductNew = async e => {
         <label class="form-label" for="multicol-country">Category</label>
         <select id="multicol-country" class="form-control select2 form-select"
             onChange={(event) => {
-                setType(event.target.value);
+              setRetailerProductCategoryId(event.target.value);
             }}
 
             data-allow-clear="true">
             <option value="">Select Category</option>
 
-            {servicesList.map((value,key)=>{
+            {retailerCatList.map((value,key)=>{
 
               return (
 
@@ -1686,20 +1692,19 @@ const updateProductNew = async e => {
 
 
         </div>
-        
+        </div>
 
         <div class="form-row">
-        <div class="form-group col-md-6 mb-0">
-     
+
+      <div class="form-group col-md-6 mb-0">
+
 
         <label class="form-label" for="multicol-country">Unit Of Measure</label>
         <select id="multicol-country" class="form-control select2 form-select"
-            value={unit_of_measure}
-            onChange={(event) => {
-                setunit_of_measure(event.target.value);
-            }}
-
-
+       
+        onChange={(event) => {
+            setunit_of_measure(event.target.value);
+        }}
 
             data-allow-clear="true">
             <option value="">Select Unit Of Measure</option>
@@ -1714,46 +1719,45 @@ const updateProductNew = async e => {
             <option value="Package">Package</option>
 
             <option value="Order">Order</option>
-            {/** <option value="Kgs">Kgs</option>
-          
-            <option value="Plate">Plates</option>
-            <option value="Piece">Piece</option>
 
-            <option value="foot">foot</option>
-
-            <option value="mitre">mitre</option>
-
-           
-
-            <option value="Agreement">Agreement</option> */}
-           
-
-
-
+            
 
 
         </select>
 
 
-    
+         
         </div>
+
         <div class="form-group col-md-6 mb-0">
+
+       
             <div class="form-group">
-            <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
+            <label for="dobWithTitle" class="form-label">Price(Per Item)</label>
             <input type="number" id="price" class="form-control"
 
-                onChange={(event) => {
-                    setPrice(event.target.value);
-                }}
-
+            onChange={(event) => {
+              setPrice(event.target.value);
+          }}
 
             />
-           {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
+            {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
             </div>
-        </div>
-    </div>
 
-        <div class="form-group">
+            <input type="text" value={businessId}  onChange={(event) => {
+              setbusinessId(event.target.value);
+            }} placeholder="bussId"/>
+        
+
+
+
+        </div>
+        </div>
+        <div class="form-row">
+        
+
+
+    {/** <div class="form-group">
         <label class="form-label mt-0">Upload Product Photo</label>
         <input class="form-control" type="file"
         name="image"
@@ -1778,7 +1782,9 @@ const updateProductNew = async e => {
                 alt="chosen"
                 style={{ height: '300px' }}
             />
-        )}
+        )} */}
+
+       
       </div>
         
         

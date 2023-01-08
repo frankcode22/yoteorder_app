@@ -49,7 +49,7 @@ import DataContext from '../../../helpers/DataContext';
 function PataMtaaniRetailers() {
 
     const {bussinessList, setBussinessList} = useContext(DataContext);
-    const [retailerList, setRetailerList] = useState([]);
+    const {retailerList, setRetailerList} =useContext(DataContext);
 
     const [isLoading,setLoading]=useState(false);
 
@@ -84,28 +84,7 @@ function PataMtaaniRetailers() {
     
 
               
-   if(bussinessList!=null){
-
-
-    setTimeout(() => {
-
-    setRetailerList(bussinessList)
-    //setIsDivLoading(false)  
-        
-     
-    }, 2000);
-
    
-
-
-}
-else{
-
-    setErrorMessage("Unable to fetch your vendors list");
-   // setIsDivLoading(false);
-
-   setRetailerList([])
-}
        
     
     
@@ -114,7 +93,7 @@ else{
     
     
     
-    },[bussinessList]);
+    },[retailerList]);
     
     
     const viewSelectedProduct=(id)=>{
@@ -329,7 +308,7 @@ const showInGridView=()=>{
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            {bussinessList.map((value,key)=>{
+                                            {retailerList.map((value,key)=>{
 
                                                 return (
                                                 <tr>

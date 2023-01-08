@@ -180,7 +180,19 @@ function HomePatamtaani() {
 
     <Helmet>
 
-    <link href="assets/css/homeStyles.css" rel="stylesheet"></link>
+    <link href="assets_home/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+
+    <link href="assets_home/css/style.css" rel="stylesheet"></link>
+
+    <link href="assets_home/css/plugins.css" rel="stylesheet"></link>
+
+    <link href="assets_home/css/icons.css" rel="stylesheet"></link>
+
+    <link href="assets_home/switcher/css/switcher.css" rel="stylesheet"></link>
+
+    <link href="assets_home/switcher/css/demo.css" rel="stylesheet"></link>
+
+    
    
     
     
@@ -224,7 +236,7 @@ function HomePatamtaani() {
   
 <section>
 <div class="banner-1 cover-image sptb-2 sptb-tab bg-background2"
-  data-bs-image-src="../assets/images/banners/banner1.jpg"
+  data-bs-image-src="assets_home/images/banners/banner1.jpg"
   style={{background: 'url("assets/images/banners/banner1.jpg") center center'}}>
   <div class="header-text mb-0">
     <div class="container">
@@ -312,6 +324,43 @@ function HomePatamtaani() {
 <FooterComponent></FooterComponent>
     
     </div>
+
+
+    <Helmet>
+
+
+
+<script type="text/jsx" src="assets_home/js/jquery.js"></script>
+
+<script src="assets_home/plugins/bootstrap/js/popper.min.js"></script>
+
+<script type="text/jsx" src="assets_home/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="assets_home/js/vendors/jquery.sparkline.min.js"></script>
+
+<script src="assets_home/js/vendors/circle-progress.min.js"></script>
+
+<script src="assets_home/plugins/Horizontal2/Horizontal-menu/horizontal.js"></script>
+
+<script src="assets_home/js/jquery.touchSwipe.min.js"></script>
+
+<script src="assets_home/plugins/select2/select2.full.min.js"></script>
+
+<script src="assets_home/js/select2.js"></script>
+<script src="assets_home/js/sticky.js"></script>
+
+<script src="assets_home/js/custom-sticky.js"></script>
+
+<script src="assets_home/plugins/pscrollbar/pscrollbar.js"></script>
+
+<script src="assets_home/js/swipe.js"></script>
+
+<script src="assets_home/js/custom.js"></script>
+
+<script src="assets_home/switcher/js/switcher.js"></script>
+
+
+</Helmet>
   
 
 </div>

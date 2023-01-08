@@ -112,22 +112,22 @@ function AccountSettingNew() {
 
 
 
-API.get("suppliers/getall",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+// API.get("suppliers/getall",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
            
     
-    if(response.data){
+//     if(response.data){
 
-       setSupplierList(response.data)
+//        setSupplierList(response.data)
 
-    }
-    else{
-        setSupplierList([])
+//     }
+//     else{
+//         setSupplierList([])
 
-    }
+//     }
      
 
-      console.log("THE SUPPLIER LIST DATA "+response.data)
-      })
+//       console.log("THE SUPPLIER LIST DATA "+response.data)
+//       })
        
     
     
@@ -318,7 +318,7 @@ const showInGridView=()=>{
                         <div class="col-xl-3 col-lg-12">
                        
 
-                            <a onClick={showSupportEntryForm} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal"><i class="fa fa-plus-square me-2"></i>New Retailer</a>
+                            <a onClick={showSupportEntryForm} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal"><i class="fa fa-plus-square me-2"></i>Edit Details</a>
                         </div>
                     </div>
                         </div>
@@ -335,83 +335,7 @@ const showInGridView=()=>{
                                         <i class="mdi mdi-dots-horizontal text-gray"></i>
                                     </div>
                                   
-                                    <div class="table-responsive mb-0">
-                                        <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
-                                            <thead>
-                                                <tr>
-                                                <th class="text-center">
-
-                                                #
-
-                                                </th>
-                                               
-                                                <th>Business Name</th>
-                                                <th>Type</th>
-                                                <th>Industry</th>
-                                                <th>Contacts</th>
-                                                
-                                               
-                                             
-                                                <th class="text-center">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {supplierList.map((value,key)=>{
-
-                                                return (
-                                                <tr>
-                                                    <td>
-                                                    {key} 
-                                                    </td>
-                                                   
-                                        <td class="text-nowrap align-middle">{value.business_name}</td>
-                                        <td class="text-nowrap align-middle">{value.business_type}</td>
-
-                                       
-                                
-                                       
-
-                                        
-                                     
-                                       
-
-                                        <td class="text-nowrap align-middle">{value.industry}</td>
-
-                                        <td class="text-nowrap align-middle">{value.contacts}</td>
-
-                                       
-                                         {/** <td class="text-nowrap align-middle">{value.Business.longitude?value.Business.longitude:'no bizz'}</td> */}
-                                        
-
-                                        
-
-                                      
-
-                                       
-
-                                        <td class="text-center align-middle">
-                                            <div class="btn-group align-top">
-                                            <button class="btn btn-sm btn-primary badge" onClick={() => {
-                                                viewSelectedProduct(value.id);
-                                                  }} type="button">View</button>
-                                            
-                                                <button class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" type="button">Edit</button> <button class="btn btn-sm btn-primary badge" type="button"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                                </tr>
-                                                )
-
-
-
-
-                                            })}
-                                                
-                                                
-                                                
-                                            
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                  
                                 </div>
                             </div>
                         </div>

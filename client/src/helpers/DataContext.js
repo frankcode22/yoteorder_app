@@ -12,6 +12,8 @@ export const DataProvider = ({ children }) => {
     const [posts, setPosts] = useState([])
     const [bussinessList, setBussinessList] = useState([])
 
+    const [retailerList, setRetailerList] = useState([])
+
     const [productsList1, setProductsList1] = useState([]);
 
     const[businessDetails,setBusinessDetails]=useState([])
@@ -46,7 +48,7 @@ export const DataProvider = ({ children }) => {
                 setBussinessList(response.data)
 
              
-            }, 2000);
+            }, 1000);
 
             //setSeller_name(response.data.Users.first_name)
             
@@ -58,9 +60,86 @@ export const DataProvider = ({ children }) => {
          });
 
 
+         API.get('retailer/allretailers').then((response) => {
+            // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+  
+           
+  
+              console.log("RETAILER LIST FROM THE CONTEXT"+response.data)
+  
+             
+              setTimeout(() => {
+  
+                  //setPosts(response.data)
+                  setRetailerList(response.data);
+                  
+  
+               
+              }, 1000);
+  
+              //setSeller_name(response.data.Users.first_name)
+              
+          }).catch((error) => {
+              
+  
+              console.log("CONTEXT ERROR OCCURED"+error)
+            
+           });
+
+
+      {/**  API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
          
-         API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+            //console.log("MY BUSINESS DETAILS FROM THE CONTEXT"+response.data)
+
+
+        if (response.data.error) {
+            console.log("BACKEND ERROR HERE:"+response.data.error)
+              }
+
+
+            if(response.data.my_buss!=null){
+
+            localStorage.setItem("business_set", true);
+            setProductsList1(response.data.my_buss.Products)
+            setBusinessDetails(response.data)
+
+            }
+            else{
+                localStorage.setItem("business_set", false);
+                setProductsList1([])
+
+            }
+
+
+
+           
+            // setTimeout(() => {
+
+              
+            //     setBusinessDetails(response.data)
+
+             
+            // }, 1000);
+
+            //setSeller_name(response.data.Users.first_name)
+            
+        }).catch((error) => {
+            
+
+            console.log("CONTEXT ERROR OCCURED"+error)
+          
+         }); */}
+         
+       
+
+
+
+
+
+            
+         API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
 
          
 
@@ -115,14 +194,14 @@ export const DataProvider = ({ children }) => {
       
   
   
-  },[setPosts,setBussinessList,setBusinessDetails,setProductsList1]);
+  },[setPosts,setBussinessList,setRetailerList,setBusinessDetails,setProductsList1]);
 
     
 
     return (
         <DataContext.Provider value={{
             search, setSearch,
-            searchResults,
+            searchResults,retailerList,setRetailerList,
             bussinessList,setBussinessList,businessDetails,setBusinessDetails,productsList1, setProductsList1,imagePath, setImagePath,
             posts, setPosts
         }}>

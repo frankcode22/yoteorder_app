@@ -42,6 +42,10 @@ import {VendorAccount,Player} from '../../../utils/VideoPlayers'
 function RetailerDetails(props) {
     const {businessDetails,setBusinessDetails} = useContext(DataContext);
 
+    const {bussinessList, setBussinessList} = useContext(DataContext);
+
+    const {retailerList, setRetailerList} =useContext(DataContext);
+
     // const {bussinessList, setBussinessList} = useContext(DataContext);
   
     const {userPos, setUserPos} = useContext(LocationDataContextInit);
@@ -566,7 +570,7 @@ function RetailerDetails(props) {
       industry:industry,
       location:address,
       contacts:buss_contacts,
-  
+      email:email,
       address_line_1:address_line_1,
       latitude:mapCenter.lat,
       longitude:mapCenter.lng,
@@ -628,13 +632,15 @@ function RetailerDetails(props) {
 
                 else{
           
-          API.post("business/bussinfor",buss_data).then((response)=>{
+          API.post("retailer/bussinfor",buss_data).then((response)=>{
   
   
          // setBusinessDetails(b.map(post => post.id === id ? { ...response.data } : post));
   
-         const newDetails = response.data;
-         setBusinessDetails(newDetails ?{ ...response.data } : businessDetails);
+      
+
+
+         
   
   
   
@@ -663,6 +669,11 @@ function RetailerDetails(props) {
   
   
          // console.log("THE NEW BUSINESS OBJECT AFTER SETTING UP MY BUSS IS "+businessDetails)
+
+
+        // const newDetails = response.data;
+         //setRetailerList(newDetails ?{ ...response.data } : retailerList);
+
   
   
   
@@ -1438,7 +1449,7 @@ function RetailerDetails(props) {
                   }}
                 
                 
-                placeholder="Eg.Johnson Distributers" />
+                placeholder="Eg.Escara Wines" />
               </div>
             </div>
           </div>
@@ -1503,41 +1514,17 @@ function RetailerDetails(props) {
                   data-allow-clear="true">
 
                   <option value="Wines-Spirits" selected>Drinks/Wines/Spirts/Alcohol</option>
-                  <option value="Domestic-Products">Household Products</option>
+                  <option value="Domestic-Products">Club/Pub</option>
                  
 
-                  <option value="Domestic-Products">Domestic Products</option>
+                  <option value="Domestic-Products">Wines</option>
 
                   
 
                   <option value="Drinks">Drinks</option>
                   <option value="Ready Made Meals">Ready Made Meals</option>
                
-                  <option value="Beauty">Beauty</option>
-                  <option value="Education">Education</option>
-                  <option value="Automotive">Wellbeing</option>
-                  <option value="pt">Automotive</option>
-                  <option value="home care">Home Care</option>
-                  <option value="Maintenance">Maintenance</option>
-                  <option value="Electronics">Electronics</option>
-               
-                  <option value="Automotive">Automotive</option>
-
-                  <option value="Contruction">Contruction</option>
-        
-                  
-                  <option value="Clothing">Clothing</option>
-                  <option value="Computing">Computing</option>
-        
-        
-                  <option value="Domestic">Domestic Use</option>
-                  <option value="Home-Based">Home-Based</option>
-                  <option value="Beauty">Beauty</option>
-        
-                  <option value="Agricultural">Agricultural</option>
-                  <option value="Livestock">Livestock</option>
-                  <option value="Poultry">Poultry</option>
-                  <option value="Aquatic">Aquatic</option>
+                 
                 </select>
               </div>
             </div>

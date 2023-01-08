@@ -7,6 +7,9 @@ function FooterComponent() {
     <div class="row">
         <div class="card">
             <div class="card-body">
+
+
+            
                 <div class="top-footer">
                     <div class="row">
 
@@ -55,14 +58,17 @@ function FooterComponent() {
                                 </div>
                             </div>
                             <div class="btn-list mt-6">
-                                <button type="button" class="btn btn-icon rounded-pill"><i
-                                        class="fa fa-facebook"></i></button>
-                                <button type="button" class="btn btn-icon rounded-pill"><i
-                                        class="fa fa-youtube"></i></button>
-                                <button type="button" class="btn btn-icon rounded-pill"><i
-                                        class="fa fa-twitter"></i></button>
-                                <button type="button" class="btn btn-icon rounded-pill"><i
-                                        class="fa fa-instagram"></i></button>
+                           
+                                <button type="button" class="btn-floating btn-sm rgba-white-slight mx-1 waves-effect waves-light"><i
+                                        class="fa fa-facebook bg-facebook"></i></button>
+                                <button type="button"  class="btn-floating btn-sm rgba-white-slight mx-1 waves-effect waves-light"> <i
+                                class="fa fa-twitter bg-info"></i></button>
+                                <button type="button" class="btn-floating btn-sm rgba-white-slight mx-1 waves-effect waves-light"> <i
+                                class="fa fa-google-plus bg-danger"></i></button>
+                                <button type="button" class="btn-floating btn-sm rgba-white-slight mx-1 waves-effect waves-light"> <i
+                                class="fa fa-linkedin bg-linkedin"></i></button>
+                                <button type="button" class="btn-floating btn-sm rgba-white-slight mx-1 waves-effect waves-light"><i
+                                        class="fa fa-instagram bg-info"></i></button>
                             </div>
                             <hr/>
                         </div>

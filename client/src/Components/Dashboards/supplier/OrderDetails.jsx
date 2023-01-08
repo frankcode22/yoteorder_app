@@ -28,8 +28,8 @@ import DivLoader from '../../../utils/DivLoader';
 import { BusinessDetailsContext } from '../../../helpers/BusinessDetailsContext';
 import DataContext from '../../../helpers/DataContext';
 
-function RetailerSalesDetails(){
-    const {businessDetails,setBusinessDetails } = useContext(DataContext);
+function OrderDetails() {
+    //const {businessDetails,setBusinessDetails } = useContext(DataContext);
 
 
     // const my_buss_details = useContext(BusinessDetailsContext)
@@ -122,27 +122,21 @@ function RetailerSalesDetails(){
 
         setIsDivLoading(true);
 
-     let buss_status=localStorage.getItem('business_set')
+    // let buss_status=localStorage.getItem('business_set')
 
-     console.log("BUSS STATUS",buss_status)
+    // console.log("BUSS STATUS",buss_status)
 
-     setIsBusinessSet(buss_status)
-
-
+   //  setIsBusinessSet(buss_status)
 
 
 
-      
+
+
+       
        // setIsBusinessSet(buss_status)
 
        
-         //API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-         API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-    
-            setUserId(response.data.id)
-      
-      
-           })
+       
     
         //    //API.get("customer/mycustomers").then((response) => {
         //   API.get("order/getallorders").then((response) => {
@@ -160,7 +154,7 @@ function RetailerSalesDetails(){
             //     setOrdersList(response.data);
             //     })
 
-            console.log("YOUR VENDOR BUSINESS DETAILS  IS ",businessDetails);
+           // console.log("YOUR VENDOR BUSINESS DETAILS  IS ",businessDetails);
 
 
 
@@ -209,15 +203,16 @@ function RetailerSalesDetails(){
            
 
 
+
              
 
-                API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-    
+                API.get('suppliers/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+                    
                     setTimeout(() => {
        
                     if(response.data.my_buss!=null){
 
-          setIsBusinessSet(true)
+         // setIsBusinessSet(true)
     
           setbusinessId(response.data.my_buss.id);
 
@@ -227,15 +222,16 @@ function RetailerSalesDetails(){
 
           setbusiness_name(response.data.my_buss.business_name);
 
-          setBussSetup(true);
+          //setBussSetup(true);
 
           //setOrdersList(response.data.Orders)
 
-          setSales(response.data.my_buss.RetailerSales)
+          setSales(response.data.my_buss.OrdersFromRetailors)
 
-          setCustomersCount(response.data.my_buss.Customers.length)
+          //setCustomersCount(response.data.my_buss.Customers.length)
 
           //setcustomer_contacts(response.data.Customers.)
+          console.log('IT IS NOT EMPTY')
       
         
       
@@ -249,25 +245,80 @@ function RetailerSalesDetails(){
           //setOrdersList([])
         }
     
-        
-          // setSeller_name(response.data.Users);
-          setIsDivLoading(false)   // Hide loading screen 
-          // toast.info('Product saved successfully');
-       }, 1000);
+        // setSeller_name(response.data.Users);
+        setIsDivLoading(false)   // Hide loading screen 
+        // toast.info('Product saved successfully');
+     }, 1000);
 
 
-   
-       
+
         }).catch(() => {
-           setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
-           setIsDivLoading(false);
-        });
+            setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
+            setIsDivLoading(false);
+         });
+  
+
+            
             
 
 
       
 
 
+        //  API.get('order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+
+
+           
+        
+        //      setTimeout(() => {
+        //         if(response.data!=null){
+    
+        //             setIsBusinessSet(true)
+              
+        //            // setbusinessId(response.data.BusinessId);
+          
+        //             //setServicesList(response.data.Services);
+          
+        //             //setStaffList(response.data.Staffs);
+          
+        //            // setbusiness_name(response.data.business_name);
+          
+        //             setBussSetup(true);
+          
+        //             setOrdersList(response.data)
+
+                    
+          
+        //            // setCustomersCount(response.data.Customers.length)
+          
+        //             //setcustomer_contacts(response.data.Customers.)
+                
+                  
+                
+        //           }
+        //           else{
+                
+        //             setIsBusinessSet(false)
+        //             //setbusinessId(0)
+        //             setBussSetup(false);
+        //             setbusiness_name('nobuzz')
+        //             setOrdersList([])
+        //           }
+      
+
+        //        // setSeller_name(response.data.Users);
+        //         setIsDivLoading(false)   // Hide loading screen 
+        //        // toast.info('Product saved successfully');
+        //     }, 200);
+
+    
+        
+            
+        //      }).catch(() => {
+        //         setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
+        //         setIsDivLoading(false);
+        //      });
       
 
 
@@ -285,7 +336,7 @@ function RetailerSalesDetails(){
     
     
     
-    },[businessDetails]);
+    },[]);
 
 
 
@@ -454,7 +505,7 @@ function RetailerSalesDetails(){
             <tr>
             <td>
                     <div class="project-contain">
-                        <h6 class="mb-1 tx-13">{key}</h6>
+                        <h6 class="mb-1 tx-13"> </h6>
                     </div>
                 </td>
                 <td>
@@ -483,7 +534,7 @@ function RetailerSalesDetails(){
                       <a 
                     
                 
-                          class="btn btn-danger btn-block"><i class="fa fa-trash mx-2"></i>Cancel</a>
+                          data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo801" class="btn btn-danger btn-block"><i class="fa fa-trash mx-2"></i>Cancel</a>
                 
                    
                 </div>
@@ -496,12 +547,6 @@ function RetailerSalesDetails(){
             
         
         </tbody>
-        <tfoot>
-
-        <h5>Total sales:{sales.length} </h5>
-        
-        </tfoot>
-        
     </table>
 
 
@@ -625,7 +670,7 @@ function RetailerSalesDetails(){
                                   <div class="card overflow-hidden">
                                       <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
                                           <div class="d-flex justify-content-between">
-                                              <h4 class="card-title mg-b-10">Sales Made Today</h4>
+                                              <h4 class="card-title mg-b-10">Recent Orders</h4>
                                               <i class="mdi mdi-dots-horizontal text-gray"></i>
                                           </div>
                                          
@@ -759,4 +804,4 @@ function RetailerSalesDetails(){
   )
 }
 
-export default RetailerSalesDetails
+export default OrderDetails

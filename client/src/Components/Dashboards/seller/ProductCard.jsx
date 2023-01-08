@@ -20,7 +20,7 @@ function ProductCard(props) { // props.product is the product we are selling
 
     useEffect(()=>{
 
-        API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
             if(response.data.my_buss!=null){
     
@@ -64,7 +64,8 @@ function ProductCard(props) { // props.product is the product we are selling
 											</span>
 										</div>
             <div class="text-center zoom">
-                <a href="products.html"><img class="w-100 rounded-5" src="../assets/img/ecommerce/01.jpg"  alt="img"/></a>
+            {/**  <a href="products.html"><img class="w-100 rounded-5" src="../assets/img/ecommerce/01.jpg"  alt="img"/></a>*/}
+               
             </div>
             <div class="card-body px-0 pb-3">
                 <div class="row">

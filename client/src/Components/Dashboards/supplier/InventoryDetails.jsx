@@ -1026,7 +1026,7 @@ function InventoryDetails(props) {
       
       let formData = new FormData();
       formData.append('businessId', businessId);
-      formData.append('file',selectedFile);
+      //formData.append('file',selectedFile);
       formData.append('name', name);
   
   
@@ -1047,7 +1047,7 @@ function InventoryDetails(props) {
   
   
       setUploding(true);
-      let { data } = await API.post('images/save-store', formData, {
+      let { data } = await API.post('stores/save_store', formData, {
           onUploadProgress: ({ loaded, total }) => {
               let progress = ((loaded / total) * 100).toFixed(2);
               setProgress(progress);
@@ -1518,9 +1518,9 @@ function InventoryDetails(props) {
                         <span class="text-secondary small text-uppercase">{value.category}</span>
                         <span class="ms-auto"><i class="far fa-heart"></i></span>
                     </div>
-                    <h3 class="h6 mb-2 font-weight-bold text-uppercase">{value.name}</h3>
+                    <h3 class="h6 mb-2 font-weight-bold text-uppercase">{value.product_name}</h3>
                     <div class="d-flex">
-                        <h4 class="h5 w-50 font-weight-bold text-danger">Ksh {value.price}</h4>
+                        <h4 class="h5 w-50 font-weight-bold text-danger">Ksh {value.price_per_package}</h4>
                         <span class="tx-15 ms-auto">
                             <i class="ion ion-md-star text-warning"></i>
                             <i class="ion ion-md-star text-warning"></i>
@@ -1529,7 +1529,7 @@ function InventoryDetails(props) {
                             <i class="ion ion-md-star-outline text-warning"></i>
                         </span>
                     </div>
-                    <img class="w-100 mt-2 mb-3" src={value.cloudinary_url}   alt="product-image"/>
+                    
  
                     <button  type="submit" class="btn btn-primary mb-1"
               
@@ -1558,7 +1558,7 @@ function InventoryDetails(props) {
  <div class="modal-dialog modal-dialog-centered text-center" role="document">
      <div class="modal-content modal-content-demo">
          <div class="modal-header">
-             <h6 class="modal-title">Add Product</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+             <h6 class="modal-title">Add Item</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
          </div>
          <div class="modal-body">
  
@@ -1580,8 +1580,8 @@ function InventoryDetails(props) {
  
          <div class="row">
          <div class="col mb-3">
-           <label for="nameWithTitle" class="form-label">Product Name</label>
-           <input type="text" id="service_name" class="form-control" placeholder="Eg.Pro Gas"
+           <label for="nameWithTitle" class="form-label">Item Name</label>
+           <input type="text" id="service_name" class="form-control" placeholder="Eg.Guinnes"
            
            onChange={(event) => {
                setName(event.target.value);
@@ -1625,35 +1625,10 @@ function InventoryDetails(props) {
  
              data-allow-clear="true">
              <option value="">Select Category</option>
-             <option value="General-use">General use</option>
-             <option value="Household-Product">Household Product</option>
- 
+          
              <option value="Drinking-Liquor">Drinking/Liquor</option>
  
-             <option value="Agricultural">Agricultural</option>
-             <option value="Ready-Meal">Ready Meal</option>
- 
-             <option value="Domestic-Products">Domestic Use</option>
-             
- 
             
-             <option value="Livestock">Livestock</option>
-             <option value="Electronic">Electronic</option>
-             <option value="Automotive">Automotive</option>
-             
- 
-             <option value="Contruction">Contruction</option>
- 
-            
-             <option value="Clothing">Clothing</option>
-             <option value="Computing">Computing</option>
- 
- 
-           
-             <option value="Home-Based">Home-Based</option>
-             <option value="Beauty">Beauty</option>
- 
-             <option value="Aquatic">Aquatic</option>
              <option value="Others">Others</option>
  
  
@@ -1710,12 +1685,6 @@ function InventoryDetails(props) {
              <option value="Order">Order</option>
              
            
-             <option value="Plate">Plates</option>
- 
-             <option value="foot">foot</option>
- 
-             <option value="mitre">mitre</option>
- 
             
  
              <option value="Agreement">Agreement</option>
@@ -1742,10 +1711,15 @@ function InventoryDetails(props) {
              />
             {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
              </div>
+
+             <input type="text" value={businessId}  onChange={(event) => {
+              setbusinessId(event.target.value);
+            }} placeholder="bussId"/>
+
          </div>
      </div>
- 
-         <div class="form-group">
+
+     {/**   <div class="form-group">
          <label class="form-label mt-0">Upload Product Photo</label>
          <input class="form-control" type="file"
          name="image"
@@ -1758,19 +1732,23 @@ function InventoryDetails(props) {
         
      /> 
      
-     <input type="text" value={businessId}  onChange={(event) => {
-         setbusinessId(event.target.value);
-       }} placeholder="bussId"/>
+     
          </div>
- 
- 
-         {previewSource && (
+        
+        {previewSource && (
              <img
                  src={previewSource}
                  alt="chosen"
                  style={{ height: '300px' }}
              />
          )}
+        
+        */}
+ 
+       
+ 
+ 
+         
        </div>
          
          

@@ -186,11 +186,11 @@ function TopHeaderHome() {
               <li aria-haspopup="true"><Link to={'/helpcentre'}>Help Center <span class="wsarrow"></span></Link>
               </li>
               <li aria-haspopup="true" class="d-lg-none mt-5 pb-5 mt-lg-0"> <span><a class="btn btn-orange"
-                    href="ad-posts.html">Post Free Ad</a></span> </li>
+                    href="#">Post Free Ad</a></span> </li>
             </ul>
             <ul class="mb-0">
               <li aria-haspopup="true" class="mt-5 d-none d-lg-block "> <span><a
-                    class="btn btn-orange ad-post " href="ad-posts.html">Post Free Ad</a></span> </li>
+                    class="btn btn-orange ad-post " href="#">Post Free Ad</a></span> </li>
             </ul>
           </nav> 
         </div>
