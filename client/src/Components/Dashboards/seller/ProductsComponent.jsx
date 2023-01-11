@@ -111,6 +111,10 @@ function ProductsComponent(props)
 
     const [businessId, setbusinessId] = useState('');
 
+    const [retailerId, setretailerId] = useState('');
+
+    
+
     const[openTime,setOpenTime]=useState('')
 
     const[closeTime,setCloseTime]=useState('')
@@ -898,6 +902,7 @@ const openSelectedProduct=(pId,e)=>{
 
          setType(response.data.category)
          setbusinessId(response.data.BusinessId)
+         setretailerId(response.data.BusinessId)
 
 
          
@@ -1557,8 +1562,10 @@ const updateProductNew = async e => {
                            <i class="ion ion-md-star-half text-warning"></i>
                            <i class="ion ion-md-star-outline text-warning"></i>
                        </span>
+                       
                    </div>
-                   
+                   <h4 class="h5 w-50 font-weight-bold text-success">Quantity {value.quantity}</h4>
+                 
 
                    <button  type="submit" class="btn btn-primary mb-1"
              

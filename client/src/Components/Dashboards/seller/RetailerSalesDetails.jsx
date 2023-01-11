@@ -29,6 +29,7 @@ import { BusinessDetailsContext } from '../../../helpers/BusinessDetailsContext'
 import DataContext from '../../../helpers/DataContext';
 
 function RetailerSalesDetails(){
+
     const {businessDetails,setBusinessDetails } = useContext(DataContext);
 
 
@@ -70,6 +71,12 @@ function RetailerSalesDetails(){
 
 
     const [customer_contacts, setcustomer_contacts] = useState('');
+
+    const [total_sales, settotal_sales] = useState(0);
+
+    const [total_paid, settotal_paid] = useState(0);
+
+    const [total_balances, settotal_balnces] = useState(0);
 
     
 
@@ -117,10 +124,37 @@ function RetailerSalesDetails(){
 
 
 
+    var bills = [
+        {
+          "refNo": 17,
+          "billDate": "1-apr-2016",
+          "dueDate": "30-apr-2016",
+          "pendingAmount": 58500,
+          "overdueDays": 28
+        },
+        {
+          "refNo": 20,
+          "billDate": "15-apr-2016",
+          "dueDate": "3-may-2016",
+          "pendingAmount": 79550,
+          "overdueDays": 15
+        }
+      ];
+
+
+     // var res = bills.map(bill => bill.pendingAmount).reduce((acc, bill) => bill + acc);
+//console.log(res)
+
+
+
+
+
+
+
 
     useEffect(()=>{
 
-        setIsDivLoading(true);
+    setIsDivLoading(true);
 
      let buss_status=localStorage.getItem('business_set')
 
@@ -268,26 +302,39 @@ function RetailerSalesDetails(){
       
 
 
-      
-
-
          
     
-
-
-        
-
-
-         
-    
-    
+    //getTotalSales()
     
     
     
     
     },[businessDetails]);
 
+    //var res_ = sales.map(bill => bill.total).reduce((acc, bill) => bill + acc);
+      //  console.log(res_)
 
+    
+
+
+    const getTotalSales=()=>{
+
+        var res_ = sales.map(bill => bill.total).reduce((acc, bill) => bill + acc);
+
+        var amnt_paid = sales.map(bill => bill.amount_paid).reduce((acc, bill) => bill + acc);
+
+        var total_bal = sales.map(bill => bill.balance).reduce((acc, bill) => bill + acc);
+
+        settotal_sales(res_)
+
+        settotal_paid(amnt_paid)
+
+        settotal_balnces(total_bal)
+        
+
+        
+
+    }
 
     const openSelectedOrder=(oId,orderId,customer_contacts)=>{
 
@@ -474,16 +521,9 @@ function RetailerSalesDetails(){
                 <div class="btn-group align-top">
 
 
-                <a data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo80" class="btn btn-primary btn-block"><i class="fa fa-plus-square mx-2"></i>Edit</a>
+                <button type="button" class="btn btn-success"><i class="fe fe-edit me-2"></i>Edit</button>
 
-
-              
-
-
-                      <a 
-                    
-                
-                          class="btn btn-danger btn-block"><i class="fa fa-trash mx-2"></i>Cancel</a>
+            <button type="button" class="btn btn-danger"><i class="fe fe-trash me-2"></i>Cancel</button>
                 
                    
                 </div>
@@ -499,6 +539,10 @@ function RetailerSalesDetails(){
         <tfoot>
 
         <h5>Total sales:{sales.length} </h5>
+
+       
+
+       
         
         </tfoot>
         
@@ -628,6 +672,8 @@ function RetailerSalesDetails(){
                                               <h4 class="card-title mg-b-10">Sales Made Today</h4>
                                               <i class="mdi mdi-dots-horizontal text-gray"></i>
                                           </div>
+
+                                          <button type="button" onClick={getTotalSales} class="btn btn-success"><i class="fe fe-eye me-2"></i>View Sales Analysis</button>
                                          
                                       </div>
                                       <div class="card-body pd-y-7">
@@ -678,7 +724,7 @@ function RetailerSalesDetails(){
                                               <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap  ">
                                                   <thead>
                                                       <tr>
-                                                          <th>Project &amp; Task</th>
+                                                          <th>Sales &amp; Analysis</th>
                                                           <th>Status</th>
                                                       </tr>
                                                   </thead>
@@ -687,57 +733,49 @@ function RetailerSalesDetails(){
                                                           <td>
                                                               <div class="project-names">
                                                                   <h6 class="bg-primary-transparent text-primary d-inline-block me-2 text-center">U</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">UI Design</p>
+                                                                  <p class="d-inline-block font-weight-semibold mb-0">Total Sales</p>
                                                               </div>
                                                           </td>
                                                           <td>
-                                                              <div class="badge bg-success">Completed</div>
+                                                              <div class="badge bg-success">{total_sales}</div>
                                                           </td>
                                                       </tr>
                                                       <tr>
                                                           <td>
                                                               <div class="project-names">
                                                                   <h6 class="bg-pink-transparent text-pink d-inline-block text-center me-2">R</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">Landing Page</p>
+                                                                  <p class="d-inline-block font-weight-semibold mb-0">Unpaid Amount</p>
                                                               </div>
                                                           </td>
                                                           <td>
-                                                              <div class="badge bg-warning">Pending</div>
+                                                              <div class="badge bg-warning">{total_balances}</div>
                                                           </td>
                                                       </tr>
-                                                      <tr>
-                                                          <td>
-                                                              <div class="project-names">
-                                                                  <h6 class="bg-success-transparent text-success d-inline-block me-2 text-center">W</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">Website &amp; Blog</p>
-                                                              </div>
-                                                          </td>
-                                                          <td>
-                                                              <div class="badge bg-danger">Canceled</div>
-                                                          </td>
-                                                      </tr>
+                                                     
                                                       <tr>
                                                           <td>
                                                               <div class="project-names">
                                                                   <h6 class="bg-purple-transparent text-purple d-inline-block me-2 text-center">P</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">Product Development</p>
+                                                                  <p class="d-inline-block font-weight-semibold mb-0">Total Paid</p>
                                                               </div>
                                                           </td>
                                                           <td>
-                                                              <div class="badge bg-teal">on-going</div>
+                                                              <div class="badge bg-teal">{total_paid}</div>
                                                           </td>
                                                       </tr>
+
                                                       <tr>
-                                                          <td>
-                                                              <div class="project-names">
-                                                                  <h6 class="bg-danger-transparent text-danger d-inline-block me-2 text-center">L</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">Logo Design</p>
-                                                              </div>
-                                                          </td>
-                                                          <td>
-                                                              <div class="badge bg-success">Completed</div>
-                                                          </td>
-                                                      </tr>
+                                                      <td>
+                                                          <div class="project-names">
+                                                              <h6 class="bg-success-transparent text-success d-inline-block me-2 text-center">W</h6>
+                                                              <p class="d-inline-block font-weight-semibold mb-0">Canceled Sales</p>
+                                                          </div>
+                                                      </td>
+                                                      <td>
+                                                          <div class="badge bg-danger">0</div>
+                                                      </td>
+                                                  </tr>
+                                                      
                                                   </tbody>
                                               </table>
                                           </div>

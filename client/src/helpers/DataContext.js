@@ -18,6 +18,10 @@ export const DataProvider = ({ children }) => {
 
     const[businessDetails,setBusinessDetails]=useState([])
 
+    const[supplierDetails,setSupplierDetails]=useState([])
+
+    const[itemsList,setItemsList]=useState([])
+
     const [search, setSearch] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
@@ -185,16 +189,70 @@ export const DataProvider = ({ children }) => {
          });
 
 
+
+
+
+         API.get('users/mystore', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+
+         
+
+            //console.log("MY BUSINESS DETAILS FROM THE CONTEXT"+response.data)
+
+
+        if (response.data.error) {
+            console.log("BACKEND ERROR HERE:"+response.data.error)
+              }
+
+
+            if(response.data.my_buss!=null){
+
+            localStorage.setItem("business_set", true);
+            setSupplierDetails(response.data)
+            setItemsList(response.data.my_buss.SupplyStores)
+
+            console.log("HERE IS YOUR SUPPLIER ACCOUNT DETAILS",response.data);
+
+            
+
+
+            }
+            else{
+                localStorage.setItem("business_set", false);
+                setItemsList([])
+
+            }
+
+
+
+           
+            // setTimeout(() => {
+
+              
+            //     setBusinessDetails(response.data)
+
+             
+            // }, 1000);
+
+            //setSeller_name(response.data.Users.first_name)
+            
+        }).catch((error) => {
+            
+
+            console.log("CONTEXT ERROR OCCURED"+error)
+          
+         });
+
+
+
         
 
 
 
        
           
-      
   
   
-  },[setPosts,setBussinessList,setRetailerList,setBusinessDetails,setProductsList1]);
+  },[setPosts,setBussinessList,setRetailerList,setBusinessDetails,setProductsList1,setSupplierDetails]);
 
     
 
@@ -203,7 +261,7 @@ export const DataProvider = ({ children }) => {
             search, setSearch,
             searchResults,retailerList,setRetailerList,
             bussinessList,setBussinessList,businessDetails,setBusinessDetails,productsList1, setProductsList1,imagePath, setImagePath,
-            posts, setPosts
+            posts, setPosts,supplierDetails,setSupplierDetails,itemsList,setItemsList
         }}>
             {children}
         </DataContext.Provider>

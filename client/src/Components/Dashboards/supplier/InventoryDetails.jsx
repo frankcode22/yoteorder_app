@@ -39,6 +39,8 @@ import { Modal, Button } from "react-bootstrap";
 function InventoryDetails(props) {
     const {businessDetails,setBusinessDetails} = useContext(DataContext);
 
+    const {supplierDetails,setSupplierDetails} = useContext(DataContext);
+
     const {userPos, setUserPos} = useContext(LocationDataContextInit);
   
     const {position, setPosition} = useContext(LocationDataContext);
@@ -107,6 +109,8 @@ function InventoryDetails(props) {
       const {productsList1, setProductsList1 } = useContext(DataContext);
   
       const [businessId, setbusinessId] = useState('');
+
+      const [supplierId, setsupplierId] = useState('');
   
       const[openTime,setOpenTime]=useState('')
   
@@ -267,6 +271,32 @@ function InventoryDetails(props) {
        console.log("BUSS STATUS",buss_status)
       
       setIsBusinessSet(buss_status)
+
+
+
+      //console.log("HERE IS YOUR SUPPLIER ACCOUNT DETAILS",supplierDetails.my_buss);
+  
+  
+      if(supplierDetails.my_buss!=null){
+       
+  
+      
+  
+        setsupplierId(supplierDetails.my_buss.id)
+            // setbusinessId(response.data.my_buss.id);
+            
+  
+     
+     
+       
+     
+       }
+       else{
+     
+         setErrorMessage("Unable to fetch your account details.Kindly check your internet connection!!");
+        // setIsDivLoading(false);
+       }
+  
   
   
      
@@ -363,7 +393,7 @@ function InventoryDetails(props) {
     
               setIsBusinessSet(true)
         
-              setbusinessId(response.data.my_buss.id);
+           
     
               setlocation(response.data.my_buss.location)
     
@@ -474,7 +504,7 @@ function InventoryDetails(props) {
   
   
   
-  },[businessDetails,productsList1,position,userPos]);
+  },[businessDetails,productsList1,position,userPos,supplierDetails]);
   
   
   
@@ -1025,7 +1055,7 @@ function InventoryDetails(props) {
      
       
       let formData = new FormData();
-      formData.append('businessId', businessId);
+      formData.append('businessId', supplierId);
       //formData.append('file',selectedFile);
       formData.append('name', name);
   
@@ -1102,7 +1132,7 @@ function InventoryDetails(props) {
           sethidesavebtn(true)
           
           toast.success('Product saved successfully');
-      }, 3000);
+      }, 1000);
       
   }
   
@@ -1675,12 +1705,14 @@ function InventoryDetails(props) {
  
              data-allow-clear="true">
              <option value="">Select Unit Of Measure</option>
-             <option value="Kgs">Kgs</option>
+             <option value="Litre">Litres</option>
              <option value="Item">Item</option>
+
+             <option value="Piece">Crate</option>
            
  
-             <option value="Piece">Piece</option>
-             <option value="Litre">Litres</option>
+            
+            
              <option value="Package">Package</option>
              <option value="Order">Order</option>
              
@@ -1700,7 +1732,7 @@ function InventoryDetails(props) {
          </div>
          <div class="form-group col-md-6 mb-0">
              <div class="form-group">
-             <label for="dobWithTitle" class="form-label">Price(Per unit)</label>
+             <label for="dobWithTitle" class="form-label">Wholesale Price(Per Unit)</label>
              <input type="number" id="price" class="form-control"
  
                  onChange={(event) => {
@@ -1712,8 +1744,8 @@ function InventoryDetails(props) {
             {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
              </div>
 
-             <input type="text" value={businessId}  onChange={(event) => {
-              setbusinessId(event.target.value);
+             <input type="text" value={supplierId}  onChange={(event) => {
+              setsupplierId(event.target.value);
             }} placeholder="bussId"/>
 
          </div>

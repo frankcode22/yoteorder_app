@@ -73,6 +73,7 @@ import RetailerSales from './Components/Dashboards/seller/RetailerSales';
 import RetailerOrders from './Components/Dashboards/seller/RetailerOrders';
 import AllOrders from './Components/Dashboards/supplier/AllOrders';
 
+
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 
 
@@ -232,6 +233,10 @@ function App() {
         <Route exact path="/ptm-retailors" element={ <Retailors/>}/>
 
         <Route path="/orders" element={ <AllOrders/>}/>
+
+     
+
+        
 
         
 

@@ -241,8 +241,8 @@ function HomePatamtaani() {
   <div class="header-text mb-0">
     <div class="container">
       <div class="text-center text-white mb-7">
-        <h1 class="mb-1">All your business needs are catered by PataMtaani</h1>
-        <p>Sell, Buy,Order and connect with suppliers mtaani!.</p>
+        <h1 class="mb-1">Software solutions for your business on subscription basis</h1>
+        <p>Subscribe to any of our software products for a monthly fee of less than Ksh. 500</p>
       </div>
       <div class="row">
         <div class="col-xl-10 col-lg-12 col-md-12 d-block mx-auto">
@@ -296,22 +296,6 @@ function HomePatamtaani() {
 
 
 
-
-    
-
-
-             
-          
-
-
-         
-
-
-
-
-
-
-        
   
 
     

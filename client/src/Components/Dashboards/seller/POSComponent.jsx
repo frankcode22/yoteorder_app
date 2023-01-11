@@ -440,8 +440,8 @@ const checkout = async () => {
 	//saveCustomer()
 
 
-	 await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
-		//await fetch('http://localhost:8080/api/order/checkout', {
+	// await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
+		await fetch('http://localhost:8080/api/order/checkout', {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/json'

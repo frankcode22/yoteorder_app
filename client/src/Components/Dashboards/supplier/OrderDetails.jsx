@@ -29,7 +29,10 @@ import { BusinessDetailsContext } from '../../../helpers/BusinessDetailsContext'
 import DataContext from '../../../helpers/DataContext';
 
 function OrderDetails() {
-    //const {businessDetails,setBusinessDetails } = useContext(DataContext);
+
+    const {businessDetails,setBusinessDetails } = useContext(DataContext);
+
+    const {supplierDetails,setSupplierDetails} = useContext(DataContext);
 
 
     // const my_buss_details = useContext(BusinessDetailsContext)
@@ -122,21 +125,27 @@ function OrderDetails() {
 
         setIsDivLoading(true);
 
-    // let buss_status=localStorage.getItem('business_set')
+     let buss_status=localStorage.getItem('business_set')
 
-    // console.log("BUSS STATUS",buss_status)
+     console.log("BUSS STATUS",buss_status)
 
-   //  setIsBusinessSet(buss_status)
-
-
+     setIsBusinessSet(buss_status)
 
 
 
-       
+
+
+      
        // setIsBusinessSet(buss_status)
 
        
-       
+         //API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+         API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+            setUserId(response.data.id)
+      
+      
+           })
     
         //    //API.get("customer/mycustomers").then((response) => {
         //   API.get("order/getallorders").then((response) => {
@@ -154,7 +163,7 @@ function OrderDetails() {
             //     setOrdersList(response.data);
             //     })
 
-           // console.log("YOUR VENDOR BUSINESS DETAILS  IS ",businessDetails);
+          //  console.log("YOUR VENDOR BUSINESS DETAILS  IS ",businessDetails);
 
 
 
@@ -197,22 +206,15 @@ function OrderDetails() {
               }*/}
 
             
-
-
-
-           
-
-
-
              
 
-                API.get('suppliers/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-                    
+                API.get('users/mystore', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
                     setTimeout(() => {
        
                     if(response.data.my_buss!=null){
 
-         // setIsBusinessSet(true)
+          setIsBusinessSet(true)
     
           setbusinessId(response.data.my_buss.id);
 
@@ -222,7 +224,7 @@ function OrderDetails() {
 
           setbusiness_name(response.data.my_buss.business_name);
 
-          //setBussSetup(true);
+          setBussSetup(true);
 
           //setOrdersList(response.data.Orders)
 
@@ -231,7 +233,6 @@ function OrderDetails() {
           //setCustomersCount(response.data.my_buss.Customers.length)
 
           //setcustomer_contacts(response.data.Customers.)
-          console.log('IT IS NOT EMPTY')
       
         
       
@@ -245,98 +246,26 @@ function OrderDetails() {
           //setOrdersList([])
         }
     
-        // setSeller_name(response.data.Users);
-        setIsDivLoading(false)   // Hide loading screen 
-        // toast.info('Product saved successfully');
-     }, 1000);
+        
+          // setSeller_name(response.data.Users);
+          setIsDivLoading(false)   // Hide loading screen 
+          // toast.info('Product saved successfully');
+       }, 1000);
 
 
-
+   
+       
         }).catch(() => {
-            setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
-            setIsDivLoading(false);
-         });
-  
-
-            
+           setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
+           setIsDivLoading(false);
+        });
             
 
 
-      
-
-
-        //  API.get('order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-
-
-
-           
-        
-        //      setTimeout(() => {
-        //         if(response.data!=null){
-    
-        //             setIsBusinessSet(true)
-              
-        //            // setbusinessId(response.data.BusinessId);
-          
-        //             //setServicesList(response.data.Services);
-          
-        //             //setStaffList(response.data.Staffs);
-          
-        //            // setbusiness_name(response.data.business_name);
-          
-        //             setBussSetup(true);
-          
-        //             setOrdersList(response.data)
-
-                    
-          
-        //            // setCustomersCount(response.data.Customers.length)
-          
-        //             //setcustomer_contacts(response.data.Customers.)
-                
-                  
-                
-        //           }
-        //           else{
-                
-        //             setIsBusinessSet(false)
-        //             //setbusinessId(0)
-        //             setBussSetup(false);
-        //             setbusiness_name('nobuzz')
-        //             setOrdersList([])
-        //           }
-      
-
-        //        // setSeller_name(response.data.Users);
-        //         setIsDivLoading(false)   // Hide loading screen 
-        //        // toast.info('Product saved successfully');
-        //     }, 200);
-
-    
-        
-            
-        //      }).catch(() => {
-        //         setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
-        //         setIsDivLoading(false);
-        //      });
-      
-
-
-         
-    
-
-
-        
-
-
-         
     
     
     
-    
-    
-    
-    },[]);
+    },[supplierDetails]);
 
 
 
@@ -489,10 +418,11 @@ function OrderDetails() {
             <tr>
                 <th>#</th>
                 <th>Order Id</th>
-                <th>Total</th>
-                <th>Amount Paid</th>
-                <th>Balance</th>
-                <th>Customer Contacts</th>
+                <th>Quantity Ordered</th>
+                <th>Item Name</th>
+                <th>Retailer Contacts</th>
+                <th>Retailer Location</th>
+                <th>Order Description</th>
                 <th>Date</th>
                 <th>Actions</th>
                
@@ -505,7 +435,7 @@ function OrderDetails() {
             <tr>
             <td>
                     <div class="project-contain">
-                        <h6 class="mb-1 tx-13"> </h6>
+                        <h6 class="mb-1 tx-13">{key}</h6>
                     </div>
                 </td>
                 <td>
@@ -513,11 +443,13 @@ function OrderDetails() {
                         <h6 class="mb-1 tx-13">{value.orderId}</h6>
                     </div>
                 </td>
-                <td>{value.total}</td>
-                <td><span class="badge bg-primary-gradient">{value.amount_paid}</span></td>
                
-                <td><span class="badge bg-warning">{value.balance}</span></td>
-                <td>{value.customer_phone_no}</td>
+                <td><span class="badge bg-primary-gradient">{value.quantity_ordered}</span></td>
+               
+                <td><span class="badge bg-infor">{value.item_name}</span></td>
+                <td>{value.vendor_phone_no}</td>
+                <td> </td>
+                <td>{value.order_description}</td>
                 <td>{value.createdAt}</td>
               
                
@@ -525,16 +457,9 @@ function OrderDetails() {
                 <div class="btn-group align-top">
 
 
-                <a data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo80" class="btn btn-primary btn-block"><i class="fa fa-plus-square mx-2"></i>Edit</a>
+                <button type="button" class="btn btn-success"><i class="fe fe-edit me-2"></i>Edit</button>
 
-
-              
-
-
-                      <a 
-                    
-                
-                          data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo801" class="btn btn-danger btn-block"><i class="fa fa-trash mx-2"></i>Cancel</a>
+            <button type="button" class="btn btn-danger"><i class="fe fe-trash me-2"></i>Cancel</button>
                 
                    
                 </div>
@@ -547,6 +472,12 @@ function OrderDetails() {
             
         
         </tbody>
+        <tfoot>
+
+        <h5>Total sales:{sales.length} </h5>
+        
+        </tfoot>
+        
     </table>
 
 
@@ -670,7 +601,7 @@ function OrderDetails() {
                                   <div class="card overflow-hidden">
                                       <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
                                           <div class="d-flex justify-content-between">
-                                              <h4 class="card-title mg-b-10">Recent Orders</h4>
+                                              <h4 class="card-title mg-b-10">Orders Made Today</h4>
                                               <i class="mdi mdi-dots-horizontal text-gray"></i>
                                           </div>
                                          
@@ -715,7 +646,7 @@ function OrderDetails() {
                                   <div class="card overflow-hidden">
                                       <div class="card-body pb-3">
                                           <div class="d-flex justify-content-between">
-                                              <h4 class="card-title mg-b-10">Sales Made Over The week</h4>
+                                              <h4 class="card-title mg-b-10">Orders Made Over The week</h4>
                                               <i class="mdi mdi-dots-horizontal text-gray"></i>
                                           </div>
                                         
@@ -803,5 +734,6 @@ function OrderDetails() {
                   </div>
   )
 }
+
 
 export default OrderDetails

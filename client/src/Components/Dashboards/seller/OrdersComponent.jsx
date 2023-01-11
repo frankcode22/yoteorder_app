@@ -33,6 +33,10 @@ import DataContext from '../../../helpers/DataContext';
 import { CartContext } from "../../../helpers/CartContext";
 import CartProduct from './CartProduct';
 
+
+
+
+
 function randomNumberInRange(min, max) {
     // 👇️ get number between min (inclusive) and max (inclusive)
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -78,15 +82,21 @@ function OrdersComponent()  {
 
     const [cartList, setCartList] = useState([]);
 
+
+    const [customerBill, setCustomerBill] = useState([]);
+
     const [sales, setSales] = useState([]);
 
     //const [ordersList, setOrdersList] = useState([]);
-
+    const [business_name, setbusiness_name] = useState("");
 	
 
 	const [randomNo, setRandomNo] = useState(0);
+    const [notifications, setNotifications] = useState([]);
 
+    const [isBusinessSet,setIsBusinessSet] = useState(false);
 
+    const [displayBill,setDisplayBill] = useState(false);
 
 
 	const cart = useContext(CartContext);
@@ -123,6 +133,16 @@ function OrdersComponent()  {
 
 
 
+    const [showPOS, setShowPOS] = useState(true);
+
+    const [showSales, setShowSales] = useState(false);
+
+    const [showOrders, setShowOrders] = useState(false);
+
+
+
+    let history = useNavigate();
+
 
 
 
@@ -150,64 +170,64 @@ function OrdersComponent()  {
    
 
 
+   setIsDivLoading(true);
+
+
+  
 
 
 
-   API.get('order/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-
-
-
-           
-        
-    setTimeout(() => {
-       if(response.data!=null){
-
-           //setIsBusinessSet(true)
-     
-           setbusinessId(response.data.BusinessId);
- 
-           //setServicesList(response.data.Services);
- 
-           //setStaffList(response.data.Staffs);
- 
-          // setbusiness_name(response.data.business_name);
- 
-           setBussSetup(true);
-
-         
- 
-           setOrdersList(response.data)
-
-           
- 
-          // setCustomersCount(response.data.Customers.length)
- 
-           //setcustomer_contacts(response.data.Customers.)
-       
-         
-       
-         }
-         else{
-       
-           //setIsBusinessSet(false)
-           setbusinessId(0)
-           setBussSetup(false);
-           //setbusiness_name('nobuzz')
-           setOrdersList([])
-         }
-
-
-      // setSeller_name(response.data.Users);
-       setIsDivLoading(false)   // Hide loading screen 
-      // toast.info('Product saved successfully');
-   }, 400);
-
-
-
-   
+    API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+        setTimeout(() => {
+    
+        if(response.data.my_buss!=null){
+    
+    setIsBusinessSet(true)
+    
+    setbusinessId(response.data.my_buss.id);
+    
+    //setServicesList(response.data.Services);
+    
+    //setStaffList(response.data.my_buss.Staffs);
+    
+    //setbusiness_name(response.data.my_buss.business_name);
+    
+    setBussSetup(true);
+    
+    
+    setOrdersList(response.data.my_buss.Orders)
+    
+    //setSales(response.data.my_buss.RetailerSales)
+    
+    //setCustomersCount(response.data.my_buss.Customers.length)
+    
+    //setcustomer_contacts(response.data.Customers.)
+    
+    
+    
+    }
+    else{
+    
+    setIsBusinessSet(false)
+    setbusinessId(0)
+    setBussSetup(false);
+    setbusiness_name('nobuzz')
+    //setOrdersList([])
+    }
+    
+    
+    // setSeller_name(response.data.Users);
+    setIsDivLoading(false)   // Hide loading screen 
+    // toast.info('Product saved successfully');
+    }, 1000);
+    
+    
+    
+    
     }).catch(() => {
-       setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
-       setIsDivLoading(false);
+    setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
+    setIsDivLoading(false);
     });
 
 
@@ -218,6 +238,38 @@ function OrdersComponent()  {
           API.get("customer/mycustomers").then((response) => {
           setCustomersList(response.data);
           })
+
+
+          console.log("HI VENDOR ALL MY CUSTOMERS FROM CONTEXT:",businessDetails);
+    
+    
+       if(businessDetails.my_buss!=null){
+
+        //setBusinessId(businessDetails.my_buss.id);
+
+        setbusiness_name(businessDetails.my_buss.business_name)
+ 
+    
+        setTimeout(() => {
+            
+    
+        //setVendorsList(businessDetails.my_buss.Customers)
+        setCustomersList(businessDetails.my_buss.Customers)
+        setNotifications(businessDetails.my_buss.Notifications)
+        setIsDivLoading(false)  
+            
+         
+        }, 3000);
+    
+       
+    
+    
+    }
+    else{
+    
+        setErrorMessage("Unable to fetch your bizz details");
+        setIsDivLoading(false);
+    }
     
 
        
@@ -225,7 +277,7 @@ function OrdersComponent()  {
 
 
 
-},[])
+},[businessDetails])
 
 
 
@@ -484,10 +536,87 @@ const addDetails = (oId)  => {
 
 //    }
 
+
+const handleCustomerSelect= async (event) => {
+
+	const selectedOption=event.target.value
+  
+  
+	const customer = customersList.find(post => (post.id).toString() === selectedOption);
+  
+	// setUserId(JSON.stringify(customer))
+
+    console.log('CUSTOMER ID IS',customer.id)
+
+    API.get('sales/getcustomerbill/'+customer.id).then((response) => {
+        // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+
+       
+
+          console.log("Customer Bill"+response.data)
+
+         
+          setTimeout(() => {
+
+              setCustomerBill(response.data)
+             // setBussinessList(response.data)
+             setDisplayBill(true)
+
+           
+          }, 1000);
+
+          //setSeller_name(response.data.Users.first_name)
+          
+      }).catch((error) => {
+          
+
+          console.log("ERROR OCCURED WHEN FETCHING DATA"+error)
+        
+       });
+
+
+
+  // console.log('CUSTOMER BILL IS',bill)
+
+
+   //setCustomerBill(bill)
+
+
+  
+	setName(customer.name)
+
+	setCustomerId(customer.id)
+  
+	//setsubcategoryId(customer.id)
+
+	setbusinessId(customer.BusinessId)
+  
+	setPhone_no(customer.phone_no)
+
+  
+	// setsubcategory_name(wordEntered)
+	
+
+   }
+
+
+   const displayPOS=()=>{
+
+    setShowPOS(true)
+    setShowOrders(false)
+    setShowSales(false)
+    
+
+
+
+ }
+
 const productsCount = cart.items.reduce((sum, product) => sum + product.quantity, 0);
 
 
 const loadOrdersContent=(
+
+
 
     <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
     <thead>
@@ -497,6 +626,7 @@ const loadOrdersContent=(
             <th>Item Name</th>
             <th>Quantity Ordered</th>
             <th>Price Per Item</th>
+            <th>Total Cost</th>
             <th>Customer</th>
             <th>Time</th>
             <th>Actions</th>
@@ -521,7 +651,9 @@ const loadOrdersContent=(
             <td>{value.item_name}</td>
             <td><span class="badge bg-primary-gradient">{value.quantity_ordered}</span></td>
            
-            <td><span class="badge bg-warning-gradient">250</span></td>
+            <td><span class="badge bg-warning-gradient">{value.price}</span></td>
+
+            <td><span class="badge bg-info-gradient">{value.price*value.quantity_ordered}</span></td>
 
            
             <td>{value.customer_phone_no}</td>
@@ -530,18 +662,12 @@ const loadOrdersContent=(
            
             <td class="text-center align-middle">
             <div class="btn-group align-top">
+            <button type="button" class="btn btn-success"><i class="fe fe-edit me-2"></i>Edit</button>
+
+            <button type="button" class="btn btn-danger"><i class="fe fe-trash me-2"></i>Cancel</button>
 
 
-            <a data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo80" class="btn btn-primary btn-block"><i class="fa fa-plus-square mx-2"></i>Edit</a>
-
-
-          
-
-
-                  <a 
-                
-            
-                      data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo801" class="btn btn-danger btn-block"><i class="fa fa-trash mx-2"></i>Cancel</a>
+           
             
                
             </div>
@@ -590,37 +716,145 @@ const loadOrdersContent=(
     <ToastContainer/>
      
     </div> */}
+
+    <div class="card">
+    <div class="card-body p-2">
+    <div class="row">
+    <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
+        <div class="input-group d-flex w-100 float-start">
+        <select name="alabama" onChange={handleCustomerSelect}
+										
+        class="form-control select2-no-search">
+
+        
+          <option label="Select Customer"></option>
+          {customersList.map((value, key) => {
+              return (
+          <option value={value.id}>{value.name}</option>
+          
+          )})}
+          
+          
+          
+      </select>
+            <button class="btn input-group-text bg-transparent border-start-0 text-muted my-2">
+                <i class="fe fe-search text-muted" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+        <ul class="nav item2-gl-menu float-end my-2">
+            <li class="border-end"><a href="#tab-11" class="show active" data-bs-toggle="tab" title="List style"><i class="fa fa-th"></i></a></li>
+            <li><a href="#tab-12" data-bs-toggle="tab" class="" title="Grid"><i class="fa fa-list"></i></a></li>
+        </ul>
+    </div>
+    <div class="col-xl-3 col-lg-12">
+   
+        <a class="btn btn-primary btn-block float-end my-2" href="javascript:void(0);" onClick={displayPOS}><i class="fa fa-plus-square me-2"></i>New Order</a>
+    </div>
+</div>
+    </div>
+</div>
    
 
     <div class="row">
 					<div class="col-md-12 col-xl-12">
 						<div class="card">
+
+
+
 							
-                            
-                                      <div class="table-responsive mb-0">
+                            {!displayBill &&  <div class="table-responsive mb-0">
                                    
 
 
 
 
-                                      {isDivLoading ? <DivLoader/>: loadOrdersContent}
+                            {isDivLoading ? <DivLoader/>: loadOrdersContent}
 
-                                      {errorMessage && 
-            
-            
-            
-            
-                                          <div class="col-sm-12 border">
-                                          <h3 class="card-title">{errorMessage}</h3>
-                                      
-                                          
-                                          
-                                          
-                                     </div>}
-
-
+                            {errorMessage && 
+  
+  
+  
+  
+                                <div class="col-sm-12 border">
+                                <h3 class="card-title">{errorMessage}</h3>
+                            
+                                
+                                
+                                
+                           </div>}
 
 
+          {displayBill &&  <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
+          <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Order Id</th>
+                  <th>Item Name</th>
+                  <th>Quantity Ordered</th>
+                  <th>Price Per Item</th>
+                  <th>Total Cost</th>
+                  <th>Customer</th>
+                  <th>Time</th>
+                  <th>Actions</th>
+
+              </tr>
+          </thead>
+          <tbody>
+
+              {customerBill.map((value, key) => {
+                  return (
+                      <tr>
+                          <td>
+                              <div class="project-contain">
+                                  <h6 class="mb-1 tx-13">{key}</h6>
+                              </div>
+                          </td>
+                          <td>
+                              <div class="project-contain">
+                                  <h6 class="mb-1 tx-13">{value.orderId}</h6>
+                              </div>
+                          </td>
+                          <td>{value.item_name}</td>
+                          <td><span class="badge bg-primary-gradient">{value.quantity_ordered}</span></td>
+
+                          <td><span class="badge bg-warning-gradient">{value.price}</span></td>
+
+                          <td><span class="badge bg-info-gradient">{value.price * value.quantity_ordered}</span></td>
+
+
+                          <td>{value.customer_phone_no}</td>
+                          <td>{value.createdAt}</td>
+
+
+                          <td class="text-center align-middle">
+                              <div class="btn-group align-top">
+                                  <button type="button" class="btn btn-success"><i class="fe fe-edit me-2"></i>Edit</button>
+
+                                  <button type="button" class="btn btn-danger"><i class="fe fe-trash me-2"></i>Cancel</button>
+
+
+
+
+
+                              </div>
+                          </td>
+                      </tr>
+                  )
+              })}
+
+
+
+
+          </tbody>
+
+          <tfoot>
+          
+          </tfoot>
+      </table>}
+                           
+           
 
 
 
@@ -628,7 +862,122 @@ const loadOrdersContent=(
 
 
 
-                                  </div>
+
+
+
+
+                        </div> }
+
+
+
+
+                        {displayBill &&  <div class="table-responsive mb-0">
+
+
+                        <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Order Id</th>
+                                <th>Item Name</th>
+                                <th>Quantity Ordered</th>
+                                <th>Price Per Item</th>
+                                <th>Total Cost</th>
+                                <th>Customer</th>
+                                <th>Time</th>
+                                <th>Actions</th>
+                  
+                            </tr>
+                        </thead>
+                        <tbody>
+                  
+                            {customerBill.map((value, key) => {
+                                return (
+                                    <tr>
+                                        <td>
+                                            <div class="project-contain">
+                                                <h6 class="mb-1 tx-13">{key}</h6>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="project-contain">
+                                                <h6 class="mb-1 tx-13">{value.orderId}</h6>
+                                            </div>
+                                        </td>
+                                        <td>{value.item_name}</td>
+                                        <td><span class="badge bg-primary-gradient">{value.quantity_ordered}</span></td>
+                  
+                                        <td><span class="badge bg-warning-gradient">{value.price}</span></td>
+                  
+                                        <td><span class="badge bg-info-gradient">{value.price * value.quantity_ordered}</span></td>
+                  
+                  
+                                        <td>{value.customer_phone_no}</td>
+                                        <td>{value.createdAt}</td>
+                  
+                  
+                                        <td class="text-center align-middle">
+                                            <div class="btn-group align-top">
+                                                <button type="button" class="btn btn-success"><i class="fe fe-edit me-2"></i>Edit</button>
+                  
+                                                <button type="button" class="btn btn-danger"><i class="fe fe-trash me-2"></i>Cancel</button>
+                  
+                  
+                  
+                  
+                  
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                  
+                  
+                  
+                  
+                        </tbody>
+                    </table>
+                                   
+
+
+
+
+                       
+                        {errorMessage && 
+
+
+
+
+                            <div class="col-sm-12 border">
+                            <h3 class="card-title">{errorMessage}</h3>
+                        
+                            
+                            
+                            
+                       </div>}
+
+
+     
+                       
+       
+
+
+
+
+
+
+
+
+
+
+
+                    </div> }
+                                     
+
+
+
+
+
                                       
 								
 							

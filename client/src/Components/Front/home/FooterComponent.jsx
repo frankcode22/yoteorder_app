@@ -17,10 +17,9 @@ function FooterComponent() {
                         <div class="col-lg-4 col-sm-12 col-md-12 revealleft">
                             <h6>About</h6>
                             <p>
-                            Pata Mtaani is a platfom developed to makes it easy for residents to buy and sell any products within their area of residents.
+                            PataMtaani is a platfom developed to provide software solutions to small and medium enterprises(Bussiness) across all the industries.
                             </p>
-                            <p class="mb-5 mb-lg-2">Pata Mtaani enables services prividers such as cleaners,Beauty therapists,Kinyozi,Automotive etc..sell their services
-                            to the local population.
+                            <p class="mb-5 mb-lg-2">PataMtaani has a couple of solutions,that will transform your business into a fully digital enterprise with a minimum cost possible. 
                             </p>
                         </div>
                         <div class="col-lg-2 col-sm-6 col-md-4 revealleft">

@@ -1054,9 +1054,7 @@ Save Changes
                                 processOrder(value.id,value.SupplierId,value.product_name);
                                   }}  type="button">Order</button> 
                            
-                            <button class="btn btn-sm btn-primary badge" onClick={() => {
-                                viewSelectedProduct(value.id);
-                                  }} type="button">View More</button>
+                            <button class="btn btn-sm btn-primary badge" type="button">View More</button>
                             
                                 
                             </div>

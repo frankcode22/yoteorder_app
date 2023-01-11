@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useNavigate,Link} from "react-router-dom"
 import OrderDetails from './OrderDetails';
+import SalesComponent from '../seller/SalesComponent';
+import RetailerSalesDetails from '../seller/RetailerSalesDetails';
 
 function AllOrders() {
     return (
@@ -54,7 +56,10 @@ function AllOrders() {
   
   
   
-               <OrderDetails/>
+          
+            <OrderDetails></OrderDetails>
+
+             
   
                    
   

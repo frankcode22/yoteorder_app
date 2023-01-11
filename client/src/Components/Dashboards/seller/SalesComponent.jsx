@@ -86,6 +86,11 @@ function SalesComponent()  {
 
     const [sales, setSales] = useState([]);
 
+    
+    // const [bussSetup,setBussSetup]=useState(false);
+
+    const [isBusinessSet,setIsBusinessSet] = useState(false);
+
 	
 
 	const [randomNo, setRandomNo] = useState(0);
@@ -120,10 +125,14 @@ function SalesComponent()  {
     const [customersList, setCustomersList] = useState([]);
     const [bussSetup,setBussSetup]=useState(false);
 
+    const [business_name, setbusiness_name] = useState("");
+    const [business_type, setbusiness_type] = useState("");
+
     const [errorMessage, setErrorMessage] = useState("");
 
     const [isDivLoading, setIsDivLoading] = useState(false);
     const [ordersList, setOrdersList] = useState([]);
+    const [customersCount, setCustomersCount] = useState(0);
 
 
 
@@ -155,60 +164,73 @@ function SalesComponent()  {
 
 
    
+   API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+    setTimeout(() => {
+
+    if(response.data.my_buss!=null){
+
+setIsBusinessSet(true)
+
+setbusinessId(response.data.my_buss.id);
+
+//setServicesList(response.data.Services);
+
+//setStaffList(response.data.my_buss.Staffs);
+
+//setbusiness_name(response.data.my_buss.business_name);
+
+setBussSetup(true);
+
+//setOrdersList(response.data.Orders)
+
+setSales(response.data.my_buss.RetailerSales)
+
+setCustomersCount(response.data.my_buss.Customers.length)
+
+//setcustomer_contacts(response.data.Customers.)
+
+
+
+}
+else{
+
+setIsBusinessSet(false)
+setbusinessId(0)
+setBussSetup(false);
+setbusiness_name('nobuzz')
+//setOrdersList([])
+}
+
+
+// setSeller_name(response.data.Users);
+setIsDivLoading(false)   // Hide loading screen 
+// toast.info('Product saved successfully');
+}, 1000);
 
 
 
 
-
-        
-
-
-
-
-           
-         API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+}).catch(() => {
+setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
+setIsDivLoading(false);
+});
 
 
 
-           
-        
-            setTimeout(() => {
-               if(response.data.my_buss!=null){
    
-                setbusinessId(response.data.my_buss.id);
 
 
-                setSales(response.data.my_buss.RetailerSales)
+
+
+
+        
+
+
+
+
+           
       
-               
-                setBussSetup(true);
-               
-                 
-               
-                 }
-                 else{
-               
-                    // setIsBusinessSet(false)
-            setbusinessId(0)
-            setBussSetup(false);
-            setSales([])
-            //setbusiness_name('nobuzz')
-                 }
-     
-
-              // setSeller_name(response.data.Users);
-               setIsDivLoading(false)   // Hide loading screen 
-              // toast.info('Product saved successfully');
-           }, 500);
-
-   
-       
-           
-            }).catch(() => {
-               setErrorMessage("Unable to fetch Latest Orders.Check your Internet connection please");
-               setIsDivLoading(false);
-            });
-     
 
 
 
@@ -225,7 +247,7 @@ function SalesComponent()  {
 
 
 
-},[])
+},[businessDetails])
 
 
 
@@ -530,16 +552,9 @@ const loadOrdersContent=(
             <div class="btn-group align-top">
 
 
-            <a data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo80" class="btn btn-primary btn-block"><i class="fa fa-plus-square mx-2"></i>Edit</a>
+            <button type="button" class="btn btn-success"><i class="fe fe-edit me-2"></i>Edit</button>
 
-
-          
-
-
-                  <a 
-                
-            
-                      data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo801" class="btn btn-danger btn-block"><i class="fa fa-trash mx-2"></i>Cancel</a>
+            <button type="button" class="btn btn-danger"><i class="fe fe-trash me-2"></i>Cancel</button>
             
                
             </div>
