@@ -1,8 +1,6 @@
 import {React, useEffect,useState,useContext,useCallback} from 'react';
 import { lazy, Suspense } from 'react';
 
-
-
 //import axios from 'axios';
 
 import API from '../../../services';
@@ -39,23 +37,29 @@ import {useParams} from "react-router-dom"
 import {VendorAccount,Player} from '../../../utils/VideoPlayers'
 
 
-import SideBarMenu from './SideBarMenu'
-import SupplierDetails from './SupplierDetails';
-import TopBarNew from './TopBarNew';
-import RetailerDetails from './RetailerDetails';
+
+
 
 import DataContext from '../../../helpers/DataContext';
+import AccountDetails from './AccountDetails';
+import TopBar from './TopBar';
+import SideMenu from './SideMenu';
 
-function PataMtaaniRetailers() {
+function AccountSetting() {
 
     const {bussinessList, setBussinessList} = useContext(DataContext);
-    const {retailerList, setRetailerList} =useContext(DataContext);
+
+    const [myBussinesses, setMyBussinesses] =useState([]);
+    const [retailerList, setRetailerList] = useState([]);
 
     const [isLoading,setLoading]=useState(false);
 
 
 
     const [showSupplierDetails,setShowSupplierDetails]=useState(true);
+
+
+    const [supplierList, setSupplierList] = useState([]);
 
 
     const [showGridView,setShowGridView]=useState(false);
@@ -78,13 +82,52 @@ function PataMtaaniRetailers() {
     
     
     useEffect(()=>{
+
+
+
+        API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+      
+            if(response.data.my_buss!=null){
+    
+                setMyBussinesses(response.data.my_buss)
+        
+            
+          
+            }
+            else{
+          
+             // setIsBusinessSet(false)
+             // setbusinessId(0)
+             // setBussSetup(false);
+              //setbusiness_name('nobuzz')
+            }
+        
+            
+             })
     
        
        
     
 
-              
-   
+
+
+
+// API.get("suppliers/getall",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+           
+    
+//     if(response.data){
+
+//        setSupplierList(response.data)
+
+//     }
+//     else{
+//         setSupplierList([])
+
+//     }
+     
+
+//       console.log("THE SUPPLIER LIST DATA "+response.data)
+//       })
        
     
     
@@ -93,7 +136,7 @@ function PataMtaaniRetailers() {
     
     
     
-    },[retailerList]);
+    },[]);
     
     
     const viewSelectedProduct=(id)=>{
@@ -141,7 +184,11 @@ const showInGridView=()=>{
 
 
 
-    <TopBarNew></TopBarNew>
+   
+
+   <TopBar></TopBar>
+
+
 
 
     
@@ -154,19 +201,19 @@ const showInGridView=()=>{
             <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
             <div class="sticky">
                 <aside class="app-sidebar sidebar-scroll">
-                <div class="main-sidebar-header active">
-                <a class="desktop-logo logo-light active" href="/home_admin"><img src="assets/img/brand/logo_c.jpeg" class="main-logo" alt="logo"/></a>
-                <a class="desktop-logo logo-dark active" href="/home_admin"><img src="assets/img/brand/logo_c.jpeg" class="main-logo" alt="logo"/></a>
-                <a class="logo-icon mobile-logo icon-light active" href="/home_admin"><img src="assets/img/brand/favicon.png" alt="logo"/></a>
-                <a class="logo-icon mobile-logo icon-dark active" href="/home_admin"><img src="assets/img/brand/favicon-white.png" alt="logo"/></a>
-            </div>
+                    <div class="main-sidebar-header active">
+                        <a class="desktop-logo logo-light active" href="index.html"><img src="assets/img/brand/logo.png" class="main-logo" alt="logo"/></a>
+                        <a class="desktop-logo logo-dark active" href="index.html"><img src="assets/img/brand/logo-white.png" class="main-logo" alt="logo"/></a>
+                        <a class="logo-icon mobile-logo icon-light active" href="index.html"><img src="assets/img/brand/favicon.png" alt="logo"/></a>
+                        <a class="logo-icon mobile-logo icon-dark active" href="index.html"><img src="assets/img/brand/favicon-white.png" alt="logo"/></a>
+                    </div>
 
 
 
 
+                  
 
-                    <SideBarMenu/>
-
+                    <SideMenu></SideMenu>
 
 
 
@@ -198,7 +245,7 @@ const showInGridView=()=>{
                                             <span class="label ">EXPENSES</span>
                                         </span>
                                         <span class="value">
-                                            Ksh.0
+                                        Ksh.0
                                         </span>
                                     </div>
                                     <div class="ms-3 mt-2">
@@ -211,7 +258,7 @@ const showInGridView=()=>{
                                             <span class="label">PROFIT</span>
                                         </span>
                                         <span class="value">
-                                           Ksh.0
+                                            Ksh.0
                                         </span>
                                     </div>
                                     <div class="ms-3 mt-2">
@@ -270,7 +317,7 @@ const showInGridView=()=>{
                         <div class="col-xl-3 col-lg-12">
                        
 
-                            <a onClick={showSupportEntryForm} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal"><i class="fa fa-plus-square me-2"></i>New Retailer</a>
+                            <a onClick={showSupportEntryForm} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal"><i class="fa fa-plus-square me-2"></i>Edit Details</a>
                         </div>
                     </div>
                         </div>
@@ -283,87 +330,11 @@ const showInGridView=()=>{
                             <div class="card overflow-hidden review-project">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
-                                        <h4 class="card-title mg-b-10">All Retailers</h4>
+                                       
                                         <i class="mdi mdi-dots-horizontal text-gray"></i>
                                     </div>
                                   
-                                    <div class="table-responsive mb-0">
-                                        <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
-                                            <thead>
-                                                <tr>
-                                                <th class="text-center">
-
-                                                #
-
-                                                </th>
-                                               
-                                                <th>Buzz Name</th>
-                                                <th>Type</th>
-                                                <th>Industry</th>
-                                                <th>Contacts</th>
-                                                
-                                               
-                                             
-                                                <th class="text-center">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {retailerList.map((value,key)=>{
-
-                                                return (
-                                                <tr>
-                                                    <td>
-                                                    {key} 
-                                                    </td>
-                                                   
-                                        <td class="text-nowrap align-middle">{value.business_name}</td>
-                                        <td class="text-nowrap align-middle">{value.business_type}</td>
-
-                                       
-                                
-                                       
-
-                                        
-                                     
-                                       
-
-                                        <td class="text-nowrap align-middle">{value.industry}</td>
-
-                                        <td class="text-nowrap align-middle">{value.contacts}</td>
-
-                                       
-                                         {/** <td class="text-nowrap align-middle">{value.Business.longitude?value.Business.longitude:'no bizz'}</td> */}
-                                        
-
-                                        
-
-                                      
-
-                                       
-
-                                        <td class="text-center align-middle">
-                                            <div class="btn-group align-top">
-                                            <button class="btn btn-sm btn-primary badge" onClick={() => {
-                                                viewSelectedProduct(value.id);
-                                                  }} type="button">View</button>
-                                            
-                                                <button class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" type="button">Edit</button> <button class="btn btn-sm btn-primary badge" type="button"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                                </tr>
-                                                )
-
-
-
-
-                                            })}
-                                                
-                                                
-                                                
-                                            
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -418,7 +389,8 @@ const showInGridView=()=>{
 
 
 
-                          <RetailerDetails setRetailerList={setRetailerList} retailerList={retailerList} ></RetailerDetails>
+                         
+                          <AccountDetails></AccountDetails>
 
                          
 
@@ -481,4 +453,5 @@ const showInGridView=()=>{
     </div>
   )
 }
-export default PataMtaaniRetailers
+
+export default AccountSetting

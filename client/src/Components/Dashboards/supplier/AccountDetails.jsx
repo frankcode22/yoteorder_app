@@ -37,17 +37,10 @@ import { Modal, Button } from "react-bootstrap";
 import {VendorAccount,Player} from '../../../utils/VideoPlayers'
 
 
-
-
-function RetailerDetails(props) {
+function AccountDetails(props) {
     const {businessDetails,setBusinessDetails} = useContext(DataContext);
 
-    const {bussinessList, setBussinessList} = useContext(DataContext);
-
-    const {retailerList, setRetailerList} =useContext(DataContext);
-
-
-    // const {bussinessList, setBussinessList} = useContext(DataContext);
+    const {supplierDetails,setSupplierDetails} = useContext(DataContext);
   
     const {userPos, setUserPos} = useContext(LocationDataContextInit);
   
@@ -127,6 +120,8 @@ function RetailerDetails(props) {
       const [subcategoryList, setSubcategoryList] = useState([]);
   
       const [staffList, setStaffList] = useState([]);
+
+      const [supplierId, setsupplierId] = useState('');
   
   
       const[staffId,setStaffId]=useState('')
@@ -282,6 +277,61 @@ function RetailerDetails(props) {
        console.log("BUSS STATUS",buss_status)
       
       setIsBusinessSet(buss_status)
+
+
+
+
+      
+      if(supplierDetails.my_buss!=null){
+       
+  
+      
+  
+        setsupplierId(supplierDetails.my_buss.id)
+        setIsBusinessSet(true)
+      
+        setbusinessId(supplierDetails.my_buss.id);
+        
+        setlocation(supplierDetails.my_buss.location)
+
+       // setServicesList(response.data.my_buss.Services);
+
+      
+
+       // setStaffList(response.data.my_buss.Staffs);
+
+        setbusiness_name(supplierDetails.my_buss.name);
+        setEmail(supplierDetails.my_buss.User.email)
+
+        setbusiness_type(supplierDetails.my_buss.business_type);
+
+        setbusiness_description(supplierDetails.my_buss.business_description);
+
+
+        setImagePath(supplierDetails.imagePath)
+        
+       // setprofile_photo(response.data.my_buss.profile_photo)
+
+        setCloudinaryUrl(supplierDetails.my_buss.cloudinary_url)
+
+       
+
+        
+
+        setbuss_contacts(supplierDetails.my_buss.contacts)
+            
+  
+     
+     
+       
+     
+       }
+       else{
+     
+         setErrorMessage("Unable to fetch your account details.Kindly check your internet connection!!");
+        // setIsDivLoading(false);
+       }
+  
   
   
      
@@ -300,123 +350,12 @@ function RetailerDetails(props) {
   
     
   
-         console.log("YOUR VENDOR BUSINESS DETAILS  IS ",businessDetails);
-  
-    {/**  if(businessDetails.my_buss!=null){
-  
-             setIsBusinessSet(true)
        
-             setbusinessId(businessDetails.my_buss.id);
-   
-             //setServicesList(response.data.Services);
-  
-            setServicesList(businessDetails.my_buss.Services);
-  
-           
-   
-             setStaffList(businessDetails.my_buss.Staffs);
-   
-             setbusiness_name(businessDetails.my_buss.business_name);
-  
-             console.log("YOUR  BUSINESS NAME  IS ",businessDetails.my_buss.business_name);
-  
-             setCloudinaryUrl(businessDetails.my_buss.cloudinary_url)
-  
-         
-  
-             setbusiness_type(businessDetails.my_buss.business_type);
-   
-             setbusiness_description(businessDetails.my_buss.business_description);
-   
-   
-             setImagePath(businessDetails.imagePath)
-             
-             setprofile_photo(businessDetails.my_buss.profile_photo)
-   
-             setlocation(businessDetails.my_buss.location)
-             setLatitude(businessDetails.my_buss.latitude)
-             setLongitude(businessDetails.my_buss.longitude)
-  
-  
-             setcontacts(businessDetails.my_buss.contacts)
-            
-   
-             
-   
-             setbuss_contacts(businessDetails.my_buss.contacts)
-   
-             setBussSetup(true);
-   
-             //setOrdersList(response.data.Orders)
-   
-             setCustomersCount(businessDetails.my_buss.Customers.length)
-   
-             //setcustomer_contacts(response.data.Customers.)
-         
-           
-         
-           }
-           else{
-         
-             setIsBusinessSet(false)
-             setbusinessId(0)
-             setBussSetup(false);
-             setbusiness_name('nobuzz')
-             //setOrdersList([])
-           }*/}
   
         
   
   
   
-            API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-      
-          if(response.data.my_buss!=null){
-  
-            setIsBusinessSet(true)
-      
-            setbusinessId(response.data.my_buss.id);
-            
-            setlocation(response.data.my_buss.location)
-  
-            setServicesList(response.data.my_buss.Services);
-  
-            setStaffList(response.data.my_buss.Staffs);
-  
-            setbusiness_name(response.data.my_buss.business_name);
-  
-            setbusiness_type(response.data.my_buss.business_type);
-  
-            setbusiness_description(response.data.my_buss.business_description);
-  
-  
-            setImagePath(response.data.imagePath)
-            
-           // setprofile_photo(response.data.my_buss.profile_photo)
-  
-            setCloudinaryUrl(response.data.my_buss.cloudinary_url)
-  
-           
-  
-            
-  
-            setbuss_contacts(response.data.my_buss.contacts)
-  
-            setBussSetup(true);
-        
-          
-        
-          }
-          else{
-        
-            setIsBusinessSet(false)
-            setbusinessId(0)
-            setBussSetup(false);
-            setbusiness_name('nobuzz')
-          }
-      
-          
-           })
   
   
   
@@ -451,7 +390,7 @@ function RetailerDetails(props) {
   
   
   
-  },[position,userPos,cloudinary_url]);
+  },[position,userPos,cloudinary_url,supplierDetails]);
   
   
   
@@ -557,10 +496,6 @@ function RetailerDetails(props) {
           })
           .catch(error => console.error('Error', error));
       };
-
-
-
-
   
   
   
@@ -571,7 +506,7 @@ function RetailerDetails(props) {
       industry:industry,
       location:address,
       contacts:buss_contacts,
-      email:email,
+  
       address_line_1:address_line_1,
       latitude:mapCenter.lat,
       longitude:mapCenter.lng,
@@ -582,20 +517,6 @@ function RetailerDetails(props) {
       //status:status,
       UserId:userId,
      
-  }
-
-
-  const user_details={
-    name:business_name,
-    last_name:business_name,
-    email:email,
-    phoneNo:buss_contacts,
-    account_type:"",
-    password:buss_contacts,
-  
-    state:"",
-    city:null,
-    role:'Vendor',
   }
    
   
@@ -608,40 +529,14 @@ function RetailerDetails(props) {
   
   
             try {
-
-              API.post('users',user_details).then((response)=>{
-  
-                console.log("THE SUPPLIER DATA IS"+response.data)
-            
-               // setCustomerId(response.data.id)
-            
-            
-               
           
-          
-                if(response.data.error) {
-          
-                  setTimeout(() => {
-                     
-                      toast.error(response.data.error);
-                      setLoading(false);
-                  }, 500);
-          
-                  //alert();
-                  //setLoading(false);
-                }
-
-                else{
-          
-          API.post("retailer/bussinfor",buss_data).then((response)=>{
+          API.post("business/bussinfor",buss_data).then((response)=>{
   
   
          // setBusinessDetails(b.map(post => post.id === id ? { ...response.data } : post));
   
-      
-
-
-         
+         const newDetails = response.data;
+         setBusinessDetails(newDetails ?{ ...response.data } : businessDetails);
   
   
   
@@ -670,35 +565,6 @@ function RetailerDetails(props) {
   
   
          // console.log("THE NEW BUSINESS OBJECT AFTER SETTING UP MY BUSS IS "+businessDetails)
-
-
-        // const newDetails = response.data;
-        // props.setRetailerList(newDetails ?{ ...response.data } : props.retailerList);
-
-
-          props.setRetailerList([
-           ...props.retailerList,
-           {
-       id:response.data.id,
-       business_name:business_name,
-       business_type:industry,
-      industry:industry,
-      location:address,
-      contacts:buss_contacts,
-      email:email,
-      address_line_1:address_line_1,
-      latitude:mapCenter.lat,
-      longitude:mapCenter.lng,
-      city:city,
-      state:state,
-      country:country,
-      business_description:business_description,
-      //status:status,
-      UserId:userId,
-    
-           },
-         ]);
-
   
   
   
@@ -713,9 +579,7 @@ function RetailerDetails(props) {
             
              
           });
-        }
-        
-      });
+  
         } catch (err) {
           console.log(`Error: ${err.message}`);
         }
@@ -1474,7 +1338,7 @@ function RetailerDetails(props) {
                   }}
                 
                 
-                placeholder="Eg.Escara Wines" />
+                placeholder="Eg.Johnson Distributers" />
               </div>
             </div>
           </div>
@@ -1539,17 +1403,11 @@ function RetailerDetails(props) {
                   data-allow-clear="true">
 
                   <option value="Wines-Spirits" selected>Drinks/Wines/Spirts/Alcohol</option>
-                  <option value="Drinks/Wines/Spirts/Alcohol">Club/Pub</option>
+                  <option value="Beer">Beer</option>
+                  <option value="Senator Keg">Senator Keg</option>
                  
 
-                  <option value="Wines">Wines</option>
-
-                  
-
-                  <option value="Drinks">Drinks</option>
-                  <option value="Ready Made Meals">Ready Made Meals</option>
-               
-                 
+                
                 </select>
               </div>
             </div>
@@ -1599,7 +1457,7 @@ function RetailerDetails(props) {
           <div class="row">
             <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Email</label>
             <div class="col-sm-9">
-              <input type="text" id="remail" name='remail' class="form-control phone-mask"
+              <input type="text" id="email" name="email" class="form-control phone-mask"
 
               value={email}
               
@@ -1872,4 +1730,4 @@ function RetailerDetails(props) {
 
 export default GoogleApiWrapper({
     apiKey: ('AIzaSyAOJjEor9H6PWdsKLAQSr3dIH1fWJNveGI')
-  })(RetailerDetails)
+  })(AccountDetails)

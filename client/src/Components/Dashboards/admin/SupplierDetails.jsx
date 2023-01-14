@@ -423,6 +423,36 @@ const user_details={
 
 
 
+   props.setSupplierList([
+    ...props.supplierList,
+    {
+  id:response.data.id,
+  name:business_name,
+  business_type:industry,
+  industry:industry,
+  location:address,
+  contacts:buss_contacts,
+
+  email:email,
+
+  
+
+  address_line_1:address_line_1,
+  latitude:mapCenter.lat,
+  longitude:mapCenter.lng,
+  city:city,
+  state:state,
+  country:country,
+  business_description:business_description,
+  status:status,
+  UserId:userId,
+
+
+    },
+  ]);
+
+
+
    setBussSetup(true)
 
   // localStorage.setItem("business_set", true);

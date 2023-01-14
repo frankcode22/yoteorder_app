@@ -306,8 +306,8 @@ function PataMtaaniSuppliers() {
                                                 </th>
                                                
                                                 <th>Name</th>
-                                                <th>Type</th>
                                                 <th>Industry</th>
+                                                <th>Email</th>
                                                 <th>Contacts</th>
                                                 
                                                
@@ -335,7 +335,7 @@ function PataMtaaniSuppliers() {
                                      
                                        
 
-                                        <td class="text-nowrap align-middle">{value.industry}</td>
+                                        <td class="text-nowrap align-middle">{value.User.email}</td>
 
                                         <td class="text-nowrap align-middle">{value.contacts}</td>
 
@@ -426,7 +426,7 @@ function PataMtaaniSuppliers() {
 
 
 
-                            <SupplierDetails></SupplierDetails>
+                            <SupplierDetails setSupplierList={setSupplierList} supplierList={supplierList}></SupplierDetails>
 
                          
 

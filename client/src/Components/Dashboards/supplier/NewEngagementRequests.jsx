@@ -1,4 +1,3 @@
-import { lazy, Suspense } from 'react';
 import React from 'react'
 import { useEffect,useState,useContext,useCallback} from 'react';
 
@@ -36,7 +35,7 @@ import ContentLoader from '../../../utils/ContentLoader';
 
 import { Modal, Button } from "react-bootstrap";
 
-function InventoryDetails(props) {
+function NewEngagementRequests(props) {
     const {businessDetails,setBusinessDetails} = useContext(DataContext);
 
     const {supplierDetails,setSupplierDetails} = useContext(DataContext);
@@ -122,6 +121,8 @@ function InventoryDetails(props) {
       const [servicesList, setServicesList] = useState([]);
   
       const [staffList, setStaffList] = useState([]);
+
+      const [requestsList, setRequestsList] = useState([]);
   
   
       const[staffId,setStaffId]=useState('')
@@ -273,8 +274,21 @@ function InventoryDetails(props) {
       setIsBusinessSet(buss_status)
 
 
+      console.log("THE SUPPLIER FROM PROPS IS",props.supplierId)
+
+
 
       //console.log("HERE IS YOUR SUPPLIER ACCOUNT DETAILS",supplierDetails.my_buss);
+
+      //axios.get('https://yoteorder-server.herokuapp.com/users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+        API.get('engagement/newrequests/'+props.supplierId, { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+  
+            setRequestsList(response.data)
+
+
+      
+      
+           })
   
   
       if(supplierDetails.my_buss!=null){
@@ -282,7 +296,7 @@ function InventoryDetails(props) {
   
       
   
-        setsupplierId(supplierDetails.my_buss.id)
+       // setsupplierId(supplierDetails.my_buss.id)
             // setbusinessId(response.data.my_buss.id);
             
   
@@ -1535,10 +1549,9 @@ function InventoryDetails(props) {
     </div>
     <div class="row row-sm">
  
-    {productsList.map((value, key) => {
+    {requestsList.map((value, key) => {
      return (
      
-       
         <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
             <div class="product-card card">
                 <div class="card-body h-100">
@@ -1814,4 +1827,4 @@ function InventoryDetails(props) {
   )
 }
 
-export default InventoryDetails
+export default NewEngagementRequests

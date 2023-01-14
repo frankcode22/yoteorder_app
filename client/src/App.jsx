@@ -20,7 +20,7 @@ import Dashboard from "./Components/Dashboards/seller/Dashboard";
 import ProductSetting from "./Components/Dashboards/seller/ProductSetting";
 import SignUp from "./Components/Front/home/SignUp";
 import BookingPage from "./Components/Front/booking/BookingPage";
-import AccountSetting from "./Components/Dashboards/seller/AccountSetting";
+//import AccountSetting from "./Components/Dashboards/seller/AccountSetting";
 import CustomerDashboard from "./Components/Dashboards/customer/CustomerDashboard";
 import ProfileC from "./Components/Dashboards/customer/ProfileC";
 import ProfileS from "./Components/Dashboards/seller/ProfileS";
@@ -72,6 +72,9 @@ import HelpCentrePataMtaani from './Components/Front/home/HelpCentrePataMtaani';
 import RetailerSales from './Components/Dashboards/seller/RetailerSales';
 import RetailerOrders from './Components/Dashboards/seller/RetailerOrders';
 import AllOrders from './Components/Dashboards/supplier/AllOrders';
+import AccountSetting from './Components/Dashboards/supplier/AccountSetting';
+import EngagementRequests from './Components/Dashboards/supplier/EngagementRequests';
+//import ProtectedRoute from './helpers/ProtectedRoute';
 
 
 const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
@@ -158,7 +161,9 @@ function App() {
      
         <Route path="/dashboard" element={ <AdminDashboard/>}/>
 
-        <Route path="/home_admin" element={ <AdminHome/>}/>
+        <Route exact path="/home_admin" element={ <AdminHome/>}/>
+
+       
 
 
         <Route path="/dashboard-vendor" element={ <Dashboard/>}/>
@@ -186,7 +191,7 @@ function App() {
 
         <Route path="/setting-products" element={ <ProductSetting/>}/>
 
-        <Route path="/account-setting" element={ <AccountSetting/>}/>
+        {/**<Route path="/account-setting" element={ <AccountSetting/>}/> */}
 
 
         <Route path="/my-account" element={ <AccountSettingNew/>}/>
@@ -228,7 +233,12 @@ function App() {
 
         <Route exact path="/supplier_home" element={ <SupplierHome/>}/>
 
+        <Route exact path="/account-setting" element={ <AccountSetting/>}/>
+
         <Route exact path="/my_stores" element={ <StoreInventory/>}/>
+
+        <Route exact path="/engagements" element={ <EngagementRequests/>}/>
+
 
         <Route exact path="/ptm-retailors" element={ <Retailors/>}/>
 

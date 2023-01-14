@@ -1,128 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React from 'react'
+import { useEffect,useState,useContext,useCallback} from 'react';
 import SideMenu from './SideMenu'
-import TopHeader from './TopHeader'
-
-import API from '../../../services';
+import TopBar from './TopBar'
 
 import {toast,ToastContainer,Zoom,Bounce} from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
-import ProductsComponent from './ProductsComponent';
-import POSComponent from './POSComponent';
+
 import { useNavigate,Link} from "react-router-dom"
-
-import { productsArray } from '../../../helpers/productsStore';
-import Store from './Store';
-import SalesComponent from './SalesComponent';
-import OrdersComponent from "./OrdersComponent";
-import CustomerBills from "./CustomerBills";
-
-function RetailPOS() {
+import NewEngagementRequests from './NewEngagementRequests';
 
 
-    const [showPOS, setShowPOS] = useState(true);
 
-    const [showSales, setShowSales] = useState(false);
+import API from '../../../services';
+import { Progress } from 'reactstrap';
 
-    const [showCustBill, setShowCustBill] = useState(false);
+import DataContext from '../../../helpers/DataContext';
 
-    const [showOrders, setShowOrders] = useState(false);
+function EngagementRequests() {
 
-    const [isDivLoading, setIsDivLoading] = useState(false);
+    const {businessDetails,setBusinessDetails} = useContext(DataContext);
+
+    const {supplierDetails,setSupplierDetails} = useContext(DataContext);
+
+    const [supplierId, setsupplierId] = useState('');
+
+    const [isBusinessSet,setIsBusinessSet] = useState(false);
 
     const [errorMessage, setErrorMessage] = useState("");
 
-    const [contacts, setContacts] = useState([]);
 
-    
-  let history = useNavigate();
-
-
-  useEffect(()=>{
-
-    setIsDivLoading(true);
-
-    
-    API.get('order/datebasedorders', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-
-        // setShowP(true);
   
+
+    useEffect(()=>{
   
      
-           
-              setTimeout(() => {
-                
-                  setContacts(response.data);
-  
-                
-                  setIsDivLoading(false)  
-              
-               
-              }, 1000);
-  
-              //setSeller_name(response.data.Users.first_name)
-              
-          }).catch(() => {
-              setErrorMessage("Unable to fetch your search.Make sure you have internet connection.");
-              setIsDivLoading(false);
-           });
-
-
-
-
-  },[])
-
-   
-
-    const displayPOS=()=>{
-
-        setShowPOS(true)
-        setShowOrders(false)
-        setShowSales(false)
+    
+    
+        let buss_status=localStorage.getItem('business_set')
+    
+         console.log("BUSS STATUS",buss_status)
         
-        setShowCustBill(false)
- 
- 
-     }
-
-
-     const viewOrders=()=>{
-        setShowCustBill(false)
-        setShowPOS(false)
-        setShowSales(false)
-        setShowOrders(true)
+        setIsBusinessSet(buss_status)
+  
+  
+  
+        //console.log("HERE IS YOUR SUPPLIER ACCOUNT DETAILS",supplierDetails.my_buss);
+    
+    
+        if(supplierDetails.my_buss!=null){
+         
+    
         
- 
- 
- 
-     }
-
-    const viewSales=()=>{
-
-       setShowPOS(false)
-       setShowOrders(false)
+    
+          setsupplierId(supplierDetails.my_buss.id)
+              // setbusinessId(response.data.my_buss.id);
+              
+    
        
-       setShowSales(true)
-       setShowCustBill(false)
-     
+       
+         
+       
+         }
+         else{
+       
+           setErrorMessage("Unable to fetch your account details.Kindly check your internet connection!!");
+          // setIsDivLoading(false);
+         }
 
-    }
-
-
-    const viewCustBill=()=>{
-
-        setShowPOS(false)
-        setShowOrders(false)
-        
-        setShowSales(false)
-        setShowCustBill(true)
-      
- 
-     }
-
-
-    
-
+        },[businessDetails,supplierDetails]);
 
 
     return (
@@ -133,7 +79,7 @@ function RetailPOS() {
   
   
   
-      <TopHeader></TopHeader>
+     <TopBar></TopBar>
   
   
       
@@ -146,12 +92,12 @@ function RetailPOS() {
               <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
               <div class="sticky">
                   <aside class="app-sidebar sidebar-scroll">
-                  <div class="main-sidebar-header active">
-                  <a class="desktop-logo logo-light active" href="/home_retailer"><img src="assets/img/brand/logo_c.jpeg" class="main-logo" alt="logo"/></a>
-                  <a class="desktop-logo logo-dark active" href="/home_retailer"><img src="assets/img/brand/logo_c.jpeg" class="main-logo" alt="logo"/></a>
-                  <a class="logo-icon mobile-logo icon-light active" href="/home_retailer"><img src="assets/img/brand/favicon.png" alt="logo"/></a>
-                  <a class="logo-icon mobile-logo icon-dark active" href="/home_retailer"><img src="assets/img/brand/favicon-white.png" alt="logo"/></a>
-              </div>
+                      <div class="main-sidebar-header active">
+                          <a class="desktop-logo logo-light active" href="index.html"><img src="assets/img/brand/logo_c.jpeg" class="main-logo" alt="logo"/></a>
+                          <a class="desktop-logo logo-dark active" href="index.html"><img src="assets/img/brand/logo_c.jpeg" class="main-logo" alt="logo"/></a>
+                          <a class="logo-icon mobile-logo icon-light active" href="index.html"><img src="assets/img/brand/favicon.png" alt="logo"/></a>
+                          <a class="logo-icon mobile-logo icon-dark active" href="index.html"><img src="assets/img/brand/favicon-white.png" alt="logo"/></a>
+                      </div>
   
   
   
@@ -202,7 +148,7 @@ function RetailPOS() {
                                               <span class="label">PROFIT</span>
                                           </span>
                                           <span class="value">
-                                          Ksh.0
+                                              Ksh.0
                                           </span>
                                       </div>
                                       <div class="ms-3 mt-2">
@@ -223,11 +169,11 @@ function RetailPOS() {
                               <div class="main-content-left main-content-left-mail card-body pt-0 ">
                                   <div class="main-settings-menu">
                                       <nav class="nav main-nav-column">
-                                          <a class="nav-link thumb active mb-2" href="javascript:void(0);" onClick={displayPOS}><i class="fe fe-home"></i> POS </a>
-                                          <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);" onClick={viewOrders}><i class="fe fe-grid"></i>Orders</a>
+                                          <Link class="nav-link thumb active mb-2" to='/my_stores'><i class="fe fe-home"></i> Main </Link>
+                                          <Link class="nav-link border-top-0 thumb mb-2" to='/my_stores'><i class="fe fe-grid"></i>Tabular View</Link>
                                        
-                                          <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);" onClick={viewCustBill}><i class="fe fe-layers"></i> Bills</a>
-                                          <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);" onClick={viewSales}><i class="fe fe-layers"></i> Sales</a>
+                                    
+                                         
                                           
                                           <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-bell"></i> Notifications</a>
                                       </nav>
@@ -244,25 +190,14 @@ function RetailPOS() {
 
                             
 
-                          {showPOS && <Store></Store>}
+
 
                               
   
   
   
   
-                        
-
-                          {showPOS && <POSComponent></POSComponent>}
-
-
-                          {showSales && <SalesComponent></SalesComponent>}
-
-                          {showCustBill && <CustomerBills></CustomerBills>}
-
-                          {showOrders &&<OrdersComponent data={contacts}></OrdersComponent>}
-
-                       
+                        <NewEngagementRequests supplierId={supplierId}></NewEngagementRequests>
   
                            
   
@@ -283,7 +218,7 @@ function RetailPOS() {
   
                               
                     
-                         
+                          <ToastContainer/>
                           </div>
                       </div>
                   </div>
@@ -295,7 +230,6 @@ function RetailPOS() {
   
   
                     </div>
-  
   
   
   
@@ -326,4 +260,4 @@ function RetailPOS() {
     )
   }
 
-export default RetailPOS
+export default EngagementRequests

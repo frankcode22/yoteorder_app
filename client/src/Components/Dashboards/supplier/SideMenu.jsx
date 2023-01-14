@@ -34,7 +34,7 @@ function SideMenu() {
     <div class="sidebar-navs">
         <ul class="nav  nav-pills-circle">
             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Settings" aria-describedby="tooltip365540">
-                <a class="nav-link text-center m-2">
+                <a class="nav-link text-center m-2" href='/account-setting'>
                     <i class="fe fe-settings"></i>
                 </a>
             </li>
@@ -83,6 +83,11 @@ function SideMenu() {
         <a href='/orders' class="side-menu__item"><i class="side-menu__icon fe fe-airplay"></i><span class="side-menu__label">Orders</span></a>
         </li>
 
+        <li class="slide">
+       
+        <a href='/engagements'class="side-menu__item"><i class="side-menu__icon fe fe-bell"></i><span class="side-menu__label">Engagements</span></a>
+         </li>
+
         
 
         <li class="slide">
@@ -96,7 +101,7 @@ function SideMenu() {
 
     <li class="slide">
        
-    <a class="side-menu__item" href="#"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">My Account</span></a>
+    <a class="side-menu__item" href="/account-setting"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">My Account</span></a>
 </li>
       
     </ul>

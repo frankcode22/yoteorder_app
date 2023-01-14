@@ -35,6 +35,33 @@ import CartProduct from './CartProduct';
 
 
 
+const data = [
+    {
+      id: "1",
+      name: "cargo",
+      type: "transport",
+      emoji: "🐶",
+      keywords: ["transport", "uber", "cargo"]
+    },
+    {
+      id: "2",
+      name: "automotive",
+      type: "automotive",
+      emoji: "🐱",
+      keywords: ["automotive", "repair","mechanic"]
+    },
+    {
+      id: "3",
+      name: "foxy",
+      type: "fox",
+      emoji: "🦊",
+      keywords: ["fox", "inteligent"]
+    },
+    { id: "4", name: "sushi", type: "fish", emoji: "🐟", keywords: [] }
+  ];
+
+
+
 
 
 function randomNumberInRange(min, max) {
@@ -43,9 +70,16 @@ function randomNumberInRange(min, max) {
   }
 
 
-function OrdersComponent()  {
+function OrdersComponent({data})  {
 
     const {businessDetails,setBusinessDetails} = useContext(DataContext);
+
+
+    const [filteredData, setFilteredData] = useState([]);
+    const [wordEntered, setWordEntered] = useState("");
+
+
+    
 
     //const {userPos, setUserPos} = useContext(LocationDataContextInit);
   
@@ -144,8 +178,10 @@ function OrdersComponent()  {
     let history = useNavigate();
 
 
-
-
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+  
+   
 
     
 
@@ -173,6 +209,10 @@ function OrdersComponent()  {
    setIsDivLoading(true);
 
 
+
+
+
+
   
 
 
@@ -196,7 +236,7 @@ function OrdersComponent()  {
     setBussSetup(true);
     
     
-    setOrdersList(response.data.my_buss.Orders)
+    //setOrdersList(response.data.my_buss.Orders)
     
     //setSales(response.data.my_buss.RetailerSales)
     
@@ -231,8 +271,6 @@ function OrdersComponent()  {
     });
 
 
-
-    
     
            //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
           API.get("customer/mycustomers").then((response) => {
@@ -263,7 +301,6 @@ function OrdersComponent()  {
     
        
     
-    
     }
     else{
     
@@ -272,12 +309,56 @@ function OrdersComponent()  {
     }
     
 
-       
+  
 
 
 
 
 },[businessDetails])
+
+
+
+const handleChange = e =>{
+
+    setSearchTerm(e.target.value);
+
+
+    // const results = ordersList.filter(o => o.keywords.includes(searchTerm));
+    // setSearchResults(results);
+
+   // console.log('THE SEARCH RESULT IS',searchResults)
+
+} 
+
+
+
+const searchOrder =() =>{
+
+
+    //const jeepAutos = ordersList.filter( (auto) => auto.orderId.includes('9092'))
+//  this.setState({
+//   filteredAutos: jeepAutos
+//  })
+
+ //setSearchResults(jeepAutos);
+
+
+ //console.log('THE SEARCH RESULT IS',jeepAutos)
+
+
+ //const newFilter = ordersList.filter((value) => {
+   // return value.item_name.toLowerCase().includes(searchTerm.toLowerCase());
+ // });
+
+ //const num = 9092;
+
+
+    //const results = ordersList.filter(o => o.String(num).includes('9092'));
+    //setSearchResults(results);
+
+     console.log('THE SEARCH RESULT IS',ordersList)
+
+} 
 
 
 
@@ -611,6 +692,27 @@ const handleCustomerSelect= async (event) => {
 
  }
 
+ const handleFilter = (event) => {
+    const searchWord = event.target.value;
+    setWordEntered(searchWord);
+    const newFilter = data.filter((value) => {
+      return value.name.toLowerCase().includes(searchWord.toLowerCase());
+    });
+
+    if (searchWord === "") {
+      setFilteredData([]);
+    } else {
+      setFilteredData(newFilter);
+    }
+  };
+
+  const clearInput = () => {
+    setFilteredData([]);
+    setWordEntered("");
+    //setHideSearchBtn(false)
+  };
+
+
 const productsCount = cart.items.reduce((sum, product) => sum + product.quantity, 0);
 
 
@@ -635,7 +737,7 @@ const loadOrdersContent=(
     </thead>
     <tbody>
 
-    {ordersList.map((value, key) => {
+    {data.map((value, key) => {
       return (
         <tr>
         <td>
@@ -754,6 +856,31 @@ const loadOrdersContent=(
     </div>
 </div>
     </div>
+</div>
+
+<div class="row">
+<div class="col mb-3">
+
+<input class="form-control"
+value={wordEntered}
+onChange={handleFilter} type="text"/>
+</div>
+
+<div class="col mb-3">
+<div className="results">
+       
+<ul class="list-group">
+
+{searchResults &&
+    searchResults.map(item =>
+                                    
+                                    <li key={item.id}>
+                                    {item.name}
+                                    </li>)}
+                                </ul>
+</div>
+<a class="btn btn-primary btn-block float-end my-2" href="javascript:void(0);" onClick={searchOrder}><i class="fa fa-plus-square me-2"></i>Search</a>
+</div>
 </div>
    
 

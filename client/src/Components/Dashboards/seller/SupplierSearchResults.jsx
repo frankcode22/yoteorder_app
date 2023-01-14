@@ -37,7 +37,7 @@ import ContentLoader from '../../../utils/ContentLoader';
 
 import { Modal, Button } from "react-bootstrap";
 
-function ProductsComponent(props) 
+function SupplierSearchResults(props) 
 {
 
     const {businessDetails,setBusinessDetails} = useContext(DataContext);
@@ -74,6 +74,21 @@ function ProductsComponent(props)
 
 
     const [itemId, setItemId] = useState("");
+
+    const [itemName, setItemName] = useState("");
+
+    const [supplierId, setSupplierId] = useState("");
+
+    const [supplierName, setSupplierName] = useState("");
+
+    const [supplierContacts, setSupplierContacts] = useState("");
+
+    const [engagementDescription, setEngagementDescription] = useState("");
+
+
+    
+
+    
 
 
 
@@ -114,7 +129,7 @@ function ProductsComponent(props)
 
     const {productsList1, setProductsList1 } = useContext(DataContext);
 
-    const [businessId, setbusinessId] = useState('');
+    const [businessId, setBuzzId] = useState('');
 
     const [retailerId, setretailerId] = useState('');
 
@@ -262,6 +277,16 @@ function ProductsComponent(props)
   const [showSetUpError,setShowSetUpError]=useState(false);
 
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () =>{
+
+  //setRandomNo(randomNumberInRange(1, 10000));
+
+  setShow(true);
+} 
+
+
   useEffect(()=>{
 
     setLat(userPos.lat)
@@ -295,66 +320,7 @@ function ProductsComponent(props)
 
 
 
-     if(businessDetails.my_buss!=null){
-
-           setIsBusinessSet(true)
      
-           setbusinessId(businessDetails.my_buss.id);
- 
-           //setServicesList(response.data.Services);
-
-          setServicesList(businessDetails.my_buss.Services);
-
-         
- 
-           setStaffList(businessDetails.my_buss.Staffs);
- 
-           setbusiness_name(businessDetails.my_buss.business_name);
-
-           console.log("YOUR  BUSINESS NAME  IS ",businessDetails.my_buss.business_name);
-
-           setCloudinaryUrl(businessDetails.my_buss.cloudinary_url)
-
-       
-
-           setbusiness_type(businessDetails.my_buss.business_type);
- 
-           setbusiness_description(businessDetails.my_buss.business_description);
- 
- 
-           setImagePath(businessDetails.imagePath)
-           
-           setprofile_photo(businessDetails.my_buss.profile_photo)
- 
-           setlocation(businessDetails.my_buss.location)
-           setLatitude(businessDetails.my_buss.latitude)
-           setLongitude(businessDetails.my_buss.longitude)
-          
- 
-           
- 
-           setbuss_contacts(businessDetails.my_buss.contacts)
- 
-           setBussSetup(true);
- 
-           //setOrdersList(response.data.Orders)
- 
-           setCustomersCount(businessDetails.my_buss.Customers.length)
- 
-           //setcustomer_contacts(response.data.Customers.)
-       
-         
-       
-         }
-         else{
-       
-           setIsBusinessSet(false)
-           setbusinessId(0)
-           setBussSetup(false);
-           setbusiness_name('nobuzz')
-           //setOrdersList([])
-         } 
-
 
 
       
@@ -370,7 +336,7 @@ function ProductsComponent(props)
   
             setIsBusinessSet(true)
       
-           // setbusinessId(response.data.my_buss.id);
+           // setretailerId(response.data.my_buss.id);
   
             setlocation(response.data.my_buss.location)
   
@@ -409,7 +375,7 @@ function ProductsComponent(props)
           else{
         
             setIsBusinessSet(false)
-            //setbusinessId(0)
+            //setretailerId(0)
             setBussSetup(false);
             setbusiness_name('nobuzz')
           }
@@ -653,7 +619,7 @@ const buss_data={
 
         console.log("THE BUSINESS ID IS "+response.data.id)
 
-        //setbusinessId(response.data.id)
+        //setretailerId(response.data.id)
 
 
        // console.log("THE NEW BUSINESS OBJECT AFTER SETTING UP MY BUSS IS "+businessDetails)
@@ -906,7 +872,7 @@ const openSelectedProduct=(pId,e)=>{
          setcategory(response.data.category)
 
          setType(response.data.category)
-         setbusinessId(response.data.BusinessId)
+         setretailerId(response.data.BusinessId)
          setretailerId(response.data.BusinessId)
 
 
@@ -933,30 +899,12 @@ const openSelectedProduct=(pId,e)=>{
 
       setItemId(pId)
 
-      props.setSearchItemId(pId)
-
       console.log('PRODUCT NAME'+pname)
-
-     
-      props.setShowSales(true)
-
-      props.setShowPOS(false)
 
       //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
        API.get('stores/itemsuppliers/'+pname).then((response) => {
    
            console.log("STORE LIST DATA IS ",response.data.item_list)
-
-           if(!response.data.item_list){
-
-            props.setSuppliersData([])
-
-           }
-           else{
-            props.setSuppliersData(response.data.item_list)
-           }
-
-          
    
           // setProductId(pId)
           
@@ -966,6 +914,123 @@ const openSelectedProduct=(pId,e)=>{
    
    
        }
+
+
+       const requestEngagement=(itemId,sId,sname,scontacts,itemname)=>{
+
+        setItemId(itemId)
+        setSupplierId(sId)
+        setSupplierName(sname)
+
+        setItemName(itemname)
+
+        setSupplierContacts(scontacts)
+
+  
+      
+
+        //setProductId(pId)
+
+
+        //console.log('ITEM NAME'+itemname)
+
+        setShow(true)
+
+  
+       
+     
+     
+     
+         }
+
+
+
+         const processEngagementRequest=()=>{
+
+          //setItemId(pId)
+    
+         // console.log('PRODUCT NAME'+pname)
+
+         setLoading(true)
+    
+          const engage_data={
+
+          
+
+            itemName:itemName,
+            //retailerName:retailerName,
+           
+            suppier_name:supplierName,
+            engagementDescription:engagementDescription,
+            
+            productId:props.searchItemId,
+            supplierId:supplierId,
+            supplyStoresId:itemId,
+            RetailerId:props.businessId,
+           
+        }
+            
+           //API.post("business",buss_data).then((response)=>{
+        
+        
+            try {
+          
+          API.post("engagement/makerequest",engage_data).then((response)=>{
+        
+        
+         // setBusinessDetails(b.map(post => post.id === id ? { ...response.data } : post));
+        
+        
+        
+        
+        
+         
+        
+        
+        //  console.log("START tIME"+openTime)
+        
+        
+         // console.log("END TIME"+closeTime)
+        
+        
+          console.log("SERVER RESPONSE "+response.data)
+        
+        
+        
+        
+         // console.log("THE NEW BUSINESS OBJECT AFTER SETTING UP MY BUSS IS "+businessDetails)
+        
+        
+        
+             
+              setTimeout(() => {
+
+                //setItemId(itemId)
+        //setSupplierId('')
+        setSupplierName('')
+
+        setItemName('')
+
+        setSupplierContacts('')
+                  setLoading(false);
+                  toast.success('Request Processed');
+                  setShow(false)
+                 // setIsBusinessSet(true)
+              }, 1000);
+           
+             //  history("/dashboard");
+            
+             
+          });
+        
+        } catch (err) {
+          console.log(`Error: ${err.message}`);
+        }
+        
+       
+       
+       
+           }
 
      
     const updateAvailability=(pId)=>{
@@ -1471,7 +1536,7 @@ const initiateEdit=()=>{
 
     console.log("THE BUSINESS ID IS "+response.data.id)
 
-    setbusinessId(response.data.id)
+    setretailerId(response.data.id)
 
 
     setbusiness_name(response.data.business_name)
@@ -1585,7 +1650,7 @@ const updateProductNew = async e => {
    </div>
    <div class="row row-sm">
 
-   {props.productsData.map((value, key) => {
+   {props.supplierData.map((value, key) => {
     return (
     
       
@@ -1596,9 +1661,9 @@ const updateProductNew = async e => {
                        <span class="text-secondary small text-uppercase">{value.category}</span>
                        <span class="ms-auto"><i class="far fa-heart"></i></span>
                    </div>
-                   <h3 class="h6 mb-2 font-weight-bold text-uppercase">{value.name}</h3>
+                   <h3 class="h6 mb-2 font-weight-bold text-uppercase">{value.product_name}</h3>
                    <div class="d-flex">
-                       <h4 class="h5 w-50 font-weight-bold text-danger">Ksh {value.price}</h4>
+                       <h4 class="h5 w-50 font-weight-bold text-danger">Price Per Package:{value.price_per_package}</h4>
                        <span class="tx-15 ms-auto">
                            <i class="ion ion-md-star text-warning"></i>
                            <i class="ion ion-md-star text-warning"></i>
@@ -1609,6 +1674,8 @@ const updateProductNew = async e => {
                        
                    </div>
                    <h4 class="h5 w-50 font-weight-bold text-success">Quantity {value.quantity}</h4>
+
+                   <h4 class="h5 w-50 font-weight-bold text-success">Supplier Id {value.Supplier.id}</h4>
 
                    <div class="d-flex">
 
@@ -1627,11 +1694,11 @@ const updateProductNew = async e => {
              
              
                          onClick={() => {
-                          findProductSupplier(value.id,value.name);
+                          requestEngagement(value.id,value.Supplier.id,value.Supplier.name,value.Supplier.contacts,value.product_name);
                                }}
                          
                      
-                               >Find Supplier</button>
+                               >Request Engagement</button>
 
                    </div>
 
@@ -1646,6 +1713,125 @@ const updateProductNew = async e => {
        )
     })}
 
+
+
+    <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Request For Engagement</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                   
+
+
+						<div class="form-group mb-4">
+								<div class=" gutters-xs">
+								
+							
+							
+											
+                                    
+
+									<p class="mg-b-10">Supplier Name</p>
+
+										
+
+											<div class="form-group mb-0">
+										<div class="form-group">
+											<input type="text" class="form-control" id="postal" value={supplierName} onChange={(event) => {
+												setSupplierName(event.target.value);
+											  }} placeholder="Supplier Name"/>
+										</div>
+									</div>
+
+                  <div class="form-group mb-0">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="postal" value={itemName} onChange={(event) => {
+                      setItemName(event.target.value);
+                      }} placeholder="Item Name"/>
+                  </div>
+                </div>
+
+									<div class="form-group mb-0">
+										<div class="form-group">
+											<input type="text" class="form-control" id="postal" value={supplierContacts} onChange={(event) => {
+												setSupplierContacts(event.target.value);
+											  }} placeholder="Phone No."/>
+										</div>
+									</div>
+
+
+                  <div class="form-group mb-0">
+                  <div class="form-group">
+                  <textarea id="basic-icon-default-message" class="form-control" placeholder="Any message to the supplier??" aria-label="Hi, My business deals with beauty services?" 
+                                  
+                  onChange={(event) => {
+                    setEngagementDescription(event.target.value)
+                  }}
+          
+                  aria-describedby="basic-icon-default-message2"></textarea> 
+
+                  <h4>Your Buss ID{props.businessId} Product ID {props.searchItemId}</h4>
+                  </div>
+                </div>
+
+
+
+                  
+
+									
+								
+											
+									</div>
+
+									{/**
+									<label class="form-label mt-4 fs-15">Purchase Type</label>
+									<div class="gutters-xs">
+										<select name="alabama" onChange={(event) => {
+											setpurchase_type(event.target.value);
+										  }} 
+										  class="form-control select2-no-search">
+											<option label="Choose one"></option>
+											<option value="">Cash</option>
+											<option value="Alabama">Mpesa</option>
+											<option value="Alaska">Credit</option>
+											
+											
+										</select>
+									</div> */}
+								
+									
+								</div>
+								<div class="form-footer mt-2">
+
+								{!isLoading &&  <button type="submit"
+								onClick={processEngagementRequest}
+								
+								
+								class="btn btn-primary">Request Now</button>
+
+							} 
+
+
+						
+
+
+
+
+
+
+							{isLoading &&
+								<button type="submit" class="btn btn-primary btn-md btn-block mt-3 waves-effect" title="Save" disabled> <i class="fas fa-sync fa-spin"></i>Processing...</button>
+							}
+									
+								</div>
+                           
+                           
+
+
+		
+                       
+                </Modal.Body>
+            </Modal>
 
 
 
@@ -1814,7 +2000,7 @@ const updateProductNew = async e => {
             </div>
 
             <input type="text" value={businessId}  onChange={(event) => {
-              setbusinessId(event.target.value);
+              setretailerId(event.target.value);
             }} placeholder="bussId"/>
         
 
@@ -1840,7 +2026,7 @@ const updateProductNew = async e => {
     /> 
     
     <input type="hidden" value={businessId}  onChange={(event) => {
-        setbusinessId(event.target.value);
+        setretailerId(event.target.value);
       }} placeholder="bussId"/>
         </div>
 
@@ -1889,7 +2075,5 @@ const updateProductNew = async e => {
   )
 }
 
-export default GoogleApiWrapper({
-    apiKey: ('AIzaSyAOJjEor9H6PWdsKLAQSr3dIH1fWJNveGI')
-  })(ProductsComponent)
-  
+
+export default SupplierSearchResults
