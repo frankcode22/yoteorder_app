@@ -20,7 +20,7 @@ import { useNavigate,Link} from "react-router-dom"
 
 import { Progress } from 'reactstrap';
 
-import DataContext from '../../../helpers/DataContext';
+
 
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import PlacesAutocomplete, {
@@ -42,13 +42,16 @@ import {VendorAccount,Player} from '../../../utils/VideoPlayers'
 import SideBarMenu from './SideBarMenu'
 import SupplierDetails from './SupplierDetails';
 import TopBarNew from './TopBarNew';
+import RetailerDetails from './RetailerDetails';
 
-function PataMtaaniSuppliers() {
+import DataContext from '../../../helpers/DataContext';
 
+function Communication() {
 
-    const {supplierList, setSupplierList} = useContext(DataContext);
+    const {bussinessList, setBussinessList} = useContext(DataContext);
+    const {retailerList, setRetailerList} =useContext(DataContext);
 
-    const [isLoading,setLoading]=useState(false);
+    
 
 
 
@@ -56,6 +59,39 @@ function PataMtaaniSuppliers() {
 
 
     const [showGridView,setShowGridView]=useState(false);
+
+    
+
+    const [isDivLoading, setIsDivLoading] = useState(false);
+
+
+    const [displayCompose,setDisplayCompose]=useState(false);
+
+    const [showInbox,setShowInbox]=useState(true);
+
+
+   
+
+
+    const [message, setMessage] = useState("");
+    const [subject, setSubject] = useState("");
+    const [receiver_email, setreceiver_email] = useState("");
+    const [phone_no, setPhone_no] = useState("");
+
+    const [business_name, setbusiness_name] = useState("");
+
+    const [errorMessage, setErrorMessage] = useState("");
+    const [vendorsList, setVendorsList] = useState([]);
+
+    const [notifications, setNotifications] = useState([]);
+
+    const [userId, setUserId] = useState('');
+
+    const [businessId, setBusinessId] = useState('');
+
+    const [isLoading,setLoading]=useState(false);
+
+
 
     
    
@@ -73,27 +109,9 @@ function PataMtaaniSuppliers() {
        
        
     
-    
+
+              
    
-
-
-
-        //    API.get("suppliers/getall",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-           
-    
-        //     if(response.data){
-       
-        //        setSupplierList(response.data)
-       
-        //     }
-        //     else{
-        //         setSupplierList([])
-       
-        //     }
-             
-       
-        //       console.log("THE SUPPLIER LIST DATA "+response.data)
-        //       })
        
     
     
@@ -102,7 +120,7 @@ function PataMtaaniSuppliers() {
     
     
     
-    },[supplierList]);
+    },[]);
     
     
     const viewSelectedProduct=(id)=>{
@@ -119,24 +137,102 @@ function PataMtaaniSuppliers() {
         
       }
 
-      const showInGridView=()=>{
-    
-        setShowSupplierDetails(false)
-        setShowGridView(true)
+
       
-        //setShowBusinessSetupDiv(false)
-        //setShowHelpAndSupport(false)
-      }
+const showInGridView=()=>{
     
-      const showInTabularView=()=>{
-        
-        setShowSupplierDetails(true)
-        setShowGridView(false)
+    setShowSupplierDetails(false)
+    setShowGridView(true)
+  
+    //setShowBusinessSetupDiv(false)
+    //setShowHelpAndSupport(false)
+  }
+
+  const showInTabularView=()=>{
+    
+    setShowSupplierDetails(true)
+    setShowGridView(false)
+  
+    //setShowBusinessSetupDiv(false)
+    //setShowHelpAndSupport(false)
+  }
+
+
+  const payload={
+
+    subject:subject,
+    message:message,
+    receiver_email:receiver_email,
+    from_:'patamtaani',
+   
+    UserId:userId,
+    BusinessId:businessId,
+}
+
+
+  const sendMail = ()  => {
+    setLoading(true);
+
+     //axios.post("https://yoteorder-server.herokuapp.com/business",buss_data).then((response)=>{
+    
+    API.post('https://yoteorder-server.herokuapp.com/notification',payload).then((response)=>{
+
+    
+
+
+       
+        setTimeout(() => {
+            setLoading(false);
+            toast.success('Saved');
+       
+        }, 1500);
+     
+       //  history("/dashboard");
       
-        //setShowBusinessSetupDiv(false)
-        //setShowHelpAndSupport(false)
-      }
+       
+    })
+
+}
+  
+
+
+const msg_payload={
+
+   
+    message:message,
+    phone_no:phone_no
+   
+   
     
+}
+
+  const sendMsg = ()  => {
+    setLoading(true);
+
+     //axios.post("https://yoteorder-server.herokuapp.com/business",buss_data).then((response)=>{
+    
+    API.post('users/communicate',msg_payload).then((response)=>{
+
+
+        console.log('Server response',response.data)
+
+    
+
+
+       
+        setTimeout(() => {
+            setLoading(false);
+            toast.success('Message Sent');
+       
+        }, 1000);
+     
+       //  history("/dashboard");
+      
+       
+    })
+
+}
+  
 
 
       
@@ -167,7 +263,7 @@ function PataMtaaniSuppliers() {
                 <a class="desktop-logo logo-dark active" href="/home_admin"><img src="assets/img/brand/logo_c.jpeg" class="main-logo" alt="logo"/></a>
                 <a class="logo-icon mobile-logo icon-light active" href="/home_admin"><img src="assets/img/brand/favicon.png" alt="logo"/></a>
                 <a class="logo-icon mobile-logo icon-dark active" href="/home_admin"><img src="assets/img/brand/favicon-white.png" alt="logo"/></a>
-                </div>
+            </div>
 
 
 
@@ -193,7 +289,7 @@ function PataMtaaniSuppliers() {
                             <h4 class="content-title mb-2">Hi, welcome back!</h4>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a   href="javascript:void(0);">Suppliers</a></li>
+                                    <li class="breadcrumb-item"><a   href="javascript:void(0);">Retailers</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">PataMtaani</li>
                                 </ol>
                             </nav>
@@ -206,7 +302,7 @@ function PataMtaaniSuppliers() {
                                             <span class="label ">EXPENSES</span>
                                         </span>
                                         <span class="value">
-                                        Ksh.0
+                                            Ksh.0
                                         </span>
                                     </div>
                                     <div class="ms-3 mt-2">
@@ -219,7 +315,7 @@ function PataMtaaniSuppliers() {
                                             <span class="label">PROFIT</span>
                                         </span>
                                         <span class="value">
-                                        Ksh.0
+                                           Ksh.0
                                         </span>
                                     </div>
                                     <div class="ms-3 mt-2">
@@ -240,9 +336,9 @@ function PataMtaaniSuppliers() {
                             <div class="main-content-left main-content-left-mail card-body pt-0 ">
                                 <div class="main-settings-menu">
                                     <nav class="nav main-nav-column">
-                                    <a class="nav-link thumb active mb-2" href="javascript:void(0);" onClick={showInTabularView}><i class="fe fe-home"></i> Main </a>
-                                    <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"  onClick={showInGridView}><i class="fe fe-grid"></i>Grid View</a>
-                                        
+                                        <a class="nav-link thumb active mb-2" href="javascript:void(0);" onClick={showInTabularView}><i class="fe fe-home"></i> Message </a>
+                                        <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"  onClick={showInGridView}><i class="fe fe-grid"></i>Email</a>
+
                                         <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-bell"></i> Notifications</a>
                                     </nav>
                                 </div>
@@ -269,17 +365,7 @@ function PataMtaaniSuppliers() {
                                 </button>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                            <ul class="nav item2-gl-menu float-end my-2">
-                                <li class="border-end"><a href="#tab-11" class="show active" data-bs-toggle="tab" title="List style"><i class="fa fa-th"></i></a></li>
-                                <li><a href="#tab-12" data-bs-toggle="tab" class="" title="Grid"><i class="fa fa-list"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xl-3 col-lg-12">
-                       
-
-                            <a onClick={showSupportEntryForm} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal"><i class="fa fa-plus-square me-2"></i>New Supplier</a>
-                        </div>
+                    
                     </div>
                         </div>
 
@@ -291,87 +377,81 @@ function PataMtaaniSuppliers() {
                             <div class="card overflow-hidden review-project">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
-                                        <h4 class="card-title mg-b-10">All Suppliers</h4>
+                                        <h4 class="card-title mg-b-10">All Retailers</h4>
                                         <i class="mdi mdi-dots-horizontal text-gray"></i>
                                     </div>
+
+                                    <form>
+                                   
+            
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="form-floating">
+                            <input type="text" id="buss-contacts" class="form-control phone-mask"
+
+value={phone_no}
+
+onChange={(event) => {
+    setPhone_no(event.target.value);
+  }}
+placeholder="eg.07xx xxx xxx" aria-label="0714639773" />
+                                <label for="floatingInput">Phone No</label>
+                            </div>
+
+                           <input type="hidden" class="form-control" id="floatingInput"
+                            value={userId}
+                            onChange={(event) => {
+                                setUserId(event.target.value);
+                              }}
+                            
+                            placeholder="name"/>
+                        </div>
+                       
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="form-floating floating-label">
+                                <textarea class="form-control" placeholder="review" value={message}  onChange={(event) => {
+                                    setMessage(event.target.value);
+                                  }} id="floatingTextarea"></textarea>
+                                <label for="floatingTextarea">Message</label>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                    <div class="col-md-6">
+                    <div class="form-group">
+
+
+
+                    {!isLoading  && <button type="submit" onClick={sendMsg} class="btn btn-primary btn-space mb-0">Send Message</button>
+
+                } 
+
+
+            
+
+                {isLoading &&
+                    <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow text-success me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>Saving...</button>
+                }
+
+
+                    
+            
+        </div>
+                       
+                    </div>
+
+                
+            </div></form>
                                   
-                                    <div class="table-responsive mb-0">
-                                        <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
-                                            <thead>
-                                                <tr>
-                                                <th class="text-center">
-
-                                                #
-
-                                                </th>
-                                               
-                                                <th>Name</th>
-                                                <th>Industry</th>
-                                                <th>Town</th>
-                                                <th>Contacts</th>
-                                                
-                                               
-                                             
-                                                <th class="text-center">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {supplierList.map((value,key)=>{
-
-                                                return (
-                                                <tr>
-                                                    <td>
-                                                    {key} 
-                                                    </td>
-                                                   
-                                        <td class="text-nowrap align-middle">{value.name}</td>
-                                        <td class="text-nowrap align-middle">{value.supplier_type}</td>
-
-                                       
-                                
-                                       
-
-                                        
-                                     
-                                       
-
-                                        <td class="text-nowrap align-middle">{value.city}</td>
-
-                                        <td class="text-nowrap align-middle">{value.contacts}</td>
-
-                                       
-                                         {/** <td class="text-nowrap align-middle">{value.Business.longitude?value.Business.longitude:'no bizz'}</td> */}
-                                        
-
-                                        
-
-                                      
-
-                                       
-
-                                        <td class="text-center align-middle">
-                                            <div class="btn-group align-top">
-                                            <button class="btn btn-sm btn-primary badge" onClick={() => {
-                                                viewSelectedProduct(value.id);
-                                                  }} type="button">View</button>
-                                            
-                                                <button class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" type="button">Edit</button> <button class="btn btn-sm btn-primary badge" type="button"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                                </tr>
-                                                )
-
-
-
-
-                                            })}
-                                                
-                                                
-                                                
-                                            
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <ToastContainer></ToastContainer>  
                                 </div>
                             </div>
                         </div>
@@ -382,7 +462,7 @@ function PataMtaaniSuppliers() {
                                {showGridView &&  
 
                                 <div class="row">
-                                {supplierList.map((value,key)=>{
+                                {bussinessList.map((value,key)=>{
 
                                     return (
 										<div class="col-xl-6 col-lg-12 col-md-12">
@@ -390,7 +470,7 @@ function PataMtaaniSuppliers() {
 												<div class="media card-body media-xs overflow-visible ">
 													<img class="avatar brround avatar-md me-3" src="../assets/img/faces/12.jpg" alt="avatar-img"/>
 													<div class="media-body valign-middle">
-														<a href="" class=" fw-semibold text-dark">{value.name}</a>
+														<a href="" class=" fw-semibold text-dark">{value.business_name}</a>
 														<p class="text-muted mb-0">{value.contacts}</p>
 													</div>
 													<div class="media-body valign-middle text-end overflow-visible mt-2">
@@ -417,39 +497,7 @@ function PataMtaaniSuppliers() {
 
                     </div>
                 </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="mb-4 main-content-label">Retailer Information</div>
-
-                          
-
-
-
-
-                            <SupplierDetails setSupplierList={setSupplierList} supplierList={supplierList}></SupplierDetails>
-
-                         
-
-
-
-
-
-                       
-                        
-                           
-                            
-                        </div>
-                        <div class="card-footer">
-
-
-                    
-                            
-
-                            
-                  
-                        <ToastContainer/>
-                        </div>
-                    </div>
+                   
                 </div>
                 </div>
 
@@ -480,7 +528,6 @@ function PataMtaaniSuppliers() {
             
 
 
-
     </div>
 
     <a href="#top" id="back-to-top"><i class="las la-angle-double-up"></i></a>
@@ -490,4 +537,4 @@ function PataMtaaniSuppliers() {
   )
 }
 
-export default PataMtaaniSuppliers
+export default Communication

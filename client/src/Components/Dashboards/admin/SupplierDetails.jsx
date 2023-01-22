@@ -418,10 +418,10 @@ const user_details={
 
    // setBusinessDetails(b.map(post => post.id === id ? { ...response.data } : post));
 
-   const newDetails = response.data;
-   setBusinessDetails(newDetails ?{ ...response.data } : businessDetails);
+   //const newDetails = response.data;
+  // setBusinessDetails(newDetails ?{ ...response.data } : businessDetails);
 
-
+ 
 
    props.setSupplierList([
     ...props.supplierList,
@@ -432,10 +432,8 @@ const user_details={
   industry:industry,
   location:address,
   contacts:buss_contacts,
-
   email:email,
 
-  
 
   address_line_1:address_line_1,
   latitude:mapCenter.lat,
@@ -475,6 +473,11 @@ const user_details={
     console.log("THE BUSINESS ID IS "+response.data.id)
 
     setbusinessId(response.data.id)
+
+
+
+   
+
 
 
    // console.log("THE NEW BUSINESS OBJECT AFTER SETTING UP MY BUSS IS "+businessDetails)

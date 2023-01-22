@@ -36,6 +36,7 @@ import { productsArray } from '../../../helpers/productsStore';
 
 import { CartContext } from "../../../helpers/CartContext";
 import CartProduct from './CartProduct';
+import CartItem from './CartItem';
 
 function randomNumberInRange(min, max) {
     // 👇️ get number between min (inclusive) and max (inclusive)
@@ -88,8 +89,23 @@ function POSComponent() {
 
 
 
+	
+
+
+
 
 	const cart = useContext(CartContext);
+
+
+	const [supplierList, setSupplierList] = useState([]);
+
+    const [supplierStores, setSupplierStores] = useState([]);
+
+  
+
+    const [retailerName, setRetailerName] = useState('');
+
+    const [retailerContacts, setRetailerContacts] = useState('');
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -99,6 +115,29 @@ function POSComponent() {
 
 		setShow(true);
 	} 
+
+
+
+	const [showSuppliers, setShowSuppliers] = useState(false);
+    const closeSupplierModal = () => setShowSuppliers(false);
+    const openSuppliersModal = (sId) =>{
+
+		//setRandomNo(randomNumberInRange(1, 10000));
+
+		//sId=2;
+
+
+		
+
+
+		setShowSuppliers(true);
+
+		loadDistributers();
+	} 
+
+
+
+	
 
 
 	const [showCustomerModal, setShowCustomerModal] = useState(false);
@@ -429,6 +468,24 @@ const addDetails = (oId)  => {
 // }
 
 
+const openSelectedSupplier=(sId)=>{
+
+
+	cart.handleClick(sId)
+
+        
+    console.log("THE SELECTED Supplier ID IS "+sId)
+
+   
+   // setSupplierId(sId)
+
+   
+  
+
+
+}
+
+
 
 
 
@@ -482,7 +539,82 @@ const checkout = async () => {
 
 
 
+
+
 }
+
+
+const itemsCount = cart.citems.reduce((sum, product) => sum + product.quantity, 0);
+
+const checkoutRetailer = async () => {
+
+	setLoading(true);
+
+	//cart.handleClick(sId)
+
+	
+
+	//console.log('THE SUPPLIER ID IS'+sId)
+
+	console.log('AFTER ADDING SUPPLIER ID'+JSON.stringify(cart.citems))
+
+	
+
+
+
+	
+
+	//saveCustomer()
+
+
+	 //await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
+		await fetch('http://localhost:8080/api/order/retailercheckout', {
+		method: "POST",
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({items: cart.citems})
+	}).then((response) => {
+		//console.log(response.order_no)
+		//setOrderNo(response.order_no)
+
+		setTimeout(() => {
+			setLoading(false);
+			toast.success('Saved');
+			//setIsBusinessSet(true)
+		}, 1500);
+		
+		return response.json();
+	}).then((response) => {
+		console.log(response.order_no)
+
+		setOrderNo(response.order_no)
+
+		setTimeout(() => {
+			setLoading(false);
+			toast.success('Saved');
+			//setIsBusinessSet(true)
+		}, 1000);
+
+
+		
+	
+		if(response.url) {
+			window.location.assign(response.url); // Forwarding user to Stripe
+		}
+
+	});
+
+
+
+
+
+
+
+}
+
+
+
 
 
 const handleSubCategorySelect= async (event) => {
@@ -510,7 +642,34 @@ const handleSubCategorySelect= async (event) => {
 
    }
 
+
+
+   const loadDistributers=()=>{
+
+	API.get("suppliers/getall",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+           
+    
+		if(response.data){
+	
+		   setSupplierList(response.data)
+	
+		}
+		else{
+			setSupplierList([])
+	
+		}
+		 
+	
+		  console.log("THE SUPPLIER LIST DATA "+response.data)
+		  })
+		   
+
+   }
+
 const productsCount = cart.items.reduce((sum, product) => sum + product.quantity, 0);
+
+
+
 
 
   return (
@@ -624,6 +783,24 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 
 									
 								</div>
+
+								<div class="product-details table-responsive text-nowrap">
+
+								{cart.citems.map( (currentProduct, idx) => (
+									<CartItem key={idx} id={currentProduct.id} quantity={currentProduct.quantity} orderId={randomNo}></CartItem>
+								
+
+								
+								))}
+	
+							
+
+
+								
+
+
+									
+								</div>
 							</div>
 						</div>
 					</div>
@@ -637,6 +814,20 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 							<Button onClick={handleShow}>Cart ({productsCount} Items)</Button>
 
 							<Button onClick={handleShowCustomerModal}>+ customer</Button>
+								
+							</div>
+						</div>
+
+
+						<div class="card">
+							<div class="card-header pb-0">
+								<h3 class="card-title mb-0">My Distributers</h3>
+							</div>
+							<div class="card-body">
+
+							<Button onClick={openSuppliersModal}>To Order ({itemsCount} Items)</Button>
+
+							<Button onClick={openSuppliersModal}>Order Now</Button>
 								
 							</div>
 						</div>
@@ -852,6 +1043,86 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
                            
 
                             <h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
+
+						
+
+
+		
+                        </>
+                    :
+                        <h1>There are no items in your cart!</h1>
+                    }
+                </Modal.Body>
+            </Modal>
+
+
+
+			<Modal show={showSuppliers} onHide={closeSupplierModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Distributer Selection</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {itemsCount > 0 ?
+                        <>
+                            <p>Items in your order:</p>
+                            {cart.citems.map( (currentItem, idx) => (
+                                <CartItem key={idx} id={currentItem.id} quantity={currentItem.quantity} orderId={randomNo}></CartItem>
+                            ))}
+
+                            <h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
+
+							
+								
+                                 {supplierList.map((value,key)=>{
+
+                                 
+
+                                    return (
+										<div class="col-xl-12 col-lg-12 col-md-12">
+											<div class="card border p-0 over-flow-hidden">
+												<div class="media card-body media-xs overflow-visible ">
+													<img class="avatar brround avatar-md me-3" src="../assets/img/faces/12.jpg" alt="avatar-img"/>
+													<div class="media-body valign-middle">
+														<a href="" class=" fw-semibold text-dark">{value.name}</a>
+														<p class="text-muted mb-0">{value.contacts}</p>
+                                                        <p class="text-muted mb-0">{value.location}</p>
+													</div>
+													<div class="media-body valign-middle text-end overflow-visible mt-2">
+
+													<button class="btn btn-primary mb-1 me-1"  onClick={() => {
+                                                            openSelectedSupplier(value.id);
+                                                              }} type="button">Select</button>
+														
+
+													{!isLoading &&    <button class="btn btn-success mb-1"  onClick={() => {
+                                                                checkoutRetailer();
+                                                                  }} type="button">Make Order {businessId} {value.id}</button>}
+
+
+{isLoading &&
+		<button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+		<span class="visually-hidden">Loading...</span>
+	</div>Saving Infor</button>
+	  }
+													</div>
+
+                                                    
+
+                                                    
+												</div>
+											</div>
+										</div>
+										
+                                        )
+
+
+
+
+                                    })}
+										
+										
+										
+								
 
 						
 

@@ -74,6 +74,7 @@ import RetailerOrders from './Components/Dashboards/seller/RetailerOrders';
 import AllOrders from './Components/Dashboards/supplier/AllOrders';
 import AccountSetting from './Components/Dashboards/supplier/AccountSetting';
 import EngagementRequests from './Components/Dashboards/supplier/EngagementRequests';
+import Communication from './Components/Dashboards/admin/Communication';
 //import ProtectedRoute from './helpers/ProtectedRoute';
 
 
@@ -201,6 +202,11 @@ function App() {
 
 
         <Route path="/retailers" element={ <PataMtaaniRetailers/>}/>
+
+
+        <Route path="/communicate" element={ <Communication/>}/>
+
+
 
         <Route path="/rorders" element={ <RetailerOrders/>}/>
 

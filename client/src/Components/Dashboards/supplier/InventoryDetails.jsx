@@ -1742,7 +1742,7 @@ function InventoryDetails(props) {
             {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
              </div>
 
-             <input type="text" value={supplierId}  onChange={(event) => {
+             <input type="hidden" value={supplierId}  onChange={(event) => {
               setsupplierId(event.target.value);
             }} placeholder="bussId"/>
 

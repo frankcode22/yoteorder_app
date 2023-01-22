@@ -13,10 +13,22 @@ function ProductCard(props) { // props.product is the product we are selling
     const cart = useContext(CartContext);
     const [bussId, setbussId] = useState('');
 
+    const [supplierId, setSupplierId] = useState('');
+
+
+    const [showCounters, setShowCounters] = useState(false);
+
+    
+
     
  
     const productQuantity = cart.getProductQuantity(product.id);
+
+    const itemsToOrder = cart.getItemQuantity(product.id);
+
     console.log(cart.items);
+
+    console.log('ITEMS TO REQUEST FROM SUPPLIER',cart.citems);
 
     useEffect(()=>{
 
@@ -46,6 +58,14 @@ function ProductCard(props) { // props.product is the product we are selling
 
 
     },[bussId]);
+
+
+
+    const displayCounters=()=>{
+
+        setShowCounters(true)
+
+    }
 
     return (
        
@@ -83,6 +103,33 @@ function ProductCard(props) { // props.product is the product we are selling
                    
                         <p class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-success">In Stock: {product.quantity}</span></p>
                     </div>
+
+                    <div>
+                   
+                    { productQuantity > 0 ? <button class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-success">Enough</span></button>
+                    
+                    : <button onClick={displayCounters} class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-warning">Add to Cart</span></button>
+                    }
+                  </div>
+
+                  {showCounters &&    <div class="btn-icon-list">
+
+<Button sm="6" onClick={() => cart.removeOneFromRetailerCart(product.id)} className="mx-2">-</Button>
+
+<Button sm="6" onClick={() => cart.addOneToRetailerCart(product.id,product.price,product.name,bussId,supplierId)} className="mx-2">+</Button>
+
+<span class="tx-15 ms-auto">
+
+<a class="shop-title fs-18">To be supplied: {itemsToOrder}</a>
+												
+											</span>
+                 
+                 
+             </div>}
+
+              
+
+                    
                 </div>
             </div>
         </div>
@@ -115,7 +162,7 @@ function ProductCard(props) { // props.product is the product we are selling
                     <Button variant="danger" onClick={() => cart.deleteFromCart(product.id)} className="my-2">Remove from cart</Button>
                 </>
                 :
-                <Button variant="primary" onClick={() => cart.addOneToCart(product.id,product.price,bussId)}>Add To Cart</Button>
+                <Button variant="primary" onClick={() => cart.addOneToCart(product.id,product.price,bussId)}>Sale</Button>
             }
 
 

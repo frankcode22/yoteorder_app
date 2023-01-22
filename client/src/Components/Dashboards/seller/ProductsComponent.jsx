@@ -1813,7 +1813,7 @@ const updateProductNew = async e => {
             {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
             </div>
 
-            <input type="text" value={businessId}  onChange={(event) => {
+            <input type="hidden" value={businessId}  onChange={(event) => {
               setbusinessId(event.target.value);
             }} placeholder="bussId"/>
         

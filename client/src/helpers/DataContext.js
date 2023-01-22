@@ -14,6 +14,8 @@ export const DataProvider = ({ children }) => {
 
     const [retailerList, setRetailerList] = useState([])
 
+    const [supplierList, setSupplierList] = useState([]);
+
     const [productsList1, setProductsList1] = useState([]);
 
     const[businessDetails,setBusinessDetails]=useState([])
@@ -79,7 +81,7 @@ export const DataProvider = ({ children }) => {
                   
   
                
-              }, 1000);
+              }, 500);
   
               //setSeller_name(response.data.Users.first_name)
               
@@ -89,6 +91,36 @@ export const DataProvider = ({ children }) => {
               console.log("CONTEXT ERROR OCCURED"+error)
             
            });
+
+
+
+           API.get("suppliers/getall",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+            // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+  
+           
+  
+              console.log("SUPPLIER LIST FROM THE CONTEXT"+response.data)
+  
+             
+              setTimeout(() => {
+  
+                  //setPosts(response.data)
+                  setSupplierList(response.data);
+                  
+  
+               
+              }, 500);
+  
+              //setSeller_name(response.data.Users.first_name)
+              
+          }).catch((error) => {
+              
+  
+              console.log("CONTEXT ERROR OCCURED"+error)
+            
+           });
+
+
 
 
       {/**  API.get('users/mybusiness', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
@@ -252,14 +284,14 @@ export const DataProvider = ({ children }) => {
           
   
   
-  },[setPosts,setBussinessList,setRetailerList,setBusinessDetails,setProductsList1,setSupplierDetails]);
+  },[setPosts,setBussinessList,setRetailerList,setSupplierList,setBusinessDetails,setProductsList1,setSupplierDetails]);
 
     
 
     return (
         <DataContext.Provider value={{
             search, setSearch,
-            searchResults,retailerList,setRetailerList,
+            searchResults,retailerList,setRetailerList,supplierList,setSupplierList,
             bussinessList,setBussinessList,businessDetails,setBusinessDetails,productsList1, setProductsList1,imagePath, setImagePath,
             posts, setPosts,supplierDetails,setSupplierDetails,itemsList,setItemsList
         }}>

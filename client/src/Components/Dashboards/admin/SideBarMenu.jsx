@@ -39,7 +39,7 @@ function SideBarMenu() {
                 </a>
             </li>
             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Chat" aria-describedby="tooltip143427">
-                <a class="nav-link text-center m-2">
+                <a href='/communicate'  class="nav-link text-center m-2">
                     <i class="fe fe-mail"></i>
                 </a>
             </li>
