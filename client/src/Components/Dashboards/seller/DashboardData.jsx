@@ -82,6 +82,8 @@ function DashboardData() {
 
     const [showOrderConfirmed, setShowOrderConfirmed] = useState(false);
 
+    const [currentOrdersList, setCurrentOrdersList] = useState([]);
+
     
 
     const [errorMessage, setErrorMessage] = useState("");
@@ -256,7 +258,29 @@ function DashboardData() {
     });
 
 
+    API.get('retailer/currentorders', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+    
+        if(response.data!=null){
 
+
+            setCurrentOrdersList(response.data.OrdersFromRetailors)
+
+       
+
+           // setbussId(response.data.my_buss.id);
+
+         
+
+        
+      
+        }
+        else{
+      
+            setCurrentOrdersList([])
+        }
+    
+        
+         })
              
 
           
@@ -491,66 +515,32 @@ function DashboardData() {
                     <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap  ">
                         <thead>
                             <tr>
-                                <th>Project &amp; Task</th>
+                                <th>Item</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
+
+                        {currentOrdersList.map((value, key) => {
+              return (
                             <tr>
                                 <td>
                                     <div class="project-names">
-                                        <h6 class="bg-primary-transparent text-primary d-inline-block me-2 text-center">U</h6>
-                                        <p class="d-inline-block font-weight-semibold mb-0">UI Design</p>
+                                        <h6 class="bg-primary-transparent text-primary d-inline-block me-2 text-center">{value.orderId}</h6>
+                                        <p class="d-inline-block font-weight-semibold mb-0">{value.item_name} {value.quantity_ordered}</p>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="badge bg-success">Completed</div>
+                                    <div class="badge bg-info">{value.order_status}</div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="project-names">
-                                        <h6 class="bg-pink-transparent text-pink d-inline-block text-center me-2">R</h6>
-                                        <p class="d-inline-block font-weight-semibold mb-0">Landing Page</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="badge bg-warning">Pending</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="project-names">
-                                        <h6 class="bg-success-transparent text-success d-inline-block me-2 text-center">W</h6>
-                                        <p class="d-inline-block font-weight-semibold mb-0">Website &amp; Blog</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="badge bg-danger">Canceled</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="project-names">
-                                        <h6 class="bg-purple-transparent text-purple d-inline-block me-2 text-center">P</h6>
-                                        <p class="d-inline-block font-weight-semibold mb-0">Product Development</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="badge bg-teal">on-going</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="project-names">
-                                        <h6 class="bg-danger-transparent text-danger d-inline-block me-2 text-center">L</h6>
-                                        <p class="d-inline-block font-weight-semibold mb-0">Logo Design</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="badge bg-success">Completed</div>
-                                </td>
-                            </tr>
+              )
+
+              }
+              )
+
+              }
+                            
                         </tbody>
                     </table>
                 </div>

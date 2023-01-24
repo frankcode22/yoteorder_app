@@ -12,6 +12,9 @@ export const CartContext = createContext({
 
     getItemQuantity: () => {},
 
+
+    displayCard: () => {},
+
     addOneToRetailerCart: () => {},
     removeOneFromRetailerCart: () => {},
     handleClick: () => {},
@@ -30,6 +33,8 @@ export function CartProvider({children}) {
     const [productsList, setProductsList] = useState([]);
 
     const [errorMessage, setErrorMessage] = useState("");
+
+    const [showCard, setShowCard] = useState(true);
 
     let audio = new Audio("assets/sounds/cash_reg_beep.mp3")
     
@@ -374,6 +379,14 @@ function getProductData(id) {
         return totalCost;
     }
 
+
+    function displayCard(status) {
+
+    setShowCard(status);
+    return showCard;
+       
+    }
+
     const contextValue = {
         items: cartProducts,
         getProductQuantity,
@@ -387,6 +400,9 @@ function getProductData(id) {
         addOneToRetailerCart,
         removeOneFromRetailerCart,
         handleClick,
+
+        displayCard,
+        showCard,
 
         deleteFromCart,
         getTotalCost,

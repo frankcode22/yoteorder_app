@@ -75,6 +75,7 @@ import AllOrders from './Components/Dashboards/supplier/AllOrders';
 import AccountSetting from './Components/Dashboards/supplier/AccountSetting';
 import EngagementRequests from './Components/Dashboards/supplier/EngagementRequests';
 import Communication from './Components/Dashboards/admin/Communication';
+import OrdersFromRetailers from './Components/Dashboards/supplier/OrdersFromRetailers';
 //import ProtectedRoute from './helpers/ProtectedRoute';
 
 
@@ -209,6 +210,11 @@ function App() {
 
 
         <Route path="/rorders" element={ <RetailerOrders/>}/>
+
+
+        <Route path="/new_orders" element={ <OrdersFromRetailers/>}/>
+
+        
 
         <Route path="/sales" element={ <RetailerSales/>}/>
 

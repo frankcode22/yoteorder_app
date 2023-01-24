@@ -37,6 +37,7 @@ import { productsArray } from '../../../helpers/productsStore';
 import { CartContext } from "../../../helpers/CartContext";
 import CartProduct from './CartProduct';
 import CartItem from './CartItem';
+import { toInteger } from 'lodash';
 
 function randomNumberInRange(min, max) {
     // 👇️ get number between min (inclusive) and max (inclusive)
@@ -70,6 +71,12 @@ function POSComponent() {
 
 	const [customerId, setCustomerId] = useState('');
 
+	const [selectedId, setSelectedId] = useState(null);
+
+	const [selected, setSelected] = useState(null);
+
+	const [displayCard, setdisplayCard] = useState(true);
+
 	
 	
 
@@ -91,7 +98,9 @@ function POSComponent() {
 
 	
 
+	const [showElement, setShowElement] = useState(false);
 
+	const [onlyvalue, setOnlyvalue] = useState(0);
 
 
 	const cart = useContext(CartContext);
@@ -195,7 +204,7 @@ function POSComponent() {
    // setIsBusinessSet(buss_status)
 
 
-   
+   console.log('THE CARD STATUS FROM POS  IS', cart.showCard);
 
 
 
@@ -249,6 +258,21 @@ function POSComponent() {
 
 
 },[businessDetails,customerId,setOrderNo])
+
+
+
+
+const handleCheckboxChange=(event)=> {
+    setSelectedId(event.target.value);
+
+	cart.handleClick(toInteger(event.target.value))
+
+	//setShowElement(true);
+	setOnlyvalue(1)
+
+        
+    console.log("THE SELECTED Supplier ID IS "+event.target.value)
+  }
 
 
 
@@ -669,6 +693,9 @@ const handleSubCategorySelect= async (event) => {
 const productsCount = cart.items.reduce((sum, product) => sum + product.quantity, 0);
 
 
+//const cardstatus= cart.displayCard(false)
+
+
 
 
 
@@ -805,19 +832,23 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 						</div>
 					</div>
 					<div class="col-md-12 col-xl-4">
-						<div class="card">
+
+						{cart.showCard && <div class="card">
 							<div class="card-header pb-0">
-								<h3 class="card-title mb-0">Customer Details</h3>
+								<h3 class="card-title badge bg-warning mb-0">Cart ({productsCount} Items)</h3>
 							</div>
 							<div class="card-body">
 
-							<Button onClick={handleShow}>Cart ({productsCount} Items)</Button>
+							{/**<Button onClick={handleShow}>Cart ({productsCount} Items)</Button> */}
 
-							<Button onClick={handleShowCustomerModal}>+ customer</Button>
+							<Button onClick={handleShowCustomerModal}>+Customer</Button>
 								
 							</div>
 						</div>
+                    }
+						
 
+						{!cart.showCard && 
 
 						<div class="card">
 							<div class="card-header pb-0">
@@ -827,15 +858,18 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 
 							<Button onClick={openSuppliersModal}>To Order ({itemsCount} Items)</Button>
 
-							<Button onClick={openSuppliersModal}>Order Now</Button>
+							{/**	<Button onClick={openSuppliersModal}>Order Now</Button> */}
+
+						
 								
 							</div>
 						</div>
+                     }
 
 					<div class="col-lg-12">
 						<div class="card">
 							<div class="card-header pb-0">
-								<div class="card-title mb-0">Order Summery</div>
+								<div class="card-title mb-0">Total Amount</div>
 
 							</div>
 							<div class="card-body">
@@ -843,37 +877,35 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 								<div class="table-responsive">
 									<table class="table table-bordered">
 										<tbody>
-											<tr>
-												<td>Subtotal</td>
-												<td class="text-end">Ksh.{cart.getTotalCost().toFixed(2)}</td>
-											</tr>
-											<tr>
-												<td><span>Totals</span></td>
-												<td class="text-end text-muted"><span>{cart.getTotalCost().toFixed(2)}</span></td>
-											</tr>
+											
 											<tr>
 												<td><span>Order Total</span></td>
 												<td><h2 class="price text-end mb-0">{cart.getTotalCost().toFixed(2)}</h2></td>
 											</tr>
-										</tbody>
-									</table>
-								</div>
-								<form class="text-center">
 
-								{!isLoading &&  <Button variant="success" onClick={checkout}>
+											<tr>
+												<td><span>{!isLoading &&  <Button variant="success" onClick={checkout}>
                                 Sale Now!
                             </Button>
 	}  {isLoading &&
 		<button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
 		<span class="visually-hidden">Loading...</span>
 	</div>Saving Infor</button>
-	  }
+	  }</span></td>
+												<td><h2 class="price text-end mb-0"><button class="btn btn-success me-sm-3 me-1" type="submit" value="Continue Shopping">New Order</button></h2></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<form class="text-center">
+
+								
 
 
 
 								
 									
-									<button class="btn btn-success me-sm-3 me-1" type="submit" value="Continue Shopping">New Order</button>
+									
 								</form>
 							</div>
 						</div>
@@ -1064,14 +1096,18 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
                 <Modal.Body>
                     {itemsCount > 0 ?
                         <>
-                            <p>Items in your order:</p>
+
+						{/** <p>Items in your order:</p>
                             {cart.citems.map( (currentItem, idx) => (
                                 <CartItem key={idx} id={currentItem.id} quantity={currentItem.quantity} orderId={randomNo}></CartItem>
-                            ))}
+                            ))} */}
+                           
 
-                            <h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
+                           
 
-							
+							<h3  class="badge bg-success">Selected: {selectedId}</h3>
+
+							    
 								
                                  {supplierList.map((value,key)=>{
 
@@ -1089,12 +1125,32 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 													</div>
 													<div class="media-body valign-middle text-end overflow-visible mt-2">
 
-													<button class="btn btn-primary mb-1 me-1"  onClick={() => {
-                                                            openSelectedSupplier(value.id);
-                                                              }} type="button">Select</button>
-														
 
-													{!isLoading &&    <button class="btn btn-success mb-1"  onClick={() => {
+													<div class="media-body" key={value.id}>
+          {value.name}
+          {selected === value.id && <button class="btn btn-success mb-1">Button</button>}
+        </div>
+
+
+													
+													{/**<button class="btn btn-primary mb-1 me-1"  onClick={() => {
+                                                            openSelectedSupplier(value.id);
+                                                              }} type="button">Select</button> */}
+													
+	
+<input
+            type="checkbox"
+            value={value.id}
+            checked={selectedId === value.id}
+            onChange={handleCheckboxChange}
+          />
+
+
+
+
+
+
+	{!isLoading && selectedId && <button class="btn btn-success mb-1"  onClick={() => {
                                                                 checkoutRetailer();
                                                                   }} type="button">Make Order {businessId} {value.id}</button>}
 
@@ -1104,7 +1160,18 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 		<span class="visually-hidden">Loading...</span>
 	</div>Saving Infor</button>
 	  }
+
+
+
+
+													
+
+
+	 
 													</div>
+
+
+													
 
                                                     
 

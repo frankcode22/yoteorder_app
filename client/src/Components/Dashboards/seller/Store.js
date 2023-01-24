@@ -11,6 +11,11 @@ function Store() {
 
     const {productsList1, setProductsList1} = useContext(DataContext);
 
+
+    
+
+   
+
     //console.log('MY STOCK DATA')
    // console.log(productsList1)
     return (

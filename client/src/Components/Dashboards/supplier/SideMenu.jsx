@@ -80,6 +80,11 @@ function SideMenu() {
 
 
         <li class="slide">
+        <a href='/new_orders' class="side-menu__item"><i class="side-menu__icon fe fe-airplay"></i><span class="side-menu__label">Orders</span></a>
+        </li>
+
+
+        <li class="slide">
         <a href='/orders' class="side-menu__item"><i class="side-menu__icon fe fe-airplay"></i><span class="side-menu__label">Orders</span></a>
         </li>
 

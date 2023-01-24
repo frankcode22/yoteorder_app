@@ -18,6 +18,14 @@ function ProductCard(props) { // props.product is the product we are selling
 
     const [showCounters, setShowCounters] = useState(false);
 
+
+ 
+
+     const [showCancelBtn, setShowCancelBtn] = useState(false);
+
+
+
+
     
 
     
@@ -31,6 +39,9 @@ function ProductCard(props) { // props.product is the product we are selling
     console.log('ITEMS TO REQUEST FROM SUPPLIER',cart.citems);
 
     useEffect(()=>{
+
+
+        //console.log('THE CARD STATUS IS',cart.displayCard(false));
 
         API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
     
@@ -56,6 +67,7 @@ function ProductCard(props) { // props.product is the product we are selling
             
              })
 
+    console.log('THE CARD STATUS IS',cart.showCard);
 
     },[bussId]);
 
@@ -64,6 +76,17 @@ function ProductCard(props) { // props.product is the product we are selling
     const displayCounters=()=>{
 
         setShowCounters(true)
+
+        setShowCancelBtn(true)
+        cart.displayCard(false)
+
+    }
+
+   const cancelAction=()=>{
+
+        setShowCounters(false)
+
+        setShowCancelBtn(false)
 
     }
 
@@ -94,38 +117,54 @@ function ProductCard(props) { // props.product is the product we are selling
                            
                             
                 
-                            <a class="shop-title fs-18">{product.name}</a>
+                            <a class="shop-title fs-18"> <h3 class="card-title mb-0">{product.name}</h3></a>
+
+                           
                             
                         </div>
                     </div>
                     
                     <div>
                    
-                        <p class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-success">In Stock: {product.quantity}</span></p>
+                    {product.quantity<10? <p class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-danger">In Stock: {product.quantity}</span></p>
+
+                    :<p class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-success">In Stock: {product.quantity}</span></p>}
                     </div>
 
                     <div>
                    
-                    { productQuantity > 0 ? <button class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-success">Enough</span></button>
+                    { product.quantity > 10 ? <></>
                     
-                    : <button onClick={displayCounters} class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-warning">Add to Cart</span></button>
-                    }
+                    : <> {!showCancelBtn && <button onClick={displayCounters} class="fs-13 mt-2 mb-0"><span class="badge bg-warning">Add to Cart</span></button>}
+                   
+                    {showCancelBtn && <button onClick={cancelAction} class="fs-13 mt-2 mb-0"><span class="badge bg-warning">Cancel</span></button>}
+                   </>
+                   }
                   </div>
 
-                  {showCounters &&    <div class="btn-icon-list">
 
-<Button sm="6" onClick={() => cart.removeOneFromRetailerCart(product.id)} className="mx-2">-</Button>
+                  {showCounters &&    
+                  <div class="card-header pb-0">
+								  <div class="btn-icon-list">
+                                <Button sm="6" onClick={() => cart.removeOneFromRetailerCart(product.id)} className="mx-2">-</Button>
 
 <Button sm="6" onClick={() => cart.addOneToRetailerCart(product.id,product.price,product.name,bussId,supplierId)} className="mx-2">+</Button>
-
+				 
 <span class="tx-15 ms-auto">
 
-<a class="shop-title fs-18">To be supplied: {itemsToOrder}</a>
+<a class="shop-title fs-18"><span class="badge bg-info">{itemsToOrder} </span></a>
 												
 											</span>
+
+                                            </div>
                  
                  
-             </div>}
+                  </div>
+
+
+                  }
+
+                
 
               
 
