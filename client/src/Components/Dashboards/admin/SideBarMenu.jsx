@@ -96,11 +96,21 @@ function SideBarMenu() {
                 </li>
             </ul>
         </li>
-     
+      
         <li class="slide">
             <a class="side-menu__item" data-bs-toggle="slide"   href="/suppliers"><i class="side-menu__icon fe fe-layers "></i><span class="side-menu__label">Suppliers</span><i class="angle fe fe-chevron-down"></i></a>
             <ul class="slide-menu">
                 <li class="side-menu__label1"><a href="javascript:void(0);">Suppliers</a></li>
+                <li><a class="slide-item" href="alerts.html">Alerts</a></li>
+               
+                
+            </ul>
+        </li>
+
+        <li class="slide">
+            <a class="side-menu__item" data-bs-toggle="slide"   href="/subscription-requests"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Subscriptions</span><i class="angle fe fe-chevron-down"></i></a>
+            <ul class="slide-menu">
+                <li class="side-menu__label1"><a href="javascript:void(0);">Subscriptions</a></li>
                 <li><a class="slide-item" href="alerts.html">Alerts</a></li>
                
                 

@@ -56,7 +56,7 @@ function AccountSubscription(props) {
   
       const [email, setEmail] = useState("");
 
-      const [selectedAccount, setSelectedAccount] = useState("");
+      const [selectedAccount, setSelectedAccount] = useState('');
 
       
       const [phone_no, setPhone_no] = useState("");
@@ -301,13 +301,13 @@ function AccountSubscription(props) {
     
   
          console.log("YOUR VENDOR BUSINESS DETAILS  IS ",businessDetails);
+         
   
-   
+      
   
         
   
-  
-  
+
            
       
   
@@ -1271,6 +1271,7 @@ function AccountSubscription(props) {
           city:city,
           state:state,
           country:country,
+          selectedAccount:props.accountType,
           business_description:business_description,
         
         
