@@ -88,7 +88,7 @@ function SignUpNew() {
         password:"",
         state:"",
         city:null,
-        role:'Vendor',
+        role:'User',
       };
 
 

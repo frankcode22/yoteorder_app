@@ -1,0 +1,977 @@
+notNull Violation: Business.contacts cannot be null
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+/home/patamtaa/apibackend.patamtaani.com/server.js:151
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Products` (`id`,`name`,`category`,`product_description`,`unit_of_measure`,`price`,`quantity`,`latitude`,`longitude`,`status`,`product_image`,`cloudinary_id`,`cloudinary_url`,`createdAt`,`updatedAt`,`BusinessId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+    parameters: [
+      'Chrome Vodka',
+      'Drinking-Liquor',
+      'Chrome Vodka',
+      'Litre',
+      '250',
+      '20',
+      '-1.3167821',
+      '36.9218479',
+      'available',
+      'img-1672747864726.jpg',
+      '0/sqidqkeidortqahbl4pd',
+      'https://res.cloudinary.com/dmhqx9du1/image/upload/v1672747865/0/sqidqkeidortqahbl4pd.jpg',
+      '2023-01-03 12:11:06',
+      '2023-01-03 12:11:06',
+      '0',
+      '10'
+    ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Products` (`id`,`name`,`category`,`product_description`,`unit_of_measure`,`price`,`quantity`,`latitude`,`longitude`,`status`,`product_image`,`cloudinary_id`,`cloudinary_url`,`createdAt`,`updatedAt`,`BusinessId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+    parameters: [
+      'Chrome Vodka',
+      'Drinking-Liquor',
+      'Chrome Vodka',
+      'Litre',
+      '250',
+      '20',
+      '-1.3167821',
+      '36.9218479',
+      'available',
+      'img-1672747864726.jpg',
+      '0/sqidqkeidortqahbl4pd',
+      'https://res.cloudinary.com/dmhqx9du1/image/upload/v1672747865/0/sqidqkeidortqahbl4pd.jpg',
+      '2023-01-03 12:11:06',
+      '2023-01-03 12:11:06',
+      '0',
+      '10'
+    ]
+  },
+  sql: 'INSERT INTO `Products` (`id`,`name`,`category`,`product_description`,`unit_of_measure`,`price`,`quantity`,`latitude`,`longitude`,`status`,`product_image`,`cloudinary_id`,`cloudinary_url`,`createdAt`,`updatedAt`,`BusinessId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+  parameters: [
+    'Chrome Vodka',
+    'Drinking-Liquor',
+    'Chrome Vodka',
+    'Litre',
+    '250',
+    '20',
+    '-1.3167821',
+    '36.9218479',
+    'available',
+    'img-1672747864726.jpg',
+    '0/sqidqkeidortqahbl4pd',
+    'https://res.cloudinary.com/dmhqx9du1/image/upload/v1672747865/0/sqidqkeidortqahbl4pd.jpg',
+    '2023-01-03 12:11:06',
+    '2023-01-03 12:11:06',
+    '0',
+    '10'
+  ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: '0',
+  index: 'Products_ibfk_1',
+  reltype: 'child'
+}
+/home/patamtaa/apibackend.patamtaani.com/server.js:151
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Products` (`id`,`name`,`category`,`product_description`,`unit_of_measure`,`price`,`quantity`,`latitude`,`longitude`,`status`,`product_image`,`cloudinary_id`,`cloudinary_url`,`createdAt`,`updatedAt`,`BusinessId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+    parameters: [
+      'Gilbeys',
+      'Drinking-Liquor',
+      'Gilbeys Mzinga',
+      'Litre',
+      '1500',
+      '10',
+      '-1.3167821',
+      '36.9218479',
+      'available',
+      'img-1672748001070.jpg',
+      '0/xouuleqdiz55wgi9ioqo',
+      'https://res.cloudinary.com/dmhqx9du1/image/upload/v1672748001/0/xouuleqdiz55wgi9ioqo.jpg',
+      '2023-01-03 12:13:22',
+      '2023-01-03 12:13:22',
+      '0',
+      '10'
+    ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Products` (`id`,`name`,`category`,`product_description`,`unit_of_measure`,`price`,`quantity`,`latitude`,`longitude`,`status`,`product_image`,`cloudinary_id`,`cloudinary_url`,`createdAt`,`updatedAt`,`BusinessId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+    parameters: [
+      'Gilbeys',
+      'Drinking-Liquor',
+      'Gilbeys Mzinga',
+      'Litre',
+      '1500',
+      '10',
+      '-1.3167821',
+      '36.9218479',
+      'available',
+      'img-1672748001070.jpg',
+      '0/xouuleqdiz55wgi9ioqo',
+      'https://res.cloudinary.com/dmhqx9du1/image/upload/v1672748001/0/xouuleqdiz55wgi9ioqo.jpg',
+      '2023-01-03 12:13:22',
+      '2023-01-03 12:13:22',
+      '0',
+      '10'
+    ]
+  },
+  sql: 'INSERT INTO `Products` (`id`,`name`,`category`,`product_description`,`unit_of_measure`,`price`,`quantity`,`latitude`,`longitude`,`status`,`product_image`,`cloudinary_id`,`cloudinary_url`,`createdAt`,`updatedAt`,`BusinessId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+  parameters: [
+    'Gilbeys',
+    'Drinking-Liquor',
+    'Gilbeys Mzinga',
+    'Litre',
+    '1500',
+    '10',
+    '-1.3167821',
+    '36.9218479',
+    'available',
+    'img-1672748001070.jpg',
+    '0/xouuleqdiz55wgi9ioqo',
+    'https://res.cloudinary.com/dmhqx9du1/image/upload/v1672748001/0/xouuleqdiz55wgi9ioqo.jpg',
+    '2023-01-03 12:13:22',
+    '2023-01-03 12:13:22',
+    '0',
+    '10'
+  ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: '0',
+  index: 'Products_ibfk_1',
+  reltype: 'child'
+}
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/node: fork: retry: No child processes
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/node: fork: retry: No child processes
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/node: fork: retry: No child processes
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/node: fork: retry: No child processes
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/node: fork: Resource temporarily unavailable
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/activate: fork: retry: No child processes
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/activate: fork: retry: No child processes
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/activate: fork: retry: No child processes
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/activate: fork: retry: No child processes
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/activate: fork: Resource temporarily unavailable
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/activate: fork: retry: Resource temporarily unavailable
+/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/bin/activate: fork: retry: No child processes
+Cannot read property 'id' of null
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+/home/patamtaa/apibackend.patamtaani.com/server.js:153
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 6881, 1, '2023-01-05 13:14:45', '2023-01-05 13:14:45', '', 4, 3 ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 6881, 1, '2023-01-05 13:14:45', '2023-01-05 13:14:45', '', 4, 3 ]
+  },
+  sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+  parameters: [ 6881, 1, '2023-01-05 13:14:45', '2023-01-05 13:14:45', '', 4, 3 ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: undefined,
+  index: 'Orders_ibfk_1',
+  reltype: 'child'
+}
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+/home/patamtaa/apibackend.patamtaani.com/server.js:153
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 711, 1, '2023-01-05 13:17:32', '2023-01-05 13:17:32', '', 4, 3 ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 711, 1, '2023-01-05 13:17:32', '2023-01-05 13:17:32', '', 4, 3 ]
+  },
+  sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+  parameters: [ 711, 1, '2023-01-05 13:17:32', '2023-01-05 13:17:32', '', 4, 3 ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: undefined,
+  index: 'Orders_ibfk_1',
+  reltype: 'child'
+}
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot read property 'id' of null
+/home/patamtaa/apibackend.patamtaani.com/server.js:153
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 1663, 2, '2023-01-05 13:45:51', '2023-01-05 13:45:51', '', 4, 3 ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 1663, 2, '2023-01-05 13:45:51', '2023-01-05 13:45:51', '', 4, 3 ]
+  },
+  sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+  parameters: [ 1663, 2, '2023-01-05 13:45:51', '2023-01-05 13:45:51', '', 4, 3 ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: undefined,
+  index: 'Orders_ibfk_1',
+  reltype: 'child'
+}
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+/home/patamtaa/apibackend.patamtaani.com/server.js:153
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Products` (`id`,`name`,`category`,`product_description`,`unit_of_measure`,`price`,`quantity`,`latitude`,`longitude`,`status`,`product_image`,`cloudinary_id`,`cloudinary_url`,`createdAt`,`updatedAt`,`BusinessId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+    parameters: [
+      'Chrome Gin',
+      '3',
+      'Chrome Gin',
+      'Litre',
+      '250',
+      '20',
+      '-1.3153363',
+      '36.9243557',
+      'available',
+      'img-1672927013577.jpg',
+      '0/u4gwzbmgllbxks7w5sbx',
+      'https://res.cloudinary.com/dmhqx9du1/image/upload/v1672927014/0/u4gwzbmgllbxks7w5sbx.jpg',
+      '2023-01-05 13:56:55',
+      '2023-01-05 13:56:55',
+      '0',
+      '11'
+    ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Products`, CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Products` (`id`,`name`,`category`,`product_description`,`unit_of_measure`,`price`,`quantity`,`latitude`,`longitude`,`status`,`product_image`,`cloudinary_id`,`cloudinary_url`,`createdAt`,`updatedAt`,`BusinessId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+    parameters: [
+      'Chrome Gin',
+      '3',
+      'Chrome Gin',
+      'Litre',
+      '250',
+      '20',
+      '-1.3153363',
+      '36.9243557',
+      'available',
+      'img-1672927013577.jpg',
+      '0/u4gwzbmgllbxks7w5sbx',
+      'https://res.cloudinary.com/dmhqx9du1/image/upload/v1672927014/0/u4gwzbmgllbxks7w5sbx.jpg',
+      '2023-01-05 13:56:55',
+      '2023-01-05 13:56:55',
+      '0',
+      '11'
+    ]
+  },
+  sql: 'INSERT INTO `Products` (`id`,`name`,`category`,`product_description`,`unit_of_measure`,`price`,`quantity`,`latitude`,`longitude`,`status`,`product_image`,`cloudinary_id`,`cloudinary_url`,`createdAt`,`updatedAt`,`BusinessId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',
+  parameters: [
+    'Chrome Gin',
+    '3',
+    'Chrome Gin',
+    'Litre',
+    '250',
+    '20',
+    '-1.3153363',
+    '36.9243557',
+    'available',
+    'img-1672927013577.jpg',
+    '0/u4gwzbmgllbxks7w5sbx',
+    'https://res.cloudinary.com/dmhqx9du1/image/upload/v1672927014/0/u4gwzbmgllbxks7w5sbx.jpg',
+    '2023-01-05 13:56:55',
+    '2023-01-05 13:56:55',
+    '0',
+    '11'
+  ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: '0',
+  index: 'Products_ibfk_1',
+  reltype: 'child'
+}
+Cannot read property 'id' of null
+/home/patamtaa/apibackend.patamtaani.com/server.js:153
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 3168, 1, '2023-01-05 13:58:51', '2023-01-05 13:58:51', '', 4, 3 ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 3168, 1, '2023-01-05 13:58:51', '2023-01-05 13:58:51', '', 4, 3 ]
+  },
+  sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+  parameters: [ 3168, 1, '2023-01-05 13:58:51', '2023-01-05 13:58:51', '', 4, 3 ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: undefined,
+  index: 'Orders_ibfk_1',
+  reltype: 'child'
+}
+Cannot read property 'id' of null
+/home/patamtaa/apibackend.patamtaani.com/server.js:153
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 637, 1, '2023-01-05 14:22:48', '2023-01-05 14:22:48', '', 1, 1 ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 637, 1, '2023-01-05 14:22:48', '2023-01-05 14:22:48', '', 1, 1 ]
+  },
+  sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+  parameters: [ 637, 1, '2023-01-05 14:22:48', '2023-01-05 14:22:48', '', 1, 1 ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: undefined,
+  index: 'Orders_ibfk_1',
+  reltype: 'child'
+}
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+/home/patamtaa/apibackend.patamtaani.com/server.js:153
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 3094, 1, '2023-01-05 16:36:08', '2023-01-05 16:36:08', '', 1, 1 ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 3094, 1, '2023-01-05 16:36:08', '2023-01-05 16:36:08', '', 1, 1 ]
+  },
+  sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+  parameters: [ 3094, 1, '2023-01-05 16:36:08', '2023-01-05 16:36:08', '', 1, 1 ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: undefined,
+  index: 'Orders_ibfk_1',
+  reltype: 'child'
+}
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+/home/patamtaa/apibackend.patamtaani.com/server.js:153
+  process.on('unhandledRejection', up => { throw up })
+                                           ^
+
+Error
+    at Query.run (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/mysql/query.js:52:25)
+    at /home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/sequelize.js:314:28
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async MySQLQueryInterface.insert (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/dialects/abstract/query-interface.js:308:21)
+    at async model.save (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:2432:35)
+    at async Function.create (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/sequelize/lib/model.js:1344:12) {
+  name: 'SequelizeForeignKeyConstraintError',
+  parent: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 5538, 1, '2023-01-06 16:47:02', '2023-01-06 16:47:02', '', 1, 1 ]
+  },
+  original: Error: Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+      at Packet.asError (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packets/packet.js:728:17)
+      at Execute.execute (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/commands/command.js:29:26)
+      at Connection.handlePacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:456:32)
+      at PacketParser.onPacket (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:85:12)
+      at PacketParser.executeStart (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/packet_parser.js:75:16)
+      at Socket.<anonymous> (/home/patamtaa/nodevenv/apibackend.patamtaani.com/14/lib/node_modules/mysql2/lib/connection.js:92:25)
+      at Socket.emit (events.js:400:28)
+      at addChunk (internal/streams/readable.js:293:12)
+      at readableAddChunk (internal/streams/readable.js:267:9)
+      at Socket.Readable.push (internal/streams/readable.js:206:10) {
+    code: 'ER_NO_REFERENCED_ROW_2',
+    errno: 1452,
+    sqlState: '23000',
+    sqlMessage: 'Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Orders`, CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)',
+    sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+    parameters: [ 5538, 1, '2023-01-06 16:47:02', '2023-01-06 16:47:02', '', 1, 1 ]
+  },
+  sql: 'INSERT INTO `Orders` (`id`,`orderId`,`quantity_ordered`,`createdAt`,`updatedAt`,`BusinessId`,`ProductId`,`UserId`) VALUES (DEFAULT,?,?,?,?,?,?,?);',
+  parameters: [ 5538, 1, '2023-01-06 16:47:02', '2023-01-06 16:47:02', '', 1, 1 ],
+  table: 'Businesses',
+  fields: [ 'BusinessId' ],
+  value: undefined,
+  index: 'Orders_ibfk_1',
+  reltype: 'child'
+}
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`Customers`, CONSTRAINT `Customers_ibfk_1` FOREIGN KEY (`BusinessId`) REFERENCES `Businesses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Cannot read property 'id' of null
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Services is not associated to Suppliers!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+notNull Violation: Customers.name cannot be null,
+notNull Violation: Customers.phone_no cannot be null
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Cannot add or update a child row: a foreign key constraint fails (`patamtaa_backendapi`.`RetailerSales`, CONSTRAINT `RetailerSales_ibfk_2` FOREIGN KEY (`CustomerId`) REFERENCES `Customers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!
+Customers is not associated to Business!

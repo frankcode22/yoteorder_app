@@ -53,11 +53,11 @@ function SignInNew() {
     
             }
 
-            else if(response.data.role=="Customer"){
+            else if(response.data.role=="User"){
     
                 setTimeout(() => {
                   setLoading(false);
-                  history('/dashboard-customer');
+                  history('/home-user');
                   window.location.reload(false);
               }, 1000);
         
@@ -83,10 +83,6 @@ function SignInNew() {
 
           else if(response.data.role=="Supplier"){
 
-         
-
-         
-    
             setTimeout(() => {
               setLoading(false);
               history('/supplier_home');

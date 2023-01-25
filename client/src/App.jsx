@@ -76,6 +76,8 @@ import AccountSetting from './Components/Dashboards/supplier/AccountSetting';
 import EngagementRequests from './Components/Dashboards/supplier/EngagementRequests';
 import Communication from './Components/Dashboards/admin/Communication';
 import OrdersFromRetailers from './Components/Dashboards/supplier/OrdersFromRetailers';
+import HomeUser from './Components/Dashboards/user/HomeUser';
+import SubscriptionRequests from './Components/Dashboards/admin/SubscriptionRequests';
 //import ProtectedRoute from './helpers/ProtectedRoute';
 
 
@@ -165,8 +167,10 @@ function App() {
 
         <Route exact path="/home_admin" element={ <AdminHome/>}/>
 
-       
+        <Route exact path="/home-user" element={ <HomeUser/>}/>
 
+       
+        <Route exact path="/subscription-requests" element={ <SubscriptionRequests/>}/>
 
         <Route path="/dashboard-vendor" element={ <Dashboard/>}/>
 
