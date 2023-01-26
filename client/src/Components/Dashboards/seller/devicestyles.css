@@ -1,0 +1,24 @@
+.onmobile {
+    display: none;
+}
+
+/* Media query for smartphones */
+@media only screen and (max-width: 767px) and (min-width: 320px) {
+    .onmobile {
+        display: block; /* show the content */
+    }
+}
+
+
+
+.custom_large {
+    display: none;
+}
+
+/* Media query for screens larger than 1400px */
+@media (min-width: 800px) {
+    .custom_large {
+        display: block; /* show the menu */
+    }
+}
+

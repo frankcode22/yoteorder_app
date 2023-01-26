@@ -1624,7 +1624,8 @@ const updateProductNew = async e => {
                          data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9">Edit</button>
 
 
-                         <button  type="submit" class="btn btn-primary ms-auto mb-1"
+
+                          {/**  <button  type="submit" class="btn btn-primary ms-auto mb-1"
              
              
                          onClick={() => {
@@ -1632,7 +1633,9 @@ const updateProductNew = async e => {
                                }}
                          
                      
-                               >Find Supplier</button>
+                               >Find Supplier</button>*/}
+
+                        
 
                    </div>
 

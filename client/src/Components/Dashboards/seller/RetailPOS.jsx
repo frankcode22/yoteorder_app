@@ -17,6 +17,8 @@ import SalesComponent from './SalesComponent';
 import OrdersComponent from "./OrdersComponent";
 import CustomerBills from "./CustomerBills";
 
+import './devicestyles.css'
+
 function RetailPOS() {
 
 
@@ -228,8 +230,8 @@ function RetailPOS() {
                               <div class="card-header">
                                   <div class="card-title">Settings</div>
                               </div>
-                              <div class="main-content-left main-content-left-mail card-body pt-0 ">
-                                  <div class="main-settings-menu">
+                              <div class="main-content-left main-content-left-mail card-body pt-0 app">
+                                  <div class="main-settings-menu custom_large ">
                                       <nav class="nav main-nav-column">
                                           <a class="nav-link thumb active mb-2" href="javascript:void(0);" onClick={displayPOS}><i class="fe fe-home"></i> POS </a>
                                           <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);" onClick={viewOrders}><i class="fe fe-grid"></i>Orders</a>
@@ -240,6 +242,26 @@ function RetailPOS() {
                                           <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-bell"></i> Notifications</a>
                                       </nav>
                                   </div>
+                                        <div class="sidebar-navs onmobile"> <ul class="nav  nav-pills-circle">
+                                            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="POS" aria-describedby="tooltip365540">
+                                                <a class="nav-link text-center m-2" href="javascript:void(0);" onClick={displayPOS}>
+                                                    <i class="fe fe-home"></i> </a>
+                                            </li>
+                                            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Orders" aria-describedby="tooltip143427">
+                                                <a class="nav-link text-center m-2" href="javascript:void(0);" onClick={viewOrders}> 
+                                                <i class="fe fe-grid">
+                                                </i>
+                                               
+                                                </a>
+                                            </li>
+                                            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Bills">
+                                                 <a class="nav-link text-center m-2"href="javascript:void(0);" onClick={viewCustBill}><i class="fe fe-layers"></i>  </a> </li> 
+                                                 <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Sales">
+                                                 <a class="nav-link text-center m-2"href="javascript:void(0);" onClick={viewSales}><i class="fe fe-layers"></i>  
+                                                 </a> 
+                                                 </li>
+                                                 </ul>
+                                        </div>
                               </div>
                           </div>
                       </div>

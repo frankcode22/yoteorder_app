@@ -178,6 +178,8 @@ function POSComponent() {
 
     const [isDivLoading, setIsDivLoading] = useState(false);
 
+	const [checkedItem, setCheckedItem] = useState(null);
+
 
 
 
@@ -262,17 +264,28 @@ function POSComponent() {
 
 
 
-const handleCheckboxChange=(event)=> {
-    setSelectedId(event.target.value);
+//const handleCheckboxChange=(event)=> {
+   // setSelectedId(event.target.value);
 
-	cart.handleClick(toInteger(event.target.value))
+	//cart.handleClick(toInteger(event.target.value))
 
 	//setShowElement(true);
-	setOnlyvalue(1)
+	//setOnlyvalue(1)
 
         
-    console.log("THE SELECTED Supplier ID IS "+event.target.value)
-  }
+   // console.log("THE SELECTED Supplier ID IS "+event.target.value)
+ // }
+
+
+
+  const handleCheckboxChange = id => {
+    if (checkedItem === id) {
+      setCheckedItem(null);
+    } else {
+      setCheckedItem(id);
+	  cart.handleClick(toInteger(id))
+    }
+  };
 
 
 
@@ -1105,7 +1118,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 
                            
 
-							<h3  class="badge bg-success">Selected: {selectedId}</h3>
+							<h3  class="badge bg-success">Selected: {checkedItem}</h3>
 
 							    
 								
@@ -1114,7 +1127,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
                                  
 
                                     return (
-										<div class="col-xl-12 col-lg-12 col-md-12">
+										<div class="col-xl-12 col-lg-12 col-md-12" key={value.id}>
 											<div class="card border p-0 over-flow-hidden">
 												<div class="media card-body media-xs overflow-visible ">
 													<img class="avatar brround avatar-md me-3" src="../assets/img/faces/12.jpg" alt="avatar-img"/>
@@ -1125,11 +1138,22 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 													</div>
 													<div class="media-body valign-middle text-end overflow-visible mt-2">
 
+														<div>
 
-													<div class="media-body" key={value.id}>
-          {value.name}
-          {selected === value.id && <button class="btn btn-success mb-1">Button</button>}
-        </div>
+
+														<input
+            type="checkbox"
+			//type="radio"
+			checked={checkedItem === value.id}
+			onChange={() => handleCheckboxChange(value.id)}
+          />
+
+
+
+														</div>
+
+
+													
 
 
 													
@@ -1138,28 +1162,21 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
                                                               }} type="button">Select</button> */}
 													
 	
-<input
-            type="checkbox"
-            value={value.id}
-            checked={selectedId === value.id}
-            onChange={handleCheckboxChange}
-          />
 
 
 
 
 
-
-	{!isLoading && selectedId && <button class="btn btn-success mb-1"  onClick={() => {
+	{!isLoading && checkedItem === value.id && ( <button class="btn btn-success mb-1"  onClick={() => {
                                                                 checkoutRetailer();
-                                                                  }} type="button">Make Order {businessId} {value.id}</button>}
+                                                                  }} type="button"><i class="fa fa-arrow-right"></i>Make Order</button>)}
 
 
-{isLoading &&
+{isLoading && checkedItem === value.id && (
 		<button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
 		<span class="visually-hidden">Loading...</span>
-	</div>Saving Infor</button>
-	  }
+	</div>Processing...</button>
+								 )}
 
 
 

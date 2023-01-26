@@ -628,17 +628,43 @@ const updateBusinessProfile= async e => {
     {!isBusinessSet && 
         <form class="bg-gray-100 pd-30 pd-sm-40">
         <div class="row g-3">
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Account Type</label>
+            <div class="col-sm-9">
+              <input type="text" id="account_type"  name="account_type" class="form-control phone-mask"
+
+value={props.requestDetails.account_type}
+                
+// onChange={(event) => {
+//     setbusiness_name(event.target.value);
+//   }}
+
+onChange={props.handleChange}
+             />
+            </div>
+            
+
+
+
+          </div>
+
+          
+        </div>
           <div class="col-md-6">
             <div class="row">
+              
               <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
               <div class="col-sm-9">
-                <input type="text" id="formtabs-buss-name" class="form-control" 
+                <input type="text" id="formtabs-buss-name" name="business_name" class="form-control" 
 
-                value={business_name}
+                value={props.requestDetails.business_name}
                 
-                onChange={(event) => {
-                    setbusiness_name(event.target.value);
-                  }}
+                // onChange={(event) => {
+                //     setbusiness_name(event.target.value);
+                //   }}
+
+                onChange={props.handleChange}
                 
                 
                 placeholder="Eg.Johnson Distributers" />
@@ -767,13 +793,21 @@ const updateBusinessProfile= async e => {
             <div class="row">
               <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
               <div class="col-sm-9">
-                <input type="text" id="buss-contacts" class="form-control phone-mask"
+                <input type="text" id="phone_no" name="phone_no" class="form-control phone-mask"
 
-                value={buss_contacts}
+value={props.requestDetails.phone_no}
                 
-                onChange={(event) => {
-                    setbuss_contacts(event.target.value);
-                  }}
+// onChange={(event) => {
+//     setbusiness_name(event.target.value);
+//   }}
+
+onChange={props.handleChange}
+
+                // value={buss_contacts}
+                
+                // onChange={(event) => {
+                //     setbuss_contacts(event.target.value);
+                //   }}
                 placeholder="eg.07xx xxx xxx" aria-label="0714639773" />
               </div>
               
@@ -790,14 +824,22 @@ const updateBusinessProfile= async e => {
           <div class="row">
             <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Email</label>
             <div class="col-sm-9">
-              <input type="text" id="buss-contacts" class="form-control phone-mask"
+              <input type="text" id="email" name="email" class="form-control"
 
-              value={email}
+value={props.requestDetails.email}
+                
+// onChange={(event) => {
+//     setbusiness_name(event.target.value);
+//   }}
+
+onChange={props.handleChange}
+
+              //value={email}
               
-              onChange={(event) => {
-                  setEmail(event.target.value);
-                }}
-              placeholder="example@gmail.com"/>
+              // onChange={(event) => {
+              //     setEmail(event.target.value);
+              //   }}
+             />
             </div>
             
 
@@ -1028,7 +1070,9 @@ const updateBusinessProfile= async e => {
         } 
   
   
-   {!isLoading && showUpdateButton &&  <button type="button" onClick={updateBusinessInfor} class="btn btn-success"><i class="fe fe-check me-2"></i>Update</button> }    
+   {!isLoading &&  <button type="button"   onClick={() => {
+                      props.updateUserRequest(props.requestDetails.id);
+                         }} class="btn btn-success"><i class="fe fe-check me-2"></i>Update</button> }    
   
         {isLoading &&
             <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow text-success me-2" role="status">

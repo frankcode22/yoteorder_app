@@ -107,9 +107,11 @@ function SideMenu() {
             </ul>
         </li>
 
-        <li class="slide">
+        {/**<li class="slide">
         <a class="side-menu__item" href="/suppliers-around"><i class="side-menu__icon fe fe-airplay"></i><span class="side-menu__label">Suppliers</span></a>
-        </li>
+        </li>*/}
+
+        
 
         <li class="slide">
        

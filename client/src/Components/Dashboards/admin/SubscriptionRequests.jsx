@@ -54,6 +54,8 @@ function SubscriptionRequests() {
 
     const[requestList,setRequestList]=useState([]);
 
+    const[requestDetails,setRequestDetails]=useState([]);
+
     const [showSupplierDetails,setShowSupplierDetails]=useState(true);
 
 
@@ -107,10 +109,111 @@ function SubscriptionRequests() {
     },[]);
     
     
-    const viewSelectedRequest=(id)=>{
+    const viewSelectedRequest= (id)=>{
+
+
+        const request_ = requestList.find(post => (post.id) === id);
+
+        console.log('SELECTED REQUEST',request_)
+
+        setRequestDetails(request_)
+
+        //setBus
+
+
     
        // history('/products/'+id)
     
+    }
+
+
+    const acceptRequest= (id)=>{
+
+
+       
+     // setLoading(true);
+
+      setLoading(id);
+
+  
+
+      API.put('subscription/acceptsubscription/'+id).then((res_b)=>{
+  
+         // console.log("THE ACTUAL ID IS "+actualId)
+          
+          //setProductId(res_b.data.id)
+          //getAllMyProducts()
+         
+          setTimeout(() => {
+              setLoading(false);
+              // handleShow()
+              toast.success("Accepted")
+          }, 1000);
+          
+          })
+    
+    }
+
+
+    
+    const declineRequest= (id)=>{
+
+
+       
+        setLoading(id);
+  
+    
+  
+        API.put('subscription/declinesubscription/'+id).then((res_b)=>{
+    
+           // console.log("THE ACTUAL ID IS "+actualId)
+            
+            //setProductId(res_b.data.id)
+            //getAllMyProducts()
+           
+            setTimeout(() => {
+                setLoading(false);
+                // handleShow()
+                toast.warning("Declined")
+            }, 1000);
+            
+            })
+      
+      }
+  
+
+    
+
+    const handleChange = (event) => {
+        setRequestDetails({...requestDetails, [event.target.name]: event.target.value});
+
+        //setRequestDetails({...requestDetails, [event.target.email]: event.target.value});
+    }
+
+
+    const updateUserRequest=async (rId) => {
+        setLoading(true)
+    
+        let { data } = await API.put('subscription/updatesubscription/'+rId, requestDetails, {});
+
+
+        console.log("AFTER UPDATE "+data)
+
+
+        setTimeout(() => {
+
+      
+
+        
+            setLoading(false);
+           // setShowActionBtn(false)
+           // setShowSucessAlert(true)
+            //sethidesavebtn(true)
+            
+            toast.success('Product saved successfully');
+        }, 1000);
+
+
     }
 
 
@@ -286,7 +389,7 @@ function SubscriptionRequests() {
                                                 </th>
                                                
                                                 <th>Name</th>
-                                                <th>Business Name</th>
+                                             
                                                 <th>Contacts</th>
                                                
                                                 <th>Account</th>
@@ -307,17 +410,7 @@ function SubscriptionRequests() {
                                                     </td>
                                                    
                                         <td class="text-nowrap align-middle">{value.first_name}</td>
-                                        <td class="text-nowrap align-middle">{value.business_name}</td>
-
-                                       
-                                
-                                       
-
                                         
-                                     
-                                       
-
-                                       
 
                                         <td class="text-nowrap align-middle">{value.phone_no}</td>
 
@@ -340,9 +433,38 @@ function SubscriptionRequests() {
                                                   }} type="button">View More</button>
 
 
+
+
+
+
+{isLoading === value.id ? (
+                <span><div class="spinner-grow spinner-grow-sm me-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>Updating...</span>
+              ) : (
+                <>
+                <button class="btn btn-sm btn-success badge" onClick={() => {
+                    acceptRequest(value.id);
+                      }}  type="button"><i class="fa fa-check"></i>Accept</button> 
+
+                      <button class="btn btn-sm btn-danger badge"  onClick={() => {
+                        declineRequest(value.id);
+                          }}  type="button"><i class="fa fa-close"></i>Decline</button> 
+                
+                </>
+                
+                      
+                   )}
+
+
+
+
+
+
                                                   
                                             
-                                                <button class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" type="button">Edit</button> <button class="btn btn-sm btn-primary badge" type="button"><i class="fa fa-trash"></i></button>
+                                               
+                                               
                                             </div>
                                         </td>
                                                 </tr>
@@ -411,7 +533,7 @@ function SubscriptionRequests() {
 
 
 
-                            <SubscriptionRequestsDetails setRequestList={setRequestList} requestList={requestList}></SubscriptionRequestsDetails>
+                            <SubscriptionRequestsDetails requestDetails={requestDetails} handleChange={handleChange} setRequestList={setRequestList} requestList={requestList} updateUserRequest={updateUserRequest}></SubscriptionRequestsDetails>
 
                           
 
