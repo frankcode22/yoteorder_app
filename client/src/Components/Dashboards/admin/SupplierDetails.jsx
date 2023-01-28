@@ -371,6 +371,9 @@ const user_details={
 }
 
 
+
+
+
   
   const saveBusinessInfor = ()  => {
     setLoading(true);
@@ -637,11 +640,17 @@ const updateBusinessProfile= async e => {
               <div class="col-sm-9">
                 <input type="text" id="formtabs-buss-name" class="form-control" 
 
-                value={business_name}
+                // value={business_name}
                 
-                onChange={(event) => {
-                    setbusiness_name(event.target.value);
-                  }}
+                // onChange={(event) => {
+                //     setbusiness_name(event.target.value);
+                //   }}
+
+                value={props.requestDetails.name}
+                
+
+
+onChange={props.handleChange}
                 
                 
                 placeholder="Eg.Johnson Distributers" />
@@ -653,11 +662,17 @@ const updateBusinessProfile= async e => {
             
               <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Brief Description</label>
               <div class="col-sm-9">
-              <textarea id="basic-icon-default-message" class="form-control" value={business_description} placeholder="Eg. I supply wines and spirits" aria-label="Hi, My business deals with beauty services?" 
+              <textarea id="basic-icon-default-message" class="form-control"  placeholder="Eg. I supply wines and spirits" aria-label="Hi, My business deals with beauty services?" 
               
-              onChange={(event) => {
-                setbusiness_description(event.target.value);
-              }}
+              // onChange={(event) => {
+              //   setbusiness_description(event.target.value);
+              // }}
+
+              value={props.requestDetails.business_description}
+                
+
+
+              onChange={props.handleChange}
 
               aria-describedby="basic-icon-default-message2"></textarea>
               </div>
@@ -709,41 +724,15 @@ const updateBusinessProfile= async e => {
                   data-allow-clear="true">
 
                   <option value="Wines-Spirits" selected>Drinks/Wines/Spirts/Alcohol</option>
-                  <option value="Domestic-Products">Household Products</option>
-                 
-
-                  <option value="Domestic-Products">Domestic Products</option>
+                  
 
                   
 
                   <option value="Drinks">Drinks</option>
-                  <option value="Ready Made Meals">Ready Made Meals</option>
+                  <option value="Keg">Senator Keg</option>
                
-                  <option value="Beauty">Beauty</option>
-                  <option value="Education">Education</option>
-                  <option value="Automotive">Wellbeing</option>
-                  <option value="pt">Automotive</option>
-                  <option value="home care">Home Care</option>
-                  <option value="Maintenance">Maintenance</option>
-                  <option value="Electronics">Electronics</option>
-               
-                  <option value="Automotive">Automotive</option>
-
-                  <option value="Contruction">Contruction</option>
+                 
         
-                  
-                  <option value="Clothing">Clothing</option>
-                  <option value="Computing">Computing</option>
-        
-        
-                  <option value="Domestic">Domestic Use</option>
-                  <option value="Home-Based">Home-Based</option>
-                  <option value="Beauty">Beauty</option>
-        
-                  <option value="Agricultural">Agricultural</option>
-                  <option value="Livestock">Livestock</option>
-                  <option value="Poultry">Poultry</option>
-                  <option value="Aquatic">Aquatic</option>
                 </select>
               </div>
             </div>
@@ -772,11 +761,17 @@ const updateBusinessProfile= async e => {
               <div class="col-sm-9">
                 <input type="text" id="buss-contacts" class="form-control phone-mask"
 
-                value={buss_contacts}
+                // value={buss_contacts}
                 
-                onChange={(event) => {
-                    setbuss_contacts(event.target.value);
-                  }}
+                // onChange={(event) => {
+                //     setbuss_contacts(event.target.value);
+                //   }}
+
+                value={props.requestDetails.contacts}
+                
+
+
+                onChange={props.handleChange}
                 placeholder="eg.07xx xxx xxx" aria-label="0714639773" />
               </div>
               

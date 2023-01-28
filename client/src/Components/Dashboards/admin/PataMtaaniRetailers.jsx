@@ -65,6 +65,9 @@ function PataMtaaniRetailers() {
     const [isDivLoading, setIsDivLoading] = useState(false);
 
 
+    const [selectedRetailer, setSelectedRetailer] = useState({});
+
+
 
     
    
@@ -99,6 +102,20 @@ function PataMtaaniRetailers() {
     const viewSelectedProduct=(id)=>{
     
         history('/products/'+id)
+    
+    }
+
+
+    const viewSelectedRetailer= async(id)=>{
+    
+      
+  
+  
+        const retailer = retailerList.find(post => (post.id) === id);
+
+        setSelectedRetailer(retailer)
+
+        console.log('SELECTED RETAILER',retailer)
     
     }
 
@@ -344,10 +361,16 @@ const showInGridView=()=>{
                                         <td class="text-center align-middle">
                                             <div class="btn-group align-top">
                                             <button class="btn btn-sm btn-primary badge" onClick={() => {
-                                                viewSelectedProduct(value.id);
-                                                  }} type="button">View</button>
+                                                viewSelectedRetailer(value.id);
+                                                  }}><i class="fe fe-eye me-2"></i>View</button>
+                                                  <button type="button" onClick={() => {
+                                                viewSelectedRetailer(value.id);
+                                                  }} class="btn btn-success"><i class="fe fe-edit me-2"></i>Edit</button>
                                             
-                                                <button class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" type="button">Edit</button> <button class="btn btn-sm btn-primary badge" type="button"><i class="fa fa-trash"></i></button>
+                                               
+                                                
+                                                
+                                                <button class="btn btn-sm btn-danger badge" type="button"><i class="fa fa-trash"></i>Delete</button>
                                             </div>
                                         </td>
                                                 </tr>
@@ -418,7 +441,7 @@ const showInGridView=()=>{
 
 
 
-                          <RetailerDetails setRetailerList={setRetailerList} retailerList={retailerList} ></RetailerDetails>
+                          <RetailerDetails setRetailerList={setRetailerList} retailerList={retailerList}  selectedRetailer={selectedRetailer}    setSelectedRetailer={setSelectedRetailer}  ></RetailerDetails>
 
                          
 

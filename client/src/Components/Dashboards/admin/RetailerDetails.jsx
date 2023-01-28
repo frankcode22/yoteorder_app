@@ -1467,7 +1467,7 @@ function RetailerDetails(props) {
               <div class="col-sm-9">
                 <input type="text" id="formtabs-buss-name" class="form-control" 
 
-                value={business_name}
+                value={props.selectedRetailer.business_name}
                 
                 onChange={(event) => {
                     setbusiness_name(event.target.value);
@@ -1484,6 +1484,7 @@ function RetailerDetails(props) {
               <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-last-name">Brief Description</label>
               <div class="col-sm-9">
               <textarea id="basic-icon-default-message" class="form-control" value={business_description} placeholder="Eg. I supply wines and spirits" aria-label="Hi, My business deals with beauty services?" 
+              
               
               onChange={(event) => {
                 setbusiness_description(event.target.value);
@@ -1578,7 +1579,9 @@ function RetailerDetails(props) {
               <div class="col-sm-9">
                 <input type="text" id="buss-contacts" class="form-control phone-mask"
 
-                value={buss_contacts}
+                //value={buss_contacts}
+
+                value={props.selectedRetailer.contacts}
                 
                 onChange={(event) => {
                     setbuss_contacts(event.target.value);
@@ -1601,7 +1604,9 @@ function RetailerDetails(props) {
             <div class="col-sm-9">
               <input type="text" id="remail" name='remail' class="form-control phone-mask"
 
-              value={email}
+              //value={email}
+
+              value={props.selectedRetailer.email}
               
               onChange={(event) => {
                   setEmail(event.target.value);

@@ -121,7 +121,9 @@ function SignInNew() {
                     <div>
                         <img src="assets/img/brand/logo_pink.png" class=" m-0 mb-4" alt="logo"/>
                         <h5 class="mb-4">PataMtaani</h5>
-                        <p class="mb-5">  Pata Mtaani is a platfom developed to makes it easy for residents to buy and sell any products within their area of residents.</p>
+                        <p class="mb-5">PataMtaani is a platfom developed to provide software solutions to small and medium enterprises(Bussiness) across all the industries.
+
+PataMtaani has a couple of solutions,that will transform your business into a fully digital enterprise with a minimum cost possible.</p>
                         <Link to='/' class="btn btn-success">Back Home</Link>
                     </div>
                 </div>

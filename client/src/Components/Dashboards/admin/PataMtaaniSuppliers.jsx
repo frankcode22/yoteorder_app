@@ -57,6 +57,8 @@ function PataMtaaniSuppliers() {
 
     const [showGridView,setShowGridView]=useState(false);
 
+
+    const[requestDetails,setRequestDetails]=useState([]);
     
    
     //const [service_type, set_service_type] = useState("");
@@ -109,6 +111,29 @@ function PataMtaaniSuppliers() {
     
         history('/products/'+id)
     
+    }
+
+    const viewSelectedSupplier= (id)=>{
+
+
+        const request_ = supplierList.find(post => (post.id) === id);
+
+        console.log('SELECTED SUPPLIER',request_)
+
+        setRequestDetails(request_)
+
+        //setBus
+
+
+    
+       // history('/products/'+id)
+    
+    }
+
+    const handleChange = (event) => {
+        setRequestDetails({...requestDetails, [event.target.name]: event.target.value});
+
+        //setRequestDetails({...requestDetails, [event.target.email]: event.target.value});
     }
 
 
@@ -352,7 +377,7 @@ function PataMtaaniSuppliers() {
                                         <td class="text-center align-middle">
                                             <div class="btn-group align-top">
                                             <button class="btn btn-sm btn-primary badge" onClick={() => {
-                                                viewSelectedProduct(value.id);
+                                                viewSelectedSupplier(value.id);
                                                   }} type="button">View</button>
                                             
                                                 <button class="btn btn-sm btn-primary badge" data-target="#user-form-modal" data-bs-toggle="" type="button">Edit</button> <button class="btn btn-sm btn-primary badge" type="button"><i class="fa fa-trash"></i></button>
@@ -426,7 +451,7 @@ function PataMtaaniSuppliers() {
 
 
 
-                            <SupplierDetails setSupplierList={setSupplierList} supplierList={supplierList}></SupplierDetails>
+                            <SupplierDetails setSupplierList={setSupplierList} supplierList={supplierList} requestDetails={requestDetails} handleChange={handleChange}></SupplierDetails>
 
                          
 

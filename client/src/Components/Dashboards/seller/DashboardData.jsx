@@ -507,7 +507,7 @@ function DashboardData() {
         <div class="card overflow-hidden">
             <div class="card-body pb-3">
                 <div class="d-flex justify-content-between">
-                    <h4 class="card-title mg-b-10">Sales Made Over The week</h4>
+                    <h4 class="card-title mg-b-10">Your current orders</h4>
                     <i class="mdi mdi-dots-horizontal text-gray"></i>
                 </div>
               
@@ -516,6 +516,7 @@ function DashboardData() {
                         <thead>
                             <tr>
                                 <th>Item</th>
+                                <th>Items</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -526,12 +527,15 @@ function DashboardData() {
                             <tr>
                                 <td>
                                     <div class="project-names">
-                                        <h6 class="bg-primary-transparent text-primary d-inline-block me-2 text-center">{value.orderId}</h6>
-                                        <p class="d-inline-block font-weight-semibold mb-0">{value.item_name} {value.quantity_ordered}</p>
+                                        <h6 class="bg-primary-transparent text-primary d-inline-block me-2">{value.orderId}</h6>
+                                        <p class="d-inline-block font-weight-semibold mb-0">{value.item_name}</p>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="badge bg-info">{value.order_status}</div>
+                                    <a class="badge bg-warning" href='#'>{value.quantity_ordered}</a>
+                                </td>
+                                <td>
+                                    <a class="badge bg-info" href='#'>{value.order_status}</a>
                                 </td>
                             </tr>
               )

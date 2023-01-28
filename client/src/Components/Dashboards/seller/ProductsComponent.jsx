@@ -76,6 +76,8 @@ function ProductsComponent(props)
 
     const [itemId, setItemId] = useState("");
 
+    const [error, setError] = useState(null);
+
 
 
 
@@ -91,6 +93,10 @@ function ProductsComponent(props)
     const [location, setlocation] = useState("");
 
     const [quantity, setQuantity] = useState("");
+
+    const [display_field,setdisplay_field]=useState(false);
+
+    const [new_quantity, setnew_quantity] = useState('');
 
     const [geo_location, setGeo_location] = useState("");
 
@@ -217,6 +223,17 @@ function ProductsComponent(props)
 
 
   const [showUpdateButton, setShowUpdateButton] = useState(false);
+
+
+
+  const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () =>{
+
+		//setRandomNo(randomNumberInRange(1, 10000));
+
+		setShow(true);
+	} 
 
 
 
@@ -890,41 +907,31 @@ const showServicesSection=()=>{
 
 
 
-const openSelectedProduct=(pId,e)=>{
+const openSelectedProduct=(id)=>{
 
-    //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
-     API.get('product/byId/'+pId).then((response) => {
- 
-         console.log("THE PRODUCT NAME IS "+response.data.name)
- 
-         setProductId(pId)
-         setPrice(response.data.price)
-         setQuantity(response.data.quantity)
+             const product_ = productsList.find(post => (post.id) === id);
 
-         setName(response.data.name)
-         setunit_of_measure(response.data.unit_of_measure)
+             console.log('SELECTED PRODUCT',product_)
 
-         setcategory(response.data.category)
+             setProductId(id)
+             setPrice(product_.price)
+             setQuantity(product_.quantity)
+    
+             setName(product_.name)
+             setunit_of_measure(product_.unit_of_measure)
+    
+             setcategory(product_.category)
+    
+             setType(product_.category)
+             setbusinessId(product_.BusinessId)
+             setretailerId(product_.BusinessId)
+    
+    
+    
+     
+             setProduct_description(product_.product_description)
 
-         setType(response.data.category)
-         setbusinessId(response.data.BusinessId)
-         setretailerId(response.data.BusinessId)
-
-
-         
-
-      
-         
- 
- 
-        
-
- 
-         setProduct_description(response.data.product_description)
-             
- 
-             })
- 
+             setShow(true)   
  
  
      }
@@ -1182,6 +1189,119 @@ const showProductsSection=()=>{
     
 }
 
+
+
+const updateProduct = async(event) => {
+
+  event.preventDefault();
+  setError(null);
+
+
+  const formData={
+    name:name,
+    type:type,
+    product_description:product_description,
+    price: price,
+    quantity:quantity,
+    new_quantity:new_quantity,
+    geo_location:address_line_2,
+    unit_of_measure:unit_of_measure,
+    latitude:lat,
+    longitude:lng,
+    UserId:userId,
+      
+  }
+
+  setLoading(true)
+
+  if(name==""){
+      setnameinvalid(true)
+      setLoading(false)
+
+      setTimeout(() => {
+          setnameinvalid(false)
+         
+       }, 2000);
+      return
+  }
+
+  if(price==""){
+      setpriceinvalid(true)
+      setLoading(false)
+
+      setTimeout(() => {
+          setpriceinvalid(false)
+         
+       }, 2000);
+      return
+  }
+
+
+
+ 
+  
+  
+
+  try {
+ 
+  const  response  = await API.put('product/update_product_latest/'+productId, formData, {});
+
+ 
+ let updated_quantity=parseInt(new_quantity)+parseInt(quantity)
+
+  const updatedItems = productsList.map(item => {
+    if(item.id === productId) {
+        return {...item, price: price,
+          quantity: updated_quantity,
+          name:name,
+    type:type,
+    product_description:product_description,
+    
+
+        
+        };
+    }
+    return item;
+});
+setProductsList1(updatedItems);
+
+
+  
+
+
+  
+  
+
+
+
+ 
+
+
+  
+
+
+
+  
+
+
+  setTimeout(() => {
+
+    
+
+      
+      setLoading(false);
+      setShowActionBtn(false)
+      setShowSucessAlert(true)
+      sethidesavebtn(true)
+      
+      toast.success('Product updated successfully');
+  }, 1000);
+
+} catch (err) {
+  setError(err.message);
+}
+  
+}
 
 
 const getAllMyProducts=()=>{
@@ -1593,13 +1713,11 @@ const updateProductNew = async e => {
        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
            <div class="product-card card">
                <div class="card-body h-100">
-                   <div class="d-flex">
-                       <span class="text-secondary small text-uppercase">{value.category}</span>
-                       <span class="ms-auto"><i class="far fa-heart"></i></span>
-                   </div>
+                   
                    <h3 class="h6 mb-2 font-weight-bold text-uppercase">{value.name}</h3>
                    <div class="d-flex">
-                       <h4 class="h5 w-50 font-weight-bold text-danger">Ksh {value.price}</h4>
+                       
+                       <a class="badge bg-success h5 w-50 font-weight-bold" href='#'>Ksh {value.price}</a>
                        <span class="tx-15 ms-auto">
                            <i class="ion ion-md-star text-warning"></i>
                            <i class="ion ion-md-star text-warning"></i>
@@ -1609,36 +1727,45 @@ const updateProductNew = async e => {
                        </span>
                        
                    </div>
-                   <h4 class="h5 w-50 font-weight-bold text-success">Quantity {value.quantity}</h4>
+                  
+                   <a class="badge bg-info h5 w-50 font-weight-bold" href='#'>Quantity {value.quantity}</a>
+
+                   <div class="card-footer text-center">
+                   <div class="text-center px-2">
 
                    <div class="d-flex">
 
-                   <button  type="submit" class="btn btn-primary mb-1"
-             
-             
-                   onClick={() => {
-                       openSelectedProduct(value.id);
-                         }}
-                   
+<button  type="submit" class="btn btn-primary mb-1"
+
+
+onClick={() => {
+    openSelectedProduct(value.id);
+      }}
+
+
+      data-bs-effect="effect-slide-in-bottom">UPDATE</button>
+
+
+
+       {/**  <button  type="submit" class="btn btn-primary ms-auto mb-1"
+
+
+      onClick={() => {
+       findProductSupplier(value.id,value.name);
+            }}
+      
+  
+            >Find Supplier</button>*/}
+
+     
+
+</div>
+
+
+                    </div>
+                    </div>
+
                
-                         data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" href="#modaldemo9">Edit</button>
-
-
-
-                          {/**  <button  type="submit" class="btn btn-primary ms-auto mb-1"
-             
-             
-                         onClick={() => {
-                          findProductSupplier(value.id,value.name);
-                               }}
-                         
-                     
-                               >Find Supplier</button>*/}
-
-                        
-
-                   </div>
-
                  
 
                    
@@ -1698,7 +1825,7 @@ const updateProductNew = async e => {
         <label for="nameWithTitle" class="form-label">Description</label>
 
 
-        <textarea id="basic-icon-default-message" class="form-control" placeholder="Eg.Im only reliable type-c cable seller around!" aria-label="Hi, My business deals with beauty services?" 
+        <textarea id="basic-icon-default-message" class="form-control" placeholder="Enter any description" aria-label="Enter any description" 
                                   
         onChange={(event) => {
           setProduct_description(event.target.value)
@@ -1713,7 +1840,40 @@ const updateProductNew = async e => {
     
     <div class="form-row">
 
-      <div class="form-group col-md-6 mb-0">
+    <div class="form-group col-md-6 mb-0">
+
+
+<label class="form-label" for="multicol-country">Unit Of Measure</label>
+<select id="multicol-country" class="form-control select2 form-select"
+
+onChange={(event) => {
+    setunit_of_measure(event.target.value);
+}}
+
+    data-allow-clear="true">
+    <option value="">Select Unit Of Measure</option>
+
+    <option value="Litre">Litres</option>
+   
+    <option value="Item">Item</option>
+  
+
+    
+   
+    <option value="Package">Package</option>
+
+    <option value="Order">Order</option>
+
+    
+
+
+</select>
+
+
+ 
+</div>
+
+      {/**<div class="form-group col-md-6 mb-0">
 
 
         <label class="form-label" for="multicol-country">Category</label>
@@ -1743,7 +1903,7 @@ const updateProductNew = async e => {
 
 
          
-        </div>
+        </div> */}
 
         <div class="form-group col-md-6 mb-0">
 
@@ -1769,38 +1929,7 @@ const updateProductNew = async e => {
 
         <div class="form-row">
 
-      <div class="form-group col-md-6 mb-0">
-
-
-        <label class="form-label" for="multicol-country">Unit Of Measure</label>
-        <select id="multicol-country" class="form-control select2 form-select"
-       
-        onChange={(event) => {
-            setunit_of_measure(event.target.value);
-        }}
-
-            data-allow-clear="true">
-            <option value="">Select Unit Of Measure</option>
-
-            <option value="Litre">Litres</option>
-           
-            <option value="Item">Item</option>
-          
-
-            
-           
-            <option value="Package">Package</option>
-
-            <option value="Order">Order</option>
-
-            
-
-
-        </select>
-
-
-         
-        </div>
+     
 
         <div class="form-group col-md-6 mb-0">
 
@@ -1884,6 +2013,261 @@ const updateProductNew = async e => {
     </div>
 </div>
 </div>
+
+
+
+<Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Ordered Products</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+
+                <div class="modal-body">
+
+
+      
+
+{showSuccessAlert &&
+
+  <div>
+
+  <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+  <h4 class="text-success mb-4">Product saved successfully!</h4>
+
+  </div>
+}
+
+
+{!showSuccessAlert &&  <div>
+
+<div class="row">
+<div class="col mb-3">
+  <label for="nameWithTitle" class="form-label">Item Name</label>
+  <input type="text" id="item_name" class="form-control" placeholder="Eg.Chrome Gine"
+
+  value={name}
+  
+  onChange={(event) => {
+      setName(event.target.value);
+    }}
+     
+  />
+</div>
+</div>
+
+
+
+
+{/**<div class="row">
+<div class="col mb-3">
+<label for="nameWithTitle" class="form-label">Description</label>
+
+
+<textarea id="basic-icon-default-message" class="form-control" placeholder="Eg.Im only reliable type-c cable seller around!" aria-label="Hi, My business deals with beauty services?" 
+                          
+onChange={(event) => {
+  setProduct_description(event.target.value)
+}}
+
+aria-describedby="basic-icon-default-message2"></textarea> 
+
+</div>
+</div> */}
+
+
+
+<div class="form-row">
+
+{/**<div class="form-group col-md-6 mb-0">
+
+
+<label class="form-label" for="multicol-country">Category</label>
+<select id="multicol-country" class="form-control select2 form-select"
+    onChange={(event) => {
+      setRetailerProductCategoryId(event.target.value);
+    }}
+
+    data-allow-clear="true">
+    <option value="">Select Category</option>
+
+    {retailerCatList.map((value,key)=>{
+
+      return (
+
+        <option value={value.id}>{value.cat_name}</option>
+
+      )
+
+    })}
+
+
+    
+
+
+</select>
+
+
+ 
+</div> */}
+
+<div class="form-group col-md-6 mb-0">
+
+
+    <div class="form-group">
+    <div class='row'>
+
+      {!display_field &&
+
+<div class='col'>
+<label for="dobWithTitle" class="form-label">Quantity</label>
+<input type="number" id="price" class="form-control"
+
+value={quantity}
+
+    onChange={(event) => {
+        setQuantity(event.target.value);
+    }}
+
+disabled
+/>
+</div>
+
+
+      }
+
+{display_field &&
+
+<div class='col'>
+<label for="dobWithTitle" class="form-label">New Q</label>
+<input type="number" id="price" class="form-control"
+
+
+    onChange={(event) => {
+        setnew_quantity(event.target.value);
+    }}
+
+
+/>
+</div>
+
+
+      }
+
+    <div class='col'>
+
+    <label for="dobWithTitle" class="form-label">Update</label>
+
+    <Button sm="6" onClick={() => setdisplay_field(true)} className="mx-2"><i class="fe fe-edit me-2"></i></Button>
+    </div>
+
+
+ 
+
+ 
+
+ </div>
+    </div>
+
+
+
+
+</div>
+</div>
+
+<div class="form-row">
+
+<div class="form-group col-md-6 mb-0">
+
+
+<label class="form-label" for="multicol-country">Unit Of Measure</label>
+<select id="multicol-country" class="form-control select2 form-select"
+
+
+value={unit_of_measure}
+
+onChange={(event) => {
+    setunit_of_measure(event.target.value);
+}}
+
+    data-allow-clear="true">
+    <option value="">Select Unit Of Measure</option>
+
+    <option value="Litre">Litres</option>
+   
+    <option value="Item">Item</option>
+  
+    <option value="Package">Package</option>
+
+    <option value="Order">Order</option>
+
+    
+
+
+</select>
+
+
+ 
+</div>
+
+<div class="form-group col-md-6 mb-0">
+
+
+    <div class="form-group">
+    <label for="dobWithTitle" class="form-label">Price(Per Item)</label>
+    <input type="number" id="price" class="form-control"
+
+    value={price}
+
+    onChange={(event) => {
+      setPrice(event.target.value);
+  }}
+
+    />
+    {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
+    </div>
+
+    <input type="hidden" value={businessId}  onChange={(event) => {
+      setbusinessId(event.target.value);
+    }} placeholder="bussId"/>
+
+
+
+
+</div>
+</div>
+<div class="form-row">
+
+
+</div>
+
+
+</div> }
+
+</div>
+<div class="modal-footer">
+  
+
+
+    {!isLoading && !hidesavebtn &&<button type="submit" onClick={updateProduct} class="btn btn-primary">Save</button>
+
+} 
+{isLoading &&
+  <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>Saving Infor</button>
+}
+
+    
+    
+    <button class="btn btn-light" data-bs-dismiss="modal" onClick={handleClose}>Close</button>
+</div>
+
+
+
+
+                  
+                </Modal.Body>
+            </Modal>
       
    </div>
 

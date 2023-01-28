@@ -200,8 +200,7 @@ function ProductSetting(props) {
   const [notifications, setNotifications] = useState([]);
 
 
-  const [showUpdateButton, setShowUpdateButton] = useState(false);
-
+  const [showUpdateButton, setShowUpdateButton] = useState(false)
 
 
 
