@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -13,6 +13,14 @@ function SignInNew() {
     const [password, setPassword] = useState("");
     const { setAuthState } = useContext(AuthContext);
 
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [hasError, setHasError] = useState(false);
+    const [timeoutId, setTimeoutId] = useState(null);
+    const [retry, setRetry] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
+    const maxRetries = 3;
+
 
   
     let history = useNavigate();
@@ -20,12 +28,27 @@ function SignInNew() {
     const [isLoading,setLoading]=useState(false);
 
 
-    const login = () => {
+
+    useEffect(() => {
+      if (hasError && retryCount < maxRetries) {
+        setTimeoutId(setTimeout(() => {
+          login();
+        }, 1000));
+      }
+    }, [hasError, retryCount]);
+
+  
+      async function login(){
+
+        setLoading(true);
+        setError(null);
+
+        try{
       
         const data = { username: username, password: password };
     
-        setLoading(true);
-        API.post("users/login", data).then((response) => {
+       // setLoading(true);
+        await API.post("users/login", data).then((response) => {
         //axios.post("https://yoteorder-server.herokuapp.com/users/login", data).then((response) => {
           if (response.data.error) {
             alert(response.data.error);
@@ -101,6 +124,17 @@ function SignInNew() {
           
           }
         });
+
+        setTimeout(() => {
+          setLoading(false);
+          
+         
+      }, 1000);
+
+      } catch (error) {
+        setLoading(false);
+        setError("An error occurred. Please try again.");
+      }
       }
 
       const backHome=()=>{
@@ -135,6 +169,7 @@ PataMtaani has a couple of solutions,that will transform your business into a fu
                    
 
                     <button type="button" onClick={backHome} class="btn btn-success"> <i class="si si-arrow-left" data-bs-toggle="tooltip" title="" data-bs-original-title="si-arrow-left" aria-label="si-arrow-left"></i>Back Home</button>
+                    {error && !retry && <div className="error">{error}</div>}
                     <form>
                         <div class="form-group">
                             <label>Email</label><input class="form-control" placeholder="Enter your email" type="text"

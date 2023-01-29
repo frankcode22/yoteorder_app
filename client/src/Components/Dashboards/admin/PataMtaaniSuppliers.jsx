@@ -137,6 +137,148 @@ function PataMtaaniSuppliers() {
     }
 
 
+    const saveSupplierDetails = ()  => {
+        setLoading(true);
+    
+         //API.post("business",buss_data).then((response)=>{
+    
+    
+          try {
+    
+    
+    
+    
+             API.post('users',requestDetails).then((response)=>{
+      
+          console.log("THE SUPPLIER DATA IS"+response.data)
+      
+         // setCustomerId(response.data.id)
+      
+      
+         
+    
+    
+          if(response.data.error) {
+    
+            setTimeout(() => {
+               
+                toast.error(response.data.error);
+                setLoading(false);
+            }, 500);
+    
+            //alert();
+            //setLoading(false);
+          }
+    
+          else{
+    
+    
+    
+    
+    
+    
+        
+        API.post("suppliers/bussinfor",requestDetails).then((response)=>{
+    
+    
+       // setBusinessDetails(b.map(post => post.id === id ? { ...response.data } : post));
+    
+       //const newDetails = response.data;
+      // setBusinessDetails(newDetails ?{ ...response.data } : businessDetails);
+    
+     
+    
+       setSupplierList([
+        ...supplierList,
+        {requestDetails
+    
+        },
+      ]);
+    
+    
+    
+    //    setBussSetup(true)
+    
+    //   // localStorage.setItem("business_set", true);
+    
+    //    setbusiness_name(response.data.business_name)
+    
+    //    setlocation(response.data.location)
+    //    setLatitude(response.data.latitude)
+    //    setLongitude(response.data.longitude)
+    
+    //     console.log("The response is"+response.data)
+    
+    
+    //   //  console.log("START tIME"+openTime)
+    
+    
+    //    // console.log("END TIME"+closeTime)
+    
+    
+    //     console.log("THE BUSINESS ID IS "+response.data.id)
+    
+    //     setbusinessId(response.data.id)
+    
+    
+    
+       
+    
+    
+    
+       // console.log("THE NEW BUSINESS OBJECT AFTER SETTING UP MY BUSS IS "+businessDetails)
+    
+    
+    
+           
+            setTimeout(() => {
+                setLoading(false);
+                toast.success('Saved');
+                //setIsBusinessSet(true)
+            }, 500);
+         
+           //  history("/dashboard");
+          
+           
+        });
+    
+      }
+    
+    });
+    
+      } catch (err) {
+        console.log(`Error: ${err.message}`);
+      }
+    
+    }
+    
+
+    const updateUserRequest=async (rId) => {
+        setLoading(true)
+    
+        let { data } = await API.put('subscription/updatesubscription/'+rId, requestDetails, {});
+
+
+        console.log("AFTER UPDATE "+data)
+
+
+        setTimeout(() => {
+
+      
+
+        
+            setLoading(false);
+           // setShowActionBtn(false)
+           // setShowSucessAlert(true)
+            //sethidesavebtn(true)
+            
+            toast.success('Product saved successfully');
+        }, 1000);
+
+
+    }
+
+
     const showSupportEntryForm=()=>{
 
         setShowSupplierDetails(true)
@@ -451,7 +593,7 @@ function PataMtaaniSuppliers() {
 
 
 
-                            <SupplierDetails setSupplierList={setSupplierList} supplierList={supplierList} requestDetails={requestDetails} handleChange={handleChange}></SupplierDetails>
+                            <SupplierDetails setSupplierList={setSupplierList} supplierList={supplierList} requestDetails={requestDetails} handleChange={handleChange} saveSupplierDetails={saveSupplierDetails}></SupplierDetails>
 
                          
 

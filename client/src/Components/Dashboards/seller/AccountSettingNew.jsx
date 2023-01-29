@@ -44,6 +44,7 @@ import DataContext from '../../../helpers/DataContext';
 import AccountDetails from './AccountDetails';
 import SideMenu from './SideMenu';
 import TopHeader from './TopHeader';
+import InnerMenuAccountSetting from './InnerMenuAccountSetting';
 
 function AccountSettingNew() {
 
@@ -272,23 +273,9 @@ const showInGridView=()=>{
 
 
                     <div class="row">
-                    <div class="col-lg-4 col-xl-3">
-                        <div class="card custom-card">
-                            <div class="card-header">
-                                <div class="card-title">Settings</div>
-                            </div>
-                            <div class="main-content-left main-content-left-mail card-body pt-0 ">
-                                <div class="main-settings-menu">
-                                    <nav class="nav main-nav-column">
-                                        <a class="nav-link thumb active mb-2" href="javascript:void(0);" onClick={showInTabularView}><i class="fe fe-home"></i> Main </a>
-                                        <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"  onClick={showInGridView}><i class="fe fe-grid"></i>Detailed</a>
 
-                                        <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-bell"></i> Notifications</a>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <InnerMenuAccountSetting showInTabularView={showInTabularView} showInGridView={showInGridView}></InnerMenuAccountSetting>
+                   
                     <div class="col-lg-8">
 
                     

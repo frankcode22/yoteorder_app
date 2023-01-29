@@ -646,8 +646,8 @@ const handleSubCategorySelect= async (event) => {
     let bal=total-total_paid;
 
     const data={
-        balance:bal,
-        amount_paid:total_paid,
+        initialAmountPaid:initialAmountPaid,
+        amount_paid:amountPaid,
         
     }
 
@@ -887,10 +887,8 @@ const loadOrdersContent=(
 
 
                 <div class="card">
-                <div class="card-body p-2">
-                <div class="row">
-
-                <div class="col-md-12 col-xl-12">
+              
+                <div class="table-responsive mb-0">
                 {displayBill &&  <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
                 <thead>
                     <tr>
@@ -965,14 +963,14 @@ const loadOrdersContent=(
                 
                 
                 
-                </div>
+                
 
                 
              
                
                
             </div>
-                </div>
+               
             </div>
 
 				

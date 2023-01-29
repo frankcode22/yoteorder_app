@@ -27,6 +27,7 @@ import DivLoader from '../../../utils/DivLoader';
 
 import { BusinessDetailsContext } from '../../../helpers/BusinessDetailsContext';
 import DataContext from '../../../helpers/DataContext';
+import InnerMenuHome from './InnerMenuHome';
 
 function RetailerSalesDetails(){
 
@@ -600,6 +601,8 @@ function RetailerSalesDetails(){
 
 
                           <div class="row row-sm">
+
+                            <InnerMenuHome></InnerMenuHome>
                               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                   <div class="card overflow-hidden project-card">
                                       <div class="card-body">

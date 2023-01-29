@@ -27,6 +27,8 @@ import DivLoader from '../../../utils/DivLoader';
 
 import { BusinessDetailsContext } from '../../../helpers/BusinessDetailsContext';
 import DataContext from '../../../helpers/DataContext';
+import InnerMenuAccountSetting from './InnerMenuAccountSetting';
+import InnerMenuHome from './InnerMenuHome';
 
 function DashboardData() {
     const {businessDetails,setBusinessDetails } = useContext(DataContext);
@@ -609,6 +611,13 @@ function DashboardData() {
 
 
                     <div class="row row-sm">
+
+
+                        <InnerMenuHome></InnerMenuHome>
+
+
+
+
                     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                         <div class="card overflow-hidden project-card">
                             <div class="card-body">

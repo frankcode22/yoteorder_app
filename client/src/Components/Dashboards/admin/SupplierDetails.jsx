@@ -640,17 +640,13 @@ const updateBusinessProfile= async e => {
               <div class="col-sm-9">
                 <input type="text" id="formtabs-buss-name" class="form-control" 
 
-                // value={business_name}
+                 value={business_name}
                 
-                // onChange={(event) => {
-                //     setbusiness_name(event.target.value);
-                //   }}
-
-                value={props.requestDetails.name}
-                
+                 onChange={(event) => {
+                     setbusiness_name(event.target.value);
+                   }}
 
 
-onChange={props.handleChange}
                 
                 
                 placeholder="Eg.Johnson Distributers" />
@@ -759,20 +755,15 @@ onChange={props.handleChange}
             <div class="row">
               <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Phone No</label>
               <div class="col-sm-9">
-                <input type="text" id="buss-contacts" class="form-control phone-mask"
+                <input type="text" id="contacts" name='contacts' class="form-control phone-mask"
 
-                // value={buss_contacts}
+                 value={buss_contacts}
                 
-                // onChange={(event) => {
-                //     setbuss_contacts(event.target.value);
-                //   }}
+                 onChange={(event) => {
+                     setbuss_contacts(event.target.value);
+                   }}
 
-                value={props.requestDetails.contacts}
-                
-
-
-                onChange={props.handleChange}
-                placeholder="eg.07xx xxx xxx" aria-label="0714639773" />
+                placeholder="Eg.0714 639 773" aria-label="0714639773" />
               </div>
               
 
@@ -788,7 +779,7 @@ onChange={props.handleChange}
           <div class="row">
             <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Email</label>
             <div class="col-sm-9">
-              <input type="text" id="buss-contacts" class="form-control phone-mask"
+              <input type="text" id="email" name='email' class="form-control phone-mask"
 
               value={email}
               
