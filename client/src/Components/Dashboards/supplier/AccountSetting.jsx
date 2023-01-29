@@ -44,6 +44,7 @@ import DataContext from '../../../helpers/DataContext';
 import AccountDetails from './AccountDetails';
 import TopBar from './TopBar';
 import SideMenu from './SideMenu';
+import InnerMenu from './InnerMenu';
 
 function AccountSetting() {
 
@@ -201,12 +202,12 @@ const showInGridView=()=>{
             <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
             <div class="sticky">
                 <aside class="app-sidebar sidebar-scroll">
-                    <div class="main-sidebar-header active">
-                        <a class="desktop-logo logo-light active" href="index.html"><img src="assets/img/brand/logo.png" class="main-logo" alt="logo"/></a>
-                        <a class="desktop-logo logo-dark active" href="index.html"><img src="assets/img/brand/logo-white.png" class="main-logo" alt="logo"/></a>
-                        <a class="logo-icon mobile-logo icon-light active" href="index.html"><img src="assets/img/brand/favicon.png" alt="logo"/></a>
-                        <a class="logo-icon mobile-logo icon-dark active" href="index.html"><img src="assets/img/brand/favicon-white.png" alt="logo"/></a>
-                    </div>
+                <div class="main-sidebar-header active">
+                          <a class="desktop-logo logo-light active" href="/supplier_home"><img src="assets/img/brand/logo_c.jpeg" class="main-logo" alt="logo"/></a>
+                          <a class="desktop-logo logo-dark active" href="/supplier_home"><img src="assets/img/brand/logo_c.jpeg" class="main-logo" alt="logo"/></a>
+                          <a class="logo-icon mobile-logo icon-light active" href="/supplier_home"><img src="assets/img/brand/favicon.png" alt="logo"/></a>
+                          <a class="logo-icon mobile-logo icon-dark active" href="/supplier_home"><img src="assets/img/brand/favicon-white.png" alt="logo"/></a>
+                      </div>
 
 
 
@@ -232,62 +233,19 @@ const showInGridView=()=>{
                             <h4 class="content-title mb-2">Hi, welcome back!</h4>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a   href="javascript:void(0);">Retailers</a></li>
+                                    <li class="breadcrumb-item"><a   href="javascript:void(0);">Supplier</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">PataMtaani</li>
                                 </ol>
                             </nav>
                         </div>
-                        <div class="d-flex my-auto">
-                            <div class=" d-flex right-page">
-                                <div class="d-flex justify-content-center me-5">
-                                    <div class="">
-                                        <span class="d-block">
-                                            <span class="label ">EXPENSES</span>
-                                        </span>
-                                        <span class="value">
-                                        Ksh.0
-                                        </span>
-                                    </div>
-                                    <div class="ms-3 mt-2">
-                                        <span class="sparkline_bar"></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-center">
-                                    <div class="">
-                                        <span class="d-block">
-                                            <span class="label">PROFIT</span>
-                                        </span>
-                                        <span class="value">
-                                            Ksh.0
-                                        </span>
-                                    </div>
-                                    <div class="ms-3 mt-2">
-                                        <span class="sparkline_bar31"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
 
 
                     <div class="row">
-                    <div class="col-lg-4 col-xl-3">
-                        <div class="card custom-card">
-                            <div class="card-header">
-                                <div class="card-title">Settings</div>
-                            </div>
-                            <div class="main-content-left main-content-left-mail card-body pt-0 ">
-                                <div class="main-settings-menu">
-                                    <nav class="nav main-nav-column">
-                                        <a class="nav-link thumb active mb-2" href="javascript:void(0);" onClick={showInTabularView}><i class="fe fe-home"></i> Main </a>
-                                        <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"  onClick={showInGridView}><i class="fe fe-grid"></i>Detailed</a>
 
-                                        <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-bell"></i> Notifications</a>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <InnerMenu></InnerMenu>
+                    
                     <div class="col-lg-8">
 
                     
@@ -297,8 +255,7 @@ const showInGridView=()=>{
                         <div class="card-title">Overview</div>
 
 
-
-                        <div class="card-body p-2">
+                        {/**  <div class="card-body p-2">
                         <div class="row">
                         <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
                             <div class="input-group d-flex w-100 float-start">
@@ -317,10 +274,11 @@ const showInGridView=()=>{
                         <div class="col-xl-3 col-lg-12">
                        
 
-                            <a onClick={showSupportEntryForm} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal"><i class="fa fa-plus-square me-2"></i>Edit Details</a>
+                            <a onClick={showSupportEntryForm} class="btn btn-primary btn-block float-end my-2"><i class="fa fa-edit-square me-2"></i>Edit Details</a>
                         </div>
                     </div>
-                        </div>
+                        </div>*/}
+                       
 
 
 

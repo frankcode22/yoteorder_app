@@ -49,7 +49,7 @@ function InnerMenuStock(props) {
        
     </div>
                           </div>
-                      </div>
+     </div>
   )
 }
 

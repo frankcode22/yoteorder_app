@@ -16,6 +16,7 @@ import API from '../../../services';
 import { Progress } from 'reactstrap';
 
 import DataContext from '../../../helpers/DataContext';
+import InnerMenu from './InnerMenu';
 
 function EngagementRequests() {
 
@@ -127,60 +128,15 @@ function EngagementRequests() {
                                   </ol>
                               </nav>
                           </div>
-                          <div class="d-flex my-auto">
-                              <div class=" d-flex right-page">
-                                  <div class="d-flex justify-content-center me-5">
-                                      <div class="">
-                                          <span class="d-block">
-                                              <span class="label ">EXPENSES</span>
-                                          </span>
-                                          <span class="value">
-                                              Ksh.0
-                                          </span>
-                                      </div>
-                                      <div class="ms-3 mt-2">
-                                          <span class="sparkline_bar"></span>
-                                      </div>
-                                  </div>
-                                  <div class="d-flex justify-content-center">
-                                      <div class="">
-                                          <span class="d-block">
-                                              <span class="label">PROFIT</span>
-                                          </span>
-                                          <span class="value">
-                                              Ksh.0
-                                          </span>
-                                      </div>
-                                      <div class="ms-3 mt-2">
-                                          <span class="sparkline_bar31"></span>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
+                         
                       </div>
   
   
                       <div class="row">
-                      <div class="col-lg-4 col-xl-3">
-                          <div class="card custom-card">
-                              <div class="card-header">
-                                  <div class="card-title">Settings</div>
-                              </div>
-                              <div class="main-content-left main-content-left-mail card-body pt-0 ">
-                                  <div class="main-settings-menu">
-                                      <nav class="nav main-nav-column">
-                                          <Link class="nav-link thumb active mb-2" to='/my_stores'><i class="fe fe-home"></i> Main </Link>
-                                          <Link class="nav-link border-top-0 thumb mb-2" to='/my_stores'><i class="fe fe-grid"></i>Tabular View</Link>
-                                       
-                                    
-                                         
-                                          
-                                          <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-bell"></i> Notifications</a>
-                                      </nav>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+
+
+                        <InnerMenu></InnerMenu>
+                    
                       <div class="col-md-9">
                       <div class="card">
                           <div class="card-body">

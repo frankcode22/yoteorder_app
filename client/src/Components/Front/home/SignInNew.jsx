@@ -72,7 +72,7 @@ function SignInNew() {
                 setLoading(false);
                 history("/home_admin");
                 window.location.reload(false);
-            }, 1000);
+            }, 500);
     
             }
 
@@ -82,7 +82,7 @@ function SignInNew() {
                   setLoading(false);
                   history('/home-user');
                   window.location.reload(false);
-              }, 1000);
+              }, 500);
         
               }
 
@@ -98,7 +98,7 @@ function SignInNew() {
               setLoading(false);
               history('/home_retailer');
               window.location.reload(false);
-          }, 1000);
+          }, 500);
     
 
 
@@ -162,7 +162,7 @@ PataMtaani has a couple of solutions,that will transform your business into a fu
                     </div>
                 </div>
             </div>
-            <div class="sign-up-body wd-md-50p">
+            <div class="sign-up-body col-xl-6 col-lg-12 col-md-12 col-sm-12 wd-md-50p">
                 <div class="main-signin-header">
                     <h2>Welcome back!</h2>
                     <h4>Please sign in to continue</h4>

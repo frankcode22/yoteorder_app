@@ -78,6 +78,8 @@ import Communication from './Components/Dashboards/admin/Communication';
 import OrdersFromRetailers from './Components/Dashboards/supplier/OrdersFromRetailers';
 import HomeUser from './Components/Dashboards/user/HomeUser';
 import SubscriptionRequests from './Components/Dashboards/admin/SubscriptionRequests';
+//import PrivateRoute from './helpers/PrivateRoute';
+//import ProtectedRoute from './helpers/ProtectedRoute';
 //import ProtectedRoute from './helpers/ProtectedRoute';
 
 
@@ -165,7 +167,8 @@ function App() {
      
         <Route path="/dashboard" element={ <AdminDashboard/>}/>
 
-        <Route exact path="/home_admin" element={ <AdminHome/>}/>
+     
+        <Route exact path="/home_admin" element={<AdminHome/> }/>
 
         <Route exact path="/home-user" element={ <HomeUser/>}/>
 
@@ -180,7 +183,9 @@ function App() {
 
         <Route path="/profile-vendor" element={ <ProfileS/>}/>
 
-        <Route path="/home_retailer" element={ <SellerHome/>}/>
+       
+
+        <Route  exact path="/home_retailer" element={ <SellerHome/> }/>
 
         <Route path="/product_inventory" element={ <ProductInventory/>}/>
 

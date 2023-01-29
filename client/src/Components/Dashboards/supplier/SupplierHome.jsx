@@ -1,4 +1,6 @@
 import React from 'react'
+import InnerMenu from './InnerMenu'
+import InnerMenuHome from './InnerMenuHome'
 import SideMenu from './SideMenu'
 import TopBar from './TopBar'
 
@@ -51,8 +53,8 @@ function SupplierHome() {
                             <h4 class="content-title mb-2">Hi, welcome back!</h4>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a   href="javascript:void(0);">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Project</li>
+                                    <li class="breadcrumb-item"><a   href="javascript:void(0);">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Supplier</li>
                                 </ol>
                             </nav>
                         </div>
@@ -93,6 +95,11 @@ function SupplierHome() {
 
 
                           <div class="row row-sm">
+
+
+                            <InnerMenuHome></InnerMenuHome>
+
+
                               <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                   <div class="card overflow-hidden project-card">
                                       <div class="card-body">

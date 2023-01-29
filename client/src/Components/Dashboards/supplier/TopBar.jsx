@@ -17,6 +17,7 @@ function TopBar(){
             <a class="close-toggle"   href="javascript:void(0);"><i class="header-icons" data-eva="close-outline"></i></a>
         </div>
         <div class="responsive-logo">
+            
             <a href="/supplier_home" class="header-logo"><img src="assets/img/brand/logo_c.jpeg" class="logo-11"/></a>
             <a href="/supplier_home" class="header-logo"><img src="assets/img/brand/logo_c.jpeg" class="logo-1"/></a>
         </div>
@@ -41,11 +42,11 @@ function TopBar(){
                         <div class="setting-scroll">
                             <div>
                                 <div class="setting-menu ">
-                                    <a  class="dropdown-item"   href="profile.html"><i class="mdi mdi-account-outline tx-16 me-2 mt-1"></i>Profile</a>
-                                    <a class="dropdown-item"   href="contacts.html"><i class="mdi mdi-account-box-outline tx-16 me-2"></i>Contacts</a>
-                                    <a class="dropdown-item"   href="settings.html"><i class="mdi mdi-account-location tx-16 me-2"></i>Accounts</a>
+                                    <a  class="dropdown-item"   href="#"><i class="mdi mdi-account-outline tx-16 me-2 mt-1"></i>Profile</a>
+                                    <a class="dropdown-item"   href="#"><i class="mdi mdi-account-box-outline tx-16 me-2"></i>Contacts</a>
+                                    <a class="dropdown-item"   href="/account-setting"><i class="mdi mdi-account-location tx-16 me-2"></i>Accounts</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item"   href="about.html"><i class="typcn typcn-briefcase tx-16 me-2"></i>About us</a>
+                                    <a class="dropdown-item"   href="#"><i class="typcn typcn-briefcase tx-16 me-2"></i>About us</a>
                                     <a class="dropdown-item"   href="javascript:void(0);"><i class="mdi mdi-application tx-16 me-2"></i>Getting start</a>
                                 </div>
                             </div>
