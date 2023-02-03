@@ -79,6 +79,16 @@ function ProductsComponent(props)
     const [error, setError] = useState(null);
 
 
+    //const [error, setError] = useState(null);
+
+    const [hasError, setHasError] = useState(false);
+    const [timeoutId, setTimeoutId] = useState(null);
+    const [retry, setRetry] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
+
+    const maxRetries = 10;
+
+
 
 
 
@@ -1066,6 +1076,110 @@ const showProductsSection=()=>{
   }
 
 
+  async function performRequest() {
+    setLoading(true);
+    setError(null);
+
+    if(name==""){
+      setnameinvalid(true)
+      setLoading(false)
+
+      setTimeout(() => {
+          setnameinvalid(false)
+         
+       }, 2000);
+      return
+  }
+
+  if(price==""){
+      setpriceinvalid(true)
+      setLoading(false)
+
+      setTimeout(() => {
+          setpriceinvalid(false)
+         
+       }, 2000);
+      return
+  }
+
+    try {
+      clearTimeout(timeoutId);
+
+      let formData = new FormData();
+    formData.append('businessId', businessId);
+    formData.append('file',selectedFile);
+    formData.append('name', name);
+
+
+    formData.append('product_description', product_description);
+    formData.append('price',price);
+    formData.append('quantity', quantity);
+
+    formData.append('type',type);
+    // formData.append('address_line_2', address_line_2);
+
+    formData.append('unit_of_measure',unit_of_measure);
+    formData.append('latitude', lat);
+
+    formData.append('longitude', lng);
+
+    formData.append('UserId', userId);
+
+    formData.append('retailerProductCategoryId', retailerProductCategoryId);
+
+    
+      const response = await API.post('product/save_item', formData);
+      
+      console.log('REQUEST RESPONSE DATA',response)
+
+
+      setProductsList1([
+        ...productsList1,
+        {
+            name:name,
+            type:type,
+            product_description:product_description,
+            price: price,
+            quantity:quantity,
+            geo_location:address_line_2,
+            unit_of_measure:unit_of_measure,
+            latitude:lat,
+            longitude:lng,
+           // cloudinary_url:data.cloudinary_url,
+            //cloudinary_url:data.imagePath,
+            UserId:userId,
+            BusinessId:businessId,
+        },
+      ]); 
+      
+      setTimeout(() => {
+        setLoading(false);
+        setShowActionBtn(false)
+        setShowSucessAlert(true)
+        sethidesavebtn(true)
+        
+        toast.success('Product saved successfully');
+    }, 1000);
+ 
+    } catch (err) {
+      setLoading(false);
+      if (err.message === 'timeout of 5000ms exceeded') {
+        if (retryCount < maxRetries) {
+          setRetryCount(retryCount + 1);
+          setTimeoutId(setTimeout(performRequest, 2000));
+        } else {
+          setError(`Max Retry Count of ${maxRetries} Exceeded`);
+        }
+      } else {
+        setError(err.message);
+        setTimeoutId(setTimeout(() => setError(null), 5000));
+      }
+    }
+  }
+        
+
+
+
   
   const saveDetails = async e => {
     setLoading(true)
@@ -1791,8 +1905,9 @@ onClick={() => {
         </div>
         <div class="modal-body">
 
+        {error && !retry && <div class="badge bg-danger">{error}</div>}
 
-      
+
 
         {showSuccessAlert &&
 
@@ -1997,7 +2112,7 @@ onChange={(event) => {
           
 
 
-            {!isLoading && !hidesavebtn &&<button type="submit" onClick={saveDetails} class="btn btn-primary">Save</button>
+            {!isLoading && !hidesavebtn &&<button type="submit" onClick={performRequest} class="btn btn-primary">Save</button>
 
         } 
         {isLoading &&

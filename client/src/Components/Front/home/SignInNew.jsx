@@ -54,6 +54,8 @@ function SignInNew() {
             alert(response.data.error);
             setLoading(false);
           } else {
+            const data = response.data;
+            const token = data.token;
             localStorage.setItem("accessToken", response.data.token);
             setAuthState({
               username: response.data.username,
@@ -67,7 +69,7 @@ function SignInNew() {
             console.log("Response is",response.data)
     
             if(response.data.role=="Admin"){
-    
+              localStorage.setItem('accessToken', token);
               setTimeout(() => {
                 setLoading(false);
                 history("/home_admin");
@@ -92,12 +94,16 @@ function SignInNew() {
 
          
 
-         
+           // localStorage.clear();
+            localStorage.setItem('accessToken', token);
     
             setTimeout(() => {
+            
+           
               setLoading(false);
-              history('/home_retailer');
-              window.location.reload(false);
+             // history('/home_retailer');
+              //window.location.reload(false);
+              window.location.pathname = "/home_retailer";
           }, 500);
     
 
@@ -105,6 +111,8 @@ function SignInNew() {
           }
 
           else if(response.data.role=="Supplier"){
+
+            localStorage.setItem('accessToken', token);
 
             setTimeout(() => {
               setLoading(false);

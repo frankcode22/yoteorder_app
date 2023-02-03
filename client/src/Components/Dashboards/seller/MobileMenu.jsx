@@ -17,6 +17,8 @@ function MobileMenu(props) {
             <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);" onClick={props.viewCustBill}><i class="fe fe-layers"></i> Bills</a>
             <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);" onClick={props.viewSales}><i class="fas fa-dollar-sign"></i> Sales</a>
 
+            <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);" onClick={props.viewItemsOrdered}><i class="fe fe-list"></i>To Be Supplied</a>
+
             <a class="nav-link border-top-0 thumb mb-2" href="javascript:void(0);"><i class="fe fe-bell"></i> Notifications</a>
         </nav>
     </div>

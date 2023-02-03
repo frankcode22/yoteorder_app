@@ -19,6 +19,7 @@ import CustomerBills from "./CustomerBills";
 
 import './devicestyles.css'
 import MobileMenu from "./MobileMenu";
+import ItemsOrdered from "./ItemsOrdered";
 
 function RetailPOS() {
 
@@ -30,6 +31,9 @@ function RetailPOS() {
     const [showCustBill, setShowCustBill] = useState(false);
 
     const [showOrders, setShowOrders] = useState(false);
+
+    const [showItemsOrdered, setShowItemsOrdered] = useState(false);
+
 
     const [isDivLoading, setIsDivLoading] = useState(false);
 
@@ -132,6 +136,20 @@ function RetailPOS() {
      }
 
 
+     const viewItemsOrdered=()=>{
+
+        setShowPOS(false)
+        setShowOrders(false)
+        
+        setShowSales(false)
+        setShowCustBill(false)
+        setShowItemsOrdered(true)
+      
+ 
+     }
+
+
+
     
 
 
@@ -229,7 +247,7 @@ function RetailPOS() {
                     
 
 
-                         <MobileMenu displayPOS={displayPOS} viewCustBill={viewCustBill} viewOrders={viewOrders} viewSales={viewSales}></MobileMenu>
+                         <MobileMenu displayPOS={displayPOS} viewCustBill={viewCustBill} viewOrders={viewOrders} viewSales={viewSales} viewItemsOrdered={viewItemsOrdered}></MobileMenu>
 
 
 
@@ -267,6 +285,10 @@ function RetailPOS() {
                           {showCustBill && <CustomerBills></CustomerBills>}
 
                           {showOrders &&<OrdersComponent data={contacts}></OrdersComponent>}
+
+
+                          {showItemsOrdered &&<ItemsOrdered></ItemsOrdered>}
+
 
                        
   

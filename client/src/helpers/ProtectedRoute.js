@@ -6,10 +6,11 @@ function ProtectedRoute({ component: Component, ...restOfProps }) {
     console.log("this", isAuthenticated);
   
     return (
+      
       <Route
         {...restOfProps}
         render={(props) =>
-          isAuthenticated ? <Component {...props} /> : <Navigate to="/" />
+          isAuthenticated ? <Component {...props} /> : <Navigate to="/login" />
         }
       />
     );

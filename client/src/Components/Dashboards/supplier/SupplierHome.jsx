@@ -1,10 +1,95 @@
 import React from 'react'
+import { useEffect,useState,useContext,useCallback} from 'react';
+
 import InnerMenu from './InnerMenu'
 import InnerMenuHome from './InnerMenuHome'
+import OrdersFromRetailerDetails from './OrdersFromRetailerDetails'
 import SideMenu from './SideMenu'
 import TopBar from './TopBar'
 
+
+import { useNavigate,Link} from "react-router-dom"
+
+import API from '../../../services';
+
 function SupplierHome() {
+
+
+    const [deliveryList, setDeliveryList] = useState([]);
+
+    const [productsList, setProductsList] = useState([]);
+  
+
+
+    useEffect(()=>{
+
+
+        
+        API.get('users/mystore', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+      
+            if(response.data.my_buss!=null){
+    
+              //setIsBusinessSet(true)
+        
+           
+    
+            //   setlocation(response.data.my_buss.location)
+    
+             
+  
+              // setProductsList(response.data.my_buss.Products);
+
+              setProductsList(response.data.my_buss.SupplyStores)
+  
+  
+    
+             // setbusiness_name(response.data.my_buss.business_name);
+    
+             // setbusiness_type(response.data.my_buss.business_type);
+    
+             // setbusiness_description(response.data.my_buss.business_description);
+    
+    
+             // setImagePath(response.data.imagePath)
+              
+              //setprofile_photo(response.data.my_buss.profile_photo)
+  
+              //setAccountProfile(response.data.my_buss.cloudinary_url)
+
+
+
+              setDeliveryList(response.data.my_buss.OrdersFromRetailors)
+    
+             
+    
+              
+    
+              //setbuss_contacts(response.data.my_buss.contacts)
+    
+             // setBussSetup(true);
+          
+            
+          
+            }
+            else{
+          
+             // setIsBusinessSet(false)
+             // setbusinessId(0)
+             // setBussSetup(false);
+            //  setbusiness_name('nobuzz')
+            }
+        
+            
+             })
+
+
+
+
+    },[]);
+
+
+
+    
   return (
     <div class="main-body app sidebar-mini ltr">
     <div class="page custom-index">
@@ -209,11 +294,11 @@ function SupplierHome() {
                                                   <ul>
                                                       <li>
                                                           <strong>Earnings</strong>
-                                                          <span>$15,425</span>
+                                                          <span>Ksh.0</span>
                                                       </li>
                                                       <li>
                                                           <strong>Expensive</strong>
-                                                          <span>$8,147</span>
+                                                          <span>Ksh.0</span>
                                                       </li>
                                                   </ul>
                                               </div>
@@ -227,35 +312,22 @@ function SupplierHome() {
 
                           <div class="row row-sm ">
                               <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
-                                  <div class="card overflow-hidden">
-                                      <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
-                                          <div class="d-flex justify-content-between">
-                                              <h4 class="card-title mg-b-10">Project Budget</h4>
-                                              <i class="mdi mdi-dots-horizontal text-gray"></i>
-                                          </div>
-                                          <p class="tx-12 text-muted mb-2">The Project Budget is a tool used by project managers to estimate the total cost of a project. <a href="">Learn more</a></p>
-                                      </div>
-                                      <div class="card-body pd-y-7">
-                                          <div class="area chart-legend mb-0">
-                                              <div>
-                                                  <i class="mdi mdi-album text-primary me-2"></i> Total Budget
-                                              </div>
-                                              <div>
-                                                  <i class="mdi mdi-album text-pink me-2"></i>Amount Used
-                                              </div>
-                                          </div>
-                                          <canvas id="project-budget" class="ht-300"></canvas>
-                                      </div>
+                                  <div class="card-body overflow-hidden">
+
+
+                                    <OrdersFromRetailerDetails></OrdersFromRetailerDetails>
+                                     
+                                     
                                   </div>
                               </div>
                               <div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
                                   <div class="card overflow-hidden">
                                       <div class="card-body pb-3">
                                           <div class="d-flex justify-content-between">
-                                              <h4 class="card-title mg-b-10">Latest &amp;Orders</h4>
+                                              <h4 class="card-title mg-b-10">To be Supplied</h4>
                                               <i class="mdi mdi-dots-horizontal text-gray"></i>
                                           </div>
-                                          <p class="tx-12 text-muted mb-3">In project, a task is an activity that needs to be accomplished within a defined period of time or by a deadline. <a href="">Learn more</a></p>
+                                        
                                           <div class="table-responsive mb-0 projects-stat tx-14">
                                               <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap  ">
                                                   <thead>
@@ -265,61 +337,21 @@ function SupplierHome() {
                                                       </tr>
                                                   </thead>
                                                   <tbody>
+                                                  {deliveryList.map((value, key) => {
+                                                   return (
                                                       <tr>
                                                           <td>
                                                               <div class="project-names">
-                                                                  <h6 class="bg-primary-transparent text-primary d-inline-block me-2 text-center">U</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">UI Design</p>
+                                                                 
+                                                                  <p class="d-inline-block font-weight-semibold mb-0">{value.item_name}</p>
                                                               </div>
                                                           </td>
                                                           <td>
-                                                              <div class="badge bg-success">Completed</div>
+                                                              <div class="badge bg-success">{value.order_status}</div>
                                                           </td>
                                                       </tr>
-                                                      <tr>
-                                                          <td>
-                                                              <div class="project-names">
-                                                                  <h6 class="bg-pink-transparent text-pink d-inline-block text-center me-2">R</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">Landing Page</p>
-                                                              </div>
-                                                          </td>
-                                                          <td>
-                                                              <div class="badge bg-warning">Pending</div>
-                                                          </td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>
-                                                              <div class="project-names">
-                                                                  <h6 class="bg-success-transparent text-success d-inline-block me-2 text-center">W</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">Website &amp; Blog</p>
-                                                              </div>
-                                                          </td>
-                                                          <td>
-                                                              <div class="badge bg-danger">Canceled</div>
-                                                          </td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>
-                                                              <div class="project-names">
-                                                                  <h6 class="bg-purple-transparent text-purple d-inline-block me-2 text-center">P</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">Product Development</p>
-                                                              </div>
-                                                          </td>
-                                                          <td>
-                                                              <div class="badge bg-teal">on-going</div>
-                                                          </td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>
-                                                              <div class="project-names">
-                                                                  <h6 class="bg-danger-transparent text-danger d-inline-block me-2 text-center">L</h6>
-                                                                  <p class="d-inline-block font-weight-semibold mb-0">Logo Design</p>
-                                                              </div>
-                                                          </td>
-                                                          <td>
-                                                              <div class="badge bg-success">Completed</div>
-                                                          </td>
-                                                      </tr>
+                                                 ) })}
+                                                      
                                                   </tbody>
                                               </table>
                                           </div>
@@ -328,67 +360,7 @@ function SupplierHome() {
                               </div>
                           </div>
 
-                          <div class="row row-sm ">
-                            <div class="col-md-12 col-xl-12">
-                                <div class="card overflow-hidden review-project">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <h4 class="card-title mg-b-10">All Projects</h4>
-                                            <i class="mdi mdi-dots-horizontal text-gray"></i>
-                                        </div>
-                                        <p class="tx-12 text-muted mb-3">A project is an activity to meet the creation of a unique product or service and thus activities that are undertaken to accomplish routine activities cannot be considered projects. <a href="">Learn more</a></p>
-                                        <div class="table-responsive mb-0">
-                                            <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Project</th>
-                                                        <th>Team Members</th>
-                                                        <th>Categorie</th>
-                                                        <th>Created</th>
-                                                        <th>Status</th>
-                                                        <th>Deadline</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="project-contain">
-                                                                <h6 class="mb-1 tx-13">Angular Project</h6>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="image-grouped"><img class="profile-img brround" alt="profile image" src="assets/img/faces/11.jpg"/><img class="profile-img brround " alt="profile image" src="assets/img/faces/12.jpg"/><img class="profile-img brround" alt="profile image" src="assets/img/faces/2.jpg"/></div>
-                                                        </td>
-                                                        <td>Web Design</td>
-                                                        <td>01 Jan 2020</td>
-                                                        <td><span class="badge bg-primary-gradient">Ongoing</span></td>
-                                                        <td>15 March 2020</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="project-contain">
-                                                                <h6 class="mb-1 tx-13">PHP Project</h6>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="image-grouped"><img class="profile-img brround" alt="profile image" src="assets/img/faces/16.jpg"/><img class="profile-img brround " alt="profile image" src="assets/img/faces/8.jpg"/><img class="profile-img brround" alt="profile image" src="assets/img/faces/7.jpg"/></div>
-                                                        </td>
-                                                        <td>Web Development</td>
-                                                        <td>03 March 2020</td>
-                                                        <td><span class="badge bg-success-gradient">Ongoing</span></td>
-                                                        <td>15 Jun 2020</td>
-                                                    </tr>
-                                                    
-                                                    
-                                                
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        
                     
                     
                     

@@ -49,15 +49,23 @@ function TopHeaderHome() {
                       <option value="AG">Rwanda</option>
                       
                      
-                    </select>
-                    
-                    
-                    
-                         </li>
+                    </select><span class="select2 select2-container select2-container--default"
+                      dir="ltr" data-select2-id="5" style={{width: "100%"}}><span class="selection"><span
+                          class="select2-selection select2-selection--single" role="combobox"
+                          aria-haspopup="true" aria-expanded="false" tabindex="0"
+                          aria-labelledby="select2-8juu-container"><span
+                            class="select2-selection__rendered" id="select2-8juu-container"
+                            role="textbox" aria-readonly="true"
+                            title="United States of America"><span><img
+                                src="../assets/images/flags/um.svg" class="img-flag"/> Kenya
+                              </span></span><span
+                            class="select2-selection__arrow" role="presentation"><b
+                              role="presentation"></b></span></span></span><span
+                        class="dropdown-wrapper" aria-hidden="true"></span></span> </li>
                   <li class="dropdown me-5"> <a href="#" class="text-dark"
                       data-bs-toggle="dropdown"><span> Language <i
                           class="fa fa-caret-down text-muted"></i></span> </a>
-                    <div class="dropdown-menu-h dropdown-menu-h-end dropdown-menu-h-arrow"> <a href="#"
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"> <a href="#"
                         class="dropdown-item"> English </a> <a class="dropdown-item" href="#">
                         Arabic </a> <a class="dropdown-item" href="#"> German </a> <a href="#"
                         class="dropdown-item"> Greek </a> <a href="#" class="dropdown-item"> Spanish
@@ -66,7 +74,7 @@ function TopHeaderHome() {
                   <li class="dropdown"> <a href="#" class="text-dark"
                       data-bs-toggle="dropdown"><span>Currency <i
                           class="fa fa-caret-down text-muted"></i></span></a>
-                    <div class="dropdown-menu-h dropdown-menu-h-end dropdown-menu-h-arrow"> <a href="#"
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"> <a href="#"
                         class="dropdown-item"> Ksh </a> <a class="dropdown-item" href="#"> USD </a>
                       <a class="dropdown-item" href="#"> EUR </a> <a href="#" class="dropdown-item">
                         GBP </a> </div>
@@ -84,7 +92,7 @@ function TopHeaderHome() {
                     <span>Login</span></Link> </li>
                 <li class="dropdown"> <a href="#" class="text-dark" data-bs-toggle="dropdown"><i
                       class="fa fa-home me-1"></i><span> My Dashboard</span></a>
-                  <div class="dropdown-menu-h dropdown-menu-h-end dropdown-menu-h-arrow"> <a href="mydash.html"
+                  <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"> <a href="mydash.html"
                       class="dropdown-item"> <i class="dropdown-icon icon icon-user"></i> My Profile
                     </a> <a class="dropdown-item" href="#"> <i
                         class="dropdown-icon icon icon-speech"></i> Inbox </a> <a

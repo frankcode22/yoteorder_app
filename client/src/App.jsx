@@ -78,6 +78,7 @@ import Communication from './Components/Dashboards/admin/Communication';
 import OrdersFromRetailers from './Components/Dashboards/supplier/OrdersFromRetailers';
 import HomeUser from './Components/Dashboards/user/HomeUser';
 import SubscriptionRequests from './Components/Dashboards/admin/SubscriptionRequests';
+import ProtectedRoute from './utils/ProtectedRoute';
 //import PrivateRoute from './helpers/PrivateRoute';
 //import ProtectedRoute from './helpers/ProtectedRoute';
 //import ProtectedRoute from './helpers/ProtectedRoute';
@@ -92,7 +93,14 @@ const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 
 function App() {
 
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const checkUserToken = () => {
+      const userToken = localStorage.getItem('accessToken');
+      if (!userToken || userToken === 'undefined') {
+          setIsLoggedIn(false);
+      }
+      setIsLoggedIn(true);
+  }
 
   const [authState, setAuthState] = useState({
     username:"",
@@ -125,17 +133,18 @@ function App() {
             id:response.data.id,
             status:true,
           });
+          setIsLoggedIn(true);
         }
       });
 
 
     
-
+      checkUserToken();
 
 
     
 
-  }, []);
+  }, [isLoggedIn]);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
@@ -168,7 +177,14 @@ function App() {
         <Route path="/dashboard" element={ <AdminDashboard/>}/>
 
      
-        <Route exact path="/home_admin" element={<AdminHome/> }/>
+        <Route exact path="/home_admin" element={
+
+          <ProtectedRoute>
+          <AdminHome/>
+          </ProtectedRoute>
+        
+        
+         }/>
 
         <Route exact path="/home-user" element={ <HomeUser/>}/>
 
@@ -185,16 +201,42 @@ function App() {
 
        
 
-        <Route  exact path="/home_retailer" element={ <SellerHome/> }/>
+        <Route path="/home_retailer" element={ 
 
-        <Route path="/product_inventory" element={ <ProductInventory/>}/>
+          <ProtectedRoute>
+ <SellerHome/>
+
+          </ProtectedRoute>
+        
+        
+        }/>
+
+
+
+
+
+
+
+        <Route path="/product_inventory" element={ 
+        
+        <ProtectedRoute>
+        
+        <ProductInventory/>
+        </ProtectedRoute>
+        
+        }/>
 
 
         <Route path="/product_cat" element={ <ProductCategories/>}/>
 
         <Route path="/products_tabular" element={ <ProductsTabularView/>}/>
 
-        <Route path="/pos" element={ <RetailPOS/>}/>
+        <Route path="/pos" element={
+            <ProtectedRoute> <RetailPOS/></ProtectedRoute>
+          
+         
+          
+          }/>
 
 
 
@@ -252,7 +294,7 @@ function App() {
 
         <Route exact path="/suppliers" element={ <PataMtaaniSuppliers/>}/>
 
-        <Route exact path="/supplier_home" element={ <SupplierHome/>}/>
+        <Route exact path="/supplier_home" element={<ProtectedRoute><SupplierHome/></ProtectedRoute> }/>
 
         <Route exact path="/account-setting" element={ <AccountSetting/>}/>
 

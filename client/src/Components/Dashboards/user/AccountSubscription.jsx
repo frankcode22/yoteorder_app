@@ -168,6 +168,8 @@ function AccountSubscription(props) {
       const [isBusinessSet,setIsBusinessSet] = useState(false);
   
       const [contacts,setcontacts] = useState('');
+
+      
   
       
   
@@ -222,7 +224,16 @@ function AccountSubscription(props) {
   
   
   
-  
+    const [error, setError] = useState(null);
+
+    const [hasError, setHasError] = useState(false);
+    const [timeoutId, setTimeoutId] = useState(null);
+    const [retry, setRetry] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
+
+   
+    const maxRetries = 10;
+
   
       
   
@@ -305,7 +316,11 @@ function AccountSubscription(props) {
   
       
   
-        
+         if (hasError && retryCount < maxRetries) {
+          setTimeoutId(setTimeout(() => {
+            processRequest();
+          }, 1000));
+        }
   
 
            
@@ -316,6 +331,8 @@ function AccountSubscription(props) {
   
   
   },[position,userPos]);
+
+
 
 
 
@@ -1278,19 +1295,80 @@ function AccountSubscription(props) {
     
            
         }
+
+
+        async function handleSubmit() {
+          setLoading(true);
+          setError(null);
+      
+          try {
+            const response = await API.post('https://api.example.com', { data: 'example' }, { timeout: 5000 });
+            setLoading(false);
+          } catch (err) {
+            setLoading(false);
+            if (err.message === 'timeout of 5000ms exceeded') {
+              if (retryCount < 3) {
+                setRetryCount(retryCount + 1);
+                handleSubmit();
+              } else {
+                setError('Max Retry Count Exceeded');
+              }
+            } else {
+              setError(err.message);
+            }
+          }
+        }
+
+
+
+          async function performRequest() {
+    setLoading(true);
+    setError(null);
+
+    try {
+      clearTimeout(timeoutId);
+    
+      const response = await API.post('users/subscribe', user_data,{ headers: { accessToken: localStorage.getItem("accessToken") } });
+      
+      console.log('REQUEST RESPONSE DATA',response)
+      
+      setTimeout(() => {
+        setLoading(false);
+        toast.success('Request Made Successfully');
+        //setIsBusinessSet(true)
+    }, 1000);
+ 
+    } catch (err) {
+      setLoading(false);
+      if (err.message === 'timeout of 5000ms exceeded') {
+        if (retryCount < maxRetries) {
+          setRetryCount(retryCount + 1);
+          setTimeoutId(setTimeout(performRequest, 2000));
+        } else {
+          setError(`Max Retry Count of ${maxRetries} Exceeded`);
+        }
+      } else {
+        setError(err.message);
+        setTimeoutId(setTimeout(() => setError(null), 5000));
+      }
+    }
+  }
+        
+        
+        
+       
          
-        
-        
-        
-            const processRequest = ()  => {
+          async function  processRequest() {
                 setLoading(true);
+
+                setError(null);
             
                  //API.post("business",buss_data).then((response)=>{
         
         
                   try {
                 
-                API.post("users/subscribe",user_data,{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response)=>{
+                    await  API.post("users/subscribe",user_data,{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response)=>{
         
         
         
@@ -1298,7 +1376,7 @@ function AccountSubscription(props) {
                     setTimeout(() => {
                         setLoading(false);
                         toast.success('Request Made Successfully');
-                        setIsBusinessSet(true)
+                        //setIsBusinessSet(true)
                     }, 500);
                  
                    //  history("/dashboard");
@@ -1307,7 +1385,10 @@ function AccountSubscription(props) {
                 });
         
               } catch (err) {
-                console.log(`Error: ${err.message}`);
+               // console.log(`Error: ${err.message}`);
+
+                setLoading(false);
+                setError("An error occurred. Please try again.",err);
               }
             
             }
@@ -1319,6 +1400,7 @@ function AccountSubscription(props) {
     
         <form class="bg-gray-100 pd-30 pd-sm-40">
         <div class="row g-3">
+        {error && !retry && <div class="badge bg-danger">{error}</div>}
           <div class="col-md-6">
             <div class="row">
               <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-first-name">Business Name</label>
@@ -1714,7 +1796,7 @@ function AccountSubscription(props) {
           <button class="btn btn-danger btn-space mb-0">Cancel</button>
   
           
-          {!isLoading && !showUpdateButton && <button type="submit" onClick={processRequest} class="btn btn-primary btn-space mb-0">Save</button>
+          {!isLoading && !showUpdateButton && <button type="submit" onClick={performRequest} class="btn btn-primary btn-space mb-0">Save</button>
   
         } 
   

@@ -236,8 +236,8 @@ function HomePatamtaani() {
   
 <section>
 <div class="banner-1 cover-image sptb-2 sptb-tab bg-background2"
-  data-bs-image-src="assets_home/images/banners/banner1.jpg"
-  style={{background: 'url("assets/images/banners/banner1.jpg") center center'}}>
+  data-bs-image-src="assets_home/images/banners/banner4d.jpg"
+ >
   <div class="header-text mb-0">
     <div class="container">
       <div class="text-center text-white mb-7">
@@ -245,7 +245,7 @@ function HomePatamtaani() {
         <p>Subscribe to any of our software products for a monthly fee of less than Ksh. 500</p>
       </div>
       <div class="row">
-        <div class="col-xl-10 col-lg-12 col-md-12 d-block mx-auto">
+        {/* <div class="col-xl-10 col-lg-12 col-md-12 d-block mx-auto">
           <div class="search-background bg-transparent" data-select2-id="10">
             <div class="form row g-0 " data-select2-id="9">
               <div class="form-group  col-xl-4 col-lg-3 col-md-12 mb-0 bg-white "> <input type="text"
@@ -287,7 +287,7 @@ function HomePatamtaani() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   </div>

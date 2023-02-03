@@ -3,13 +3,20 @@ import React from 'react'
 import {useEffect,useState,useContext } from 'react';
 import { AuthContext } from '../../../helpers/AuthContext'
 
+import {Link,useNavigate} from 'react-router-dom'
+
 function TopBarNew() {
     const {authState} = useContext(AuthContext);
     const {setAuthState} = useContext(AuthContext);
 
+
+    const navigate = useNavigate();
+
+   
     const logout = () => {
         localStorage.removeItem("accessToken");
         setAuthState({ username: "", id: 0, status: false });
+        navigate('/')
       };
   return (
     <div class="container-fluid main-container ">
@@ -69,7 +76,7 @@ function TopBarNew() {
                             <div class="dropdown-menu-header-inner header-img p-3">
                                 <div class="header-content text-start d-flex">
                                     <div class="text-white">
-                                        <h5 class="menu-header-title">Projects</h5>
+                                        <h5 class="menu-header-title">Subscriptions</h5>
                                         <h6 class="menu-header-subtitle mb-0">Overview of Projects</h6>
                                     </div>
                                     <div class="my-auto ms-auto">
@@ -297,11 +304,11 @@ function TopBarNew() {
                                 <div class="main-img-user"><img alt="" src="assets/img/faces/6.jpg"/></div>
                                 <h6>{authState.first_name}</h6><span>{authState.role}</span>
                             </div>
-                            <a class="dropdown-item" href="profile.html"><i class="far fa-user"></i> My Profile</a>
-                            <a class="dropdown-item" href="profile.html"><i class="far fa-edit"></i> Edit Profile</a>
-                            <a class="dropdown-item" href="profile.html"><i class="far fa-clock"></i> Activity Logs</a>
-                            <a class="dropdown-item" href="profile.html"><i class="fas fa-sliders-h"></i> Account Settings</a>
-                            <a class="dropdown-item" href="/"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+                            <a class="dropdown-item" href="#"><i class="far fa-user"></i> My Profile</a>
+                            <a class="dropdown-item" href="#"><i class="far fa-edit"></i> Edit Profile</a>
+                            <a class="dropdown-item" href="#"><i class="far fa-clock"></i> Activity Logs</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-sliders-h"></i> Account Settings</a>
+                            <a class="dropdown-item" href="javascript:void(0);" onClick={logout}><i class="fas fa-sign-out-alt"></i> Sign Out</a>
                         </div>
                     </div>
                     <div class="dropdown main-header-message right-toggle">
