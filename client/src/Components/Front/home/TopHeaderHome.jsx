@@ -166,12 +166,12 @@ function TopHeaderHome() {
             
             
               <li aria-haspopup="true"><span class="horizontalMenu-click"><i
-                    class="horizontalMenu-arrow fa fa-angle-down"></i></span><a href="#">Services
+                    class="horizontalMenu-arrow fa fa-angle-down"></i></span><a href="#">Products
                   <span class="fa fa-caret-down m-0"></span></a>
                 <ul class="sub-menu">
-                  <li aria-haspopup="true"><a href="classified.html">Classifieds Left</a></li>
-                  <li aria-haspopup="true"><a href="classified-right.html">Classifieds Rights </a></li>
-                  <li aria-haspopup="true"><a href="switcher.html">Switcher</a></li>
+                  <li aria-haspopup="true"><a href="#">Point Of Sale</a></li>
+                  <li aria-haspopup="true"><a href="#">FeedLot System </a></li>
+                  <li aria-haspopup="true"><a href="#">Booker(For Service Providers)</a></li>
                  
                 </ul>
               </li>
