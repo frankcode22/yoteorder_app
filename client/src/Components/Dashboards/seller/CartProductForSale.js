@@ -1,27 +1,23 @@
+
+
 import React from 'react'
 
 import { useContext } from "react";
 
 import Button from 'react-bootstrap/Button';
 import { CartContext } from "../../../helpers/CartContext";
-import { ProductsContext } from '../../../helpers/ProductsContext';
 
 
 import { getProductData } from '../../../helpers/productsStore';
 
-function CartProduct(props) {
-    //const cart = useContext(CartContext);
-
-    const cart = useContext(ProductsContext);
-
+function CartProductForSale(props) {
+    const cart = useContext(CartContext);
     const id = props.id;
     const quantity = props.quantity;
 
     const bId = props.bId;
     //const orderId = props.orderId;
-   // const productData = cart.getProductData(id);
-
-    const productData = getProductData(id);
+    const productData = cart.getProductData(id);
 
    // console.log('DATA FETCHED FROM CartProduct Component')
 
@@ -41,4 +37,4 @@ function CartProduct(props) {
     )
 }
 
-export default CartProduct
+export default CartProductForSale

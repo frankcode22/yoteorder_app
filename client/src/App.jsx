@@ -79,6 +79,7 @@ import OrdersFromRetailers from './Components/Dashboards/supplier/OrdersFromReta
 import HomeUser from './Components/Dashboards/user/HomeUser';
 import SubscriptionRequests from './Components/Dashboards/admin/SubscriptionRequests';
 import ProtectedRoute from './utils/ProtectedRoute';
+import ProductsProvider from './helpers/ProductsContext';
 //import PrivateRoute from './helpers/PrivateRoute';
 //import ProtectedRoute from './helpers/ProtectedRoute';
 //import ProtectedRoute from './helpers/ProtectedRoute';
@@ -166,6 +167,8 @@ function App() {
 
     <LocationDataContextInitProvider>
 
+    
+    <ProductsProvider>
     <CartProvider>
        
     <Router>
@@ -232,6 +235,15 @@ function App() {
         <Route path="/products_tabular" element={ <ProductsTabularView/>}/>
 
         <Route path="/pos" element={
+            <ProtectedRoute> <RetailPOS/></ProtectedRoute>
+          
+         
+          
+          }/>
+
+
+
+<Route path="/common_items" element={
             <ProtectedRoute> <RetailPOS/></ProtectedRoute>
           
          
@@ -371,7 +383,9 @@ function App() {
    
         <Route path="/old" element={ <Homepage/>} />
 
-        <Route path="/" element={ <HomePatamtaani/>} />
+        {/* <Route path="/" element={ <HomePatamtaani/>} /> */}
+
+        <Route path="/" element={ <SignInNew/>} />
 
         
 
@@ -419,6 +433,7 @@ function App() {
     
       </Router>
       </CartProvider>
+      </ProductsProvider>
       </LocationDataContextInitProvider>
       </LocationDataDataProvider>
       </OrderDetailsDataProvider>

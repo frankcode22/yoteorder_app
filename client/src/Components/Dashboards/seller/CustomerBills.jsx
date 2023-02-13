@@ -149,6 +149,8 @@ function CustomerBills() {
 
     const [customerBill, setCustomerBill] = useState([]);
 
+    const [billDetails, setBillDetails] = useState([]);
+
     
 
     const [displayBill,setDisplayBill] = useState(false);
@@ -608,7 +610,9 @@ const handleSubCategorySelect= async (event) => {
          
           setTimeout(() => {
 
-              setCustomerBill(response.data)
+              setCustomerBill(response.data.bill)
+
+              setBillDetails(response.data.sale_ref)
              // setBussinessList(response.data)
              setDisplayBill(true)
 
@@ -950,6 +954,40 @@ const loadOrdersContent=(
                             </tr>
                         )
                     })}
+
+
+<tr>
+                                <td colSpan={3}>
+                                    <div class="project-contain">
+                                        <h6 class="mb-1 tx-13">TOTAL: <span class="badge bg-warning-gradient">{billDetails.total}</span></h6>
+                                    </div>
+                                </td>
+                                <td colSpan={3}>
+                                    <div class="project-contain">
+                                        <h6 class="mb-1 tx-13">Amount Paid: <span class="badge bg-success-gradient">{billDetails.amount_paid}</span> </h6>
+                                    </div>
+                                </td>
+
+                                <td colSpan={2}>
+                                    <div class="project-contain">
+                                        <h6 class="mb-1 tx-13">Bal: <span class="badge bg-danger-gradient">{billDetails.balance}</span></h6>
+                                    </div>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <div class="btn-group align-top">
+                                        <button type="button"onClick={() => {
+                                            payCustomerBill();
+                                              }} class="btn btn-success"><i class="fe fe-money me-2"></i>Pay Bill</button>
+      
+                                      
+      
+      
+      
+      
+      
+                                    </div>
+                                </td>
+                            </tr>
       
       
       

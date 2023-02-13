@@ -41,13 +41,15 @@ import './devicestyles.css'
 
 import { Modal, Button } from "react-bootstrap";
 import InnerMenuStock from './InnerMenuStock';
+import CommonProductsView from './CommonProductsView';
+import CommonProductsStore from './CommonProductsStore';
 
 
 
 
 function ProductInventory() {
 
-    const [showPOS, setShowPOS] = useState(true);
+    const [defaultList, setDefaultList] = useState(true);
 
     const [showSales, setShowSales] = useState(false);
 
@@ -529,19 +531,19 @@ function ProductInventory() {
 
     const displayPOS=()=>{
 
-        setShowPOS(true)
-       
-        setShowSales(false)
-        
-        
- 
- 
-     }
+      setDefaultList(false)
+     // setShowOrders(false)
+      setShowSales(false)
+      
+      //setShowCustBill(false)
+
+
+   }
 
 
      const viewOrders=()=>{
       
-        setShowPOS(false)
+      setDefaultList(false)
         setShowSales(false)
        
         
@@ -549,6 +551,11 @@ function ProductInventory() {
  
  
      }
+
+
+     
+    
+
 
     return (
       <div class="main-body app sidebar-mini ltr">
@@ -642,7 +649,7 @@ function ProductInventory() {
                       <div class="row">
 
 
-                        <InnerMenuStock></InnerMenuStock>
+                        <InnerMenuStock displayPOS={displayPOS}></InnerMenuStock>
                      
 
 
@@ -673,14 +680,17 @@ function ProductInventory() {
   
   
   
-                          {showPOS &&  <ProductsComponent productsData={productsData} setSuppliersData={setSuppliersData}  setSearchItemId={setSearchItemId} setShowPOS={setShowPOS} setShowSales={setShowSales} ></ProductsComponent>}
+                          {defaultList &&  <ProductsComponent productsData={productsData} setSuppliersData={setSuppliersData}  setSearchItemId={setSearchItemId} setDefaultList={setDefaultList} setShowSales={setShowSales} ></ProductsComponent>}
 
 
                           {showSales &&  <SupplierSearchResults supplierData={supplierData} businessId={businessId} searchItemId={searchItemId}></SupplierSearchResults>}
   
                            
   
-  
+                          {!defaultList && <CommonProductsStore></CommonProductsStore>}
+
+
+                          {!defaultList && <CommonProductsView></CommonProductsView>}
   
   
   
@@ -701,6 +711,8 @@ function ProductInventory() {
                           </div>
                       </div>
                   </div>
+
+                
                   </div>
   
   

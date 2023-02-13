@@ -29,7 +29,23 @@ import { BusinessDetailsContext } from '../../../helpers/BusinessDetailsContext'
 import DataContext from '../../../helpers/DataContext';
 import InnerMenuHome from './InnerMenuHome';
 
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
+const getFormattedDate2 = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleString();
+  }
+
+  const getFormattedDate1 = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString();
+  }
+
 function RetailerSalesDetails(){
+
+    const [startDate, setStartDate] = useState(new Date());
 
     const {businessDetails,setBusinessDetails } = useContext(DataContext);
 
@@ -99,6 +115,11 @@ function RetailerSalesDetails(){
     const [confirmationMessage, setConfirmationMessage] = useState("");
 
     const [notifications, setNotifications] = useState([]);
+
+    const [filteredItems, setFilteredItems] = useState([]);
+
+
+    const [showData, setShowData] = useState(false);
 
 
     const [show, setShow] = useState(false);
@@ -479,6 +500,67 @@ function RetailerSalesDetails(){
     }
 
 
+
+    const handleDateChange =  date => {
+        setLoading(true);
+        setShowData(true)
+        setStartDate(date);
+        setFilteredItems(
+            sales.filter(item => {
+            const itemDate = new Date(item.createdAt);
+
+            return getFormattedDate1(itemDate)== getFormattedDate1(date);
+          })
+        );
+
+        // var res_ = filteredItems.map(bill => bill.total).reduce((acc, bill) => bill + acc);
+
+        // var amnt_paid = filteredItems.map(bill => bill.amount_paid).reduce((acc, bill) => bill + acc);
+
+        // var total_bal = filteredItems.map(bill => bill.balance).reduce((acc, bill) => bill + acc);
+
+        // settotal_sales(res_)
+
+        // settotal_paid(amnt_paid)
+
+        // settotal_balnces(total_bal)
+
+        console.log("THE SELECTED FORMATED DATE IS--->>>"+getFormattedDate1(date))
+
+        setTimeout(() => {
+            setLoading(false);
+          }, 1500);
+      };
+
+
+    // const handleCustomerSelect= async (event) => {
+
+    //     const selectedOption=event.target.value
+      
+      
+    //     const customer = customersList.find(post => (post.id).toString() === selectedOption);
+      
+    //     // setUserId(JSON.stringify(customer))
+    
+    //     console.log('CUSTOMER ID IS',customer.id)
+    
+       
+    
+    
+    
+    //   // console.log('CUSTOMER BILL IS',bill)
+    
+    
+    //    //setCustomerBill(bill)
+    
+    
+      
+       
+        
+    
+    //    }
+
+
     const loadOrdersContent=(
 
         <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
@@ -515,7 +597,7 @@ function RetailerSalesDetails(){
                
                 <td><span class="badge bg-warning">{value.balance}</span></td>
                 <td>{value.customer_phone_no}</td>
-                <td>{value.createdAt}</td>
+                <td>{getFormattedDate1(value.createdAt)}</td>
               
                
                 <td class="text-center align-middle">
@@ -665,21 +747,60 @@ function RetailerSalesDetails(){
                               </div>
                           </div>
 
+                         
 
 
                           <div class="row row-sm ">
                               <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
+                              <div class="card">
+    <div class="card-body p-2">
+    <div class="row">
+    <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
+        <div class="input-group d-flex w-100 float-start">
+
+        
+        <DatePicker
+       className='form-control'
+      selected={startDate}
+      onChange={handleDateChange}
+    />
+
+
+            <button class="btn input-group-text bg-transparent border-start-0 text-muted my-2">
+                <i class="fe fe-search text-muted" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+        {/* <ul class="nav item2-gl-menu float-end my-2">
+            <li class="border-end"><a href="#tab-11" class="show active" data-bs-toggle="tab" title="List style"><i class="fa fa-th"></i></a></li>
+            <li><a href="#tab-12" data-bs-toggle="tab" class="" title="Grid"><i class="fa fa-list"></i></a></li>
+        </ul> */}
+    </div>
+    <div class="col-xl-3 col-lg-12">
+   
+       
+        <button type="button" onClick={getTotalSales} class="btn btn-primary"><i class="fe fe-eye me-2"></i>View Analysis</button>
+    </div>
+</div>
+    </div>
+</div>
+
                                   <div class="card overflow-hidden">
+
                                       <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
                                           <div class="d-flex justify-content-between">
                                               <h4 class="card-title mg-b-10">Sales Made Today</h4>
                                               <i class="mdi mdi-dots-horizontal text-gray"></i>
                                           </div>
 
-                                          <button type="button" onClick={getTotalSales} class="btn btn-success"><i class="fe fe-eye me-2"></i>View Sales Analysis</button>
+                                         
                                          
                                       </div>
+
+                                     {!showData && 
                                       <div class="card-body pd-y-7">
+
                                       <div class="table-responsive mb-0">
                                    
 
@@ -713,6 +834,66 @@ function RetailerSalesDetails(){
 
                                   </div>
                                       </div>
+                                     
+                                     } 
+    
+
+                                     
+
+                                      {isLoading && showData ? (
+        <div className="spinner-container">
+          <p>Loading...</p>
+        </div>
+      ) : (
+                           
+                                      <div class="card-body pd-y-7">
+        <div class="table-responsive mb-0">
+        <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
+            <thead>
+                <tr>
+                <th>#</th>
+                <th>Order Id</th>
+                <th>Total</th>
+                <th>Amount Paid</th>
+                <th>Balance</th>
+                <th>Cust Contacts</th>
+                <th>Date</th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {filteredItems.map((value, key) => {
+              return (
+                <tr>
+                    <td>
+                        <div class="project-contain">
+                            <h6 class="mb-1 tx-13">{value.id}</h6>
+                        </div>
+                    </td>
+                    <td>{value.orderId}</td>
+                    <td>{value.total}</td>
+                    <td>{value.amount_paid}</td>
+                    <td><span class="badge bg-primary-gradient">{value.balance}</span></td>
+                    <td>{value.customer_phone_no}</td>
+                    <td>{getFormattedDate1(value.createdAt)}</td>
+                    <td>Cash</td>
+                </tr>
+            )
+            })}
+               
+                
+                
+            
+            </tbody>
+        </table>
+    </div>
+        </div>
+
+)}
+        
+
+
                                   </div>
                               </div>
                               <div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">

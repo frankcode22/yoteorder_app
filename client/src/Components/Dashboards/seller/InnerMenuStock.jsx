@@ -10,6 +10,10 @@ function InnerMenuStock(props) {
                                       <nav class="nav main-nav-column">
                                           <a class="nav-link thumb active mb-2" href="/product_inventory"><i class="fe fe-home"></i> Main </a>
                                           <a class="nav-link border-top-0 thumb mb-2" href="/products_tabular"><i class="fe fe-grid"></i>Tabular View</a>
+
+                                          {/* <a class="nav-link border-top-0 thumb mb-2" href="/products_tabular"><i class="fe fe-grid"></i>Common Products</a> */}
+
+                                          <a class="nav-link thumb active mb-2" href="javascript:void(0);" onClick={props.displayPOS}><i class="fe fe-grid"></i> Common Products </a>
                                        
                                     
                                           <a class="nav-link border-top-0 thumb mb-2" href="/product_cat"><i class="fe fe-layers"></i>Product Categories</a>

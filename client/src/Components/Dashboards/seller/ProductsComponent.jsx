@@ -958,7 +958,7 @@ const openSelectedProduct=(id)=>{
      
       props.setShowSales(true)
 
-      props.setShowPOS(false)
+      props.setDefaultList(false)
 
       //axios.get("https://yoteorder-server.herokuapp.com/customer/mycustomers").then((response) => {
        API.get('stores/itemsuppliers/'+pname).then((response) => {
@@ -1076,7 +1076,9 @@ const showProductsSection=()=>{
   }
 
 
-  async function performRequest() {
+
+
+   async function performRequest() {
     setLoading(true);
     setError(null);
 
@@ -1813,7 +1815,7 @@ const updateProductNew = async e => {
        </div>
        <div class="col-xl-3 col-lg-12">
       
-           <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo801"><i class="fa fa-plus-square me-2"></i>New Product</a>
+           <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" onClick={handleShow}><i class="fa fa-plus-square me-2"></i>New Product</a>
        </div>
    </div>
        </div>
@@ -1897,7 +1899,7 @@ onClick={() => {
 
 
                   
-<div class="modal fade" id="modaldemo801">
+<Modal show={show} onHide={handleClose}>
 <div class="modal-dialog modal-dialog-centered text-center" role="document">
     <div class="modal-content modal-content-demo">
         <div class="modal-header">
@@ -2123,15 +2125,15 @@ onChange={(event) => {
     
             
             
-            <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            <button class="btn btn-light" onClick={handleClose}>Close</button>
         </div>
     </div>
 </div>
-</div>
+</Modal>
 
 
 
-<Modal show={show} onHide={handleClose}>
+<Modal>
                 <Modal.Header closeButton>
                     <Modal.Title>Ordered Products</Modal.Title>
                 </Modal.Header>

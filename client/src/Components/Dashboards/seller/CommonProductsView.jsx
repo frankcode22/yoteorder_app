@@ -35,17 +35,18 @@ import { productsArray } from '../../../helpers/productsStore';
 
 
 import { CartContext } from "../../../helpers/CartContext";
-//import CartProduct from './CartProduct';
+import CartProduct from './CartProduct';
 import CartItem from './CartItem';
 import { toInteger } from 'lodash';
-import CartProductForSale from './CartProductForSale';
+import { ProductsContext } from '../../../helpers/ProductsContext';
 
 function randomNumberInRange(min, max) {
     // 👇️ get number between min (inclusive) and max (inclusive)
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-function POSComponent() {
+// THIS IS THE EQUIVALENT OF THE POSComponent
+function CommonProductsView()  {
 
     const {businessDetails,setBusinessDetails} = useContext(DataContext);
 
@@ -104,12 +105,32 @@ function POSComponent() {
 	const [onlyvalue, setOnlyvalue] = useState(0);
 
 
-	const cart = useContext(CartContext);
+	// const cart = useContext(CartContext);
+
+
+
+	const cart = useContext(ProductsContext);
+
+
+
 
 
 	const [supplierList, setSupplierList] = useState([]);
 
     const [supplierStores, setSupplierStores] = useState([]);
+
+
+	const [error, setError] = useState(null);
+
+
+    //const [error, setError] = useState(null);
+
+    const [hasError, setHasError] = useState(false);
+    const [timeoutId, setTimeoutId] = useState(null);
+    const [retry, setRetry] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
+
+    const maxRetries = 10;
 
   
 
@@ -526,6 +547,106 @@ const openSelectedSupplier=(sId)=>{
 // raq0986in6
 
 
+async function performRequest() {
+    setLoading(true);
+    setError(null);
+
+ 
+
+ 
+
+    try {
+      clearTimeout(timeoutId);
+
+
+	  await fetch('http://localhost:8080/api/product/save_selected', {
+		method: "POST",
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({items: cart.items})
+	}).then((response) => {
+		//console.log(response.order_no)
+		//setOrderNo(response.order_no)
+
+		setTimeout(() => {
+			setLoading(false);
+			toast.success('Saved');
+			//setIsBusinessSet(true)
+		}, 1500);
+		
+		return response.json();
+	}).then((response) => {
+		console.log(response.order_no)
+
+		setOrderNo(response.order_no)
+
+		setTimeout(() => {
+			setLoading(false);
+			toast.success('Saved');
+			//setIsBusinessSet(true)
+		}, 1000);
+
+
+		
+	
+		if(response.url) {
+			window.location.assign(response.url); // Forwarding user to Stripe
+		}
+
+	});
+
+
+    
+     
+    //  console.log('REQUEST RESPONSE DATA',response)
+
+
+    //   setProductsList1([
+    //     ...productsList1,
+    //     {
+    //         name:name,
+    //         type:type,
+    //         product_description:product_description,
+    //         price: price,
+    //         quantity:quantity,
+    //         geo_location:address_line_2,
+    //         unit_of_measure:unit_of_measure,
+    //         latitude:lat,
+    //         longitude:lng,
+    //        // cloudinary_url:data.cloudinary_url,
+    //         //cloudinary_url:data.imagePath,
+    //         UserId:userId,
+    //         BusinessId:businessId,
+    //     },
+    //   ]); 
+      
+      setTimeout(() => {
+        setLoading(false);
+       // setShowActionBtn(false)
+        //setShowSucessAlert(true)
+       // sethidesavebtn(true)
+        
+        toast.success('Product saved successfully');
+    }, 1000);
+ 
+    } catch (err) {
+      setLoading(false);
+      if (err.message === 'timeout of 5000ms exceeded') {
+        if (retryCount < maxRetries) {
+          setRetryCount(retryCount + 1);
+          setTimeoutId(setTimeout(performRequest, 2000));
+        } else {
+          setError(`Max Retry Count of ${maxRetries} Exceeded`);
+        }
+      } else {
+        setError(err.message);
+        setTimeoutId(setTimeout(() => setError(null), 5000));
+      }
+    }
+  }
+
+
 const checkout = async () => {
 
 	setLoading(true);
@@ -533,8 +654,8 @@ const checkout = async () => {
 	//saveCustomer()
 
 
-	//await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
-		await fetch('http://localhost:8080/api/order/checkout', {
+	await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
+	//	await fetch('http://localhost:8080/api/order/checkout', {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/json'
@@ -603,8 +724,8 @@ const checkoutRetailer = async () => {
 	//saveCustomer()
 
 
-	// await fetch('https://apibackend.patamtaani.com/api/order/retailercheckout', {
-		await fetch('http://localhost:8080/api/order/retailercheckout', {
+	 await fetch('https://apibackend.patamtaani.com/api/order/retailercheckout', {
+		//await fetch('http://localhost:8080/api/order/retailercheckout', {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/json'
@@ -750,7 +871,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 								<div class="product-details table-responsive text-nowrap">
 
 								{cart.items.map( (currentProduct, idx) => (
-									<CartProductForSale key={idx} id={currentProduct.id} quantity={currentProduct.quantity} orderId={randomNo}></CartProductForSale>
+									<CartProduct key={idx} id={currentProduct.id} quantity={currentProduct.quantity} orderId={randomNo}></CartProduct>
 								))}
 	
 								<h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
@@ -825,8 +946,9 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 
 								<div class="product-details table-responsive text-nowrap">
 
-								{cart.citems.map( (currentProduct, idx) => (
-									<CartItem key={idx} id={currentProduct.id} quantity={currentProduct.quantity} orderId={randomNo}></CartItem>
+								{cart.items.map( (currentProduct, idx) => (
+
+									<CartProduct key={idx} id={currentProduct.id} quantity={currentProduct.quantity} orderId={randomNo}></CartProduct>
 								
 
 								
@@ -847,7 +969,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 
 						{cart.showCard && <div class="card">
 							<div class="card-header pb-0">
-								<h3 class="card-title badge bg-warning mb-0">Cart ({productsCount} Items)</h3>
+								<h3 class="card-title badge bg-warning mb-0">Selected ({productsCount} Items)</h3>
 							</div>
 							<div class="card-body">
 
@@ -881,34 +1003,22 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 					<div class="col-lg-12">
 						<div class="card">
 							<div class="card-header pb-0">
-								<div class="card-title mb-0">Total Amount</div>
+								{/* <div class="card-title mb-0">Total Amount</div> */}
 
 							</div>
 							<div class="card-body">
-								
-								<div class="table-responsive">
-									<table class="table table-bordered">
-										<tbody>
-											
-											<tr>
-												<td><span>Order Total</span></td>
-												<td><h2 class="price text-end mb-0">{cart.getTotalCost().toFixed(2)}</h2></td>
-											</tr>
 
-											<tr>
-												<td><span>{!isLoading &&  <Button variant="success" onClick={checkout}>
-                                Sale Now!
+							{!
+													isLoading &&  <Button variant="success" onClick={performRequest}>
+                                Save Items
                             </Button>
 	}  {isLoading &&
 		<button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
 		<span class="visually-hidden">Loading...</span>
-	</div>Saving Infor</button>
-	  }</span></td>
-												<td><h2 class="price text-end mb-0"><button class="btn btn-success me-sm-3 me-1" type="submit" value="Continue Shopping">New Order</button></h2></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+	</div>Saving...</button>
+	  }
+								
+								
 								<form class="text-center">
 
 								
@@ -935,7 +1045,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
                         <>
                             <p>Items in your cart:</p>
                             {cart.items.map( (currentProduct, idx) => (
-                                <CartProductForSale key={idx} id={currentProduct.id} quantity={currentProduct.quantity} orderId={randomNo}></CartProductForSale>
+                                <CartProduct key={idx} id={currentProduct.id} quantity={currentProduct.quantity} orderId={randomNo}></CartProduct>
                             ))}
 
                             <h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
@@ -1223,4 +1333,4 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
   )
 }
 
-export default POSComponent
+export default CommonProductsView
