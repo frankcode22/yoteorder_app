@@ -43,7 +43,17 @@ function randomNumberInRange(min, max) {
     // 👇️ get number between min (inclusive) and max (inclusive)
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+  
 
+  const getFormattedDate2 = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleString();
+  }
+
+  const getFormattedDate1 = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString();
+  }
 
 function CustomerBills() {
 
@@ -67,6 +77,9 @@ function CustomerBills() {
 	const [amountPaid, setAmountPaid] = useState("");
 
 
+    const [newAmount, setNewAmount] = useState('');
+
+
     const [initialAmountPaid, setInitialAmountPaid] = useState("");
 
 
@@ -81,6 +94,11 @@ function CustomerBills() {
     const [price, setPrice] = useState('');
 
 	const [customerId, setCustomerId] = useState('');
+
+    const [totalBill, setTotalBill] = useState('');
+
+
+    
 
 	
 	
@@ -595,6 +613,7 @@ const handleSubCategorySelect= async (event) => {
 
 	
     //cId=customer.id
+    setLoading(true);
 
     setInitialAmountPaid(amntPaid)
 
@@ -613,6 +632,7 @@ const handleSubCategorySelect= async (event) => {
               setCustomerBill(response.data.bill)
 
               setBillDetails(response.data.sale_ref)
+              setTotalBill(response.data.sale_ref.total)
              // setBussinessList(response.data)
              setDisplayBill(true)
 
@@ -635,7 +655,9 @@ const handleSubCategorySelect= async (event) => {
 
    //setCustomerBill(bill)
 
-
+   setTimeout(() => {
+    setLoading(false);
+  }, 1500);
   
 	
 
@@ -669,6 +691,66 @@ const handleSubCategorySelect= async (event) => {
           setTimeout(() => {
 
               setCustomerBill(response.data)
+             // setBussinessList(response.data)
+             setDisplayBill(true)
+
+           
+          }, 1000);
+
+          //setSeller_name(response.data.Users.first_name)
+          
+      }).catch((error) => {
+          
+
+          console.log("ERROR OCCURED WHEN FETCHING DATA"+error)
+        
+       });
+
+
+
+  // console.log('CUSTOMER BILL IS',bill)
+
+
+   //setCustomerBill(bill)
+
+
+  
+	
+
+   }
+
+
+   const updateCustomerBill= (sId,total) => {
+
+    setLoading(true);
+
+    let total_paid=initialAmountPaid+amountPaid;
+
+    let bal=total-total_paid;
+
+    const data={
+        initialAmountPaid:initialAmountPaid,
+        amount_paid:amountPaid,
+        amount_received:newAmount,
+        total_bill:totalBill,
+        
+    }
+
+	
+    //cId=customer.id
+
+    API.put('sales/updatecustomerbill/'+sId,data).then((response) => {
+        // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+
+       
+
+          console.log("Customer Bill"+response.data)
+
+         
+          setTimeout(() => {
+            setLoading(false)
+
+             // setCustomerBill(response.data)
              // setBussinessList(response.data)
              setDisplayBill(true)
 
@@ -737,7 +819,7 @@ const loadOrdersContent=(
            
             <td><span class="badge bg-warning">{value.balance}</span></td>
             <td>{value.customer_phone_no}</td>
-            <td>{value.createdAt}</td>
+            <td>{getFormattedDate1(value.createdAt)}</td>
           
            
             <td class="text-center align-middle">
@@ -891,6 +973,10 @@ const loadOrdersContent=(
 
 
                 <div class="card">
+
+                {isLoading ? (
+       <DivLoader></DivLoader>
+      ) : (
               
                 <div class="table-responsive mb-0">
                 {displayBill &&  <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
@@ -903,11 +989,12 @@ const loadOrdersContent=(
                         <th>Price Per Item</th>
                         <th>Total Cost</th>
                         <th>Customer</th>
-                        <th>Time</th>
+                        
                         <th>Actions</th>
       
                     </tr>
                 </thead>
+
                 <tbody>
       
                     {customerBill.map((value, key) => {
@@ -931,17 +1018,20 @@ const loadOrdersContent=(
                                 <td><span class="badge bg-info-gradient">{value.price * value.quantity_ordered}</span></td>
       
       
-                                <td>{value.customer_phone_no}</td>
-                                <td><input type='number' name='amount' class="form-control"  onChange={(event) => {
-                                    setAmountPaid(event.target.value);
-                                  }} id='amount'/></td>
+                                <td>{value.Customer.name}</td>
+
+                                <td>{getFormattedDate1(value.createdAt)}</td>
+                              
       
       
                                 <td class="text-center align-middle">
                                     <div class="btn-group align-top">
-                                        <button type="button"onClick={() => {
-                                            payCustomerBill(value.CustomerId,value.orderId);
-                                              }} class="btn btn-success"><i class="fe fe-money me-2"></i>Pay Bill</button>
+                                        <button type="button" 
+                                        // onClick={() => {
+                                        //     payCustomerBill(value.CustomerId,value.orderId);
+                                        //       }} 
+                                              
+                                              class="btn btn-success"><i class="fe fe-money me-2"></i>Clear</button>
       
                                         <button type="button" class="btn btn-danger"><i class="fe fe-trash me-2"></i>Cancel</button>
       
@@ -957,27 +1047,44 @@ const loadOrdersContent=(
 
 
 <tr>
-                                <td colSpan={3}>
+                                <td colSpan={2}>
                                     <div class="project-contain">
                                         <h6 class="mb-1 tx-13">TOTAL: <span class="badge bg-warning-gradient">{billDetails.total}</span></h6>
                                     </div>
                                 </td>
-                                <td colSpan={3}>
+                                <td colSpan={2}>
                                     <div class="project-contain">
-                                        <h6 class="mb-1 tx-13">Amount Paid: <span class="badge bg-success-gradient">{billDetails.amount_paid}</span> </h6>
+                                        <h6 class="mb-1 tx-13">AMOUNT PAID: <span class="badge bg-success-gradient">{initialAmountPaid}</span> </h6>
                                     </div>
                                 </td>
 
                                 <td colSpan={2}>
                                     <div class="project-contain">
-                                        <h6 class="mb-1 tx-13">Bal: <span class="badge bg-danger-gradient">{billDetails.balance}</span></h6>
+                                        <h6 class="mb-1 tx-13">BAL: <span class="badge bg-danger-gradient">{billDetails.balance}</span></h6>
                                     </div>
                                 </td>
+                                <td colSpan={2}>
+                                    <div class="project-contain">
+                                    <input type='number' name='amountpaid' class="form-control"  onChange={(event) => {
+                                    setNewAmount(event.target.value);
+                                  }} id='amountpaid'/>
+                                    </div>
+                                </td>
+
+
+                              
                                 <td class="text-center align-middle">
                                     <div class="btn-group align-top">
+                                    {!isLoading && 
                                         <button type="button"onClick={() => {
-                                            payCustomerBill();
-                                              }} class="btn btn-success"><i class="fe fe-money me-2"></i>Pay Bill</button>
+                                            updateCustomerBill(billDetails.id);
+                                              }} class="btn btn-success"><i class="fe fe-money me-2"></i>Pay Bill</button>}
+
+{isLoading &&
+            <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow text-success me-2" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>Updating...</button>
+        }
       
                                       
       
@@ -1008,6 +1115,7 @@ const loadOrdersContent=(
                
                
             </div>
+            )}
                
             </div>
 
