@@ -120,6 +120,8 @@ function ProductsComponent(props)
   
     const [country, setCountry] = useState("");
 
+    const [inputValue, setInputValue] = useState("");
+
 
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
@@ -550,6 +552,9 @@ const previewFile = (file) => {
 };
 
 
+ const handleInputChange = (event) => {
+         setInputValue(event.target.value);
+       };
 
 
 
@@ -1307,6 +1312,98 @@ const showProductsSection=()=>{
 
 
 
+const updateProductLatest = async(index) => {
+
+  //event.preventDefault();
+  setLoading(index)
+  setError(null);
+
+  console.log('DATA TO UPDATE IS',props.productsData[index])
+
+  console.log('DATA INDEX IS ',props.productsData[index].id)
+
+
+  // const formData={
+  //   name:name,
+    
+  //   price: price,
+  //   quantity:quantity,
+  //   new_quantity:new_quantity,
+    
+  //   UserId:userId,
+      
+  // }
+
+  
+
+
+
+ 
+  
+  
+
+  try {
+ 
+  const  response  = await API.put('product/update_quantity_and_price/'+props.productsData[index].id, props.productsData[index], {});
+
+ 
+ let updated_quantity=parseInt(new_quantity)+parseInt(quantity)
+
+  const updatedItems = productsList.map(item => {
+    if(item.id === productId) {
+        return {...item, price: price,
+          quantity: updated_quantity,
+          name:name,
+    type:type,
+    product_description:product_description,
+    
+
+        
+        };
+    }
+    return item;
+});
+setProductsList1(updatedItems);
+
+
+  
+
+
+  
+  
+
+
+
+ 
+
+
+  
+
+
+
+  
+
+
+  setTimeout(() => {
+
+    
+
+      
+      setLoading(false);
+      setShowActionBtn(false)
+      setShowSucessAlert(true)
+      sethidesavebtn(true)
+      
+      toast.success('Product updated successfully');
+  }, 1000);
+
+} catch (err) {
+  setError(err.message);
+}
+  
+}
+
+
 const updateProduct = async(event) => {
 
   event.preventDefault();
@@ -1822,7 +1919,7 @@ const updateProductNew = async e => {
    </div>
    <div class="row row-sm">
 
-   {props.productsData.map((value, key) => {
+   {props.productsData.map((value, index) => {
     return (
     
       
@@ -1845,19 +1942,54 @@ const updateProductNew = async e => {
                    </div>
                   
                    <a class="badge bg-info h5 w-50 font-weight-bold" href='#'>Quantity {value.quantity}</a>
-                   {/* <input
-      type="number"
-    //   id={product.id}
-    class="form-control"
-      value={props.quantity}
-      onChange={(event) => props.handleQuantityChange(product.id,event.target.value)}
-    /> */}
                    <div class="card-footer text-center">
+              <div class="row" key={value.id}>
+                <div class="col">
+
+                  <input type="number" class="form-control"
+
+                    value={value.quantity}
+                    onChange={(event) => {
+                      const newData = [...props.productsData];
+                      newData[index].quantity = event.target.value;
+                      props.setProductsData(newData);
+                    }}
+
+
+                  />
+
+                </div>
+
+                <div class="col">
+
+
+                  <input
+                    type="number"
+                    class="form-control"
+                    value={value.price}
+                    onChange={(event) => {
+                      const newData = [...props.productsData];
+                      newData[index].price = event.target.value;
+                      props.setProductsData(newData);
+                    }}
+                  />
+
+
+
+
+                </div>
+              
+
+              </div>
+              </div>
+
+
+              <div class="card-footer text-center">
                    <div class="text-center px-2">
 
                    <div class="d-flex">
 
-<button  type="submit" class="btn btn-primary mb-1"
+{/* <button  type="submit" class="btn btn-primary mb-1"
 
 
 onClick={() => {
@@ -1865,7 +1997,15 @@ onClick={() => {
       }}
 
 
-      data-bs-effect="effect-slide-in-bottom">UPDATE</button>
+      data-bs-effect="effect-slide-in-bottom">UPDATE</button> */}
+
+
+      
+<button  type="submit" class="btn btn-primary mb-1" onClick={() => updateProductLatest(index)}>
+            {isLoading ? 'Saving...' : 'Save'}
+          </button>
+
+      
 
 
 
@@ -1886,6 +2026,9 @@ onClick={() => {
 
                     </div>
                     </div>
+                  
+   
+                  
 
                
                  

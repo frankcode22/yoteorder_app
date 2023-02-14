@@ -680,7 +680,7 @@ function ProductInventory() {
   
   
   
-                          {defaultList &&  <ProductsComponent productsData={productsData} setSuppliersData={setSuppliersData}  setSearchItemId={setSearchItemId} setDefaultList={setDefaultList} setShowSales={setShowSales} ></ProductsComponent>}
+                          {defaultList &&  <ProductsComponent productsData={productsData} setProductsData={setProductsData} setSuppliersData={setSuppliersData}  setSearchItemId={setSearchItemId} setDefaultList={setDefaultList} setShowSales={setShowSales} ></ProductsComponent>}
 
 
                           {showSales &&  <SupplierSearchResults supplierData={supplierData} businessId={businessId} searchItemId={searchItemId}></SupplierSearchResults>}
