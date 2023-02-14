@@ -559,9 +559,9 @@ async function performRequest() {
       clearTimeout(timeoutId);
 
 
-	  //await fetch('http://localhost:8080/api/product/save_selected', {
+	  await fetch('http://localhost:8080/api/product/save_selected', {
 
-	  await fetch('https://apibackend.patamtaani.com/api/product/save_selected', {
+	  //await fetch('https://apibackend.patamtaani.com/api/product/save_selected', {
 
 	  
 		method: "POST",

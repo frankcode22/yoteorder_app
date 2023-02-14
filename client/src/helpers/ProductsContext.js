@@ -12,6 +12,10 @@ export const ProductsContext = createContext({
 
     getItemQuantity: () => {},
 
+    handleInputChange: () => {},
+
+    handleQuantityChange:() => {},
+
 
     displayCard: () => {},
 
@@ -27,6 +31,8 @@ export function ProductsProvider({children}) {
     const [cartProducts, setCartProducts] = useState([]);
 
     const [cartItems, setCartItems] = useState([]);
+
+    const [inputValue, setInputValue] = useState("");
 
     const {productsList1, setProductsList1 } = useContext(DataContext);
 
@@ -131,13 +137,36 @@ export function ProductsProvider({children}) {
         return price;
     }
 
+    // const handleInputChange = (event) => {
+    //     setInputValue(event.target.value);
+    //   };
+
+      const handleInputChange = (id,price) => {
+        const myNextList = [...cartProducts];
+    const artwork = myNextList.find(
+      a => a.id === id
+    );
+    artwork.price = price;
+    setCartProducts(myNextList);
+      };
+
+
+      const handleQuantityChange = (id,quantity) => {
+        const myNextList = [...cartProducts];
+    const artwork = myNextList.find(
+      a => a.id === id
+    );
+    artwork.quantity = quantity;
+    setCartProducts(myNextList);
+      };
+
     function addOneToCart(id,price,title,bId) {
         const quantity = getProductQuantity(id);
 
         //const price = getProductPrice(id);
 
 
-        audio.play()
+       // audio.play()
 
         if (quantity === 0) { // product is not in cart
           
@@ -193,7 +222,7 @@ export function ProductsProvider({children}) {
 
     function removeOneFromCart(id) {
         const quantity = getProductQuantity(id);
-        audio.play()
+       // audio.play()
 
         if(quantity == 1) {
             deleteFromCart(id);
@@ -391,6 +420,9 @@ export function ProductsProvider({children}) {
     const contextValue = {
         items: cartProducts,
         getProductQuantity,
+        inputValue,
+        handleInputChange,
+        handleQuantityChange,
         
         addOneToCart,
         removeOneFromCart,

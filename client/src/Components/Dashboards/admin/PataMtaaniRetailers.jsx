@@ -240,7 +240,7 @@ const showInGridView=()=>{
                     </div>
 
 
-                    <div class="row">
+                    <div class="row row-sm">
                     <div class="col-lg-4 col-xl-3">
                         <div class="card custom-card">
                             <div class="card-header">
@@ -258,53 +258,54 @@ const showInGridView=()=>{
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
 
-                    
-
-                    <div class="card custom-card">
-                    <div class="card-header">
-                        <div class="card-title">Overview</div>
-
-
-
-                        <div class="card-body p-2">
-                        <div class="row">
-                        <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
-                            <div class="input-group d-flex w-100 float-start">
+                    <div class="card">
+    <div class="card-body p-2">
+    <div class="row">
+    <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
+    <div class="input-group d-flex w-100 float-start">
                                 <input type="text" class="form-control border-end-0 my-2" placeholder="Search ..."/>
                                 <button class="btn input-group-text bg-transparent border-start-0 text-muted my-2">
                                     <i class="fe fe-search text-muted" aria-hidden="true"></i>
                                 </button>
                             </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                            <ul class="nav item2-gl-menu float-end my-2">
-                                <li class="border-end"><a href="#tab-11" class="show active" data-bs-toggle="tab" title="List style"><i class="fa fa-th"></i></a></li>
-                                <li><a href="#tab-12" data-bs-toggle="tab" class="" title="Grid"><i class="fa fa-list"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="col-xl-3 col-lg-12">
-                       
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+        {/* <ul class="nav item2-gl-menu float-end my-2">
+            <li class="border-end"><a href="#tab-11" class="show active" data-bs-toggle="tab" title="List style"><i class="fa fa-th"></i></a></li>
+            <li><a href="#tab-12" data-bs-toggle="tab" class="" title="Grid"><i class="fa fa-list"></i></a></li>
+        </ul> */}
+    </div>
+    <div class="col-xl-3 col-lg-12">
+   
+       
+    <a onClick={showSupportEntryForm} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal"><i class="fa fa-plus-square me-2"></i>New Retailer</a>
+    </div>
+</div>
+    </div>
+</div>
 
-                            <a onClick={showSupportEntryForm} class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal"><i class="fa fa-plus-square me-2"></i>New Retailer</a>
-                        </div>
-                    </div>
-                        </div>
+                    
+
+                    <div class="card overflow-hidden">
+
+                    <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
+                                          <div class="d-flex justify-content-between">
+                                              <h4 class="card-title mg-b-10">Subscribed Retailers</h4>
+                                              <i class="mdi mdi-dots-horizontal text-gray"></i>
+                                          </div>
+
+                                         
+                                         
+                                      </div>
+
+                                      <div class="card-body pd-y-7">
+
+                                      {showSupplierDetails &&  
 
 
-
-                          {showSupplierDetails &&  
-
-                            <div class="col-md-12 col-xl-12">
-                            <div class="card overflow-hidden review-project">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <h4 class="card-title mg-b-10">All Retailers</h4>
-                                        <i class="mdi mdi-dots-horizontal text-gray"></i>
-                                    </div>
-                                  
-                                    <div class="table-responsive mb-0">
+                                      <div class="table-responsive mb-0">
                                         <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
                                             <thead>
                                                 <tr>
@@ -387,50 +388,58 @@ const showInGridView=()=>{
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                               }
+
+                                        }
 
 
+                                        </div>
 
-                               {showGridView &&  
+                                        {showGridView &&  
 
-                                <div class="row">
-                                {bussinessList.map((value,key)=>{
-
-                                    return (
-										<div class="col-xl-6 col-lg-12 col-md-12">
-											<div class="card border p-0 over-flow-hidden">
-												<div class="media card-body media-xs overflow-visible ">
-													<img class="avatar brround avatar-md me-3" src="../assets/img/faces/12.jpg" alt="avatar-img"/>
-													<div class="media-body valign-middle">
-														<a href="" class=" fw-semibold text-dark">{value.business_name}</a>
-														<p class="text-muted mb-0">{value.contacts}</p>
-													</div>
-													<div class="media-body valign-middle text-end overflow-visible mt-2">
-														<button class="btn btn-primary" type="button">View More</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										
-                                        )
+                                        <div class="card-body pd-y-7">
 
 
+                                     
 
+<div class="row">
+{bussinessList.map((value,key)=>{
 
-                                    })}
-										
-										
-										
-									</div>
-                                   }
-
-                               
-
-
+    return (
+        <div class="col-xl-6 col-lg-12 col-md-12">
+            <div class="card border p-0 over-flow-hidden">
+                <div class="media card-body media-xs overflow-visible ">
+                    <img class="avatar brround avatar-md me-3" src="../assets/img/faces/12.jpg" alt="avatar-img"/>
+                    <div class="media-body valign-middle">
+                        <a href="" class=" fw-semibold text-dark">{value.business_name}</a>
+                        <p class="text-muted mb-0">{value.contacts}</p>
                     </div>
+                    <div class="media-body valign-middle text-end overflow-visible mt-2">
+                        <button class="btn btn-primary" type="button">View More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        )
+
+
+
+
+    })}
+        
+        
+        
+    </div>
+   
+
+
+
+                                            </div>
+}
+
+
+
+                    
                 </div>
                     <div class="card">
                         <div class="card-body">

@@ -1845,7 +1845,13 @@ const updateProductNew = async e => {
                    </div>
                   
                    <a class="badge bg-info h5 w-50 font-weight-bold" href='#'>Quantity {value.quantity}</a>
-
+                   {/* <input
+      type="number"
+    //   id={product.id}
+    class="form-control"
+      value={props.quantity}
+      onChange={(event) => props.handleQuantityChange(product.id,event.target.value)}
+    /> */}
                    <div class="card-footer text-center">
                    <div class="text-center px-2">
 

@@ -17,6 +17,8 @@ function ProductCardCommon(props) { // props.product is the product we are selli
 
     const [supplierId, setSupplierId] = useState('');
 
+    //const [startquantity, setStartQuantity] = useState(0);
+
 
     const [showCounters, setShowCounters] = useState(false);
 
@@ -24,6 +26,8 @@ function ProductCardCommon(props) { // props.product is the product we are selli
  
 
      const [showCancelBtn, setShowCancelBtn] = useState(false);
+
+     const quantity = props.quantity;
 
 
 
@@ -130,7 +134,7 @@ function ProductCardCommon(props) { // props.product is the product we are selli
                    
                     {product.quantity<10? <p class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-danger">Quantity: {product.quantity}</span></p>
 
-                    :<p class="shop-description fs-13 text-muted mt-2 mb-0"><span class="badge bg-success">Quantity: {product.quantity}</span></p>}
+                    :<p class="shop-description fs-13 text-muted mt-2 mb-0"></p>}
                     </div>
 
                     {/* <div>
@@ -168,17 +172,42 @@ function ProductCardCommon(props) { // props.product is the product we are selli
                     <a class="shop-title fs-18">Quantity: {productQuantity}</a>
 
                     <div class="form-group">
-            <label for="dobWithTitle" class="form-label">Quantity</label>
-            <input type="number" id="price" class="form-control"
+           
+           
+              {/* <input class="form-control" type="text" value={cart.inputValue} onChange={cart.handleInputChange} />
+              <p>Input value: {cart.inputValue}</p> */}
 
-            value={productQuantity}
+{/* <input
+      type="text"
+      value={product.quantity}
+      onChange={(event) => cart.handleInputChange(product.id,event.target.value)}
+    /> */}
 
-                // onChange={(event) => {
-                //     setQuantity(event.target.value);
-                // }}
 
-            />
-         
+{/* <input
+      type="number"
+    //   id={product.id}
+    class="form-control"
+      value={props.inputValue}
+      onChange={(event) => cart.addOneToCart(product.id,props.inputValue,product.title,event.target.value)}
+    /> */}
+
+<input
+      type="number"
+    //   id={product.id}
+    class="form-control"
+      value={props.quantity}
+      onChange={(event) => props.handleQuantityChange(product.id,event.target.value)}
+    />
+
+<label for="dobWithTitle" class="form-label">Price(Per Item)</label>
+<input
+      type="number"
+    //   id={product.id}
+    class="form-control"
+      value={props.price}
+      onChange={(event) => props.handleInputChange(product.id,event.target.value)}
+    />
             </div>
 
                                <div class="btn-icon-list">

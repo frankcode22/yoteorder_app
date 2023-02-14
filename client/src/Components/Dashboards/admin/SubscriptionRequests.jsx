@@ -298,7 +298,7 @@ function SubscriptionRequests() {
                             <h4 class="content-title mb-2">Hi, welcome back!</h4>
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a   href="javascript:void(0);">Suppliers</a></li>
+                                    <li class="breadcrumb-item"><a   href="javascript:void(0);">Subscription requests</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">PataMtaani</li>
                                 </ol>
                             </nav>
@@ -362,6 +362,8 @@ function SubscriptionRequests() {
                     <div class="card-header">
                         <div class="card-title">Overview</div>
 
+                        </div>
+
 
 
                        
@@ -370,7 +372,7 @@ function SubscriptionRequests() {
 
                           {showSupplierDetails &&  
 
-                            <div class="col-md-12 col-xl-12">
+                          
                             <div class="card overflow-hidden review-project">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
@@ -483,7 +485,7 @@ function SubscriptionRequests() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        
                                }
 
 
@@ -524,7 +526,7 @@ function SubscriptionRequests() {
                                
 
 
-                    </div>
+                   
                 </div>
                     <div class="card">
                         <div class="card-body">

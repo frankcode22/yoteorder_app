@@ -41,26 +41,26 @@ const productsArray = [
         price: 2500
     },
     {
-        id: "price_1LnUUoDM1jwCEz8OvyIcJ7to",
+        id: "7",
         title: "Chrome Gin 250ml",
         quantity: 10,
         price: 250
     }, 
     {
-        id: "price_1LnUUoDM1jwCEz8OvzIcJ7to",
+        id: "8",
         title: "Chrome Gin 1Lite",
         quantity: 10,
         price: 650
     },
     {
-        id: "price_1LnUUoDM1jwCEz8OvdIcJ7to",
+        id: "9",
         title: "Chrome Vodka 250ml",
         quantity: 10,
         price: 300
     },
 
     {
-        id: "price_1LnUUoDM1jwCEz8OvzIcJ7to",
+        id: "10",
         title: "Chrome Vodka 1Litre",
         quantity: 10,
         price: 650
@@ -69,72 +69,72 @@ const productsArray = [
 
 
     {
-        id: "price_1LnUTFDM1jwCEz8OGoOSXiSM",
+        id: "11",
         title: "Tusker Lite Bottle",
         quantity: 10,
         price: 250
     },
     {
-        id: "price_1LnUTxDM1jwCEz8OAqHYTwKQ",
+        id: "12",
         title: "Tusker Lite Can",
         quantity: 10,
         price: 250
     },
     {
-        id: "price_1LnUUoDM1jwCEz8OvyIcJ7to",
+        id: "13",
         title: "Tusker Cider Chupa",
         quantity: 10,
         price: 250
     }, 
     {
-        id: "price_1LnUUoDM1jwCEz8xOvzIcJ7to",
+        id: "14",
         title: "Tusker Cider Can",
         quantity: 10,
         price: 250
     },
     {
-        id: "price_1LnUUoDM1jwCEz8OvyIcJ7to",
+        id: "15",
         title: "Guiness Chupa",
         quantity: 10,
         price: 250
     }, 
     {
-        id: "price_1LnUUoDM1jwCEz8xOvzIcJ7to",
+        id: "16",
         title: "Guiness Can",
         quantity: 10,
         price: 250
     },
     {
-        id: "price_1LnUUoDM1jwCEz8OvdIcJ7to",
+        id: "22",
         title: "Konyagi 250ml",
         quantity: 10,
         price: 300
     },
     {
-        id: "price_1LnUUoDM1jwCEz8sOvdIcJ7to",
+        id: "17",
         title: "Konyagi 500ml",
         quantity: 10,
         price: 300
     },
     {
-        id: "price_1LnUUoDM1jwCEz8OxvdIcJ7to",
+        id: "18",
         title: "Konyagi 1 Litre",
         quantity: 10,
         price: 300
     },
     {
-        id: "price_1LnUUoDM1jwCEz8OvdIccJ7to",
+        id: "19",
         title: "Vat 69 250ml",
         quantity: 10,
         price: 300
     },
     {
-        id: "price_1LnUUoDM1jwCEnz8OvdIcJ7to",
+        id: "25",
         title: "Vat 69 500ml",
         price: 300
     },
     {
-        id: "price_1LnUUoDM1jwCEzk8OvdIcJ7to",
+        id: "20",
         title: "Vat 69 1 Litre",
         quantity: 10,
         price: 300

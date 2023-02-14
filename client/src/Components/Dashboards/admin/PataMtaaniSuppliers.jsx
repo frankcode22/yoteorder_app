@@ -422,7 +422,7 @@ function PataMtaaniSuppliers() {
 
                     <div class="card custom-card">
                     <div class="card-header">
-                        <div class="card-title">Overview</div>
+                        {/* <div class="card-title">Overview</div> */}
 
 
 
@@ -452,17 +452,24 @@ function PataMtaaniSuppliers() {
 
 
 
-                          {showSupplierDetails &&  
 
-                            <div class="col-md-12 col-xl-12">
-                            <div class="card overflow-hidden review-project">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <h4 class="card-title mg-b-10">All Suppliers</h4>
-                                        <i class="mdi mdi-dots-horizontal text-gray"></i>
-                                    </div>
-                                  
-                                    <div class="table-responsive mb-0">
+
+
+                            
+
+                               
+
+
+                    </div>
+                </div>
+
+
+                <div class="card">
+                {showSupplierDetails &&  
+                        <div class="card-body">
+                            <div class="mb-4 main-content-label">Supplier Information</div>
+
+                            <div class="table-responsive mb-0">
                                         <table class="table table-hover table-bordered mb-0 text-md-nowrap text-lg-nowrap text-xl-nowrap table-striped ">
                                             <thead>
                                                 <tr>
@@ -539,54 +546,86 @@ function PataMtaaniSuppliers() {
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                            </div>
+
+                          
+
+
+
+
+                          
+
+                         
+
+
+
+
+
+                       
+                        
+                           
+                            
                         </div>
-                               }
+
+                                        }
+
+                        <div class="card-body">
 
 
+                        {showGridView &&  
 
-                               {showGridView &&  
+<div class="row">
+{supplierList.map((value,key)=>{
 
-                                <div class="row">
-                                {supplierList.map((value,key)=>{
-
-                                    return (
-										<div class="col-xl-6 col-lg-12 col-md-12">
-											<div class="card border p-0 over-flow-hidden">
-												<div class="media card-body media-xs overflow-visible ">
-													<img class="avatar brround avatar-md me-3" src="../assets/img/faces/12.jpg" alt="avatar-img"/>
-													<div class="media-body valign-middle">
-														<a href="" class=" fw-semibold text-dark">{value.name}</a>
-														<p class="text-muted mb-0">{value.contacts}</p>
-													</div>
-													<div class="media-body valign-middle text-end overflow-visible mt-2">
-														<button class="btn btn-primary" type="button">View More</button>
-													</div>
-												</div>
-											</div>
-										</div>
-										
-                                        )
-
-
-
-
-                                    })}
-										
-										
-										
-									</div>
-                                   }
-
-                               
-
-
+    return (
+        <div class="col-xl-6 col-lg-12 col-md-12">
+            <div class="card border p-0 over-flow-hidden">
+                <div class="media card-body media-xs overflow-visible ">
+                    <img class="avatar brround avatar-md me-3" src="../assets/img/faces/12.jpg" alt="avatar-img"/>
+                    <div class="media-body valign-middle">
+                        <a href="" class=" fw-semibold text-dark">{value.name}</a>
+                        <p class="text-muted mb-0">{value.contacts}</p>
+                    </div>
+                    <div class="media-body valign-middle text-end overflow-visible mt-2">
+                        <button class="btn btn-primary" type="button">View More</button>
                     </div>
                 </div>
+            </div>
+        </div>
+        
+        )
+
+
+
+
+    })}
+        
+        
+        
+    </div>
+   }
+
+
+
+
+
+                        </div>
+                        <div class="card-footer">
+
+
+                    
+                            
+
+                            
+                  
+                       
+                        </div>
+                    </div>
+
+
+
                     <div class="card">
                         <div class="card-body">
-                            <div class="mb-4 main-content-label">Retailer Information</div>
+                            <div class="mb-4 main-content-label">Supplier Information</div>
 
                           
 
