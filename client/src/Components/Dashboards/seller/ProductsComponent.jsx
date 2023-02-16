@@ -41,6 +41,7 @@ import { Modal, Button } from "react-bootstrap";
 function ProductsComponent(props) 
 {
 
+  const [value, setValue] = useState("");
   const {businessDetails,setBusinessDetails} = useContext(DataContext);
 
   const {userPos, setUserPos} = useContext(LocationDataContextInit);
@@ -306,6 +307,24 @@ function ProductsComponent(props)
 
   let history = useNavigate();
   const [showSetUpError,setShowSetUpError]=useState(false);
+
+
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredData = props.productsData.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+
+  function handleFocus(event) {
+    event.target.value = "";
+    //setSelectedInput("");
+  }
 
 
   useEffect(()=>{
@@ -1978,7 +1997,7 @@ const updateProductNew = async e => {
        <div class="row">
        <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
            <div class="input-group d-flex w-100 float-start">
-               <input type="text" class="form-control border-end-0 my-2" placeholder="Search ..."/>
+               <input type="text" class="form-control border-end-0 my-2" value={searchTerm} onChange={handleSearch} placeholder="Search ..."/>
                <button class="btn input-group-text bg-transparent border-start-0 text-muted my-2">
                    <i class="fe fe-search text-muted" aria-hidden="true"></i>
                </button>
@@ -2012,7 +2031,7 @@ const updateProductNew = async e => {
 
   
 
-   {props.productsData.map((value, index) => {
+   {filteredData.map((value, index) => {
     return (
     
       
@@ -2045,11 +2064,16 @@ const updateProductNew = async e => {
     type="number"
     class="form-control"
     value={value.price}
+    onFocus={handleFocus}
     onChange={(event) => {
       const newData = [...props.productsData];
       newData[index].price = event.target.value;
       props.setProductsData(newData);
+
     }}
+
+    
+   
   />
 
 
@@ -2063,6 +2087,7 @@ const updateProductNew = async e => {
                   <input type="number" class="form-control"
 
                     value={value.quantity}
+                    onFocus={handleFocus}
                     onChange={(event) => {
                       const newData = [...props.productsData];
                       newData[index].quantity = event.target.value;

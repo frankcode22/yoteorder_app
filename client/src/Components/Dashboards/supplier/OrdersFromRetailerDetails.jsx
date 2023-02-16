@@ -42,7 +42,7 @@ function OrdersFromRetailerDetails(props) {
 
     const {supplierDetails,setSupplierDetails} = useContext(DataContext);
 
-    const {retailerList,setRetailerList} = useContext(DataContext);
+  //  const {retailerList,setRetailerList} = useContext(DataContext);
 
     const {userPos, setUserPos} = useContext(LocationDataContextInit);
   
@@ -247,6 +247,8 @@ function OrdersFromRetailerDetails(props) {
     //const [service_type, set_service_type] = useState("");
   
     const [accountProfile, setAccountProfile] = useState("");
+
+    const [retailerList, setRetailerList] = useState([])
   
   
     let history = useNavigate();
@@ -501,11 +503,35 @@ function OrdersFromRetailerDetails(props) {
             }
    
   
-        
+            API.get('retailer/allretailers').then((response) => {
+              // axios.get('https://yoteorder-server.herokuapp.com/business/bestRated').then((response) => {
+    
+             
+    
+                //console.log("RETAILER LIST FROM THE CURRENT ORDERS"+JSON.stringify(response.data))
+    
+               
+                setTimeout(() => {
+    
+                    //setPosts(response.data)
+                   setRetailerList(response.data);
+                    
+    
+                 
+                }, 1000);
+    
+                //setSeller_name(response.data.Users.first_name)
+                
+            }).catch((error) => {
+                
+    
+                console.log("CONTEXT ERROR OCCURED"+error)
+              
+             });
   
   
          
-  
+           
   
         
       
@@ -1612,15 +1638,27 @@ function OrdersFromRetailerDetails(props) {
             <div class="product-card card">
                 <div class="card-body h-100">
                     <div class="d-flex">
-                        <span class="text-secondary small text-uppercase"><span class="badge bg-success">Item:</span><span class="badge bg-info">{value.item_name}</span></span>
-                        <span class="ms-auto"><i class="far fa-heart"></i></span>
+                        <span class="text-secondary small text-uppercase"><span class="badge bg-success">Item:</span><span class="badge bg-dark">{value.item_name}</span></span>
+                       
+                        <span class="ms-auto badge bg-success">{value.order_status}</span>
                     </div>
                     <h3 class="h6 mb-2 font-weight-bold text-uppercase">{value.product_name}</h3>
                     <div class="d-flex">
                         <h4 class="h5 w-50 font-weight-bold text-danger"><span class="badge bg-warning">Quantity</span><span class="badge bg-info">{value.quantity_ordered}</span></h4>
                         <span class="tx-15 ms-auto">
                         
-                        <span class="badge bg-warning">From: {value.RetailersId}</span>
+                        <span class="badge bg-warning">From:{JSON.stringify(retailerList.filter(dataItem => dataItem.id === value.RetailersId)[0].business_name)
+
+
+
+
+
+
+
+                        } </span>
+
+
+                       
                             
                            
                         </span>
@@ -1629,7 +1667,7 @@ function OrdersFromRetailerDetails(props) {
 
                     <div class="d-flex">
                  
-                  <button type="button"   onClick={() => {
+                  {/* <button type="button"   onClick={() => {
                         acceptOrder(value.id);
                           }} class="btn btn-success"><i class="fe fe-check me-2"></i>Accept</button> 
                   <button type="button" 
@@ -1638,9 +1676,27 @@ function OrdersFromRetailerDetails(props) {
                       }}
                   
                   
-                  class="btn btn-danger"><i class="fe fe-cross me-2"></i>Decline</button> 
+                  class="btn btn-danger"><i class="fe fe-cross me-2"></i>Decline</button>  */}
                   
                   </div>
+
+                   <div class="btn-list"> 
+                   {!
+													isLoading &&   <button type="button"  onClick={() => {
+                        acceptOrder(value.id);
+                          }} class="btn btn-success"><i class="fe fe-check me-2"></i>Accept</button> }
+                   {!
+													isLoading &&
+                    <button type="button"   onClick={() => {
+                    declineOrder(value.id);
+                      }} class="btn btn-danger"><i class="fa fa-times me-2" ></i>Decline</button>} </div>
+
+
+{isLoading &&
+		<button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+		<span class="visually-hidden">Loading...</span>
+	</div>Saving...</button>
+	  }
                     
  
                    

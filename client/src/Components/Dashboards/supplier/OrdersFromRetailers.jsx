@@ -32,6 +32,9 @@ function OrdersFromRetailers() {
 
     const {supplierDetails,setSupplierDetails} = useContext(DataContext);
 
+
+    const {retailerList} = useContext(DataContext);
+
     const [supplierId, setsupplierId] = useState('');
 
     const [isBusinessSet,setIsBusinessSet] = useState(false);
@@ -153,25 +156,11 @@ function OrdersFromRetailers() {
 
                          
 
-
-                            
-
-
-
-                              
   
-                        <OrdersFromRetailerDetails supplierId={supplierId}></OrdersFromRetailerDetails>
+                        <OrdersFromRetailerDetails supplierId={supplierId} retailerList={retailerList}></OrdersFromRetailerDetails>
   
   
                      
-  
-                           
-  
-  
-  
-  
-  
-                         
                           
                              
                               

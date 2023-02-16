@@ -75,6 +75,9 @@ function ProductCardCommon(props) { // props.product is the product we are selli
 
     console.log('THE CARD STATUS IS',cart.showCard);
 
+
+    
+
     },[bussId]);
 
 
@@ -96,10 +99,11 @@ function ProductCardCommon(props) { // props.product is the product we are selli
 
     }
 
+    
+
     return (
+        
        
-
-
         <div class="card item-card ">
         <div class="card-body pb-0">
         <div class="d-flex">

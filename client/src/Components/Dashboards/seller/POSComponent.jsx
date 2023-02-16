@@ -533,8 +533,8 @@ const checkout = async () => {
 	//saveCustomer()
 
 
-	await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
-		//await fetch('http://localhost:8080/api/order/checkout', {
+	//await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
+		await fetch('http://localhost:8080/api/order/checkout', {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/json'
@@ -592,7 +592,7 @@ const checkoutRetailer = async () => {
 
 	//console.log('THE SUPPLIER ID IS'+sId)
 
-	console.log('AFTER ADDING SUPPLIER ID'+JSON.stringify(cart.citems))
+	//console.log('AFTER ADDING SUPPLIER ID'+JSON.stringify(cart.citems))
 
 	
 
@@ -603,8 +603,8 @@ const checkoutRetailer = async () => {
 	//saveCustomer()
 
 
-	 await fetch('https://apibackend.patamtaani.com/api/order/retailercheckout', {
-		//await fetch('http://localhost:8080/api/order/retailercheckout', {
+	// await fetch('https://apibackend.patamtaani.com/api/order/retailercheckout', {
+		await fetch('http://localhost:8080/api/order/retailercheckout', {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/json'

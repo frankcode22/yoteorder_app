@@ -210,7 +210,7 @@ function CommonProductsView(props)  {
 
 
 
-	//const handleClose = () => setShow(false);
+	const closeExistsModal = () => setItemExists(false);
 	  const handleExistsItem = () =>{
   
 		  //setRandomNo(randomNumberInRange(1, 10000));
@@ -605,8 +605,13 @@ async function performRequest() {
   if (matches.length > 0) {
 	//alert('There are matching items!');
 	setItemExists(true)
-	setLoading(false);
-  //  setError(null);
+	setTimeout(() => {
+		setLoading(false);
+		//toast.success('Saved');
+		//setIsBusinessSet(true)
+	}, 1500);
+
+	return;
   }
 
  
@@ -897,6 +902,8 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
   return (
     <div class="tab-pane" id="tab-81">
 
+		
+
 	{/** <div class="row">
        
         {productsList.map((value, key) => {
@@ -924,9 +931,14 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
     <ToastContainer/>
      
     </div> */}
+
+
+
    
 
     <div class="row">
+
+		
 	{/* <div>
       <button onClick={compareArrays}>Compare Arrays</button>
       <ul>
@@ -944,7 +956,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 									<CartProduct key={idx} id={currentProduct.id} quantity={currentProduct.quantity} orderId={randomNo}></CartProduct>
 								))}
 	
-								<h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
+								{/* <h1>Total: {cart.getTotalCost().toFixed(2)}</h1> */}
 
 
 								{/**<table class="table table-bordered table-hover mb-0 text-nowrap">
@@ -1089,10 +1101,6 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 								<form class="text-center">
 
 								
-
-
-
-								
 									
 									
 								</form>
@@ -1104,18 +1112,24 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 				</div>
 
 
-		  <Modal show={itemExists}>
+		  <Modal show={itemExists} onHide={closeExistsModal}>
           <Modal.Header>
             <Modal.Title>Item(s) Exists</Modal.Title>
           </Modal.Header>
           <Modal.Body>
 
-            <h2 class="fe fe-checked">The following items exists</h2>
-			<ul>
-        {repeatedItems.map((item) => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
+		  <div class="alert alert-solid-danger mg-b-0" role="alert"> <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"> <span aria-hidden="true">×</span></button> <strong>Oh snap!</strong>You Already have the Item</div>
+
+		  <div class="example"> 
+
+		  <ul class="list-group">
+		  {repeatedItems.map((item) => (
+			 <li key={item.id} class="list-group-item"><li class="list-group-item"><i class="fas fa-cog text-danger" aria-hidden="true"></i>{item.name}</li> </li> 
+			 ))}
+			 
+			 </ul> </div>
+
+
 
 
 

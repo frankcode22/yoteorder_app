@@ -540,10 +540,21 @@ function ProductInventory() {
 
    }
 
+   const displayStock=()=>{
+
+    setDefaultList(true)
+  
+    setShowSales(false)
+    
+    //setShowCustBill(false)
+
+
+ }
+
 
      const viewOrders=()=>{
       
-      setDefaultList(false)
+      setDefaultList(true)
         setShowSales(false)
        
         
@@ -649,7 +660,7 @@ function ProductInventory() {
                       <div class="row">
 
 
-                        <InnerMenuStock displayPOS={displayPOS}></InnerMenuStock>
+                        <InnerMenuStock displayPOS={displayPOS} displayStock={displayStock}></InnerMenuStock>
                      
 
 

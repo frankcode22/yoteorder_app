@@ -8,7 +8,7 @@ function InnerMenuStock(props) {
               <div class="main-content-left main-content-left-mail card-body pt-0 app">
                   <div class="main-settings-menu custom_large">
                       <nav class="nav main-nav-column">
-                          <a class="nav-link thumb active mb-2" href="/product_inventory"><i class="fe fe-home"></i> Main </a>
+                          <a class="nav-link thumb active mb-2"  href="javascript:void(0);" onClick={props.displayStock}><i class="fe fe-home"></i> Main </a>
 
 
                           {/* <a class="nav-link border-top-0 thumb mb-2" href="/products_tabular"><i class="fe fe-grid"></i>Common Products</a> */}
