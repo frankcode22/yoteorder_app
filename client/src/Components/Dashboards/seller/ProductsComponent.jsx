@@ -41,7 +41,7 @@ import { Modal, Button } from "react-bootstrap";
 function ProductsComponent(props) 
 {
 
-    const {businessDetails,setBusinessDetails} = useContext(DataContext);
+  const {businessDetails,setBusinessDetails} = useContext(DataContext);
 
   const {userPos, setUserPos} = useContext(LocationDataContextInit);
 
@@ -56,6 +56,8 @@ function ProductsComponent(props)
     const [type, setType] = useState("");
     const [product_description, setProduct_description] = useState("");
     const [price, setPrice] = useState("");
+
+   
 
     const [email, setEmail] = useState("");
     const [phone_no, setPhone_no] = useState("");
@@ -246,6 +248,20 @@ function ProductsComponent(props)
 
 		setShow(true);
 	} 
+
+
+  const [saved, setSaved] = useState(false);
+
+
+
+  //const handleClose = () => setShow(false);
+    const handleSaved = () =>{
+
+		//setRandomNo(randomNumberInRange(1, 10000));
+
+		setSaved(true);
+	} 
+
 
 
 
@@ -521,6 +537,14 @@ function ProductsComponent(props)
           API.get("customer/mycustomers").then((response) => {
           setCustomersList(response.data);
           })
+
+
+          if (saved) {
+            const timer = setTimeout(() => {
+              setSaved(false);
+            }, 1000); // 30 seconds
+            return () => clearTimeout(timer);
+          }
     
 
        
@@ -528,7 +552,7 @@ function ProductsComponent(props)
 
 
 
-},[businessDetails,productsList1,position,userPos]);
+},[businessDetails,productsList1,position,userPos,saved]);
 
 
 
@@ -1369,21 +1393,6 @@ setProductsList1(updatedItems);
   
 
 
-  
-  
-
-
-
- 
-
-
-  
-
-
-
-  
-
-
   setTimeout(() => {
 
     
@@ -1402,6 +1411,77 @@ setProductsList1(updatedItems);
 }
   
 }
+
+const updateChanges = async(event) => {
+
+  event.preventDefault();
+  setLoading(true)
+  setError(null);
+
+  console.log('DATA TO UPDATE IS',props.productsData)
+
+ // console.log('DATA INDEX IS ',props.productsData[index].id)
+
+
+  // const formData={
+  //   name:name,
+    
+  //   price: price,
+  //   quantity:quantity,
+  //   new_quantity:new_quantity,
+    
+  //   UserId:userId,
+      
+  // }
+
+  try {
+ 
+  const  response  = await API.put('product/update_selected', props.productsData, {});
+
+ //let updated_quantity=parseInt(new_quantity)+parseInt(quantity)
+
+//   const updatedItems = productsList.map(item => {
+//     if(item.id === productId) {
+//         return {...item, price: price,
+//           quantity: updated_quantity,
+//           name:name,
+//     type:type,
+//     product_description:product_description,
+    
+
+        
+//         };
+//     }
+//     return item;
+// });
+// setProductsList1(updatedItems);
+
+
+  
+
+
+  setTimeout(() => {
+
+      
+      setLoading(false);
+      
+      setSaved(true)
+    
+     // setShowActionBtn(false)
+     // setShowSucessAlert(true)
+     // sethidesavebtn(true)
+
+     //handleSaved();
+   
+    //  toast.success('Product updated successfully');
+  }, 2000);
+
+} catch (err) {
+  setError(err.message);
+}
+  
+}
+
 
 
 const updateProduct = async(event) => {
@@ -1905,19 +1985,32 @@ const updateProductNew = async e => {
            </div>
        </div>
        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
-           <ul class="nav item2-gl-menu float-end my-2">
-               <li class="border-end"><a href="#tab-11" class="show active" data-bs-toggle="tab" title="List style"><i class="fa fa-th"></i></a></li>
-               <li><a href="#tab-12" data-bs-toggle="tab" class="" title="Grid"><i class="fa fa-list"></i></a></li>
-           </ul>
+         
+       {!isLoading &&<button type="submit" onClick={updateChanges} class="btn btn-primary btn-block float-end my-2"><i class="fas fa-save"></i><span> Save Changes </span></button>
+
+} 
+{isLoading &&
+  <button type="submit" class="btn btn-primary btn-block float-end my-2" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>Saving...</button>
+}
+
+
        </div>
        <div class="col-xl-3 col-lg-12">
       
-           <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" onClick={handleShow}><i class="fa fa-plus-square me-2"></i>New Product</a>
+           <a class="btn btn-primary btn-block float-end my-2" onClick={handleShow}><i class="fa fa-plus-square me-2"></i>New Product</a>
        </div>
    </div>
        </div>
    </div>
    <div class="row row-sm">
+
+
+ 
+
+
+  
 
    {props.productsData.map((value, index) => {
     return (
@@ -1944,7 +2037,28 @@ const updateProductNew = async e => {
                    <a class="badge bg-info h5 w-50 font-weight-bold" href='#'>Quantity {value.quantity}</a>
                    <div class="card-footer text-center">
               <div class="row" key={value.id}>
+
+              <div class="col">
+
+<label for="nameWithTitle" class="form-label">price</label>
+  <input
+    type="number"
+    class="form-control"
+    value={value.price}
+    onChange={(event) => {
+      const newData = [...props.productsData];
+      newData[index].price = event.target.value;
+      props.setProductsData(newData);
+    }}
+  />
+
+
+
+
+</div>
                 <div class="col">
+
+                <label for="nameWithTitle" class="form-label">quantity</label>
 
                   <input type="number" class="form-control"
 
@@ -1960,24 +2074,7 @@ const updateProductNew = async e => {
 
                 </div>
 
-                <div class="col">
-
-
-                  <input
-                    type="number"
-                    class="form-control"
-                    value={value.price}
-                    onChange={(event) => {
-                      const newData = [...props.productsData];
-                      newData[index].price = event.target.value;
-                      props.setProductsData(newData);
-                    }}
-                  />
-
-
-
-
-                </div>
+               
               
 
               </div>
@@ -2001,9 +2098,9 @@ onClick={() => {
 
 
       
-<button  type="submit" class="btn btn-primary mb-1" onClick={() => updateProductLatest(index)}>
+{/* <button  type="submit" class="btn btn-primary mb-1" onClick={() => updateProductLatest(index)}>
             {isLoading ? 'Saving...' : 'Save'}
-          </button>
+          </button> */}
 
       
 
@@ -2044,91 +2141,174 @@ onClick={() => {
 
 
 
+<div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+           <div class="product-card card">
+               <div class="card-body h-100">
+
+              
+
+               {!isLoading &&<button type="submit" onClick={updateChanges} class="btn btn-primary"><i class="fas fa-save"></i><span> Save </span></button>
+
+} 
+{isLoading &&
+  <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>Saving...</button>
+}
+
+
+
+
+
+               </div>
+               </div>
+
+
+</div>
+
+
+
+        <Modal show={saved}>
+          <Modal.Header>
+            <Modal.Title>Success</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+
+            <h2 class="fe fe-checked">Successfully updated!</h2>
+
+
+
+          </Modal.Body>
+
+          <Modal.Footer>
+
+            <button class="btn btn-success mb-1" onClick={() => setSaved(false)}>Close</button>
+          </Modal.Footer>
+        </Modal>
 
 
 
                   
 <Modal show={show} onHide={handleClose}>
-<div class="modal-dialog modal-dialog-centered text-center" role="document">
-    <div class="modal-content modal-content-demo">
-        <div class="modal-header">
-            <h6 class="modal-title">Add Product</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
 
-        {error && !retry && <div class="badge bg-danger">{error}</div>}
-
-
-
-        {showSuccessAlert &&
-
-          <div>
-
-          <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
-          <h4 class="text-success mb-4">Product saved successfully!</h4>
-
-          </div>
-      }
-
-
-      {!showSuccessAlert &&  <div>
-
-        <div class="row">
-        <div class="col mb-3">
-          <label for="nameWithTitle" class="form-label">Item Name</label>
-          <input type="text" id="item_name" class="form-control" placeholder="Eg.Chrome Gine"
-          
-          onChange={(event) => {
-              setName(event.target.value);
-            }}
-             
-          />
-        </div>
-      </div>
-
-      <div class="row">
-      <div class="col mb-3">
-        <label for="nameWithTitle" class="form-label">Description</label>
-
-
-        <textarea id="basic-icon-default-message" class="form-control" placeholder="Enter any description" aria-label="Enter any description" 
-                                  
-        onChange={(event) => {
-          setProduct_description(event.target.value)
-        }}
-
-        aria-describedby="basic-icon-default-message2"></textarea> 
-        
-      </div>
-    </div>
-
+<Modal.Header>
+                    <Modal.Title>New Product</Modal.Title>
+                </Modal.Header>
 
     
-    <div class="form-row">
+       
 
-    <div class="form-group col-md-6 mb-0">
+    <Modal.Body>
+
+
+
+        
+
+{error && !retry && <div class="badge bg-danger">{error}</div>}
+
+
+
+{showSuccessAlert &&
+
+  <div>
+
+  <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+  <h4 class="text-success mb-4">Product saved successfully!</h4>
+
+  </div>
+}
+
+
+{!showSuccessAlert &&  <div>
+
+<div class="row">
+<div class="col mb-3">
+  <label for="nameWithTitle" class="form-label">Item Name</label>
+  <input type="text" id="item_name" class="form-control" placeholder="Eg.Chrome Gine"
+  
+  onChange={(event) => {
+      setName(event.target.value);
+    }}
+     
+  />
+</div>
+</div>
+
+<div class="row">
+<div class="col mb-3">
+<label for="nameWithTitle" class="form-label">Description</label>
+
+
+<textarea id="basic-icon-default-message" class="form-control" placeholder="Enter any description" aria-label="Enter any description" 
+                          
+onChange={(event) => {
+  setProduct_description(event.target.value)
+}}
+
+aria-describedby="basic-icon-default-message2"></textarea> 
+
+</div>
+</div>
+
+
+
+<div class="form-row">
+
+<div class="form-group col-md-6 mb-0">
 
 
 <label class="form-label" for="multicol-country">Unit Of Measure</label>
 <select id="multicol-country" class="form-control select2 form-select"
 
 onChange={(event) => {
-    setunit_of_measure(event.target.value);
+setunit_of_measure(event.target.value);
 }}
 
+data-allow-clear="true">
+<option value="">Select Unit Of Measure</option>
+
+<option value="Litre">Litres</option>
+
+<option value="Item">Item</option>
+
+
+
+
+<option value="Package">Package</option>
+
+<option value="Order">Order</option>
+
+
+
+
+</select>
+
+
+
+</div>
+
+{/**<div class="form-group col-md-6 mb-0">
+
+
+<label class="form-label" for="multicol-country">Category</label>
+<select id="multicol-country" class="form-control select2 form-select"
+    onChange={(event) => {
+      setRetailerProductCategoryId(event.target.value);
+    }}
+
     data-allow-clear="true">
-    <option value="">Select Unit Of Measure</option>
+    <option value="">Select Category</option>
 
-    <option value="Litre">Litres</option>
-   
-    <option value="Item">Item</option>
-  
+    {retailerCatList.map((value,key)=>{
 
-    
-   
-    <option value="Package">Package</option>
+      return (
 
-    <option value="Order">Order</option>
+        <option value={value.id}>{value.cat_name}</option>
+
+      )
+
+    })}
+
 
     
 
@@ -2137,147 +2317,135 @@ onChange={(event) => {
 
 
  
+</div> */}
+
+<div class="form-group col-md-6 mb-0">
+
+
+    <div class="form-group">
+    <label for="dobWithTitle" class="form-label">Quantity</label>
+    <input type="number" id="price" class="form-control"
+
+        onChange={(event) => {
+            setQuantity(event.target.value);
+        }}
+
+
+    />
+ 
+    </div>
+
+
+
+
+</div>
 </div>
 
-      {/**<div class="form-group col-md-6 mb-0">
-
-
-        <label class="form-label" for="multicol-country">Category</label>
-        <select id="multicol-country" class="form-control select2 form-select"
-            onChange={(event) => {
-              setRetailerProductCategoryId(event.target.value);
-            }}
-
-            data-allow-clear="true">
-            <option value="">Select Category</option>
-
-            {retailerCatList.map((value,key)=>{
-
-              return (
-
-                <option value={value.id}>{value.cat_name}</option>
-
-              )
-
-            })}
-
-
-            
-
-
-        </select>
-
-
-         
-        </div> */}
-
-        <div class="form-group col-md-6 mb-0">
-
-       
-            <div class="form-group">
-            <label for="dobWithTitle" class="form-label">Quantity</label>
-            <input type="number" id="price" class="form-control"
-
-                onChange={(event) => {
-                    setQuantity(event.target.value);
-                }}
-
-
-            />
-         
-            </div>
-        
+<div class="form-row">
 
 
 
-        </div>
-        </div>
-
-        <div class="form-row">
-
-     
-
-        <div class="form-group col-md-6 mb-0">
-
-       
-            <div class="form-group">
-            <label for="dobWithTitle" class="form-label">Price(Per Item)</label>
-            <input type="number" id="price" class="form-control"
-
-            onChange={(event) => {
-              setPrice(event.target.value);
-          }}
-
-            />
-            {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
-            </div>
-
-            <input type="hidden" value={businessId}  onChange={(event) => {
-              setbusinessId(event.target.value);
-            }} placeholder="bussId"/>
-        
+<div class="form-group col-md-6 mb-0">
 
 
+    <div class="form-group">
+    <label for="dobWithTitle" class="form-label">Price(Per Item)</label>
+    <input type="number" id="price" class="form-control"
 
-        </div>
-        </div>
-        <div class="form-row">
-        
+    onChange={(event) => {
+      setPrice(event.target.value);
+  }}
 
+    />
+    {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
+    </div>
 
-    {/** <div class="form-group">
-        <label class="form-label mt-0">Upload Product Photo</label>
-        <input class="form-control" type="file"
-        name="image"
-
-        onChange={(e) => {
-          handleFileInputChange(e)
-        }}
-       
-        value={fileInputState}
-       
-    /> 
-    
     <input type="hidden" value={businessId}  onChange={(event) => {
-        setbusinessId(event.target.value);
-      }} placeholder="bussId"/>
-        </div>
+      setbusinessId(event.target.value);
+    }} placeholder="bussId"/>
 
 
-        {previewSource && (
-            <img
-                src={previewSource}
-                alt="chosen"
-                style={{ height: '300px' }}
-            />
-        )} */}
 
-       
-      </div>
-        
-        
-        </div> }
+
+</div>
+</div>
+<div class="form-row">
+
+
+
+{/** <div class="form-group">
+<label class="form-label mt-0">Upload Product Photo</label>
+<input class="form-control" type="file"
+name="image"
+
+onChange={(e) => {
+  handleFileInputChange(e)
+}}
+
+value={fileInputState}
+
+/> 
+
+<input type="hidden" value={businessId}  onChange={(event) => {
+setbusinessId(event.target.value);
+}} placeholder="bussId"/>
+</div>
+
+
+{previewSource && (
+    <img
+        src={previewSource}
+        alt="chosen"
+        style={{ height: '300px' }}
+    />
+)} */}
+
+
+</div>
+
+
+</div> }
+
+
+
+    </Modal.Body>
      
-      </div>
-        <div class="modal-footer">
+      
+
+          <Modal.Footer>
+
+          {!isLoading && !hidesavebtn &&<button type="submit" onClick={performRequest} class="btn btn-primary">Save</button>
+
+} 
+{isLoading &&
+  <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>Saving Infor</button>
+}
+
+    
+    
+    <button class="btn btn-light" onClick={handleClose}>Close</button>
+
+
+          </Modal.Footer>
           
 
 
-            {!isLoading && !hidesavebtn &&<button type="submit" onClick={performRequest} class="btn btn-primary">Save</button>
+          
+   
+   
 
-        } 
-        {isLoading &&
-          <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
-          <span class="visually-hidden">Loading...</span>
-      </div>Saving Infor</button>
-        }
-    
-            
-            
-            <button class="btn btn-light" onClick={handleClose}>Close</button>
-        </div>
-    </div>
-</div>
+
+
+
+
+
+
+
+
+
+
 </Modal>
 
 

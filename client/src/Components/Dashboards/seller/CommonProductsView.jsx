@@ -46,9 +46,12 @@ function randomNumberInRange(min, max) {
   }
 
 // THIS IS THE EQUIVALENT OF THE POSComponent
-function CommonProductsView()  {
+function CommonProductsView(props)  {
 
     const {businessDetails,setBusinessDetails} = useContext(DataContext);
+
+
+
 
     //const {userPos, setUserPos} = useContext(LocationDataContextInit);
   
@@ -203,6 +206,19 @@ function CommonProductsView()  {
 	const [checkedItem, setCheckedItem] = useState(null);
 
 
+	const [itemExists, setItemExists] = useState(false);
+
+
+
+	//const handleClose = () => setShow(false);
+	  const handleExistsItem = () =>{
+  
+		  //setRandomNo(randomNumberInRange(1, 10000));
+  
+		  setItemExists(true);
+	  } 
+
+
 
 
 
@@ -211,6 +227,31 @@ function CommonProductsView()  {
     
 
     const [isLoading,setLoading]=useState(false);
+
+
+
+	const arr1 = [
+		{ id: 1, name: 'John' },
+		{ id: 2, name: 'Jane' },
+		{ id: 3, name: 'Bob' },
+	  ];
+	
+	  const arr2 = [
+		{ id: 4, name: 'Tom' },
+		{ id: 2, name: 'Jane' },
+		{ id: 3, name: 'Bob' },
+		{ id: 5, name: 'Mike' },
+	  ];
+	
+	  const [repeatedItems, setRepeatedItems] = useState([]);
+
+
+
+
+
+
+
+	
 
 
     
@@ -283,8 +324,12 @@ function CommonProductsView()  {
 
 },[businessDetails,customerId,setOrderNo])
 
-
-
+const compareArrays = () => {
+    const matches = props.productsData.filter((item1) =>
+      cart.items.some((item2) => item2.id === item1.pId)
+    );
+    setRepeatedItems(matches);
+  };
 
 //const handleCheckboxChange=(event)=> {
    // setSelectedId(event.target.value);
@@ -550,6 +595,19 @@ const openSelectedSupplier=(sId)=>{
 async function performRequest() {
     setLoading(true);
     setError(null);
+
+
+	const matches = props.productsData.filter((item1) =>
+	cart.items.some((item2) => item2.id === item1.pId)
+  );
+  setRepeatedItems(matches);
+
+  if (matches.length > 0) {
+	//alert('There are matching items!');
+	setItemExists(true)
+	setLoading(false);
+  //  setError(null);
+  }
 
  
 
@@ -869,6 +927,14 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
    
 
     <div class="row">
+	{/* <div>
+      <button onClick={compareArrays}>Compare Arrays</button>
+      <ul>
+        {repeatedItems.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
+    </div> */}
 					<div class="col-md-12 col-xl-8">
 						<div class="card">
 							<div class="card-body">
@@ -979,7 +1045,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 
 							{/**<Button onClick={handleShow}>Cart ({productsCount} Items)</Button> */}
 
-							<Button onClick={handleShowCustomerModal}>+Customer</Button>
+							{/* <Button onClick={handleShowCustomerModal}>+Customer</Button> */}
 								
 							</div>
 						</div>
@@ -1006,15 +1072,12 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 
 					<div class="col-lg-12">
 						<div class="card">
-							<div class="card-header pb-0">
-								{/* <div class="card-title mb-0">Total Amount</div> */}
-
-							</div>
+							
 							<div class="card-body">
 
 							{!
-													isLoading &&  <Button variant="success" onClick={performRequest}>
-                                Save Items
+													isLoading &&  <Button variant="success" onClick={performRequest}><i class="fas fa-save"> </i><span> Save Items</span>
+                               
                             </Button>
 	}  {isLoading &&
 		<button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
@@ -1039,6 +1102,34 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 					<ToastContainer/>
 					</div>
 				</div>
+
+
+		  <Modal show={itemExists}>
+          <Modal.Header>
+            <Modal.Title>Item(s) Exists</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+
+            <h2 class="fe fe-checked">The following items exists</h2>
+			<ul>
+        {repeatedItems.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
+
+
+
+          </Modal.Body>
+
+          <Modal.Footer>
+
+            <button class="btn btn-success mb-1" onClick={() => setItemExists(false)}>Close</button>
+          </Modal.Footer>
+        </Modal>
+
+
+
+
 
 				<Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

@@ -231,7 +231,7 @@ function ProductCardCommon(props) { // props.product is the product we are selli
                     <Button variant="danger" onClick={() => cart.deleteFromCart(product.id)} className="my-2">Remove</Button>
                 </>
                 :
-                <Button variant="primary" onClick={() => cart.addOneToCart(product.id,product.price,product.title,bussId)}><i class="fe fe-check"></i>Select</Button>
+                <Button variant="primary" onClick={() => cart.addOneToCart(product.id,product.price,product.title,bussId)}><i class="fas fa-check-circle"></i>Select</Button>
             }
 
 

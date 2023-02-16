@@ -5,25 +5,25 @@
 
 const productsArray = [
     {
-        id: "001",
+        id: 1,
         title: "Gilbey's 250ml",
         quantity: 20,
         price: 550
     },
     {
-        id: "002",
+        id: 2,
         title: "Gilbey's 500ml",
         quantity: 20,
         price: 750
     },
     {
-        id: "003",
+        id:3,
         title: "Gilbey's 750ml",
         quantity: 20,
         price: 1450
     },
     {
-        id: "004",
+        id: 4,
         title: "Gilbey's 1Litre",
         quantity: 20,
         price: 1600

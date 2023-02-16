@@ -1005,6 +1005,7 @@ return (
                     </div>
                 </li>
                 <li class="d-sm-flex">
+                    
                     <div>
                         <i class="task-icon1"></i>
                         <h6 class="fw-semibold">Task Finished<span

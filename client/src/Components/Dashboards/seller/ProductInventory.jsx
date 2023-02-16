@@ -690,7 +690,7 @@ function ProductInventory() {
                           {!defaultList && <CommonProductsStore></CommonProductsStore>}
 
 
-                          {!defaultList && <CommonProductsView></CommonProductsView>}
+                          {!defaultList && <CommonProductsView productsData={productsData}></CommonProductsView>}
   
   
   
