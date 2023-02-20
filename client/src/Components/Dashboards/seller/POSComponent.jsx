@@ -126,7 +126,7 @@ function POSComponent() {
 		setShow(true);
 	} 
 
-
+	const [showSuccessAlert,setShowSucessAlert]=useState(false);
 
 	const [showSuppliers, setShowSuppliers] = useState(false);
     const closeSupplierModal = () => setShowSuppliers(false);
@@ -146,7 +146,7 @@ function POSComponent() {
 	} 
 
 
-
+	const [hidesavebtn,sethidesavebtn]=useState(false);
 	
 
 
@@ -169,6 +169,18 @@ function POSComponent() {
 	} 
 
 
+	const generateCustomer = (orderNo) =>{
+
+		//setRandomNo(randomNumberInRange(1, 10000));
+
+		
+        setName(orderNo)
+		setNewCustomer(true);
+		setSaveNewCustomerButton(true)
+	} 
+
+
+
  
 
 
@@ -181,6 +193,18 @@ function POSComponent() {
 
 	const [checkedItem, setCheckedItem] = useState(null);
 
+
+	  const [showSold, setShowSold] = useState(false);
+    const handleCloseSold = () => setShowSold(false);
+    const handleShowSold = () =>{
+
+		//setRandomNo(randomNumberInRange(1, 10000));
+
+		setShowSold(true);
+	} 
+
+
+  const [saved, setSaved] = useState(false);
 
 
 
@@ -445,6 +469,9 @@ const addDetails = (oId)  => {
 		   
 		   setTimeout(() => {
 			   setLoading(false);
+
+			   setShowSucessAlert(true)
+			   sethidesavebtn(true)
 			   toast.info('Sale Made To Existing Customer');
 		   }, 1000);
    
@@ -474,7 +501,8 @@ const addDetails = (oId)  => {
 		   
 		   setTimeout(() => {
 			   setLoading(false);
-			   toast.info('Sale Made To New Customer');
+			   setShowSucessAlert(true)
+			  // toast.info('Sale Made To New Customer');
 		   }, 1000);
    
 		   
@@ -533,6 +561,13 @@ const checkout = async () => {
 	//saveCustomer()
 
 
+
+	//let { id } = API;
+
+	
+
+	//console.log('API URL IS'+AP)
+
 	//await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
 		await fetch('http://localhost:8080/api/order/checkout', {
 		method: "POST",
@@ -558,7 +593,8 @@ const checkout = async () => {
 
 		setTimeout(() => {
 			setLoading(false);
-			toast.success('Saved');
+			//toast.success('Saved');
+			setSaved(true)
 			//setIsBusinessSet(true)
 		}, 1000);
 
@@ -851,9 +887,40 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 							</div>
 							<div class="card-body">
 
+							<div class="card-title mb-0">Total Amount:<span class="badge bg-warning mb-0">{cart.getTotalCost().toFixed(2)}</span> </div>
+
 							{/**<Button onClick={handleShow}>Cart ({productsCount} Items)</Button> */}
 
-							<Button onClick={handleShowCustomerModal}>+Customer</Button>
+							{/* <Button onClick={handleShowCustomerModal}>+Customer</Button> */}
+
+							<h2 class="card-title badge bg-info mb-0"></h2>
+							<div class="btn-list"> 
+							{!isLoading && 
+                 <button class="btn btn-sm btn-success badge" 
+				 onClick={checkout}
+
+					  type="button"><i class="fa fa-check"></i>Sell Now</button>  }
+
+                      <button class="btn btn-sm btn-info badge" 
+					//    onClick={() => {
+                    //     declineOrder(value.id);
+                    //       }} 
+						  
+						  type="button"><i class="fa fa-plus me-2"></i>New Order</button> 
+
+
+
+{isLoading &&
+		<button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+		<span class="visually-hidden">Loading...</span>
+	</div>Saving Infor</button>
+	  }
+                
+                </div>
+
+						
+
+
 								
 							</div>
 						</div>
@@ -870,7 +937,11 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 
 							<Button onClick={openSuppliersModal}>To Order ({itemsCount} Items)</Button>
 
+						
+
 							{/**	<Button onClick={openSuppliersModal}>Order Now</Button> */}
+
+							
 
 						
 								
@@ -884,7 +955,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 								<div class="card-title mb-0">Total Amount</div>
 
 							</div>
-							<div class="card-body">
+							{/* <div class="card-body">
 								
 								<div class="table-responsive">
 									<table class="table table-bordered">
@@ -904,7 +975,8 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 		<span class="visually-hidden">Loading...</span>
 	</div>Saving Infor</button>
 	  }</span></td>
-												<td><h2 class="price text-end mb-0"><button class="btn btn-success me-sm-3 me-1" type="submit" value="Continue Shopping">New Order</button></h2></td>
+												<td>
+													<h2 class="price text-end mb-0"><button class="btn btn-success me-sm-3 me-1" type="submit" value="Continue Shopping">New Order</button></h2></td>
 											</tr>
 										</tbody>
 									</table>
@@ -919,10 +991,10 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 									
 									
 								</form>
-							</div>
+							</div> */}
 						</div>
 					</div>
-					<ToastContainer/>
+					{/* <ToastContainer/> */}
 					</div>
 				</div>
 
@@ -1217,6 +1289,160 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
                     }
                 </Modal.Body>
             </Modal>
+
+
+			<Modal show={saved}>
+          <Modal.Header>
+            <Modal.Title><span class="fe fe-checked">Order Made Successfully</span></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+
+           
+			<h4>Total bill is? {cart.getTotalCost().toFixed(2)} </h4>
+
+
+			
+								
+								
+								<p>Order Id: {orderNo}</p>
+
+								{showSuccessAlert &&
+
+<div>
+
+<h4 class="text-success mb-4">Order Completed!</h4>
+
+</div>
+}
+
+{!showSuccessAlert &&  <>
+								<div class="form-row">
+
+<div class="form-group col-md-16 mb-0">
+								<Button onClick={handleNewCustomer}>+ New customer</Button>
+
+								</div>
+
+								<div class="form-group col-md-16 mb-0">
+								<Button  onClick={() => {
+                            generateCustomer(orderNo);
+                              }}>Generate Customer</Button>
+
+								</div>
+								</div>
+
+											
+                                    {!newCustomer &&
+									<div class="form-row">
+
+									<div class="form-group col-md-12 mb-0">
+									<label for="nameWithTitle" class="form-label">Select Customer</label>
+									
+										<select name="alabama" onChange={handleSubCategorySelect}
+										
+										  class="form-control select2-no-search">
+
+										  
+											<option label="Choose one"></option>
+											{customersList.map((value, key) => {
+												return (
+											<option value={value.id}>{value.name}</option>
+											
+											)})}
+											
+											
+											
+										</select>
+									</div>
+									</div>
+
+
+									
+									}
+									
+
+
+									<div class="form-row">
+
+<div class="form-group col-md-12 mb-0">
+<label for="nameWithTitle" class="form-label">Customer Name</label>
+
+								
+
+										
+
+											
+											<input type="text" class="form-control" id="postal" value={name} onChange={(event) => {
+												setName(event.target.value);
+											  }} placeholder="Customer Name"/>
+
+											  </div>
+											  </div>
+										
+
+											  <div class="form-row">
+
+<div class="form-group col-md-12 mb-0">
+<label for="nameWithTitle" class="form-label">Customer Name</label>
+											<input type="text" class="form-control" id="postal" value={phone_no} onChange={(event) => {
+												setPhone_no(event.target.value);
+											  }} placeholder="Phone No."/>
+										</div>
+									</div>
+
+									
+									<div class="form-row">
+
+									<div class="form-group col-md-12 mb-0">
+<label for="nameWithTitle" class="form-label">Customer Name</label>
+										<input type="text" class="form-control" id="postal" onChange={(event) => {
+											setAmountPaid(event.target.value);
+										  }} placeholder="Amount Paid"/>
+									</div>
+								</div>
+											
+									
+
+									
+									
+				
+
+
+			
+
+		
+
+
+			</>}
+          </Modal.Body>
+
+          <Modal.Footer>
+
+		  {!isLoading && !newCustomer && <button type="submit"
+								onClick={() => {
+									saleItems();
+								  }}
+								
+								
+								class="btn btn-primary">Save</button>
+
+							} 
+
+
+							{!isLoading && newCustomer && <button type="submit"
+								onClick={() => {
+									saleItems();
+								  }}
+								
+								
+								class="btn btn-primary">Save Customer</button>
+
+							} 
+
+            <button class="btn btn-success mb-1" onClick={() => setSaved(false)}>Close</button>
+          </Modal.Footer>
+        </Modal>
+
 
 
 </div>

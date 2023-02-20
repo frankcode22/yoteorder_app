@@ -202,24 +202,19 @@ function HomeUser() {
                                                                 <span class="text-secondary small text-uppercase"><span class="badge bg-success">Logged in As:</span><span class="badge bg-info">{authState.first_name}</span></span>
                                                                 <span class="ms-auto"><i class="far fa-heart"></i></span>
                                                             </div>
+                                                            <div class="d-flex">
+                                                                <span class="text-secondary small text-uppercase"><span class="badge bg-success">Email:</span><span class="badge bg-info">{authState.username}</span></span>
+                                                                <span class="ms-auto"><i class="far fa-heart"></i></span>
+                                                            </div>
                                                             <h3 class="h6 mb-2 font-weight-bold text-uppercase"></h3>
                                                             <div class="d-flex">
-                                                                <h4 class="h5 w-50 font-weight-bold text-danger"><span class="badge bg-warning">Quantity</span><span class="badge bg-info"></span></h4>
-                                                                <span class="tx-15 ms-auto">
-
-                                                                    <span class="badge bg-warning">From:</span>
-
-
-                                                                </span>
-                                                            </div>
-
-
-                                                            <div class="d-flex">
-
-                                                                <button type="button" class="btn btn-success"><i class="fe fe-check me-2"></i>Accept</button>
+                                                                <h4 class="h5 w-50 font-weight-bold text-danger"><span class="badge bg-warning">{authState.phone_no}</span><span class="badge bg-info"></span></h4>
                                                                 
-
                                                             </div>
+                                                           
+
+
+                                                         
 
 
 
@@ -229,29 +224,33 @@ function HomeUser() {
 
 
                                                     <div class="product-card card">
+                                                        
                                                         <div class="card-body h-100">
-                                                            <div class="d-flex">
-                                                                <span class="text-secondary small text-uppercase"><span class="badge bg-success">Hi!</span><span class="badge bg-info">{authState.first_name}</span>This is your Data</span>
-                                                                <span class="ms-auto"><i class="far fa-heart"></i></span>
-                                                            </div>
-                                                            <h3 class="h6 mb-2 font-weight-bold text-uppercase"></h3>
-                                                            <div class="d-flex">
-                                                                <h4 class="h5 w-50 font-weight-bold text-danger"><span class="badge bg-warning">Quantity</span><span class="badge bg-info"></span></h4>
-                                                                <span class="tx-15 ms-auto">
 
-                                                                    <span class="badge bg-warning">From:</span>
+                                                        <h3 class="h6 mb-2 font-weight-bold text-uppercase">Customer Care No</h3>
+
+                                                       
 
 
-                                                                </span>
-                                                            </div>
+                                                        <div class="d-flex">
+                                                                <h4 class="h5 w-50 font-weight-bold text-danger"><span class="badge bg-warning">Phone Number</span><span class="badge bg-info"></span></h4>
 
-
-                                                            <div class="d-flex">
-
-                                                                <button type="button" class="btn btn-success"><i class="fe fe-check me-2"></i>Edit</button>
+                                                                <span class=" h5 w-50 font-weight-bold badge bg-info">+254 714 639773</span><span class="badge bg-info"></span>
+                                                                <span class=" h5 w-50 font-weight-bold badge bg-info">+254 724 441451</span><span class="badge bg-info"></span>
                                                                 
-
                                                             </div>
+
+                                                            <div class="d-flex">
+                                                                <h4 class="h5 w-50 font-weight-bold text-danger"><span class="badge bg-warning">Email</span><span class="badge bg-info"></span></h4>
+
+                                                                <span class=" h5 w-50 font-weight-bold badge bg-info">info@patamtaani.com</span><span class="badge bg-info"></span>
+                                                              
+                                                                
+                                                            </div>
+                                                          
+
+
+                                                           
 
 
 

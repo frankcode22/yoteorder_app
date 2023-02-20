@@ -5,10 +5,11 @@ import API from '../../../services';
 import DataContext from '../../../helpers/DataContext';
 import {useEffect,useContext,useState } from 'react';
 import { ProductsContext } from '../../../helpers/ProductsContext';
+import { AuthContext } from '../../../helpers/AuthContext';
 
 function ProductCardCommon(props) { // props.product is the product we are selling
 
-   
+    const {authState} = useContext(AuthContext);
     const product = props.product;
     const {businessDetails,setBusinessDetails} = useContext(DataContext);
    // const cart = useContext(CartContext);
@@ -74,6 +75,13 @@ function ProductCardCommon(props) { // props.product is the product we are selli
              })
 
     console.log('THE CARD STATUS IS',cart.showCard);
+
+
+        //setbussId(businessDetails.id)
+
+      //  console.log('RETAILER ID IS ',businessDetails.id);
+
+    
 
 
     
@@ -153,15 +161,6 @@ function ProductCardCommon(props) { // props.product is the product we are selli
                   </div> */}
 
 
-                    
-              
-
-
-                  
-
-                
-
-              
 
                     
                 </div>
@@ -225,17 +224,13 @@ function ProductCardCommon(props) { // props.product is the product we are selli
 												
 											</div>
 
-                    
-												
-												
-                       
                         
                     </Form>
                     
                     <Button variant="danger" onClick={() => cart.deleteFromCart(product.id)} className="my-2">Remove</Button>
                 </>
                 :
-                <Button variant="primary" onClick={() => cart.addOneToCart(product.id,product.price,product.title,bussId)}><i class="fas fa-check-circle"></i>Select</Button>
+                <Button variant="primary" onClick={() => cart.addOneToCart(product.id,product.price,product.title,businessDetails.id)}><i class="fas fa-check-circle"></i>Select</Button>
             }
 
 

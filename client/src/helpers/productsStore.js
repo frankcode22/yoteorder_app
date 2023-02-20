@@ -138,6 +138,30 @@ const productsArray = [
         title: "Vat 69 1 Litre",
         quantity: 10,
         price: 300
+    },
+    {
+        id: 23,
+        title: "Balozi Chupa",
+        quantity: 10,
+        price: 300
+    },
+    {
+        id: 24,
+        title: "Balozi Can",
+        quantity: 10,
+        price: 300
+    },
+    {
+        id: 25,
+        title: "Whitecap Chupa",
+        quantity: 10,
+        price: 300
+    },
+    {
+        id: 26,
+        title: "Whitecap Can",
+        quantity: 10,
+        price: 300
     }
 ];
 
@@ -145,7 +169,7 @@ function getProductData(id) {
    
     let productData = productsArray.find(product => product.id === id);
 
-    if (productData == undefined) {
+    if (productData === undefined) {
         console.log("Product data does not exist for ID: " + id);
         return undefined;
     }

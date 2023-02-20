@@ -2172,7 +2172,7 @@ onClick={() => {
 
               
 
-               {!isLoading &&<button type="submit" onClick={updateChanges} class="btn btn-primary"><i class="fas fa-save"></i><span> Save </span></button>
+               {!isLoading && <button type="submit" onClick={updateChanges} class="btn btn-primary"><i class="fas fa-save"></i><span> Save </span></button>
 
 } 
 {isLoading &&

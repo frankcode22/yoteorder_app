@@ -101,8 +101,6 @@ export function ProductsProvider({children}) {
 
     function getProductQuantity(id) {
         const quantity = cartProducts.find(product => product.id === id)?.quantity;
-
-       
         
         if (quantity === undefined) {
             return 0;
@@ -364,11 +362,7 @@ export function ProductsProvider({children}) {
             )
 
 
-           
-
-
-
-
+     
 
         } else { // product is in cart
             // [ { id: 1 , quantity: 3 }, { id: 2, quantity: 1 } ]    add to product id of 2

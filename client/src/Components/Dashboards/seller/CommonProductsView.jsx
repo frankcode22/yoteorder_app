@@ -721,8 +721,8 @@ const checkout = async () => {
 	//saveCustomer()
 
 
-	await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
-	//	await fetch('http://localhost:8080/api/order/checkout', {
+	//await fetch('https://apibackend.patamtaani.com/api/order/checkout', {
+		await fetch('http://localhost:8080/api/order/checkout', {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/json'
@@ -791,8 +791,8 @@ const checkoutRetailer = async () => {
 	//saveCustomer()
 
 
-	 await fetch('https://apibackend.patamtaani.com/api/order/retailercheckout', {
-		//await fetch('http://localhost:8080/api/order/retailercheckout', {
+	// await fetch('https://apibackend.patamtaani.com/api/order/retailercheckout', {
+		await fetch('http://localhost:8080/api/order/retailercheckout', {
 		method: "POST",
 		headers: {
 			'Content-Type': 'application/json'
@@ -1088,7 +1088,7 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 							<div class="card-body">
 
 							{!
-													isLoading &&  <Button variant="success" onClick={performRequest}><i class="fas fa-save"> </i><span> Save Items</span>
+													isLoading &&  <Button variant="success" onClick={performRequest}><i class="fas fa-save"> </i><span> Save Selected</span>
                                
                             </Button>
 	}  {isLoading &&
@@ -1386,7 +1386,8 @@ const productsCount = cart.items.reduce((sum, product) => sum + product.quantity
 
 
 	{!isLoading && checkedItem === value.id && ( <button class="btn btn-success mb-1"  onClick={() => {
-                                                                checkoutRetailer();
+                                                                
+																checkoutRetailer();
                                                                   }} type="button"><i class="fa fa-arrow-right"></i>Make Order</button>)}
 
 

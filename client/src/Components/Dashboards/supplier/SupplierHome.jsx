@@ -185,7 +185,7 @@ function SupplierHome() {
                             <InnerMenuHome></InnerMenuHome>
 
 
-                              <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                              {/* <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
                                   <div class="card overflow-hidden project-card">
                                       <div class="card-body">
                                           <div class="d-flex">
@@ -305,7 +305,7 @@ function SupplierHome() {
                                           </div>
                                       </div>
                                   </div>
-                              </div>
+                              </div> */}
                           </div>
 
 

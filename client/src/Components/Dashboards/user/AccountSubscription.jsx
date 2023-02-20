@@ -251,7 +251,8 @@ function AccountSubscription(props) {
   
   
   
-  
+    const [selectedOption, setSelectedOption] = useState(null);
+
   
   
   
@@ -302,6 +303,12 @@ function AccountSubscription(props) {
        API.get('users/auth', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
   
           setUserId(response.data.id)
+
+          setEmail(response.data.email)
+
+          setPhone_no(response.data.phone_no)
+
+          setbuss_contacts(response.data.phone_no)
     
     
          })
@@ -321,6 +328,9 @@ function AccountSubscription(props) {
             processRequest();
           }, 1000));
         }
+
+
+       
   
 
            
@@ -330,7 +340,7 @@ function AccountSubscription(props) {
   
   
   
-  },[position,userPos]);
+  },[position,userPos,selectedOption]);
 
 
 
@@ -1241,27 +1251,13 @@ function AccountSubscription(props) {
   
   
   
-  const closeDemoVideo = () =>{
-    // setLoading(false)
-   // e.preventDefault();
-    //handleClose();
-     setShowVideoModal(false);
-     
-    
-     
-       };
+
   
   
   
-       const viewVideo = () =>{
-      
-          
-   
-        setShowVideoModal(true)
-        
-       
-        
-          };
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+  }
 
 
 
@@ -1288,7 +1284,7 @@ function AccountSubscription(props) {
           city:city,
           state:state,
           country:country,
-          selectedAccount:props.accountType,
+          selectedAccount:selectedOption,
           business_description:business_description,
         
         
@@ -1564,7 +1560,7 @@ function AccountSubscription(props) {
             <div class="col-sm-9">
               <input type="text" id="account" class="form-control phone-mask"
 
-              value={props.accountType}
+              value={selectedOption}
               
               onChange={(event) => {
                 setSelectedAccount(event.target.value);
@@ -1579,6 +1575,48 @@ function AccountSubscription(props) {
 
           
         </div>
+
+
+        <div class="col-md-6">
+          <div class="row">
+            <label class="col-sm-3 col-form-label text-sm-end" for="formtabs-phone">Subscribe As</label>
+
+            <div class="col-sm-9">
+            <label style={{ display: "flex", alignItems: "center", marginRight: "10px" }}>
+        <input
+          type="checkbox"
+          value="Retailer"
+          checked={selectedOption === "Retailer"}
+          onChange={handleOptionChange}
+         
+        />
+        Retailer
+      </label>
+      <label style={{ display: "flex", alignItems: "center", marginRight: "10px" }}>
+        <input
+          type="checkbox"
+          value="Supplier"
+          checked={selectedOption === "Supplier"}
+          onChange={handleOptionChange}
+         
+        />
+        Supplier
+      </label>
+
+      </div>
+            
+
+
+
+          </div>
+
+          
+        </div>
+
+
+
+
+        
 
 
 

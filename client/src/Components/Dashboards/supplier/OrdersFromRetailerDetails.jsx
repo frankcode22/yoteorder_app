@@ -207,6 +207,18 @@ function OrdersFromRetailerDetails(props) {
   
   
     const [showUpdateButton, setShowUpdateButton] = useState(false);
+
+    const [showAccepted, setShowAccepted]= useState(false);
+
+    const [showDeclined, setShowDeclined]= useState(false);
+
+    
+
+    const [retailerOrders, setRetailerOrders] = useState([]);
+
+
+
+    
   
   
   
@@ -253,17 +265,8 @@ function OrdersFromRetailerDetails(props) {
   
     let history = useNavigate();
     const [showSetUpError,setShowSetUpError]=useState(false);
-  
-  
-  
-  
-   
-  
-   
-  
-   
-  
-  
+
+    const [saved, setSaved] = useState(false);
   
   
     useEffect(()=>{
@@ -463,6 +466,38 @@ function OrdersFromRetailerDetails(props) {
         
             
              })
+
+
+
+
+
+
+             API.get('suppliers/latestorders', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
+      
+              if(response.data!=null){
+      
+                
+  
+                setRetailerOrders(response.data)
+      
+               
+      
+                
+      
+            
+              
+            
+              }
+              else{
+            
+                setIsBusinessSet(false)
+                setbusinessId(0)
+                setBussSetup(false);
+                setbusiness_name('nobuzz')
+              }
+          
+              
+               })
   
   
   
@@ -530,7 +565,12 @@ function OrdersFromRetailerDetails(props) {
              });
   
   
-         
+             if (saved) {
+              const timer = setTimeout(() => {
+                setSaved(false);
+              }, 1000); // 30 seconds
+              return () => clearTimeout(timer);
+            }
            
   
         
@@ -982,12 +1022,27 @@ function OrdersFromRetailerDetails(props) {
          // console.log("THE ACTUAL ID IS "+actualId)
           
           //setProductId(res_b.data.id)
-          getAllMyProducts()
+          // getAllMyProducts()
+
+   
+
+    setShowAccepted(true)
+
+
+    const orderList = [...retailerOrders];
+    const order = orderList.find(
+      a => a.id === id
+    );
+    order.order_status = 'accepted';
+    setRetailerOrders(orderList);
+
          
           setTimeout(() => {
               setLoading(false);
-              // handleShow()
-              toast.success("Accepted")
+             
+              setSaved(true)
+              setShowAccepted(false)
+              //toast.success("Accepted")
           }, 1000);
           
           })
@@ -1008,15 +1063,23 @@ function OrdersFromRetailerDetails(props) {
 
     API.put('suppliers/declineretailerorder/'+id).then((res_b)=>{
 
-       // console.log("THE ACTUAL ID IS "+actualId)
-        
-        //setProductId(res_b.data.id)
-        getAllMyProducts()
+       
+
+      setShowDeclined(true)
+
+      const orderList = [...retailerOrders];
+    const order = orderList.find(
+      a => a.id === id
+    );
+    order.order_status = 'declined';
+    setRetailerOrders(orderList);
        
         setTimeout(() => {
             setLoading(false);
+            setSaved(true)
+            setShowDeclined(false)
             // handleShow()
-            toast.warning("Declined")
+            //toast.warning("Declined")
         }, 1000);
         
         })
@@ -1599,6 +1662,23 @@ function OrdersFromRetailerDetails(props) {
     }, 2000);
     
   }
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+  const filteredData = retailerOrders.filter((item) => item.orderId === searchTerm);
+
+  
+
+
+
+  // const filteredData = retailerOrders.filter((item) =>
+  //   item.orderId.includes(searchTerm.toLowerCase())
+  // );
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
   return (
     <div>
 
@@ -1609,7 +1689,7 @@ function OrdersFromRetailerDetails(props) {
         <div class="row">
         <div class="col-xl-5 col-lg-8 col-md-8 col-sm-8">
             <div class="input-group d-flex w-100 float-start">
-                <input type="text" class="form-control border-end-0 my-2" placeholder="Search ..."/>
+                <input type="text" class="form-control border-end-0 my-2"  value={searchTerm} onChange={handleSearch} placeholder="Search ..."/>
                 <button class="btn input-group-text bg-transparent border-start-0 text-muted my-2">
                     <i class="fe fe-search text-muted" aria-hidden="true"></i>
                 </button>
@@ -1631,14 +1711,18 @@ function OrdersFromRetailerDetails(props) {
     </div>
     <div class="row row-sm">
  
-    {sales.map((value, key) => {
+    {retailerOrders.map((value, key) => {
      return (
      
         <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
             <div class="product-card card">
+              {showAccepted && <span class="badge bg-success">Order Accepted </span>}
+              {showDeclined && <span class="badge bg-danger">Order Declined! </span>}
+              <span class="badge bg-info">Order ID: {value.orderId}</span>
                 <div class="card-body h-100">
+                  
                     <div class="d-flex">
-                        <span class="text-secondary small text-uppercase"><span class="badge bg-success">Item:</span><span class="badge bg-dark">{value.item_name}</span></span>
+                        <span class="text-secondary small text-uppercase"><span class="badge bg-success"></span><span class="badge bg-dark">{value.item_name}</span></span>
                        
                         <span class="ms-auto badge bg-success">{value.order_status}</span>
                     </div>
@@ -1647,7 +1731,7 @@ function OrdersFromRetailerDetails(props) {
                         <h4 class="h5 w-50 font-weight-bold text-danger"><span class="badge bg-warning">Quantity</span><span class="badge bg-info">{value.quantity_ordered}</span></h4>
                         <span class="tx-15 ms-auto">
                         
-                        <span class="badge bg-warning">From:{JSON.stringify(retailerList.filter(dataItem => dataItem.id === value.RetailersId)[0].business_name)
+                        {/* <span class="badge bg-warning">From:{JSON.stringify(retailerList.filter(dataItem => dataItem.id === value.RetailersId)[0].business_name)
 
 
 
@@ -1655,7 +1739,11 @@ function OrdersFromRetailerDetails(props) {
 
 
 
-                        } </span>
+                        } </span> */}
+
+
+<span class="badge bg-warning">From:{value.Retailer.business_name} </span>
+
 
 
                        
@@ -1680,7 +1768,7 @@ function OrdersFromRetailerDetails(props) {
                   
                   </div>
 
-                   <div class="btn-list"> 
+                   {/* <div class="btn-list"> 
                    {!
 													isLoading &&   <button type="button"  onClick={() => {
                         acceptOrder(value.id);
@@ -1696,7 +1784,31 @@ function OrdersFromRetailerDetails(props) {
 		<button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
 		<span class="visually-hidden">Loading...</span>
 	</div>Saving...</button>
-	  }
+	  } */}
+
+<div class="btn-list"> 
+
+{isLoading === value.id ? (
+                <span><div class="btn btn-primary me-sm-3 me-1" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>Updating...</span>
+              ) : (
+                <>
+                <button class="btn btn-sm btn-success badge" onClick={() => {
+                    acceptOrder(value.id);
+                      }}  type="button"><i class="fa fa-check"></i>Accept</button> 
+
+                      <button class="btn btn-sm btn-danger badge"  onClick={() => {
+                        declineOrder(value.id);
+                          }}  type="button"><i class="fa fa-times me-2"></i>Decline</button> 
+                
+                </>
+                
+                      
+                   )}
+
+                   </div>
+
                     
  
                    

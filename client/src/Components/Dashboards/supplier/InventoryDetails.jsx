@@ -202,6 +202,19 @@ function InventoryDetails(props) {
   
   
     const [showUpdateButton, setShowUpdateButton] = useState(false);
+
+
+    const [error, setError] = useState(null);
+
+
+    //const [error, setError] = useState(null);
+
+    const [hasError, setHasError] = useState(false);
+    const [timeoutId, setTimeoutId] = useState(null);
+    const [retry, setRetry] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
+
+    const maxRetries = 10;
   
   
   
@@ -223,6 +236,15 @@ function InventoryDetails(props) {
   
   
   
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () =>{
+
+		//setRandomNo(randomNumberInRange(1, 10000));
+
+		setShow(true);
+	} 
   
   
   
@@ -1020,6 +1042,106 @@ function InventoryDetails(props) {
       //showErrorAlert(false)
      
     }
+
+
+    async function performRequest() {
+      setLoading(true);
+      setError(null);
+  
+      if(name==""){
+        setnameinvalid(true)
+        setLoading(false)
+  
+        setTimeout(() => {
+            setnameinvalid(false)
+           
+         }, 2000);
+        return
+    }
+  
+    if(price==""){
+        setpriceinvalid(true)
+        setLoading(false)
+  
+        setTimeout(() => {
+            setpriceinvalid(false)
+           
+         }, 2000);
+        return
+    }
+  
+      try {
+        clearTimeout(timeoutId);
+  
+        let formData = new FormData();
+        formData.append('businessId', supplierId);
+        //formData.append('file',selectedFile);
+        formData.append('name', name);
+    
+    
+        formData.append('product_description', product_description);
+        formData.append('price',price);
+        formData.append('quantity', quantity);
+    
+        formData.append('type',type);
+        // formData.append('address_line_2', address_line_2);
+    
+        formData.append('unit_of_measure',unit_of_measure);
+        formData.append('latitude', lat);
+    
+        formData.append('longitude', lng);
+    
+        formData.append('UserId', userId);
+  
+      
+        const response = await API.post('stores/save_store', formData);
+        
+        console.log('REQUEST RESPONSE DATA',response)
+  
+  
+        setProductsList1([
+          ...productsList1,
+          {
+              name:name,
+              type:type,
+              product_description:product_description,
+              price: price,
+              quantity:quantity,
+              geo_location:address_line_2,
+              unit_of_measure:unit_of_measure,
+              latitude:lat,
+              longitude:lng,
+             // cloudinary_url:data.cloudinary_url,
+              //cloudinary_url:data.imagePath,
+              UserId:userId,
+              BusinessId:businessId,
+          },
+        ]); 
+        
+        setTimeout(() => {
+          setLoading(false);
+          setShowActionBtn(false)
+          setShowSucessAlert(true)
+          sethidesavebtn(true)
+          
+          toast.success('Product saved successfully');
+      }, 1000);
+   
+      } catch (err) {
+        setLoading(false);
+        if (err.message === 'timeout of 5000ms exceeded') {
+          if (retryCount < maxRetries) {
+            setRetryCount(retryCount + 1);
+            setTimeoutId(setTimeout(performRequest, 2000));
+          } else {
+            setError(`Max Retry Count of ${maxRetries} Exceeded`);
+          }
+        } else {
+          setError(err.message);
+          setTimeoutId(setTimeout(() => setError(null), 5000));
+        }
+      }
+    }
   
   
     
@@ -1528,7 +1650,9 @@ function InventoryDetails(props) {
         </div>
         <div class="col-xl-3 col-lg-12">
        
-            <a class="btn btn-primary btn-block float-end my-2" data-bs-effect="effect-flip-horizontal" data-bs-toggle="modal" href="#modaldemo801"><i class="fa fa-plus-square me-2"></i>New Item</a>
+    
+
+            <a class="btn btn-primary btn-block float-end my-2" onClick={handleShow}><i class="fa fa-plus-square me-2"></i>New Item</a>
         </div>
     </div>
         </div>
@@ -1578,7 +1702,264 @@ function InventoryDetails(props) {
  
  
  
+ <Modal show={show} onHide={handleClose}>
+
+<Modal.Header>
+                    <Modal.Title>New Item</Modal.Title>
+                </Modal.Header>
+
+    
+       
+
+    <Modal.Body>
+
+
+
+        
+
+{error && !retry && <div class="badge bg-danger">{error}</div>}
+
+
+
+{showSuccessAlert &&
+
+  <div>
+
+  <i class="icon icon-check fs-70 text-success lh-1 my-4 d-inline-block"></i>
+  <h4 class="text-success mb-4">Product saved successfully!</h4>
+
+  </div>
+}
+
+
+{!showSuccessAlert &&  <div>
+
+<div class="row">
+<div class="col mb-3">
+  <label for="nameWithTitle" class="form-label">Item Name</label>
+  <input type="text" id="item_name" class="form-control" placeholder="Eg.Chrome Gine"
+  
+  onChange={(event) => {
+      setName(event.target.value);
+    }}
+     
+  />
+</div>
+</div>
+
+<div class="row">
+<div class="col mb-3">
+<label for="nameWithTitle" class="form-label">Description</label>
+
+
+<textarea id="basic-icon-default-message" class="form-control" placeholder="Enter any description" aria-label="Enter any description" 
+                          
+onChange={(event) => {
+  setProduct_description(event.target.value)
+}}
+
+aria-describedby="basic-icon-default-message2"></textarea> 
+
+</div>
+</div>
+
+
+
+<div class="form-row">
+
+<div class="form-group col-md-6 mb-0">
+
+
+<label class="form-label" for="multicol-country">Unit Of Measure</label>
+<select id="multicol-country" class="form-control select2 form-select"
+
+onChange={(event) => {
+setunit_of_measure(event.target.value);
+}}
+
+data-allow-clear="true">
+<option value="">Select Unit Of Measure</option>
+
+<option value="Litre">Litres</option>
+
+<option value="Item">Item</option>
+
+
+
+
+<option value="Package">Package</option>
+
+<option value="Order">Order</option>
+
+
+
+
+</select>
+
+
+
+</div>
+
+{/**<div class="form-group col-md-6 mb-0">
+
+
+<label class="form-label" for="multicol-country">Category</label>
+<select id="multicol-country" class="form-control select2 form-select"
+    onChange={(event) => {
+      setRetailerProductCategoryId(event.target.value);
+    }}
+
+    data-allow-clear="true">
+    <option value="">Select Category</option>
+
+    {retailerCatList.map((value,key)=>{
+
+      return (
+
+        <option value={value.id}>{value.cat_name}</option>
+
+      )
+
+    })}
+
+
+    
+
+
+</select>
+
+
  
+</div> */}
+
+<div class="form-group col-md-6 mb-0">
+
+
+    <div class="form-group">
+    <label for="dobWithTitle" class="form-label">Quantity</label>
+    <input type="number" id="price" class="form-control"
+
+        onChange={(event) => {
+            setQuantity(event.target.value);
+        }}
+
+
+    />
+ 
+    </div>
+
+
+
+
+</div>
+</div>
+
+<div class="form-row">
+
+
+
+<div class="form-group col-md-6 mb-0">
+
+
+    <div class="form-group">
+    <label for="dobWithTitle" class="form-label">Price(Wholesale Price per Item)</label>
+    <input type="number" id="price" class="form-control"
+
+    onChange={(event) => {
+      setPrice(event.target.value);
+  }}
+
+    />
+    {priceinvalid && <div class="invalid-feedback-p">Please provide a product price.</div> } 
+    </div>
+
+    <input type="hidden" value={supplierId}  onChange={(event) => {
+              setsupplierId(event.target.value);
+            }} placeholder="bussId"/>
+
+
+
+
+</div>
+</div>
+<div class="form-row">
+
+
+
+{/** <div class="form-group">
+<label class="form-label mt-0">Upload Product Photo</label>
+<input class="form-control" type="file"
+name="image"
+
+onChange={(e) => {
+  handleFileInputChange(e)
+}}
+
+value={fileInputState}
+
+/> 
+
+<input type="hidden" value={businessId}  onChange={(event) => {
+setbusinessId(event.target.value);
+}} placeholder="bussId"/>
+</div>
+
+
+{previewSource && (
+    <img
+        src={previewSource}
+        alt="chosen"
+        style={{ height: '300px' }}
+    />
+)} */}
+
+
+</div>
+
+
+</div> }
+
+
+
+    </Modal.Body>
+     
+      
+
+          <Modal.Footer>
+
+          {!isLoading && !hidesavebtn &&<button type="submit" onClick={performRequest} class="btn btn-primary">Save</button>
+
+} 
+{isLoading &&
+  <button type="submit" class="btn btn-primary me-sm-3 me-1" title="Save" disabled><div class="spinner-grow spinner-grow-sm me-2" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>Saving Infor</button>
+}
+
+    
+    
+    <button class="btn btn-light" onClick={handleClose}>Close</button>
+
+
+          </Modal.Footer>
+          
+
+
+          
+   
+   
+
+
+
+
+
+
+
+
+
+
+
+</Modal>
  
  
                    

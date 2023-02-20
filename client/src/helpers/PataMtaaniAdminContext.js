@@ -5,10 +5,10 @@ import { createContext, useState, useEffect } from 'react';
 import API from '../services';
 
 
-const DataContext = createContext({});
+const PataMtaaniAdminContext = createContext({});
 
 
-export const DataProvider = ({ children }) => {
+export const PataMtaaniAdminDataProvider = ({ children }) => {
     const [posts, setPosts] = useState([])
     const [bussinessList, setBussinessList] = useState([])
 
@@ -21,6 +21,11 @@ export const DataProvider = ({ children }) => {
     const[businessDetails,setBusinessDetails]=useState([])
 
     const[supplierDetails,setSupplierDetails]=useState([])
+
+    const[requestList,setRequestList]=useState([]);
+
+    const[requestDetails,setRequestDetails]=useState([]);
+
 
     const[itemsList,setItemsList]=useState([])
 
@@ -175,106 +180,35 @@ export const DataProvider = ({ children }) => {
 
 
             
-         API.get('users/mybizz', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-
          
 
-            //console.log("MY BUSINESS DETAILS FROM THE CONTEXT"+response.data)
-
-
-        if (response.data.error) {
-            console.log("BACKEND ERROR HERE:"+response.data.error)
-              }
-
-
-            if(response.data.my_buss!=null){
-
-            localStorage.setItem("business_set", true);
-            setProductsList1(response.data.my_buss.Products)
-            setBusinessDetails(response.data.my_buss)
-
-            console.log("CONTEXT BIZZ DETAILS:"+response.data.my_buss)
-
-            }
-            else{
-                localStorage.setItem("business_set", false);
-                setProductsList1([])
-
-            }
-
-
-
+     
+         API.get("subscription/currentrequests",{ headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
            
-            // setTimeout(() => {
-
-              
-            //     setBusinessDetails(response.data)
-
+    
+            if(response.data){
+       
+                setRequestList(response.data)
+       
+             }
+             else{
+                setRequestList([])
+       
+             }
              
-            // }, 1000);
+       
+               console.log("REQUESTS FOR SUB SCRIPTIONS FROM ADMIN DATA PROVIDER "+response.data)
+              })
+       
 
-            //setSeller_name(response.data.Users.first_name)
-            
-        }).catch((error) => {
-            
-
-            console.log("CONTEXT ERROR OCCURED"+error)
-          
-         });
+        
 
 
 
-
-
-         API.get('users/mystore', { headers: { accessToken: localStorage.getItem("accessToken") } }).then((response) => {
-
-         
-            //console.log("MY BUSINESS DETAILS FROM THE CONTEXT"+response.data)
-
-
-        if (response.data.error) {
-            console.log("BACKEND ERROR HERE:"+response.data.error)
-              }
-
-
-            if(response.data.my_buss!=null){
-
-            localStorage.setItem("business_set", true);
-            setSupplierDetails(response.data)
-            setItemsList(response.data.my_buss.SupplyStores)
-
-            console.log("HERE IS YOUR SUPPLIER ACCOUNT DETAILS",response.data);
-
+       
             
 
-
-            }
-            else{
-                localStorage.setItem("business_set", false);
-                setItemsList([])
-
-            }
-
-
-
-           
-            // setTimeout(() => {
-
-              
-            //     setBusinessDetails(response.data)
-
-             
-            // }, 1000);
-
-            //setSeller_name(response.data.Users.first_name)
-            
-        }).catch((error) => {
-            
-
-            console.log("CONTEXT ERROR OCCURED"+error)
-          
-         });
-
+       
 
 
         
@@ -285,20 +219,20 @@ export const DataProvider = ({ children }) => {
           
   
   
-  },[setPosts,setBussinessList,setRetailerList,setSupplierList,setBusinessDetails,setProductsList1,setSupplierDetails]);
+  },[setPosts,setBussinessList,setRetailerList,setSupplierList,setBusinessDetails,setProductsList1,setSupplierDetails,setRequestDetails,setRequestList]);
 
     
 
     return (
-        <DataContext.Provider value={{
+        <PataMtaaniAdminContext.Provider value={{
             search, setSearch,
-            searchResults,retailerList,setRetailerList,supplierList,setSupplierList,
+            searchResults,retailerList,setRetailerList,supplierList,setSupplierList,requestDetails,setRequestDetails,requestList,setRequestList,
             bussinessList,setBussinessList,businessDetails,setBusinessDetails,productsList1, setProductsList1,imagePath, setImagePath,
             posts, setPosts,supplierDetails,setSupplierDetails,itemsList,setItemsList
         }}>
             {children}
-        </DataContext.Provider>
+        </PataMtaaniAdminContext.Provider>
     )
 }
 
-export default DataContext;
+export default PataMtaaniAdminContext;

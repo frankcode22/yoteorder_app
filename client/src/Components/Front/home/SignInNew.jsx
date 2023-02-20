@@ -6,6 +6,10 @@ import { AuthContext } from "../../../helpers/AuthContext";
 
 import API from '../../../services';
 
+import {GoogleLogin} from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
+import {useGoogleLogin} from '@react-oauth/google';
+
 function SignInNew() {
 
     const [username, setUsername] = useState("");
@@ -28,14 +32,41 @@ function SignInNew() {
     const [isLoading,setLoading]=useState(false);
 
 
+    function handleCredentialResponse(response){
+      console.log('jwt token',response.credential)
+    }
+
+
 
     useEffect(() => {
+
+      const google=window.google;
+      google.accounts.id.initialize({
+        client_id: '388302183915-q8n5dqvqo6ogsqcd9es6aa7tsf3d2ldd.apps.googleusercontent.com',
+        callback: handleCredentialResponse
+      });
+
+      google.accounts.id.renderButton(document.getElementById("signinDiv"), {
+        theme: 'outline',
+        size: 'large',
+        click_listener: onClickHandler
+      });
+
       if (hasError && retryCount < maxRetries) {
         setTimeoutId(setTimeout(() => {
           login();
         }, 1000));
       }
     }, [hasError, retryCount]);
+
+
+    function onClickHandler(){
+      console.log("Sign in with Google button clicked...")
+    }
+
+
+ 
+  
 
   
       async function login(){
@@ -174,6 +205,18 @@ PataMtaani has a couple of solutions,that will transform your business into a fu
                 <div class="main-signin-header">
                     <h2>Welcome back!</h2>
                     <h4>Please sign in to continue</h4>
+
+                    <GoogleLogin
+                    onSuccess={credentialResponse => {
+                    console.log(credentialResponse.credential);
+                    var decoded = jwt_decode(credentialResponse.credential);
+                    console.log(decoded)
+                }}
+                    onError={() => {
+                    console.log('Login Failed');
+                }}/>
+
+ 
                    
 
                     <button type="button" onClick={backHome} class="btn btn-success"> <i class="si si-arrow-left" data-bs-toggle="tooltip" title="" data-bs-original-title="si-arrow-left" aria-label="si-arrow-left"></i>Back Home</button>
