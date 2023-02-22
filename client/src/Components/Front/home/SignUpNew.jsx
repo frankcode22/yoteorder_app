@@ -215,7 +215,7 @@ PataMtaani has a couple of solutions,that will transform your business into a fu
            
 						<h4>Create an account with PataMtaani</h4>
 
-            <button type="button" onClick={backHome} class="btn btn-success centre"> <i class="si si-arrow-left" data-bs-toggle="tooltip" title="" data-bs-original-title="si-arrow-left" aria-label="si-arrow-left"></i>Back Home</button>
+            {/* <button type="button" onClick={backHome} class="btn btn-success centre"> <i class="si si-arrow-left" data-bs-toggle="tooltip" title="" data-bs-original-title="si-arrow-left" aria-label="si-arrow-left"></i>Back Home</button> */}
 
             {error && <p style={{ color: "red" }}>{error}</p>}
         {loading ? (

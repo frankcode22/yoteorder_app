@@ -1,7 +1,7 @@
 
 import { lazy, Suspense } from 'react';
 
-import { BrowserRouter as Router, Route, Routes,Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes,Switch,Navigate, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
 import Post from "./pages/Post";
@@ -94,6 +94,8 @@ const Homepage = lazy(() => import('./Components/Front/home/Homepage'));
 
 function App() {
 
+  const [user, setUser] = useState({});
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const checkUserToken = () => {
       const userToken = localStorage.getItem('accessToken');
@@ -137,6 +139,18 @@ function App() {
           setIsLoggedIn(true);
         }
       });
+
+
+      const theUser = localStorage.getItem("user");
+
+      console.log("THE USER DATA IS",theUser)
+
+     if (theUser && !theUser.includes("undefined")) {
+
+      setAuthState(JSON.parse(theUser));
+      setIsLoggedIn(true);
+       setUser(JSON.parse(theUser));
+     }
 
 
     
@@ -190,6 +204,13 @@ function App() {
          }/>
 
         <Route exact path="/home-user" element={ <HomeUser/>}/>
+
+      
+{/* 
+        <Route
+          path="/home-user"
+          element={user?.email ? <HomeUser user={user} /> : <Navigate to="/" />}
+        /> */}
 
        
         <Route exact path="/subscription-requests" element={ <SubscriptionRequests/>}/>

@@ -47,7 +47,7 @@ function SignInNew() {
 
 
     const { handleGoogle, loading, err } = useFetch(
-      "http://localhost:8080/api/users/login_google"
+      "http://localhost:8080/api/users/signup_google"
     );
 
 
