@@ -10,8 +10,17 @@ import {GoogleLogin} from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import {useGoogleLogin} from '@react-oauth/google';
 
+//import GoogleLogin from 'react-google-login';
+
+import { gapi } from 'gapi-script';
+
+import { CLIENT_ID } from "../../../services/config";
+
+import useFetch from "../../../services/useFetch";
+
 function SignInNew() {
 
+    // const { CLIENT_ID } = useConfig();
     const [username, setUsername] = useState("");
     const [role, setRole] = useState("");
     const [password, setPassword] = useState("");
@@ -37,33 +46,86 @@ function SignInNew() {
     }
 
 
+    const { handleGoogle, loading, err } = useFetch(
+      "http://localhost:8080/api/users/login_google"
+    );
+
+
 
     useEffect(() => {
 
-      const google=window.google;
+
+      /* global google */
+    if (window.google) {
       google.accounts.id.initialize({
-        client_id: '388302183915-q8n5dqvqo6ogsqcd9es6aa7tsf3d2ldd.apps.googleusercontent.com',
-        callback: handleCredentialResponse
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        callback: handleGoogle,
       });
 
-      google.accounts.id.renderButton(document.getElementById("signinDiv"), {
-        theme: 'outline',
-        size: 'large',
-        click_listener: onClickHandler
+      google.accounts.id.renderButton(document.getElementById("loginDiv"), {
+        // type: "standard",
+        theme: "filled_black",
+        // size: "small",
+        text: "signin_with",
+        shape: "pill",
       });
 
+      // google.accounts.id.prompt()
+    }
+
+     
       if (hasError && retryCount < maxRetries) {
         setTimeoutId(setTimeout(() => {
           login();
         }, 1000));
       }
-    }, [hasError, retryCount]);
+    }, [hasError, retryCount,handleGoogle]);
 
 
-    function onClickHandler(){
-      console.log("Sign in with Google button clicked...")
+    function onClickHandler() {
+      // Sign in the user
+      const auth2 = gapi.auth2.getAuthInstance();
+      auth2.signIn().then(googleUser => {
+        const idToken = googleUser.getAuthResponse().id_token;
+        // Send the idToken to your server for authentication
+      });
     }
 
+
+    const login_google = useGoogleLogin({
+      onSuccess: async respose => {
+          try {
+              const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+                  headers: {
+                      "Authorization": `Bearer ${respose.access_token}`
+                  }
+              })
+
+              console.log(res.data)
+          } catch (err) {
+              console.log(err)
+
+          }
+
+      }
+  });
+
+
+
+  const handleLogin = async googleData => {
+    const res = await fetch("http://localhost:8080/api/users/auth/google", {
+        method: "POST",
+        body: JSON.stringify({
+        token: googleData.tokenId
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json()
+    // store returned user somehow
+  }
+  
 
  
   
@@ -206,20 +268,42 @@ PataMtaani has a couple of solutions,that will transform your business into a fu
                     <h2>Welcome back!</h2>
                     <h4>Please sign in to continue</h4>
 
-                    <GoogleLogin
+                    {/* <button onClick={login_google}>
+                    <i class="fa-brands fa-google"></i>
+                    Continue with google
+                </button> */}
+                {/* <GoogleLogin
                     onSuccess={credentialResponse => {
                     console.log(credentialResponse.credential);
                     var decoded = jwt_decode(credentialResponse.credential);
-                    console.log(decoded)
+                    console.log('RES DATA DECODED',decoded)
                 }}
                     onError={() => {
                     console.log('Login Failed');
-                }}/>
+                }}/> */}
+
+
+
+{/* <GoogleLogin
+    clientId={process.env.GOOGLE_CLIENT_ID}
+    buttonText="Log in with Google"
+    onSuccess={handleLogin}
+    onFailure={handleLogin}
+   
+/> */}
+
+
+{err && <p style={{ color: "red" }}>{err}</p>}
+        {loading ? <div>Loading....</div> : <div id="loginDiv"></div>}
+
+
+                
+
 
  
                    
 
-                    <button type="button" onClick={backHome} class="btn btn-success"> <i class="si si-arrow-left" data-bs-toggle="tooltip" title="" data-bs-original-title="si-arrow-left" aria-label="si-arrow-left"></i>Back Home</button>
+                    {/* <button type="button" onClick={backHome} class="btn btn-success"> <i class="si si-arrow-left" data-bs-toggle="tooltip" title="" data-bs-original-title="si-arrow-left" aria-label="si-arrow-left"></i>Back Home</button> */}
                     {error && !retry && <div className="error">{error}</div>}
                     <form>
                         <div class="form-group">
@@ -260,6 +344,7 @@ PataMtaani has a couple of solutions,that will transform your business into a fu
                     </form>
                 </div>
                 <div class="main-signin-footer mt-3 mg-t-5">
+                
                     <p><Link to="/forgot-password" class="text-primary ms-1">Forgot Password?</Link></p>
                     <p>Don't have an account? <Link to='/create_account' class="text-primary ms-1">Sign UP</Link></p>
                 </div>

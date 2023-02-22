@@ -25,6 +25,10 @@ import './styles.css'
 import { Modal, Button } from "react-bootstrap";
 import { AuthContext } from "../../../helpers/AuthContext";
 
+import useFetch from "../../../services/useFetch";
+
+
+
 function SignUpNew() {
     const { setAuthState } = useContext(AuthContext);
 
@@ -76,6 +80,31 @@ function SignUpNew() {
 
 
       }
+
+
+      const { handleGoogle, loading, error } = useFetch(
+        "http://localhost:8080/api/users/signup_google"
+      );
+    
+      useEffect(() => {
+        /* global google */
+        if (window.google) {
+          google.accounts.id.initialize({
+            client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+            callback: handleGoogle,
+          });
+    
+          google.accounts.id.renderButton(document.getElementById("signUpDiv"), {
+            // type: "standard",
+            theme: "filled_black",
+            // size: "small",
+            text: "continue_with",
+            shape: "pill",
+          });
+    
+          // google.accounts.id.prompt()
+        }
+      }, [handleGoogle]);
 
 
       const initialValues = {
@@ -188,7 +217,12 @@ PataMtaani has a couple of solutions,that will transform your business into a fu
 
             <button type="button" onClick={backHome} class="btn btn-success centre"> <i class="si si-arrow-left" data-bs-toggle="tooltip" title="" data-bs-original-title="si-arrow-left" aria-label="si-arrow-left"></i>Back Home</button>
 
-
+            {error && <p style={{ color: "red" }}>{error}</p>}
+        {loading ? (
+          <div>Loading....</div>
+        ) : (
+          <div id="signUpDiv" data-text="signup_with"></div>
+        )}
                         <Formik
                         initialValues={initialValues}
                         onSubmit={onSubmit}
