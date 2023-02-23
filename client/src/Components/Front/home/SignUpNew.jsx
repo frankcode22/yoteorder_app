@@ -83,7 +83,7 @@ function SignUpNew() {
 
 
       const { handleGoogle, loading, error } = useFetch(
-        "http://localhost:8080/api/users/signup_google"
+        "https://apibackend.patamtaani.com/api/users/signup_google"
       );
     
       useEffect(() => {

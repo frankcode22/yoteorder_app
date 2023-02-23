@@ -47,7 +47,7 @@ function SignInNew() {
 
 
     const { handleGoogle, loading, err } = useFetch(
-      "http://localhost:8080/api/users/signup_google"
+      "https://apibackend.patamtaani.com/api/users/signup_google"
     );
 
 
@@ -113,7 +113,7 @@ function SignInNew() {
 
 
   const handleLogin = async googleData => {
-    const res = await fetch("http://localhost:8080/api/users/auth/google", {
+    const res = await fetch("https://apibackend.patamtaani.com/api/users/auth/google", {
         method: "POST",
         body: JSON.stringify({
         token: googleData.tokenId
